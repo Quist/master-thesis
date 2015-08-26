@@ -32,3 +32,13 @@ Investigates techniques that can be employed to optimize Web Services:
 * P. Meiler
 * I. Owens
 * C. Barz, N. Jansen
+
+
+#### IEEE Military Communcations
+Sammenligner kommersielle versus taktiske trådløse nettverk. Side 58.
+
+
+Masteroppgaver
+---------------------
+#### PISA - The Platform Independent Sensor Application
+* Michael Andre Krog

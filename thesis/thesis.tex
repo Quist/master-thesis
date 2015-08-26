@@ -2,6 +2,11 @@
 
 \usepackage{ifikompendiumforside}
 \usepackage{graphicx}
+\usepackage[acronym]{glossaries}
+\makeglossaries
+
+% Acronyms
+\newacronym{dil}{DIL}{Disconnected, Intermittent and Limited environments}
 
 \title{Improving the performance of Web Services in Disconnected, Intermittent and Limited Environments}
 \author{Joakim Johanson Lindquister}
@@ -14,8 +19,9 @@
 \end{abstract}
 
 \part{Introduction}
-\section{Introduction}
+Kort intro om oppgaven her.
 \section{Background and Motivation}
+Hvorfor?
 
 \section{Problem Statement}
 Most of the Web Service solutions used today are aimed for civilian use and does
@@ -32,16 +38,33 @@ with all traffic going umerkelig through the proxy. The Web Service itself does
 not need to pay attention to the bad connectivity, the proxy will choose the
 appropriate protocol and configuration.
 
-\section{Research Methodology}
-\section{Limitations}
+\section{Premises}
+Ikke endre web-servicene.
+
+\section{Scope and Limitations}
 Snevre inn oppgaven
+
+\section{Research Methodology}
+
 \section{Contribution}
 Hva er det oppgaven min bidrar med?
 \section{Outline}
+Hvordan er resten av oppgaven strukturert.
+
 
 \part{Background}
+\section{Related Work}
+Diskuterer eksisterende arbeid.
+
+\section{Requirement Analysis}
+
+\section{DIL}
+\gls{dil} definer hva DIL er og hvilke begrensninger det legger.
+
+\section{Summary}
 
 \part{Design and Implementation}
+\section{Overall Design}
 \section{Proxy}
 \subsection{Squid}
 Squid is a fully-featured HTTP/1.0 proxy.
@@ -50,7 +73,18 @@ Squid is a fully-featured HTTP/1.0 proxy.
 \caption{Architectural overview of proposed design}
 \end{figure}
 
+\section{Summary}
 
 \part{Testing and Evaluation}
+\section{Evaluation Tools}
+
+\part{Conclusion and Future Work}
+\section{Conclusion}
+
+\section{Future Work}
+
+
+
+\printglossary
 
 \end{document}

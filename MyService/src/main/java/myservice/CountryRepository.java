@@ -1,7 +1,7 @@
 package myservice;
 
-import mypackage.Country;
-import mypackage.Currency;
+import countries.Country;
+import countries.Currency;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

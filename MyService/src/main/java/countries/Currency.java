@@ -1,5 +1,5 @@
 
-package mypackage;
+package countries;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;

@@ -1,8 +1,8 @@
 package myservice;
 
 
-import mypackage.GetCountryRequest;
-import mypackage.GetCountryResponse;
+import countries.GetCountryRequest;
+import countries.GetCountryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;

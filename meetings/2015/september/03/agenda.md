@@ -1,3 +1,14 @@
+Møte med veiledere 25. august 2015
+====================
+FFI
+
+#### Tilstede:
+
+Trude & Frank
+
+Joakim
+
+
 Siden sist
 - Jeg har satt opp eksempel Web Services med Spring.
 - Sett på proxien til Eggum.

@@ -33,9 +33,18 @@ Investigates techniques that can be employed to optimize Web Services:
 * I. Owens
 * C. Barz, N. Jansen
 
+#### PISA: Platform Independent Sensor Application 031_pisa
+Bra om dil
+
+#### PID3604927 Efficient SOAP Messaging in Android
+In this paper we focus on supporting SOAP on the Android platform in an
+efficient manner. By efficient, we mean maximizing battery life while
+minimizing network use. We explore and compare different transport protocols
+and compression techniques in order to achieve these goals.
 
 #### IEEE Military Communcations
 Sammenligner kommersielle versus taktiske trådløse nettverk. Side 58.
+
 
 
 Masteroppgaver

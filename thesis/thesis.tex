@@ -12,6 +12,7 @@
 
 \title{Improving the performance of Web Services in Disconnected, Intermittent and Limited Environments}
 \author{Joakim Johanson Lindquister}
+\bibliography{references}
 
 \begin{document}
 \ififorside{}
@@ -19,11 +20,41 @@
 \begin{abstract}
     My abstract
 \end{abstract}
+\pagebreak
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\pagebreak
+
 
 \part{Introduction}
 Kort intro om oppgaven her.
 \section{Background and Motivation}
-Hvorfor?
+\subsection{Mobile tactical networks}
+Mobile tactical networks are characterized by that the units use tactical
+communication equipment which includes technologies like VHF, UHF, HF, tactical
+broadband and satellites. Examples of such units are mobile units like vehicles,
+foot soldiers and field headquarters. These types of networks have low
+bandwidth, possibly high delay, high error rates and frequent disconnections.
+They are often called disadvantaged grids or DIL. NATO studies has
+identified such networks to have the following characteristics:
+
+\paragraph{}
+\textit{Disadvantaged grids are characterized by low bandwidth, variable
+throughput, unreliable connectivity, and energy constraints imposed by the
+wireless communications grid that link the
+nodes}\cite{nato-disadvantaged-grids}.
+
+\paragraph{}
+These constrains of mobile tactical networks are central in order to understand the problem at hand, and I will therefore explain the concepts here:
+
+\begin{description}
+\item[Bandwidth and throughput] The terms bandwidth and throughput are used interchangeably in the networking community and refers to the data transfer rate; how fast data can be transported from one point to another in given time period. This is often expressed in bits per second.
+\item[Unreliable connectivity] Units that are participating in a tactical network are highly mobile and may disconnect from a network either voluntarily or not. Unplanned loss of connectivity can be due to various reasons, such as loss of signal or equipment malfunction.
+\item[Energy constraints imposed by the wireless communication grid] The battery capacity and the transmission range of the communication equipment for mobile units may be limited. Another issue is that in some cases military units are required to enter radio silence in order to avoid being detected by the enemy. During radio silence units may only receive data and not send any.
+\end{description}
 
 \section{Problem Statement}
 Most of the Web Service solutions used today are aimed for civilian use and does
@@ -54,17 +85,35 @@ Hva er det oppgaven min bidrar med?
 Hvordan er resten av oppgaven strukturert.
 
 
+%%%%% BACKGROUND %%%%
 \part{Background}
+In this part, I will present relevant technologies.
 \section{Related Work}
 Diskuterer eksisterende arbeid.
-
-\section{Requirement Analysis}
-
 \section{DIL}
 \gls{dil} definer hva DIL er og hvilke begrensninger det legger.
 
+\section{Requirement Analysis}
+Diskutere CPU-bruk vs compression.
+\\ \\ \\
+\begin{table}
+\begin{tabular}{| l | l |}
+\hline
+  \textbf{Requirement} & \textbf{Priority} \\ \hline
+  Receive and forward HTTP 1.X requests & 1\\ \hline
+  Allow modifications on the payload & 1 \\ \hline
+  Allow configuration of HTTP timeouts & 1 \\ \hline
+  asd & 1 \\ \hline
+  Support protocol X and y & 2 \\ \hline
+\end{tabular}
+\caption{Proxy requirements}
+\end{table}
+
 \section{Summary}
 
+
+
+%%%% Design and implementation %%%%
 \part{Design and Implementation}
 \section{Overall Design}
 \section{Proxy}
@@ -74,6 +123,20 @@ Squid is a fully-featured HTTP/1.0 proxy.
 \includegraphics[scale=0.4]{images/architecture.png}
 \caption{Architectural overview of proposed design}
 \end{figure}
+
+\section{Optimization techniques}
+By using proxies, we can freely choose the communcations protocols and
+configurations between the proxy pair without altering the Web Services themself.
+In this thesis I will investigate different techniques in order to optimize the
+communcation between a Web Service and a Web Service client. The first technique
+I will look into is compression.
+
+\subsection{Compressing the payload}
+Compress the payload using GZIP and forward it to the other proxy. The
+
+\subsection{Tuning application server configuration}
+
+\subsection{Alternative transport protocols}
 
 \section{Summary}
 
@@ -85,8 +148,8 @@ Squid is a fully-featured HTTP/1.0 proxy.
 
 \section{Future Work}
 
-
-
+\pagebreak
+\printbibliography{}
 \printglossary
 
 \end{document}

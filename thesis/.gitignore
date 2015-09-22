@@ -6,3 +6,10 @@
 *.acn
 *.glo
 *.ist
+*.toc
+*.run.xml
+*.lot
+*.lof
+*.blg
+*.bcf
+*.bbl

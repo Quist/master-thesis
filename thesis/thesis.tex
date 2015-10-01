@@ -33,11 +33,11 @@ In this thesis I investigate different techniques to improve the performance of 
 % Nato mange land -> mange forskjellige systemer -> viktig med standarer -> SOA og Web Services
 % Så diskuter tactical networks
 % Så presenter problemet - > så en oversikt over hva jeg skal gjøre med problemet
-Military units may operate under conditions where the reliability of the network connection is low. They operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. In order to enable interoperable military communication, NATO has identified the Service Oriented Architecture and Web Services as key elements\cite{nnec-study}.
+Military units may operate under conditions where the reliability of the network connection is low. They operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. In NATO, this concept is referred to as Network Enabled Capability(NEC). Furthermore, in a feasibility study, NATO identified the Service Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
 
 Web services is well tested in civil environments where the network is stable and the bandwidth is abundant. In contrast military tactical networks may suffer from high error rates and low bandwidth.
 
-Different optimization techniques can be applied to reduce application overhead aswell as using specialized transport protocols, can overcome the challenges of mentioned networks. 
+Different optimization techniques can be applied to reduce application overhead aswell as using specialized transport protocols, can overcome the challenges of mentioned networks.
 %Få det bedre
 Expensive to alter and build own properary solutions, better to use commercial off-the-shelf software. Therefore, by putting the optimization in proxies, the client and services can remain unchange while the proxy handles the optimalization.
 
@@ -78,6 +78,12 @@ These constrains of mobile tactical networks are central in order to understand 
 \item[Energy constraints imposed by the wireless communication grid] The battery capacity and the transmission range of the communication equipment for mobile units may be limited. Another issue is that in some cases military units are required to enter radio silence in order to avoid being detected by the enemy. During radio silence units may only receive data and not send any.
 \end{description}
 
+Theese constrains imposes some challenges when employing Web services in tactical networks. In paper X, tree areas that need to be addresses are identified\cite{IST-118}.
+
+\subsubsection{End-to-end connections}
+\subsubsection{Network heterogeneity}
+\subsubsection{Web Service overhead}
+
 \section{Problem Statement}
 Most of the Web Service solutions used today are aimed for civilian use and does
 not necessarily perform well in military environments. In contrast to civilian
@@ -97,7 +103,7 @@ appropriate protocol and configuration.
 Ikke endre web-servicene.
 
 \section{Scope and Limitations}
-Snevre inn oppgaven
+Snevre inn oppgaven.
 
 \section{Research Methodology}
 
@@ -115,6 +121,20 @@ In this part, I will present relevant technologies.
 Diskuterer eksisterende arbeid.
 \section{DIL}
 \gls{dil} definer hva DIL er og hvilke begrensninger det legger.
+
+\section{Optimization techniques}
+Web services enabels interoperability betweens system, but also increase the information overhead, requriering higher data rate demands.
+By using proxies, we can freely choose the communcations protocols and
+configurations between the proxy pair without altering the Web Services themself.
+In this thesis I will investigate different techniques in order to optimize the
+communcation between a Web Service and a Web Service client.
+
+\subsection{Compressing the payload}
+Compress the payload using GZIP and forward it to the other proxy.
+
+\subsection{Reducing overhead of SOAP}
+HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP is transport protocol agnoistic diffrent protocols can be used.
+
 
 \section{Requirement Analysis}
 Diskutere CPU-bruk vs compression.
@@ -147,15 +167,7 @@ Squid is a fully-featured HTTP/1.0 proxy.
 \caption{Architectural overview of proposed design}
 \end{figure}
 
-\section{Optimization techniques}
-By using proxies, we can freely choose the communcations protocols and
-configurations between the proxy pair without altering the Web Services themself.
-In this thesis I will investigate different techniques in order to optimize the
-communcation between a Web Service and a Web Service client. The first technique
-I will look into is compression.
 
-\subsection{Compressing the payload}
-Compress the payload using GZIP and forward it to the other proxy. The
 
 \subsection{Tuning application server configuration}
 

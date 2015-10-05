@@ -5,6 +5,9 @@
 \usepackage[acronym]{glossaries}
 \usepackage[backend=biber,sorting=none]{biblatex}
 
+\usepackage{tabularx}
+\usepackage{cleveref}
+
 \makeglossaries
 
 % Acronyms
@@ -123,11 +126,22 @@ Diskuterer eksisterende arbeid.
 \gls{dil} definer hva DIL er og hvilke begrensninger det legger.
 
 \section{Optimization techniques}
-Web services enabels interoperability betweens system, but also increase the information overhead, requriering higher data rate demands.
-By using proxies, we can freely choose the communcations protocols and
-configurations between the proxy pair without altering the Web Services themself.
-In this thesis I will investigate different techniques in order to optimize the
-communcation between a Web Service and a Web Service client.
+Web services enabels interoperability betweens system, but also increase the information overhead, requriering higher data rate demands. By using proxies, we can freely choose the communcations protocols and configurations between the proxy pair without altering the Web Services themself. In this thesis I will investigate different techniques in order to optimize the communcation between a Web Service and a Web Service client. \Cref{table:optimalization-overview} lists an overview of possible optimalization techniques studied in this thesis.
+\\ \\ \\
+
+%%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X |}
+\hline
+  \textbf{Protocol Stack} & \textbf{Optimalization possibilities} \\ \hline
+  The application & Optimize the application\\ \hline
+  Web service messaging: SOAP & Optimize SOAP, e.g XML compression \\ \hline
+  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other protocols can be used. \\ \hline
+  IP & NATO NEC feasibility study suggests that all protocols should be over IP. \\ \hline
+  Lower layers & Not in the scope of this thesis. \\ \hline
+\end{tabularx}
+\caption{Optimalization possibillities.} \label{table:optimalization-overview}
+\end{table}
 
 \subsection{Compressing the payload}
 Compress the payload using GZIP and forward it to the other proxy.
@@ -139,7 +153,7 @@ HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP i
 \section{Requirement Analysis}
 Diskutere CPU-bruk vs compression.
 \\ \\ \\
-\begin{table}
+\begin{table}[h]
 \begin{tabular}{| l | l |}
 \hline
   \textbf{Requirement} & \textbf{Priority} \\ \hline

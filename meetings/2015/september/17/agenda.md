@@ -9,3 +9,8 @@ Hva hvis man vil endre configen etter waren er bygd?
 
 2. Til neste gang
 3. Eventuelt
+
+Protokoller
+SCTP
+AMQP
+Jetty http server

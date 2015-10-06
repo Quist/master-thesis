@@ -42,11 +42,6 @@ Military units may operate under conditions where the reliability of the network
 Web services is well tested in civil environments where the network is stable and the bandwidth is abundant. However, military tactical networks may suffer from high error rates and low bandwidth which can leave the Web services unusable. To overcome theese challenges we can apply optimization techniques at different layers of the protocol stack which is investigated in this thesis.
 
 
-%Få det bedre
-Expensive to alter and build own properary solutions, better to use commercial off-the-shelf software. Therefore, by putting the optimization in proxies, the client and services can remain unchange while the proxy handles the optimalization.
-
-%Aloows adding functioanllity between COTS clients and services without altering the COTS software itself.
-% Web services needs to be adapted in order to handle low bandwidth and frequent connection disruptions. By placing in proxies, we keep SOA properties such as loose coupling and interoperability.
 \section{Background and Motivation}
 NATO is an military alliance consisting of 28 member countries\cite{nato-homepage-member-countries} and which primary goal is to protect the freedom and security of its members through political and military means. In joint military operations the relatively large number of member countries can be a challenge when setting up machine-to machine information exchange. Differences in communication systems and equipment can attribute to make data communicating difficult. In order to address this issue, NATO has choosen Service-Oritented Architecture concept.
 
@@ -62,34 +57,24 @@ Following the SOA principles dictates a loose coupling between services and serv
 
 Furthermore SOA enables service implementation neutrality. The implentation of service is completly separated from the service description. This allows re-implementation and alteration of a service without affecting the service consumers. Thus this can attribute to keep devlopment costs low and avoiding properietary solutions and vendor lock-in. Another benefit with SOA is reusablity by dividing common business processes into services, which may help cost reduction and avoids duplication. 
 
-SOA is only a pattern and the concepts can be realized by a range of implementations. The most common used approach is the Web service standard, using the SOAP messaging protocol. To achieve interoperability between systems from different nations and vendors, NATO has choosen the Web service technology in order to realize the SOA principles. This allows member nations to implement their own technology as long as they adher to the standards. Web services are are discussed in detail in \cref{web-services}.
+SOA is only a pattern and the concepts can be realized by a range of technologies. The most common used approach is the Web service standard, using the SOAP messaging protocol. To achieve interoperability between systems from different nations and vendors, NATO has choosen the Web service technology in order to realize the SOA principles. This allows member nations to implement their own technology as long as they adher to the standards. Web services are are discussed in detail in \cref{web-services}.
 
 \subsection{Tactical networks}
-Web services can be used in strategic military networks, as they have network infrastructure with the same characteristics as civil networks. However, mobile tactical networks are characterized by that the units use tactical communication equipment which includes technologies like VHF, UHF, HF, tactical broadband and satellites. Examples of such units are mobile units like vehicles, foot soldiers and field headquarters. These types of networks have low bandwidth, possibly high delay, high error rates and frequent disconnections. They are often called disadvantaged grids or DIL. NATO studies hasidentified such networks to have the following characteristics:
+Web services can be used in strategic military networks as they have network infrastructure with the same characteristics as civil networks. However, mobile tactical networks are characterized by that the units use tactical communication equipment which includes technologies like VHF, UHF, HF, tactical broadband and satellites. Examples of such units are mobile units like vehicles, foot soldiers and field headquarters. These types of networks have low bandwidth, possibly high delay, high error rates and frequent disconnections. They are often called disadvantaged grids or DIL. NATO studies has identified such networks to have the following characteristics:
 
 \paragraph{}
-\textit{Disadvantaged grids are characterized by low bandwidth, variable
-throughput, unreliable connectivity, and energy constraints imposed by the
-wireless communications grid that link the
-nodes}\cite{nato-disadvantaged-grids}.
+\textit{Disadvantaged grids are characterized by low bandwidth,variable throughput, unreliable connectivity, and energy constraints imposed by the wireless communications grid that link the nodes}\cite{nato-disadvantaged-grids}.
+
+\paragraph{}
+The characteristics of theese networks and what challenges they impose are discussed in detail in \cref{dil}.
 
 \section{Problem Statement}
-Most of the Web Service solutions used today are aimed for civilian use and does
-not necessarily perform well in military environments. In contrast to civilian
-networks where bandwidth are abundant, mobile tactical networks may suffer
-from high error rates and low bandwidth.
+Most of the Web Service solutions used today are aimed for civilian use and does not necessarily perform well in military environments. In contrast to civilian networks where bandwidth are abundant, mobile tactical networks may suffer from high error rates and low bandwidth. Adapting Web service solutions meant for civil networks directly for military purposes may not be possible. Therefore, Web services needs to be adapted in order to handle network challenges. However, it can be very expensive to alter existing Web service technology and build own properary solutions. Much better to use commercial off-the-shelf software. By placing the optimalization in proxies, Web services can remain unchanged.
 
-In my master thesis I will investigate different optimization techniques that
-can be applied to improve communication. In order for the clients and services
- to remain interoperable the optimization techniques will be placed in proxies.
-
-The Web Services will communicate with his counter part over HTTP as regular,
-with all traffic going umerkelig through the proxy. The Web Service itself does
-not need to pay attention to the bad connectivity, the proxy will choose the
-appropriate protocol and configuration.
+In my master thesis I will investigate different optimization techniques that can be applied to improve Web service performance in disadvanteged networks. In order for the clients and services to remain interoperable the optimization techniques will be placed in proxies. The Web Services will communicate as normal, while all network traffic is tunneled through a proxy. The Web Service itself does not need to pay attention to the bad connectivity, the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises}
-Ikke endre web-servicene.
+The Webservices does not need to be changed. 
 
 \section{Scope and Limitations}
 Snevre inn oppgaven.
@@ -111,15 +96,38 @@ In this part, I will present relevant technologies.
 Diskuterer eksisterende arbeid.
 
 
+
+%%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
-The World Wide Web Consortium has defined Web Services as\cite{wrc-web-service}:
+Web services are client and server application that communicate over the World Wide Web and can be used to implement a service-oriented architecture. There exists many definitions of Web services where the core principles are the same, but the finer details may vary. The World Wide Web Consortium has defined Web Services as\cite{wrc-web-service}:
 \paragraph{}
 \textit{A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.}
-\paragraph{}
-However, there also exist other types of Web services which does not follow this definition. RESTful web services let users manipulate data using a set of stateless operations. REST services have gained a lot of traction in the civil industry in the latest years.
 
+\paragraph{}
+This definition points out a set of standards that enables machine-to-machine interactions. Theese standars are discussed in the following sections.
+
+Figur her.
+
+\subsection{XML}
+Extensible Markup Language(XML) is a markup language and is considered as the base standard for Web services. An XML document consist of data surronded by tags and is designed to be both machine and user readable. In a Web service, XML is used to tag the data.
+
+\subsection{Service descriptions: WSDL}
+Web Services Description Language(WSDL) is an interface definition language that using XML describes functionality offered by a Web service. The interface describes available functions, data types for message requests and responses and binding information about the transport protocol, aswell as address information for locating the service. 
+
+\subsection{SOAP}
+SOAP is an application level XML based protocol specification for information exchange in the implementation of Web services. It is transport protocol agnostic and can be carried over various protocols. The far most used is HTTP over TCP, but other protocols such as UDP and SMTP can be used aswell.  
+
+A SOAP message consist of a optional header and a required body. The header can contain information not directly related to the message, such as routing information for the message. The body contains the data being sent, known as the payload.
+
+\subsection{Other Web services}
+However, there also exist other types of Web services which does not follow the previoulsy discussed standards. RESTful web services let users manipulate data using a set of stateless operations. It uses exclusivly HTTP. REST services are easy to understand and have gained a lot of traction in the civil industry in the latest years.
+
+
+
+%%%%%%%%%% DIL %%%%%%%%%%%%%%%
 \section{DIL}
+\label{dil}
 \gls{dil} definer hva DIL er og hvilke begrensninger det legger.
 \paragraph{}
 These constrains of mobile tactical networks are central in order to understand the problem at hand, and I will therefore explain the concepts here:

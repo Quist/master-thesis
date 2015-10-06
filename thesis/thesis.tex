@@ -37,7 +37,7 @@ In this thesis I investigate different techniques to improve the performance of 
 % Nato mange land -> mange forskjellige systemer -> viktig med standarer -> SOA og Web Services
 % Så diskuter tactical networks
 % Så presenter problemet - > så en oversikt over hva jeg skal gjøre med problemet
-Military units may operate under conditions where the reliability of the network connection is low. They can operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. To NATO, this concept is referred to as Network Enabled Capability(NEC). Furthermore, in a feasibility study, NATO identified the Service Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
+Military units may operate under conditions where the reliability of the network connection is low. They can operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. To NATO, this concept is referred to as Network Enabled Capability(NEC). In a feasibility study, NATO identified the Service-Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
 
 Web services is well tested in civil environments where the network is stable and the bandwidth is abundant. However, military tactical networks may suffer from high error rates and low bandwidth which can leave the Web services unusable. To overcome theese challenges we can apply optimization techniques at different layers of the protocol stack which is investigated in this thesis.
 
@@ -48,22 +48,21 @@ Expensive to alter and build own properary solutions, better to use commercial o
 %Aloows adding functioanllity between COTS clients and services without altering the COTS software itself.
 % Web services needs to be adapted in order to handle low bandwidth and frequent connection disruptions. By placing in proxies, we keep SOA properties such as loose coupling and interoperability.
 \section{Background and Motivation}
-NATO is an military alliance consisting of 28 member countries\cite{nato-homepage-member-countries} and which primary goal is to protect the freedom and security of its members through political and military means. In joint military operations the relatively large number of member countries can be a challenge when setting up machine-to machine information exchange. Differences in communication systems and equipment can attribute to make communicating difficult. In order to address this issue, NATO has choosen Service-Oritented Architecture concept.
+NATO is an military alliance consisting of 28 member countries\cite{nato-homepage-member-countries} and which primary goal is to protect the freedom and security of its members through political and military means. In joint military operations the relatively large number of member countries can be a challenge when setting up machine-to machine information exchange. Differences in communication systems and equipment can attribute to make data communicating difficult. In order to address this issue, NATO has choosen Service-Oritented Architecture concept.
 
 \subsection{Service-Oriented Architecture}
-Service-Oriented Architecture(SOA) is an architectural pattern where application components provide services to other components over a network. SOA is built on principles such as object-orientation and distributed computing and aims to get a loose coupling between clients and services. In their reference model for Service Oriented Architecture\cite{oasis-soa-reference-model}, the 
-Organization for the Advancement of Structured Information Standards (OASIS) defines SOA as: 
+Service-Oriented Architecture(SOA) is an architectural pattern where application components provide services to other components over a network. SOA is built on principles such as object-orientation and distributed computing and aims to get a loose coupling between clients and services. In their reference model for Service Oriented Architecture\cite{oasis-soa-reference-model}, the Organization for the Advancement of Structured Information Standards (OASIS) defines SOA as: 
 \paragraph{}
 \textit{Service Oriented Architecture is a paradigm for organizing and utilizing distributed capabilities that may be under the control of different ownership domains. It provides a uniform means to offer, discover, interact with and use capabilities to produce desired effects consistent with measurable preconditions and expectations.}
 
-In SOA businiss logic is divided into smaller chunks of logic, refered to as services. A service can be business related, e.g a patient register service, or a infrastructure service used by other services and not by a user application.  Services are provided by service providers and are consumed by service consumers. The service provider is responsible for creating a service description, making the service available to others and implementing the service according to the service description. 
+\paragraph{}
+In SOA businiss logic is divided into smaller chunks of logic, refered to as \textit{services}. A service can be business related, e.g a patient register service, or a infrastructure service used by other services and not by a user application.  Services are provided by \textit{service providers} and are consumed by \textit{service consumers}. The service provider is responsible for creating a service description, making the service available to others and implementing the service according to the service description. Services are made available through a \textit{service registery}, where service providers publish service descriptions. Service consumers finds the services it needs by contacting the service registery. The communcation between services occour through the exchange of standarized messages. 
 
-Interoperability between the actors in a SOA system is ensured by a standarized service contract. 
+Following the SOA principles dictates a loose coupling between services and service consumers which allows software system to bemore flexible. Loose coupling with regards to time enables services and its consumers to not be available at the same instance of time. This enables asynchronous communcation. Loose coupling with regards to location allows the location of an service to be changed without needing to repogram, reconfigure, or restart the service consumers. This is possible through the usage of the service registery, which is updated with the new location.
 
-SOA a
+Furthermore SOA enables service implementation neutrality. The implentation of service is completly separated from the service description. This allows re-implementation and alteration of a service without affecting the service consumers. Thus this can attribute to keep devlopment costs low and avoiding properietary solutions and vendor lock-in. Another benefit with SOA is reusablity by dividing common business processes into services, which may help cost reduction and avoids duplication. 
 
-NATO has choosen the Web service technology in order to realize SOA principles.
-% Trekk inn Service Oriented Architecture. Pek på at NATO har valgt dette som standard.
+SOA is only a pattern and the concepts can be realized by a range of implementations. The most common used approach is the Web service standard, using the SOAP messaging protocol. To achieve interoperability between systems from different nations and vendors, NATO has choosen the Web service technology in order to realize the SOA principles. This allows member nations to implement their own technology as long as they adher to the standards. Web services are are discussed in detail in \cref{web-services}.
 
 \subsection{Tactical networks}
 Mobile tactical networks are characterized by that the units use tactical
@@ -138,6 +137,7 @@ Diskuterer eksisterende arbeid.
 
 
 \section{Web services}
+\label{web-services}
 The World Wide Web Consortium has defined Web Services as\cite{wrc-web-service}:
 \paragraph{}
 \textit{A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.}

@@ -65,38 +65,13 @@ Furthermore SOA enables service implementation neutrality. The implentation of s
 SOA is only a pattern and the concepts can be realized by a range of implementations. The most common used approach is the Web service standard, using the SOAP messaging protocol. To achieve interoperability between systems from different nations and vendors, NATO has choosen the Web service technology in order to realize the SOA principles. This allows member nations to implement their own technology as long as they adher to the standards. Web services are are discussed in detail in \cref{web-services}.
 
 \subsection{Tactical networks}
-Mobile tactical networks are characterized by that the units use tactical
-communication equipment which includes technologies like VHF, UHF, HF, tactical
-broadband and satellites. Examples of such units are mobile units like vehicles,
-foot soldiers and field headquarters. These types of networks have low
-bandwidth, possibly high delay, high error rates and frequent disconnections.
-They are often called disadvantaged grids or DIL. NATO studies has
-identified such networks to have the following characteristics:
+Web services can be used in strategic military networks, as they have network infrastructure with the same characteristics as civil networks. However, mobile tactical networks are characterized by that the units use tactical communication equipment which includes technologies like VHF, UHF, HF, tactical broadband and satellites. Examples of such units are mobile units like vehicles, foot soldiers and field headquarters. These types of networks have low bandwidth, possibly high delay, high error rates and frequent disconnections. They are often called disadvantaged grids or DIL. NATO studies hasidentified such networks to have the following characteristics:
 
 \paragraph{}
 \textit{Disadvantaged grids are characterized by low bandwidth, variable
 throughput, unreliable connectivity, and energy constraints imposed by the
 wireless communications grid that link the
 nodes}\cite{nato-disadvantaged-grids}.
-
-\paragraph{}
-These constrains of mobile tactical networks are central in order to understand the problem at hand, and I will therefore explain the concepts here:
-
-\begin{description}
-\item[Bandwidth and throughput] The terms bandwidth and throughput are used interchangeably in the networking community and refers to the data transfer rate; how fast data can be transported from one point to another in given time period. This is often expressed in bits per second.
-\item[Unreliable connectivity] Units that are participating in a tactical network are highly mobile and may disconnect from a network either voluntarily or not. Unplanned loss of connectivity can be due to various reasons, such as loss of signal or equipment malfunction.
-\item[Energy constraints imposed by the wireless communication grid] The battery capacity and the transmission range of the communication equipment for mobile units may be limited. Another issue is that in some cases military units are required to enter radio silence in order to avoid being detected by the enemy. During radio silence units may only receive data and not send any.
-\end{description}
-
-Theese constrains imposes some challenges when employing Web services in tactical networks. In paper X, tree areas that need to be addresses are identified\cite{IST-118}.
-
-\label{section:DIL-problems}
-\subsubsection{End-to-end connections}
-Attempting to establish and maintaining connections in DIL environments can lead to increased communcation overhead and possible complete breakdown of communication.
-\subsubsection{Network heterogeneity}
-Different technologies used. Different performance in networks may lead to buildup of data in buffers, risking loss of information.
-\subsubsection{Web Service overhead}
-Web services generates overhead.
 
 \section{Problem Statement}
 Most of the Web Service solutions used today are aimed for civilian use and does
@@ -146,7 +121,24 @@ However, there also exist other types of Web services which does not follow this
 
 \section{DIL}
 \gls{dil} definer hva DIL er og hvilke begrensninger det legger.
+\paragraph{}
+These constrains of mobile tactical networks are central in order to understand the problem at hand, and I will therefore explain the concepts here:
 
+\begin{description}
+\item[Bandwidth and throughput] The terms bandwidth and throughput are used interchangeably in the networking community and refers to the data transfer rate; how fast data can be transported from one point to another in given time period. This is often expressed in bits per second.
+\item[Unreliable connectivity] Units that are participating in a tactical network are highly mobile and may disconnect from a network either voluntarily or not. Unplanned loss of connectivity can be due to various reasons, such as loss of signal or equipment malfunction.
+\item[Energy constraints imposed by the wireless communication grid] The battery capacity and the transmission range of the communication equipment for mobile units may be limited. Another issue is that in some cases military units are required to enter radio silence in order to avoid being detected by the enemy. During radio silence units may only receive data and not send any.
+\end{description}
+
+Theese constrains imposes some challenges when employing Web services in tactical networks. In paper X, tree areas that need to be addresses are identified\cite{IST-118}.
+
+\label{section:DIL-problems}
+\subsubsection{End-to-end connections}
+Attempting to establish and maintaining connections in DIL environments can lead to increased communcation overhead and possible complete breakdown of communication.
+\subsubsection{Network heterogeneity}
+Different technologies used. Different performance in networks may lead to buildup of data in buffers, risking loss of information.
+\subsubsection{Web Service overhead}
+Web services generates overhead.
 \section{Optimization techniques}
 Web services enabels interoperability betweens system, but also increase the information overhead, requriering higher data rate demands. By using proxies, we can freely choose the communcations protocols and configurations between the proxy pair without altering the Web Services themself. In this thesis I will investigate different techniques in order to optimize the communcation between a Web Service and a Web Service client. The optimalization can be implemented at different levels of the protocol stack in use. \Cref{table:optimalization-overview} lists an overview of possible optimalization techniques studied in this thesis.
 \\ \\

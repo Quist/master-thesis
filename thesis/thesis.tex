@@ -34,7 +34,7 @@ In this thesis I investigate different techniques to improve the performance of 
 
 
 \part{Introduction}
-Military units may operate under conditions where the reliability of the network connection is low. They can operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. To NATO, this concept is referred to as Network Enabled Capability(NEC). In a feasibility study, NATO identified the Service-Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
+Military units may operate under conditions where the reliability of the network connection is low. They can operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making data communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. To NATO, this concept is referred to as Network Enabled Capability(NEC). In a feasibility study, NATO identified the Service-Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
 
 Web services is well tested in civil environments where the network is stable and the bandwidth is abundant. However, military tactical networks may suffer from high error rates and low bandwidth which can leave the Web services unusable. To overcome these challenges we can apply optimization techniques at different layers of the protocol stack which is investigated in this thesis.
 
@@ -66,9 +66,9 @@ Web services can be used in strategic military networks as they have network inf
 The characteristics of these networks and what challenges they impose are discussed in detail in \cref{dil}.
 
 \section{Problem Statement}
-Most of the Web Service solutions used today are aimed for civilian use and does not necessarily perform well in military environments. In contrast to civilian networks where bandwidth are abundant, mobile tactical networks may suffer from high error rates and low bandwidth. Adapting Web service solutions meant for civil networks directly for military purposes may not be possible. Therefore, Web services needs to be adapted in order to handle network challenges. However, it can be very expensive to alter existing Web service technology and build own proprietary solutions. Much better to use commercial off-the-shelf software. By placing the optimization in proxies, Web services can remain unchanged.
+Most of the Web Service solutions used today are aimed for civilian use and does not necessarily perform well in military environments. In contrast to civilian networks where bandwidth are abundant, mobile tactical networks may suffer from high error rates and low bandwidth. Adapting Web service solutions meant for civil networks directly for military purposes may not be possible. Therefore, Web services needs to be adapted in order to handle network challenges. However, it can be very expensive to alter existing Web service technology and build own proprietary solutions. It is much better to use commercial off-the-shelf software. By placing the optimization in proxies, the Web services can remain unchanged.
 
-In my master thesis I will investigate different optimization techniques that can be applied to improve Web service performance in disadvantaged networks. In order for the clients and services to remain interoperable the optimization techniques will be placed in proxies. The Web Services will communicate as normal, while all network traffic is tunneled through a proxy. The Web Service itself does not need to pay attention to the bad connectivity, the proxy will choose the appropriate protocol and configuration.
+In my master thesis I will investigate different optimization techniques that can be applied in order to improve Web service performance in disadvantaged networks. In order for the clients and services to remain interoperable the optimization techniques will be placed in proxies. The Web Services will communicate as normal, while all network traffic is tunneled through a proxy. The Web Service itself does not need to pay attention to the bad connectivity, the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises}
 The Web services does not need to be changed. 
@@ -97,7 +97,7 @@ Diskuterer eksisterende arbeid.
 %%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
-Web services are client and server application that communicate over the World Wide Web and can be used to implement a service-oriented architecture. There exists many definitions of Web services where the core principles are the same, but the finer details may vary. The World Wide Web Consortium has defined Web Services as\cite{wrc-web-service}:
+Web services are client and server applications that communicate over the World Wide Web and can be used to implement a service-oriented architecture. There exists many definitions of Web services where the core principles are the same, but the finer details may vary. The World Wide Web Consortium has defined Web Services as\cite{wrc-web-service}:
 \paragraph{}
 \textit{A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.}
 

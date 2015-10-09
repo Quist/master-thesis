@@ -33,47 +33,126 @@ In this thesis I investigate different techniques to improve the performance of 
 
 
 \chapter{Introduction}
-Military units may operate under conditions where the reliability of the network connection is low. They can operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making data communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. To NATO, this concept is referred to as Network Enabled Capability(NEC). In a feasibility study, NATO identified the Service-Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
+Military units may operate under conditions where the reliability of the network
+connection is low. They can operate far from existing communication
+infrastructure and rely only on wireless communication. Such networks are often
+characterized by unreliable connections with low bandwidth and high error rates
+making data communication difficult. In a military scenario it is necessary for
+units at all operational levels to seamlessly exchange information across
+different types of communication systems. To NATO, this concept is referred to
+as Network Enabled Capability(NEC). In a feasibility study, NATO identified the
+Service-Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
 
-Web services is well tested in civil environments where the network is stable and the bandwidth is abundant. However, military tactical networks may suffer from high error rates and low bandwidth which can leave the Web services unusable. To overcome these challenges we can apply optimization techniques at different layers of the protocol stack which is investigated in this thesis.
-
+Web services are well tested in civil environments where the network is stable
+and the bandwidth is abundant. However, military tactical networks may suffer
+from high error rates and low bandwidth which can leave the Web services
+unusable. To overcome these challenges we can apply optimization techniques at
+different layers of the protocol stack which is investigated in this thesis.
 
 \section{Background and Motivation}
-NATO is an military alliance consisting of 28 member countries\cite{nato-homepage-member-countries} and which primary goal is to protect the freedom and security of its members through political and military means. In joint military operations the relatively large number of member countries can be a challenge when setting up machine-to machine information exchange. Differences in communication systems and equipment can attribute to make data communicating difficult. In order to address this issue, NATO has chosen Service-Oriented Architecture concept.
+NATO is a military alliance consisting of 28 member
+countries\cite{nato-homepage-member-countries} and which primary goal is to
+protect the freedom and security of its members through political and military
+means. In joint military operations the relatively large number of member
+countries can be a challenge when setting up machine-to machine information
+exchange. Differences in communication systems and equipment can attribute to
+make data communicating difficult. In order to address this issue, NATO has
+chosen the Service-Oriented Architecture concept.
 
 \subsection{Service-Oriented Architecture}
-Service-Oriented Architecture(SOA) is an architectural pattern where application components provide services to other components over a network. SOA is built on principles such as object-orientation and distributed computing and aims to get a loose coupling between clients and services. In their reference model for Service Oriented Architecture\cite{oasis-soa-reference-model}, the Organization for the Advancement of Structured Information Standards (OASIS) defines SOA as:
-\paragraph{}
-\textit{Service Oriented Architecture is a paradigm for organizing and utilizing distributed capabilities that may be under the control of different ownership domains. It provides a uniform means to offer, discover, interact with and use capabilities to produce desired effects consistent with measurable preconditions and expectations.}
+Service-Oriented Architecture(SOA) is an architectural pattern where application
+components provide services to other components over a network. SOA is built on
+principles such as object-orientation and distributed computing and aims to get
+a loose coupling between clients and services. In their reference model for
+SOA\cite{oasis-soa-reference-model}, the Organization
+for the Advancement of Structured Information Standards (OASIS) define SOA as:
+\paragraph{} \textit{Service Oriented Architecture is a paradigm for organizing
+and utilizing distributed capabilities that may be under the control of
+different ownership domains. It provides a uniform means to offer, discover,
+interact with and use capabilities to produce desired effects consistent with
+measurable preconditions and expectations.}
+
+% SOA Trekant figur her
 
 \paragraph{}
-In SOA business logic is divided into smaller chunks of logic, referred to as \textit{services}. A service can be business related, e.g a patient register service, or a infrastructure service used by other services and not by a user application.  Services are provided by \textit{service providers} and are consumed by \textit{service consumers}. The service provider is responsible for creating a service description, making the service available to others and implementing the service according to the service description. Services are made available through a \textit{service registry}, where service providers publish service descriptions. Service consumers finds the services it needs by contacting the service registry. The communication between services occur through the exchange of standardized messages.
+ In SOA business logic is divided into smaller chunks of logic,
+referred to as \textit{services}. A service can be business related, e.g a
+patient register service, or a infrastructure service used by other services and
+not by a user application.  Services are provided by \textit{service providers}
+and are consumed by \textit{service consumers}. The service provider is
+responsible for creating a service description, making the service available to
+others and implementing the service according to the service description.
+Services are made available through a \textit{service registry}, where service
+providers publish service descriptions. Service consumers find the services they
+need by contacting the service registry. The communication between services
+occur through the exchange of standardized messages.
 
-Following the SOA principles dictates a loose coupling between services and service consumers which allows software system to be more flexible. Loose coupling with regards to time enables services and its consumers to not be available at the same instance of time. This enables asynchronous communication. Loose coupling with regards to location allows the location of an service to be changed without needing to reprogram, reconfigure, or restart the service consumers. This is possible through the usage of the service registry, which is updated with the new location.
+Following the SOA principles dictates a loose coupling between services and
+service consumers which allows software system to be more flexible. Loose
+coupling with regards to time enables services and its consumers to not be
+available at the same instance of time. This enables asynchronous communication.
+Loose coupling with regards to location allows the location of an service to be
+changed without needing to reprogram, reconfigure, or restart the service
+consumers. This is possible through the usage of the service registry, which is
+updated with the new location.
 
-Furthermore SOA enables service implementation neutrality. The implementation of service is completely separated from the service description. This allows re-implementation and alteration of a service without affecting the service consumers. Thus this can attribute to keep development costs low and avoiding proprietary solutions and vendor lock-in. Another benefit with SOA is reusability by dividing common business processes into services, which may help cost reduction and avoids duplication.
+Furthermore SOA enables service implementation neutrality. The implementation of
+service is completely separated from the service description. This allows
+re-implementation and alteration of a service without affecting the service
+consumers. Thus this can attribute to keep development costs low and avoiding
+proprietary solutions and vendor lock-in. Another benefit with SOA is
+reusability by dividing common business processes into services, which may help
+cost reduction and avoids duplication.
 
-SOA is only a pattern and the concepts can be realized by a range of technologies. The most common used approach is the Web service standard, using the SOAP messaging protocol. To achieve interoperability between systems from different nations and vendors, NATO has chosen the Web service technology in order to realize the SOA principles. This allows member nations to implement their own technology as long as they adhere to the standards. Web services are are discussed in detail in \cref{web-services}.
+SOA is only a pattern and the concepts can be realized by a range of
+technologies. The most common used approach is the Web service familiy of
+standards, using the SOAP messaging protocol. To achieve interoperability
+between systems from different nations and vendors, NATO has chosen the Web
+service technology in order to realize the SOA principles. This allows member
+nations to implement their own technology as long as they adhere to the
+standards. Web services are are discussed in detail in \cref{web-services}.
 
 \subsection{Tactical networks}
-Web services can be used in strategic military networks as they have network infrastructure with the same characteristics as civil networks. However, mobile tactical networks are characterized by that the units use tactical communication equipment which includes technologies like VHF, UHF, HF, tactical broadband and satellites. Examples of such units are mobile units like vehicles, foot soldiers and field headquarters. These types of networks have low bandwidth, possibly high delay, high error rates and frequent disconnections. They are often called disadvantaged grids or DIL. NATO studies has identified such networks to have the following characteristics:
-
+Web services can be used in strategic military networks as they have network
+infrastructure with the same characteristics as civil networks. However, mobile
+tactical networks are characterized by that the units use tactical communication
+equipment which includes technologies like VHF, UHF, HF, tactical broadband and
+satellites. Examples of such units are mobile units like vehicles, foot soldiers
+and field headquarters. These types of networks have low bandwidth, possibly
+high delay, high error rates and frequent disconnections. They are often called
+disadvantaged grids or DIL. NATO studies has identified such networks to have
+the following characteristics:
 \paragraph{}
 \textit{Disadvantaged grids are characterized by low bandwidth,variable throughput, unreliable connectivity, and energy constraints imposed by the wireless communications grid that link the nodes}\cite{nato-disadvantaged-grids}.
 
 \paragraph{}
-The characteristics of these networks and what challenges they impose are discussed in detail in \cref{dil}.
+The characteristics of these networks and what challenges they impose are
+discussed in detail in \cref{dil}.
 
 \section{Problem Statement}
-Most of the Web Service solutions used today are aimed for civilian use and does not necessarily perform well in military environments. In contrast to civilian networks where bandwidth are abundant, mobile tactical networks may suffer from high error rates and low bandwidth. Adapting Web service solutions meant for civil networks directly for military purposes may not be possible. Therefore, Web services needs to be adapted in order to handle network challenges. However, it can be very expensive to alter existing Web service technology and build own proprietary solutions. It is much better to use commercial off-the-shelf software. By placing the optimization in proxies, the Web services can remain unchanged.
+Most of the Web Service solutions used today are aimed for civilian use and does
+not necessarily perform well in military environments. In contrast to civilian
+networks where bandwidth are abundant, mobile tactical networks may suffer from
+high error rates and low bandwidth. Adapting Web service solutions meant for
+civil networks directly for military purposes may not be possible. Therefore,
+Web services needs to be adapted in order to handle network challenges. However,
+it can be very expensive to alter existing Web service technology and build own
+proprietary solutions. It is much better to use commercial off-the-shelf
+software. By placing the optimization in proxies, the Web services can remain
+unchanged.
 
-In my master thesis I will investigate different optimization techniques that can be applied in order to improve Web service performance in disadvantaged networks. In order for the clients and services to remain interoperable the optimization techniques will be placed in proxies. The Web Services will communicate as normal, while all network traffic is tunneled through a proxy. The Web Service itself does not need to pay attention to the bad connectivity, the proxy will choose the appropriate protocol and configuration.
+The goal of this thesis is to investigate different optimization techniques that
+can be applied in order to improve Web service performance in disadvantaged
+networks. In order for the clients and services to remain interoperable the
+optimization techniques will be placed in proxies. The Web Services will
+communicate as normal, while all network traffic is tunneled through a proxy.
+The Web Service itself does not need to pay attention to the bad connectivity,
+the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises}
 The Web services does not need to be changed.
 
-\section{Scope and Limitations}
-Snevre inn oppgaven.
+\section{Scope and Limitations} Snevre inn oppgaven.
 
 \section{Research Methodology}
 Denning.

@@ -1,4 +1,4 @@
-\documentclass[USenglish]{article}
+\documentclass[USenglish]{ifimaster}
 
 \usepackage[utf8]{inputenc}
 \usepackage{ifikompendiumforside}
@@ -21,19 +21,18 @@
 \begin{document}
 \ififorside{}
 
-\begin{abstract}
+\chapter*{Abstract}
 In this thesis I investigate different techniques to improve the performance of Web services in typical tactical network environments.
-\end{abstract}
 \pagebreak
 
-\tableofcontents 
+\tableofcontents
 \listoftables
 \listoffigures
 
 \pagebreak
 
 
-\part{Introduction}
+\chapter{Introduction}
 Military units may operate under conditions where the reliability of the network connection is low. They can operate far from existing communication infrastructure and rely only on wireless communication. Such networks are often characterized by unreliable connections with low bandwidth and high error rates making data communication difficult. In a military scenario it is necessary for units at all operational levels to seamlessly exchange information across different types of communication systems. To NATO, this concept is referred to as Network Enabled Capability(NEC). In a feasibility study, NATO identified the Service-Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
 
 Web services is well tested in civil environments where the network is stable and the bandwidth is abundant. However, military tactical networks may suffer from high error rates and low bandwidth which can leave the Web services unusable. To overcome these challenges we can apply optimization techniques at different layers of the protocol stack which is investigated in this thesis.
@@ -43,16 +42,16 @@ Web services is well tested in civil environments where the network is stable an
 NATO is an military alliance consisting of 28 member countries\cite{nato-homepage-member-countries} and which primary goal is to protect the freedom and security of its members through political and military means. In joint military operations the relatively large number of member countries can be a challenge when setting up machine-to machine information exchange. Differences in communication systems and equipment can attribute to make data communicating difficult. In order to address this issue, NATO has chosen Service-Oriented Architecture concept.
 
 \subsection{Service-Oriented Architecture}
-Service-Oriented Architecture(SOA) is an architectural pattern where application components provide services to other components over a network. SOA is built on principles such as object-orientation and distributed computing and aims to get a loose coupling between clients and services. In their reference model for Service Oriented Architecture\cite{oasis-soa-reference-model}, the Organization for the Advancement of Structured Information Standards (OASIS) defines SOA as: 
+Service-Oriented Architecture(SOA) is an architectural pattern where application components provide services to other components over a network. SOA is built on principles such as object-orientation and distributed computing and aims to get a loose coupling between clients and services. In their reference model for Service Oriented Architecture\cite{oasis-soa-reference-model}, the Organization for the Advancement of Structured Information Standards (OASIS) defines SOA as:
 \paragraph{}
 \textit{Service Oriented Architecture is a paradigm for organizing and utilizing distributed capabilities that may be under the control of different ownership domains. It provides a uniform means to offer, discover, interact with and use capabilities to produce desired effects consistent with measurable preconditions and expectations.}
 
 \paragraph{}
-In SOA business logic is divided into smaller chunks of logic, referred to as \textit{services}. A service can be business related, e.g a patient register service, or a infrastructure service used by other services and not by a user application.  Services are provided by \textit{service providers} and are consumed by \textit{service consumers}. The service provider is responsible for creating a service description, making the service available to others and implementing the service according to the service description. Services are made available through a \textit{service registry}, where service providers publish service descriptions. Service consumers finds the services it needs by contacting the service registry. The communication between services occur through the exchange of standardized messages. 
+In SOA business logic is divided into smaller chunks of logic, referred to as \textit{services}. A service can be business related, e.g a patient register service, or a infrastructure service used by other services and not by a user application.  Services are provided by \textit{service providers} and are consumed by \textit{service consumers}. The service provider is responsible for creating a service description, making the service available to others and implementing the service according to the service description. Services are made available through a \textit{service registry}, where service providers publish service descriptions. Service consumers finds the services it needs by contacting the service registry. The communication between services occur through the exchange of standardized messages.
 
 Following the SOA principles dictates a loose coupling between services and service consumers which allows software system to be more flexible. Loose coupling with regards to time enables services and its consumers to not be available at the same instance of time. This enables asynchronous communication. Loose coupling with regards to location allows the location of an service to be changed without needing to reprogram, reconfigure, or restart the service consumers. This is possible through the usage of the service registry, which is updated with the new location.
 
-Furthermore SOA enables service implementation neutrality. The implementation of service is completely separated from the service description. This allows re-implementation and alteration of a service without affecting the service consumers. Thus this can attribute to keep development costs low and avoiding proprietary solutions and vendor lock-in. Another benefit with SOA is reusability by dividing common business processes into services, which may help cost reduction and avoids duplication. 
+Furthermore SOA enables service implementation neutrality. The implementation of service is completely separated from the service description. This allows re-implementation and alteration of a service without affecting the service consumers. Thus this can attribute to keep development costs low and avoiding proprietary solutions and vendor lock-in. Another benefit with SOA is reusability by dividing common business processes into services, which may help cost reduction and avoids duplication.
 
 SOA is only a pattern and the concepts can be realized by a range of technologies. The most common used approach is the Web service standard, using the SOAP messaging protocol. To achieve interoperability between systems from different nations and vendors, NATO has chosen the Web service technology in order to realize the SOA principles. This allows member nations to implement their own technology as long as they adhere to the standards. Web services are are discussed in detail in \cref{web-services}.
 
@@ -71,7 +70,7 @@ Most of the Web Service solutions used today are aimed for civilian use and does
 In my master thesis I will investigate different optimization techniques that can be applied in order to improve Web service performance in disadvantaged networks. In order for the clients and services to remain interoperable the optimization techniques will be placed in proxies. The Web Services will communicate as normal, while all network traffic is tunneled through a proxy. The Web Service itself does not need to pay attention to the bad connectivity, the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises}
-The Web services does not need to be changed. 
+The Web services does not need to be changed.
 
 \section{Scope and Limitations}
 Snevre inn oppgaven.
@@ -87,7 +86,7 @@ Hvordan er resten av oppgaven strukturert.
 
 
 %%%%% BACKGROUND %%%%
-\part{Background}
+\chapter{Background}
 In this part, I will present relevant technologies.
 \section{Related Work}
 Diskuterer eksisterende arbeid.
@@ -110,10 +109,10 @@ Figur her.
 Extensible Markup Language(XML) is a markup language and is considered as the base standard for Web services. An XML document consist of data surrounded by tags and is designed to be both machine and user readable. In a Web service, XML is used to tag the data.
 
 \subsection{Service descriptions: WSDL}
-Web Services Description Language(WSDL) is an interface definition language that using XML describes functionality offered by a Web service. The interface describes available functions, data types for message requests and responses and binding information about the transport protocol, as well as address information for locating the service. 
+Web Services Description Language(WSDL) is an interface definition language that using XML describes functionality offered by a Web service. The interface describes available functions, data types for message requests and responses and binding information about the transport protocol, as well as address information for locating the service.
 
 \subsection{SOAP}
-SOAP is an application level XML based protocol specification for information exchange in the implementation of Web services. It is transport protocol agnostic and can be carried over various protocols. The far most used is HTTP over TCP, but other protocols such as UDP and SMTP can be used as well.  
+SOAP is an application level XML based protocol specification for information exchange in the implementation of Web services. It is transport protocol agnostic and can be carried over various protocols. The far most used is HTTP over TCP, but other protocols such as UDP and SMTP can be used as well.
 
 A SOAP message consist of a optional header and a required body. The header can contain information not directly related to the message, such as routing information for the message. The body contains the data being sent, known as the payload.
 
@@ -213,7 +212,7 @@ Mobile units have to carry batteries with them and the capacity is therefore lim
 
 
 %%%% Design and implementation %%%%
-\part{Design and Implementation}
+\chapter{Design and Implementation}
 \section{Overall Design}
 \section{Proxy}
 \subsection{Squid}
@@ -231,10 +230,10 @@ Squid is a fully-featured HTTP/1.0 proxy.
 
 \section{Summary}
 
-\part{Testing and Evaluation}
+\chapter{Testing and Evaluation}
 \section{Evaluation Tools}
 
-\part{Conclusion and Future Work}
+\chapter{Conclusion and Future Work}
 \section{Conclusion}
 
 \section{Future Work}

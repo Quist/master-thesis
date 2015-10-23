@@ -1,0 +1,55 @@
+Hva skal man forvente hva sensor kan.
+Gennerelt om nettverk.
+IKKE:
+SOA, Militære nett og utfordringer.
+Detaljer
+Protokoler utover TCP/HTTP
+
+Google protocol buffer, SCFP, AMQP
+
+
+intro
+Viktigste med soa- standarder.
+SÅ komme inn på web services. Nevne to typer, Web services og rest. Så snakke om soap. DS er soap spesefikk. For komplisert til å bli sikkerhetsgodkjent.
+
+Proxy må være enkel og mulig å verifisere.
+
+
+Ikke snakk om service registry, men service discovery.
+Bruk kun DIL begrepet.
+
+Viktig å skille seg fra tidligere arbeid. Ikke gjort proxy for rest/web services før. Ikke gjort før.
+
+Snakk om proxieer før problem statement. I introen pek på studier som sier at proxier er veien og gå. IST-90.
+
+
+Premesis. Lav kompleksitet for at det senere skal kunne bli sikkergodkjent. Kan nevne det i introen. VIl gjøre godkjenningsprosessen for dyrbar og gjenneomføre.
+
+
+Burde forklare forskjellenen strategiske.
+Figur over nettverksstacken. Burde forklare nøyere.
+
+Ikke bruk ordet bandwidth. Bruk data rate, throughput.
+
+Sensor ikke fra FFI.
+
+
+Proxier. SNakke om related works.
+Kategorisere proxier. HTTP-proxier/soap-proixer. Transparent proxies etc. Så state hva jeg skal skrive.
+Snakke om DSproxy
+AFRO. Må få flere papers
+Netproxy - jeg burde google
+
+Kompremering. Batteryhensyn. Viktig med valg av implmentasjon av algoritme. XML spesefikt.
+Jeg skal bruke gzip. Skrive hvorfor.
+EXI.
+
+Snakke om hvordan deployere proxier.
+
+TCP mange congestion greiere.
+Jeg skal få et TCP paper fra Karsten.
+
+Other Web services til rest
+
+
+Store and forward capabilities. Hvordan skal jeg takle det. Hvilket lag skal man ha delay-toleransen. DSProxy har det på applikasjonsnivå. Mye forskning legger however det på lavere nivå.

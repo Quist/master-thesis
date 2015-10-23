@@ -13,9 +13,11 @@
 
 % Acronyms
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited environments}
+\newacronym{nec}{NEC}{Network Enabled Capability}
 \newacronym{soa}{SOA}{Service-Oriented Architecture}
 
-\title{Improving the performance of Web Services in Disconnected, Intermittent and Limited Environments}
+\title{Improving the performance of Web Services in Disconnected, Intermittent
+and Limited Environments}
 \author{Joakim Johanson Lindquister}
 \bibliography{references}
 
@@ -23,7 +25,8 @@
 \ififorside{}
 
 \chapter*{Abstract}
-In this thesis I investigate different techniques to improve the performance of Web services in typical tactical network environments.
+In this thesis I investigate different techniques to improve the performance of
+Web services in typical tactical network environments.
 \pagebreak
 
 \tableofcontents
@@ -41,8 +44,8 @@ characterized by unreliable connections with low bandwidth and high error rates
 making data communication difficult. In a military scenario it is necessary for
 units at all operational levels to seamlessly exchange information across
 different types of communication systems. To NATO, this concept is referred to
-as Network Enabled Capability(NEC). In a feasibility study, NATO identified the
-\gls{soa} and Web Services as key enablers\cite{nnec-study}.
+as \gls{nec}. In a feasibility study, NATO identified the \gls{soa} and Web
+Services as key enablers\cite{nnec-study}.
 
 Web services are well tested in civil environments where the network is stable
 and the bandwidth is abundant. However, military tactical networks may suffer
@@ -58,12 +61,12 @@ means. In joint military operations the relatively large number of member
 countries can be a challenge when setting up machine-to machine information
 exchange. Differences in communication systems and equipment can attribute to
 make data communicating difficult. In order to address this issue, NATO has
-chosen the \gls{soa} concept.
+chosen the \gls{soa} concept\cite{IST-090}.
 
 \subsection{Service-Oriented Architecture}
 \glsentryfull{soa} is an architectural pattern where application components
 provide services to other components over a network. \gls{soa} is built on
-principles such as object-orientation and distributed computing and aims to get
+concepts such as object-orientation and distributed computing and aims to get
 a loose coupling between clients and services. In their reference model for
 \gls{soa}\cite{oasis-soa-reference-model}, the Organization for the Advancement
 of Structured Information Standards (OASIS) define \gls{soa} as: \paragraph{}
@@ -86,8 +89,8 @@ providers publish service descriptions. Service consumers find the services they
 need by contacting the service registry. The communication between services
 occur through the exchange of standardized messages.
 
-Following the \gls{soa} principles dictates a loose coupling between services and
-service consumers which allows software system to be more flexible. Loose
+Following the \gls{soa} principles dictates a loose coupling between services
+and service consumers which allows software system to be more flexible. Loose
 coupling with regards to time enables services and its consumers to not be
 available at the same instance of time. This enables asynchronous communication.
 Loose coupling with regards to location allows the location of an service to be
@@ -122,8 +125,10 @@ high delay, high error rates and frequent disconnections. They are often called
 disadvantaged grids or DIL. NATO studies has identified such networks to have
 the following characteristics:
 \paragraph{}
-\textit{Disadvantaged grids are characterized by low bandwidth,variable throughput, unreliable connectivity, and energy constraints imposed by the wireless communications grid that link the nodes}\cite{nato-disadvantaged-grids}.
-
+\textit{Disadvantaged grids are characterized by low bandwidth,variable
+throughput, unreliable connectivity, and energy constraints imposed by the
+wireless communications grid that link the
+nodes}\cite{nato-disadvantaged-grids}.
 \paragraph{}
 The characteristics of these networks and what challenges they impose are
 discussed in detail in \cref{dil}.
@@ -135,8 +140,10 @@ networks where bandwidth are abundant, mobile tactical networks may suffer from
 high error rates and low bandwidth. Adapting Web service solutions meant for
 civil networks directly for military purposes may not be possible. Therefore,
 Web services needs to be adapted in order to handle network challenges. However,
-it can be very expensive to alter existing Web service technology and build own
-proprietary solutions. It is much better to use commercial off-the-shelf
+it can be very expensive to alter existing Web service technology and incoperate
+proprietary solutions. A NATO research task group has previously identfied the
+foundation on open standards to avoid tighter coupling between service providers
+and consumers\cite{IST-090}. It is much better to use commercial off-the-shelf
 software. By placing the optimization in proxies, the Web services can remain
 unchanged.
 
@@ -157,8 +164,8 @@ The Web services does not need to be changed.
 Denning.
 
 \section{Contribution}
-The outcome of this thesis is an recommandation regarding which optimizations techniques which can be used in DIL to enhance the performance of Web services.
-
+The outcome of this thesis is an recommandation regarding which optimizations
+techniques which can be used in DIL to enhance the performance of Web services.
 \section{Outline}
 Hvordan er resten av oppgaven strukturert.
 
@@ -174,13 +181,24 @@ Diskuterer eksisterende arbeid.
 %%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
-Web services are client and server applications that communicate over the World Wide Web and can be used to implement a service-oriented architecture. There exists many definitions of Web services where the core principles are the same, but the finer details may vary. The World Wide Web Consortium has defined Web Services as\cite{wrc-web-service}:
+Web services are client and server applications that communicate over a network
+and can be used to implement a service-oriented architecture. There exists many
+definitions of Web services where the core principles are the same, but the
+finer details may vary. The World Wide Web Consortium has defined Web Services
+as\cite{wrc-web-service}:
 \paragraph{}
-\textit{A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.}
+\textit{
+    A Web service is a software system designed to support interoperable
+    machine-to-machine interaction over a network. It has an interface described in
+    a machine-processable format (specifically WSDL). Other systems interact with
+    the Web service in a manner prescribed by its description using SOAP-messages,
+    typically conveyed using HTTP with an XML serialization in conjunction with
+    other Web-related standards.
+}
 
 \paragraph{}
-This definition points out a set of standards that enables machine-to-machine interactions. These standards are discussed in the following sections.
-
+This definition points out a set of standards that enables machine-to-machine
+interactions. These standards are discussed in the following sections.
 Figur her.
 
 \subsection{XML}
@@ -203,23 +221,35 @@ However, there also exist other types of Web services which does not follow the 
 \section{DIL}
 \label{dil}
 \paragraph{}
-These constrains of mobile tactical networks are central in order to understand the problem at hand, and I will therefore explain the concepts here:
-
+These constrains of mobile tactical networks are central in order to understand
+the problem at hand, and I will therefore explain the concepts here:
 \begin{description}
-\item[Bandwidth and throughput] The terms bandwidth and throughput are used interchangeably in the networking community and refers to the data transfer rate; how fast data can be transported from one point to another in given time period. This is often expressed in bits per second.
-\item[Unreliable connectivity] Units that are participating in a tactical network are highly mobile and may disconnect from a network either voluntarily or not. Unplanned loss of connectivity can be due to various reasons, such as loss of signal or equipment malfunction.
-\item[Energy constraints imposed by the wireless communication grid] The battery capacity and the transmission range of the communication equipment for mobile units may be limited. Another issue is that in some cases military units are required to enter radio silence in order to avoid being detected by the enemy. During radio silence units may only receive data and not send any.
+\item[Bandwidth and throughput] The terms bandwidth and throughput are used
+interchangeably in the networking community and refers to the data transfer
+rate; how fast data can be transported from one point to another in given time
+period. This is often expressed in bits per second.
+\item[Unreliable connectivity] Units that are participating in a tactical
+network are highly mobile and may disconnect from a network either voluntarily
+or not. Unplanned loss of connectivity can be due to various reasons, such as
+loss of signal or equipment malfunction.
+\item[Energy constraints imposed by the wireless communication grid] The battery
+capacity and the transmission range of the communication equipment for mobile
+units may be limited. Another issue is that in some cases military units are
+required to enter radio silence in order to avoid being detected by the enemy.
+During radio silence units may only receive data and not send any.
 \end{description}
 
-Theese constrains imposes some challenges when employing Web services in tactical networks. In paper X, tree areas that need to be addresses are identified\cite{IST-118}.
-
+These constrains impose some challenges when employing Web services in
+tactical networks. In a paper, tree areas that need to be addresses are
+identified\cite{IST-118}.
 \label{section:DIL-problems}
+
 \subsubsection{End-to-end connections}
 Attempting to establish and maintaining connections in DIL environments can lead to increased communication overhead and possible complete breakdown of communication.
 \subsubsection{Network heterogeneity}
 Different technologies used. Different performance in networks may lead to buildup of data in buffers, risking loss of information.
 \subsubsection{Web Service overhead}
-Web services generates overhead.
+Web services generate overhead.
 \section{Optimization techniques}
 Web services enables interoperability betweens system, but also increase the information overhead, requiring higher data rate demands. By using proxies, we can freely choose the communications protocols and configurations between the proxy pair without altering the Web Services themselves. In this thesis I will investigate different techniques in order to optimize the communication between a Web Service and a Web Service client. The optimization can be implemented at different levels of the protocol stack in use. \Cref{table:optimalization-overview} lists an overview of possible optimization techniques studied in this thesis.
 \\ \\
@@ -231,11 +261,13 @@ Web services enables interoperability betweens system, but also increase the inf
   \textbf{Protocol Stack} & \textbf{optimization possibilities} \\ \hline
   The application & Optimize the application\\ \hline
   Web service messaging: SOAP & Optimize SOAP, e.g XML compression \\ \hline
-  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other protocols can be used. \\ \hline
-  IP & NATO NEC feasibility study suggests that all protocols should be over IP. \\ \hline
+  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other
+  protocols can be used. \\ \hline
+  IP & NATO NEC feasibility study states that all protocols should be over IP. \\
+  \hline
   Lower layers & Not in the scope of this thesis. \\ \hline
 \end{tabularx}
-\caption{optimization possibilities.} \label{table:optimalization-overview}
+\caption{Optimization possibilities.} \label{table:optimalization-overview}
 \end{table}
 
 

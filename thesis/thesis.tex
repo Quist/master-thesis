@@ -13,6 +13,7 @@
 
 % Acronyms
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited environments}
+\newacronym{soa}{SOA}{Service-Oriented Architecture}
 
 \title{Improving the performance of Web Services in Disconnected, Intermittent and Limited Environments}
 \author{Joakim Johanson Lindquister}
@@ -41,7 +42,7 @@ making data communication difficult. In a military scenario it is necessary for
 units at all operational levels to seamlessly exchange information across
 different types of communication systems. To NATO, this concept is referred to
 as Network Enabled Capability(NEC). In a feasibility study, NATO identified the
-Service-Oriented Architecture and Web Services as key enablers\cite{nnec-study}.
+\gls{soa} and Web Services as key enablers\cite{nnec-study}.
 
 Web services are well tested in civil environments where the network is stable
 and the bandwidth is abundant. However, military tactical networks may suffer
@@ -57,25 +58,23 @@ means. In joint military operations the relatively large number of member
 countries can be a challenge when setting up machine-to machine information
 exchange. Differences in communication systems and equipment can attribute to
 make data communicating difficult. In order to address this issue, NATO has
-chosen the Service-Oriented Architecture concept.
+chosen the \gls{soa} concept.
 
 \subsection{Service-Oriented Architecture}
-Service-Oriented Architecture(SOA) is an architectural pattern where application
-components provide services to other components over a network. SOA is built on
+\glsentryfull{soa} is an architectural pattern where application components
+provide services to other components over a network. \gls{soa} is built on
 principles such as object-orientation and distributed computing and aims to get
 a loose coupling between clients and services. In their reference model for
-SOA\cite{oasis-soa-reference-model}, the Organization
-for the Advancement of Structured Information Standards (OASIS) define SOA as:
-\paragraph{} \textit{Service Oriented Architecture is a paradigm for organizing
-and utilizing distributed capabilities that may be under the control of
-different ownership domains. It provides a uniform means to offer, discover,
-interact with and use capabilities to produce desired effects consistent with
-measurable preconditions and expectations.}
-
-% SOA Trekant figur her
+\gls{soa}\cite{oasis-soa-reference-model}, the Organization for the Advancement
+of Structured Information Standards (OASIS) define \gls{soa} as: \paragraph{}
+\textit{Service Oriented Architecture is a paradigm for organizing and utilizing
+distributed capabilities that may be under the control of different ownership
+domains. It provides a uniform means to offer, discover, interact with and use
+capabilities to produce desired effects consistent with measurable preconditions
+and expectations.} % SOA Trekant figur her
 
 \paragraph{}
- In SOA business logic is divided into smaller chunks of logic,
+ In \gls{soa} business logic is divided into smaller chunks of logic,
 referred to as \textit{services}. A service can be business related, e.g a
 patient register service, or a infrastructure service used by other services and
 not by a user application.  Services are provided by \textit{service providers}
@@ -87,7 +86,7 @@ providers publish service descriptions. Service consumers find the services they
 need by contacting the service registry. The communication between services
 occur through the exchange of standardized messages.
 
-Following the SOA principles dictates a loose coupling between services and
+Following the \gls{soa} principles dictates a loose coupling between services and
 service consumers which allows software system to be more flexible. Loose
 coupling with regards to time enables services and its consumers to not be
 available at the same instance of time. This enables asynchronous communication.
@@ -104,7 +103,7 @@ proprietary solutions and vendor lock-in. Another benefit with SOA is
 reusability by dividing common business processes into services, which may help
 cost reduction and avoids duplication.
 
-SOA is only a pattern and the concepts can be realized by a range of
+\gls{soa} is only a pattern and the concepts can be realized by a range of
 technologies. The most common used approach is the Web service familiy of
 standards, using the SOAP messaging protocol. To achieve interoperability
 between systems from different nations and vendors, NATO has chosen the Web

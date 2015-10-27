@@ -202,19 +202,31 @@ interactions. These standards are discussed in the following sections.
 Figur her.
 
 \subsection{XML}
-Extensible Markup Language(XML) is a markup language and is considered as the base standard for Web services. An XML document consist of data surrounded by tags and is designed to be both machine and user readable. In a Web service, XML is used to tag the data.
-
+Extensible Markup Language(XML) is a markup language and is considered as the
+base standard for Web services. An XML document consist of data surrounded by
+tags and is designed to be both machine and user readable. In a Web service, XML
+is used to tag the data. 
 \subsection{Service descriptions: WSDL}
-Web Services Description Language(WSDL) is an interface definition language that using XML describes functionality offered by a Web service. The interface describes available functions, data types for message requests and responses and binding information about the transport protocol, as well as address information for locating the service.
-
+Web Services Description Language(WSDL) is an interface definition language that
+using XML describes functionality offered by a Web service. The interface
+describes available functions, data types for message requests and responses and
+binding information about the transport protocol, as well as address information
+for locating the service.
 \subsection{SOAP}
-SOAP is an application level XML based protocol specification for information exchange in the implementation of Web services. It is transport protocol agnostic and can be carried over various protocols. The far most used is HTTP over TCP, but other protocols such as UDP and SMTP can be used as well.
-
-A SOAP message consist of a optional header and a required body. The header can contain information not directly related to the message, such as routing information for the message. The body contains the data being sent, known as the payload.
-
+SOAP is an application level XML based protocol specification for information
+exchange in the implementation of Web services. It is transport protocol
+agnostic and can be carried over various protocols. The far most used is HTTP
+over TCP, but other protocols such as UDP and SMTP can be used as well.
+A SOAP message consist of a optional header and a required body. The header can
+contain information not directly related to the message, such as routing
+information for the message. The body contains the data being sent, known as the
+payload.
 \subsection{Other Web services}
-However, there also exist other types of Web services which does not follow the previously discussed standards. RESTful web services let users manipulate data using a set of stateless operations. It uses exclusively HTTP. REST services are easy to understand and have gained a lot of traction in the civil industry in the latest years.
-
+However, there also exist other types of Web services which does not follow the
+previously discussed standards. RESTful web services let users manipulate data
+using a set of stateless operations. It uses exclusively HTTP. REST services are
+easy to understand and have gained a lot of traction in the civil industry in
+the latest years.
 
 
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
@@ -245,14 +257,23 @@ identified\cite{IST-118}.
 \label{section:DIL-problems}
 
 \subsubsection{End-to-end connections}
-Attempting to establish and maintaining connections in DIL environments can lead to increased communication overhead and possible complete breakdown of communication.
-\subsubsection{Network heterogeneity}
-Different technologies used. Different performance in networks may lead to buildup of data in buffers, risking loss of information.
+Attempting to establish and maintaining connections in DIL environments can lead
+to increased communication overhead and possible complete breakdown of
+communication. \subsubsection{Network heterogeneity}
+Different technologies used. Different performance in networks may lead to
+buildup of data in buffers, risking loss of information.
 \subsubsection{Web Service overhead}
 Web services generate overhead.
 \section{Optimization techniques}
-Web services enables interoperability betweens system, but also increase the information overhead, requiring higher data rate demands. By using proxies, we can freely choose the communications protocols and configurations between the proxy pair without altering the Web Services themselves. In this thesis I will investigate different techniques in order to optimize the communication between a Web Service and a Web Service client. The optimization can be implemented at different levels of the protocol stack in use. \Cref{table:optimalization-overview} lists an overview of possible optimization techniques studied in this thesis.
-\\ \\
+Web services enables interoperability betweens system, but also increase the
+information overhead, requiring higher data rate demands. By using proxies, we
+can freely choose the communications protocols and configurations between the
+proxy pair without altering the Web Services themselves. In this thesis I will
+investigate different techniques in order to optimize the communication between
+a Web Service and a Web Service client. The optimization can be implemented at
+different levels of the protocol stack in use.
+\Cref{table:optimalization-overview} lists an overview of possible optimization
+techniques studied in this thesis. \\ \\
 
 %%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
 \begin{table}[h]
@@ -291,18 +312,24 @@ HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP i
   HTTP over TCP & Widely used. Breaks down in DIL environments.\\ \hline
   Military Message Handling System(MMHS) & Optimize the application\\ \hline
   Stream Control Transmission Protocol(SCTP) & Features multihoming. \\ \hline
-  Advanced Message Queuing Protocol(AMPQ) & Application level protocol. Employs a broker architecture with store-and-forward capabilities. \\ \hline
+  Advanced Message Queuing Protocol(AMPQ) & Application level protocol. Employs
+  a broker architecture with store-and-forward capabilities. \\ \hline
   SOAP directly on TCP & Its possible \\ \hline
 \end{tabularx}
 \caption{Transport protocols}
 \end{table}
 
 \section{Proxies}
-A proxy is a server that acts as intermediary for requests between a client and server over a network. Proxies can be used to accomplish different tasks, from caching web content to bypassing filtering and censorship. We can group proxies into three types, forwarding proxies, reverse proxies and gateway proxies.
-
+A proxy is a server that acts as intermediary for requests between a client and
+server over a network. Proxies can be used to accomplish different tasks, from
+caching web content to bypassing filtering and censorship. We can group proxies
+into three types, forwarding proxies, reverse proxies and gateway proxies.
 \section{Requirement Analysis}
-A discussed in \cref{section:DIL-problems}, the dependency on end-to-end connections needs to be removed. This can be done by adding proxies to the network.
-Mobile units have to carry batteries with them and the capacity is therefore limited. Advanced compression techniques may reduce the overhead, but also requires more battery. This trade-off needs to be considered.
+A discussed in \cref{section:DIL-problems}, the dependency on end-to-end
+connections needs to be removed. This can be done by adding proxies to the
+network. Mobile units have to carry batteries with them and the capacity is
+therefore limited. Advanced compression techniques may reduce the overhead, but
+also requires more battery. This trade-off needs to be considered.
 \\ \\ \\
 \begin{table}[h]
 \begin{tabular}{| l | l |}

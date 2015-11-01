@@ -106,23 +106,23 @@ enable services and its consumers to not be available at the same instance of
 time. This enables asynchronous communication. Loose coupling with regards to
 location allows the location of an service to be changed without needing to
 reprogram, reconfigure, or restart the service consumers. This is possible
-through the usage of service discovery, which is dynamicly retreive the new
-location of the service.
+through the usage of service discovery, which is dynamically retrieval of the
+new location of the service.
 
-Furthermore SOA enables service implementation neutrality. The implementation of
-service is completely separated from the service description. This allows
-re-implementation and alteration of a service without affecting the service
-consumers. Thus this can attribute to keep development costs low and avoiding
-proprietary solutions and vendor lock-in. Another benefit with SOA is
-reusability by dividing common business processes into services, which may help
-cost reduction and avoids duplication. \gls{soa} is only a pattern and the
-concepts can be realized by a range of technologies. The most common used
-approach is the Web service familiy of standards, using the SOAP messaging
-protocol. To achieve interoperability between systems from different nations and
-vendors, NATO has chosen the Web service technology in order to realize the SOA
-principles. This allows member nations to implement their own technology as long
-as they adhere to the standards. Web services are are discussed in detail in
-\cref{web-services}.
+Furthermore \gls{soa} enables service implementation neutrality. The
+implementation of service is completely separated from the service description.
+This allows re-implementation and alteration of a service without affecting the
+service consumers. Thus this can attribute to keep development costs low and
+avoiding proprietary solutions and vendor lock-in. Another benefit with
+\gls{soa} is re-usability by dividing common business processes into services,
+which may help cost reduction and avoids duplication. \gls{soa} is only a
+pattern and the concepts can be realized by a range of technologies. The most
+common used approach is the Web service familiy of standards, using the SOAP
+messaging protocol. To achieve interoperability between systems from different
+nations and vendors, NATO has chosen the Web service technology in order to
+realize the \gls{soa}  principles. This allows member nations to implement their
+own technology as long as they adhere to the standards. Web services are are
+discussed in detail in \cref{web-services}.
 
 \subsection{Military Networks}
 % Trenger mer kjøtt her.
@@ -133,7 +133,7 @@ infrastructure with the same characteristics as civil networks.
 Tactical networks are characterized by that the units are deployed to operate in
 a battlefield, which means there is no existing communication infrastructure.
 They use tactical communication equipment which includes technologies like VHF,
-UHF, HF, tactical broadband and satellites\cite{ist-90}. % Mangler referanse på bruk av satelitter.
+UHF, HF, tactical broadband and satellites\cite{IST-090}. % Mangler referanse på bruk av satelitter.
 Examples of such units are mobile units like vehicles, foot soldiers and field
 headquarters. The tactical network connects deployed headquarters with mobile
 units. These types of networks are unpredictable and may have very low date
@@ -158,8 +158,8 @@ from high error rates and low date rate. Adapting Web service solutions meant
 for civil networks directly for military purposes may not be possible.
 Therefore, Web services needs to be adapted in order to handle network
 challenges. However, it can be very expensive to alter existing Web service
-technology and incoperate proprietary solutions. A NATO research task group has
-previously identfied the foundation on open standards to avoid tighter coupling
+technology and incorporate proprietary solutions. A NATO research task group has
+previously identified the foundation on open standards to avoid tighter coupling
 between service providers and consumers\cite{IST-090}. It is much better to use
 commercial off-the-shelf software. By placing the optimization in proxies, the
 Web services can remain unchanged.
@@ -183,7 +183,7 @@ Sikkerhet er ikke adressert i denne oppgaven.
 Denning.
 
 \section{Contribution}
-The outcome of this thesis is an recommandation regarding which optimizations
+The outcome of this thesis is an recommendation regarding which optimizations
 techniques which can be used in DIL to enhance the performance of Web services.
 \section{Outline}
 Hvordan er resten av oppgaven strukturert.
@@ -198,7 +198,7 @@ IST-090 ser på muligheten av å bruke SOA på taktisk nivå, med spesielt fokus
 disadvantged grids. Fokuserer på mulighet for Web services across disadvantaged
 networks. Samt Data Distribution Service(DDS) på taktisk nivå.
 
-Three key issues that needs to be adressed in order to apply Web services in
+Three key issues that needs to be addressed in order to apply Web services in
 tactical networks has been identified in previous work\cite{IST-118}:
 \label{section:DIL-problems}
 
@@ -210,7 +210,7 @@ communication. The dependency on end-to-end connection should be removed.
 Different technologies used. Different performance in networks may lead to
 buildup of data in buffers, risking loss of information.
 \subsubsection{Web Service overhead}
-Web services generate overhead. Optimalization approuched should seek to reduce
+Web services generate overhead. Optimization approaches should seek to reduce
 the network traffic generated by Web services.
 
 \subsection{Proxies}
@@ -290,7 +290,7 @@ vary from seconds to days.
 
 \paragraph{Limited}
 The Date rate, how many bits that are sent per second, is limited in \gls{dil}
-networks. Various aspects of the communcation link can attribute to this:
+networks. Various aspects of the communication link can attribute to this:
 
 \begin{description}
 
@@ -299,11 +299,11 @@ there is between the units communicating.
 
 \item[Link reliability] How much of the arriving data that is correct. This is
 called \textit{bit error rate} or \textit{packet error rate}. With high error
-rates, more data to be transmitted again due to the data arring being incorrect.
+rates, more data to be transmitted again due to the data arriving being incorrect.
 This contributes to longer transmission time. In a military setting, an enemy
-may delibarate sabotage the network with jamming, causing higher error rates.
+may deliberate sabotage the network with jamming, causing higher error rates.
 
-\item[Link latency] The communication technology in use influces how fast data
+\item[Link latency] The communication technology in use influences how fast data
 transmission can be done. Long delay may cause that the application sending data
 timing out.
 
@@ -319,26 +319,26 @@ During radio silence units may only receive data and not send any.
 \section{Optimization techniques}
 The Web service technology enable interoperability between systems, but also
 increase the information overhead, requiring higher data rate demands. Employing
-Web Services developed for use in civilan networks directly into a \gls{dil}
+Web Services developed for use in civilian networks directly into a \gls{dil}
 environment may not perform satisfactorily. To increase the performance we can
 apply optimalization techniques. There are many approaches and optimalization
 techniques which can be applied at different levels of the protocol stack. In
-the coming sections the different optimalization techniques are presented and a
+the coming sections the different optimization techniques are presented and a
 overview is presented in \Cref{table:optimalization-overview}. Another issue
-that needs to be addressed is, when we have identified optimalization
-techniques, where do we place them? In the application itself or in a proxy?
-This is discussed in the next section.
+that needs to be addressed is, when we have identified optimization techniques,
+where do we place them? In the application itself or in a proxy? This is
+discussed in the next section.
 
 \subsection{Where to place the optimalization?}
 One approach is to modify the Web service application itself. However, this
 would mean that every application that is used in a tactical network would
-require modification. This would require alot of resources and severly limit the
-flexibility of using Web services. Another solution is, by using proxies, we can
-place the optimalization there without altering the Web Services themselves. The
-only thing required to do is to setup the application to send and receive data
-through the proxy. The proxy will take care of the optimalization for tactical
-networks. This seems like a more reasonable approach and is explored in this
-thesis.
+require modification. This would require a lot of resources and severely limit
+the flexibility of using Web services. Another solution is, by using proxies, we
+can place the optimization there without altering the Web Services themselves.
+The only thing required to do is to setup the application to send and receive
+data through the proxy. The proxy will take care of the optimization for
+tactical networks. This seems like a more reasonable approach and is explored in
+this thesis.
 
 
 %%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
@@ -425,7 +425,7 @@ Squid is a fully-featured HTTP/1.0 proxy.
 \caption{Architectural overview of proposed design}
 \end{figure}
 
-
+\subsection{Apache Camel}
 
 \subsection{Tuning application server configuration}
 

@@ -12,7 +12,7 @@
 \makeglossaries
 
 % Acronyms
-\newacronym{dil}{DIL}{Disconnected, Intermittent and Limited environments}
+\newacronym{dil}{DIL}{Disconnected, Intermittent and Limited}
 \newacronym{nec}{NEC}{Network Enabled Capability}
 \newacronym{soa}{SOA}{Service-Oriented Architecture}
 
@@ -40,7 +40,7 @@ Web services in typical tactical network environments.
 Military units may operate under conditions where the reliability of the network
 connection is low. They can operate far from existing communication
 infrastructure and rely only on wireless communication. Such networks are often
-characterized by unreliable connections with low bandwidth and high error rates
+characterized by unreliable connections with low date rate and high error rates
 making data communication difficult. In a military scenario it is necessary for
 units at all operational levels to seamlessly exchange information across
 different types of communication systems. To NATO, this concept is referred to
@@ -48,10 +48,12 @@ as \gls{nec}. In a feasibility study, NATO identified the \gls{soa} and Web
 Services as key enablers\cite{nnec-study}.
 
 Web services are well tested in civil environments where the network is stable
-and the bandwidth is abundant. However, military networks may suffer
-from high error rates and low bandwidth which can leave the Web services
-unusable. In this thesis I investigate how these challenges can be overcome by applying optimization techniques at different layers of the protocol stack.
-%Ikke ta for gitt at sensor vet hva protocol stack er? Kanske forenkle eller utdype
+and the data rate is abundant. However, military networks may suffer from high
+error rates and very low date rate, which can leave the Web services unusable.
+In this thesis I investigate how these challenges can be overcome by applying
+optimization techniques at different layers of the protocol stack.
+%Ikke ta for gitt at sensor vet hva protocol stack er? Kanske forenkle eller
+% utdype
 
 \section{Background and Motivation}
 NATO is a military alliance consisting of 28 member
@@ -77,26 +79,35 @@ capabilities to produce desired effects consistent with measurable preconditions
 and expectations.} % SOA Trekant figur her
 
 \paragraph{}
- In \gls{soa} business logic is divided into smaller chunks of logic,
-referred to as \textit{services}. A service can be business related, e.g a
-patient register service, or a infrastructure service used by other services and
-not by a user application.  Services are provided by \textit{service providers}
-and are consumed by \textit{service consumers}. The service provider is
-responsible for creating a service description, making the service available to
-others and implementing the service according to the service description.
-Services are made available through a \textit{service registry}, where service
-providers publish service descriptions. Service consumers find the services they
-need by contacting the service registry. The communication between services
-occur through the exchange of standardized messages.
+ In \gls{soa} business logic is divided into smaller chunks of logic, referred
+ to as \textit{services}. A service can be business related, e.g a patient
+ register service, or a infrastructure service used by other services and not by
+ a user application.  Services are provided by \textit{service providers} and
+ are consumed by \textit{service consumers}. The service provider is responsible
+ for creating a service description, making the service available to others and
+ implementing the service according to the service description. Services are
+ made available to service consumers through a form of \textit{service
+ discovery}. This can be a static configuration, or more dynamic with a central
+ \textit{service registry}, where service providers publish service
+ descriptions. Service consumers find the services they need by contacting the
+ service registry. The communication between services occur through the exchange
+ of standardized messages.
 
-Following the \gls{soa} principles dictates a loose coupling between services
-and service consumers which allows software system to be more flexible. Loose
-coupling with regards to time enables services and its consumers to not be
-available at the same instance of time. This enables asynchronous communication.
-Loose coupling with regards to location allows the location of an service to be
-changed without needing to reprogram, reconfigure, or restart the service
-consumers. This is possible through the usage of the service registry, which is
-updated with the new location.
+\begin{figure}[h]
+\includegraphics[scale=0.6]{images/SOA.png}
+\caption{The three roles in SOA(from \cite{IST-090})}
+\end{figure}
+
+Following the \gls{soa} principles dictates a very loose coupling between
+services and the consumers of those. This allows software systems to be more
+flexible, as new components can be integrated with minimal impact on the
+existing system. Another aspect of loose coupling is with regard to time, which
+enable services and its consumers to not be available at the same instance of
+time. This enables asynchronous communication. Loose coupling with regards to
+location allows the location of an service to be changed without needing to
+reprogram, reconfigure, or restart the service consumers. This is possible
+through the usage of service discovery, which is dynamicly retreive the new
+location of the service.
 
 Furthermore SOA enables service implementation neutrality. The implementation of
 service is completely separated from the service description. This allows
@@ -104,15 +115,14 @@ re-implementation and alteration of a service without affecting the service
 consumers. Thus this can attribute to keep development costs low and avoiding
 proprietary solutions and vendor lock-in. Another benefit with SOA is
 reusability by dividing common business processes into services, which may help
-cost reduction and avoids duplication.
-
-\gls{soa} is only a pattern and the concepts can be realized by a range of
-technologies. The most common used approach is the Web service familiy of
-standards, using the SOAP messaging protocol. To achieve interoperability
-between systems from different nations and vendors, NATO has chosen the Web
-service technology in order to realize the SOA principles. This allows member
-nations to implement their own technology as long as they adhere to the
-standards. Web services are are discussed in detail in \cref{web-services}.
+cost reduction and avoids duplication. \gls{soa} is only a pattern and the
+concepts can be realized by a range of technologies. The most common used
+approach is the Web service familiy of standards, using the SOAP messaging
+protocol. To achieve interoperability between systems from different nations and
+vendors, NATO has chosen the Web service technology in order to realize the SOA
+principles. This allows member nations to implement their own technology as long
+as they adhere to the standards. Web services are are discussed in detail in
+\cref{web-services}.
 
 \subsection{Military Networks}
 % Trenger mer kjøtt her.
@@ -121,12 +131,12 @@ infrastructure with the same characteristics as civil networks.
 
 \subsubsection{Tactical Networks}
 Mobile tactical networks are characterized by that the units use tactical
-communication equipment which includes technologies like VHF, UHF, HF,
-tactical broadband and satellites. Examples of such units are mobile units
-like vehicles, foot soldiers and field headquarters. These types of networks
-have low bandwidth, possibly high delay, high error rates and frequent
-disconnections. They are often called disadvantaged grids or DIL. NATO studies
-has identified such networks to have the following characteristics:
+communication equipment which includes technologies like VHF, UHF, HF, tactical
+broadband and satellites. Examples of such units are mobile units like vehicles,
+foot soldiers and field headquarters. These types of networks may have very low
+date rate, possibly high delay, high error rates and frequent disconnections.
+They are often called disadvantaged grids or \gls{dil}. NATO studies has
+identified such networks to have the following characteristics:
 
 \textit{
 Disadvantaged grids are characterized by low bandwidth,variable throughput,
@@ -139,19 +149,19 @@ discussed in detail in \cref{dil}.
 \section{Problem Statement}
 Most of the Web Service solutions used today are aimed for civilian use and does
 not necessarily perform well in military environments. In contrast to civilian
-networks where bandwidth are abundant, mobile tactical networks may suffer from
-high error rates and low bandwidth. Adapting Web service solutions meant for
-civil networks directly for military purposes may not be possible. Therefore,
-Web services needs to be adapted in order to handle network challenges. However,
-it can be very expensive to alter existing Web service technology and incoperate
-proprietary solutions. A NATO research task group has previously identfied the
-foundation on open standards to avoid tighter coupling between service providers
-and consumers\cite{IST-090}. It is much better to use commercial off-the-shelf
-software. By placing the optimization in proxies, the Web services can remain
-unchanged.
+networks where the date rate is abundant, mobile tactical networks may suffer
+from high error rates and low date rate. Adapting Web service solutions meant
+for civil networks directly for military purposes may not be possible.
+Therefore, Web services needs to be adapted in order to handle network
+challenges. However, it can be very expensive to alter existing Web service
+technology and incoperate proprietary solutions. A NATO research task group has
+previously identfied the foundation on open standards to avoid tighter coupling
+between service providers and consumers\cite{IST-090}. It is much better to use
+commercial off-the-shelf software. By placing the optimization in proxies, the
+Web services can remain unchanged.
 
 The goal of this thesis is to investigate different optimization techniques that
-can be applied in order to improve Web service performance in disadvantaged
+can be applied in order to improve Web service performance in \gls{dil}
 networks. In order for the clients and services to remain interoperable the
 optimization techniques will be placed in proxies. The Web Services will
 communicate as normal, while all network traffic is tunneled through a proxy.
@@ -208,7 +218,7 @@ Figur her.
 Extensible Markup Language(XML) is a markup language and is considered as the
 base standard for Web services. An XML document consist of data surrounded by
 tags and is designed to be both machine and user readable. In a Web service, XML
-is used to tag the data. 
+is used to tag the data.
 \subsection{Service descriptions: WSDL}
 Web Services Description Language(WSDL) is an interface definition language that
 using XML describes functionality offered by a Web service. The interface
@@ -233,20 +243,18 @@ the latest years.
 
 
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
-\section{DIL}
+\section{\glsentrylong{dil}}
 \label{dil}
-\paragraph{}
-These constrains of mobile tactical networks are central in order to understand
-the problem at hand, and I will therefore explain the concepts here:
+The \gls{dil} concept refers to three characteristics of a network. As discussed
+in the introduction, military tactical networks may suffer from these constraints. These limitations are discussed in this section.
+
 \begin{description}
-\item[Bandwidth and throughput] The terms bandwidth and throughput are used
-interchangeably in the networking community and refers to the data transfer
-rate; how fast data can be transported from one point to another in given time
-period. This is often expressed in bits per second.
-\item[Unreliable connectivity] Units that are participating in a tactical
-network are highly mobile and may disconnect from a network either voluntarily
-or not. Unplanned loss of connectivity can be due to various reasons, such as
-loss of signal or equipment malfunction.
+\item[Limited] Date rate
+\item[Intermittent] Military units that are participating in a tactical network
+are highly mobile and may disconnect from a network either voluntarily or not.
+Unplanned loss of connectivity can be due to various reasons, such as loss of
+signal or equipment malfunction. Durations of disconnections can vary from
+seconds to days.
 \item[Energy constraints imposed by the wireless communication grid] The battery
 capacity and the transmission range of the communication equipment for mobile
 units may be limited. Another issue is that in some cases military units are

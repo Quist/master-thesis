@@ -275,16 +275,34 @@ Different technologies used. Different performance in networks may lead to
 buildup of data in buffers, risking loss of information.
 \subsubsection{Web Service overhead}
 Web services generate overhead.
+
+
+
+
 \section{Optimization techniques}
-Web services enables interoperability betweens system, but also increase the
-information overhead, requiring higher data rate demands. By using proxies, we
-can freely choose the communications protocols and configurations between the
-proxy pair without altering the Web Services themselves. In this thesis I will
-investigate different techniques in order to optimize the communication between
-a Web Service and a Web Service client. The optimization can be implemented at
-different levels of the protocol stack in use.
-\Cref{table:optimalization-overview} lists an overview of possible optimization
-techniques studied in this thesis. \\ \\
+The Web service technology enable interoperability between systems, but also
+increase the information overhead, requiring higher data rate demands. Employing
+Web Services developed for use in civilan networks directly into a \gls{dil}
+environment may not perform satisfactorily. To increase the performance we can
+apply optimalization techniques. There are many approaches and optimalization
+techniques which can be applied at different levels of the protocol stack. In
+the coming sections the different optimalization techniques are presented and a
+overview is presented in \Cref{table:optimalization-overview}. Another issue
+that needs to be addressed is, when we have identified optimalization
+techniques, where do we place them? In the application itself or in a proxy?
+This is discussed in the next section.
+
+\subsection{Where to place the optimalization?}
+One approach is to modify the Web service application itself. However, this
+would mean that every application that is used in a tactical network would
+require modification. This would require alot of resources and severly limit the
+flexibility of using Web services. Another solution is, by using proxies, we can
+place the optimalization there without altering the Web Services themselves. The
+only ting required to do is to setup the application to send and receive data
+through the proxy. The proxy will take care of the optimalization for tactical
+networks. This seems like a more reasonable approach and is explored in this
+thesis.
+
 
 %%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
 \begin{table}[h]

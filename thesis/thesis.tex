@@ -172,7 +172,7 @@ technology and incorporate proprietary solutions. A NATO research task group has
 previously identified the foundation on open standards to avoid tighter coupling
 between service providers and consumers\cite{IST-090}. It is much better to use
 \gls{cots} software. By placing the optimization in proxies, the
-Web services can remain unchanged.
+Web Services can remain unchanged.
 
 The goal of this thesis is to investigate different optimization techniques that
 can be applied in order to improve Web service performance in \gls{dil}
@@ -208,8 +208,11 @@ IST-090 ser på muligheten av å bruke SOA på taktisk nivå, med spesielt fokus
 disadvantged grids. Fokuserer på mulighet for Web services across disadvantaged
 networks. Samt Data Distribution Service(DDS) på taktisk nivå.
 
-Three key issues that needs to be addressed in order to apply Web Services in
-tactical networks has been identified in previous work\cite{IST-118}\cite{IST-090}:
+In the report IST-090, a task group investigated solutions for making \gls{SOA}
+applicable at the tactical level. Three key issues that needs to be addressed in
+order to apply Web Services in tactical networks was
+identified\cite{IST-118}\cite{IST-090}:
+
 \label{section:DIL-problems}
 
 \subsubsection{End-to-end connections}
@@ -275,7 +278,13 @@ which allows \gls{COTS} clients to function in DIL networks.
 
 \gls{afro} is an edge proxy which offers different levels of \gls{qos} to Web
 Services through performance monitoring and application of the context-aware
-service provision paradigm.
+service provision paradigm. It perform so called adaption actions, which
+modifies the SOAP XML messages by changing their encoding to more efficient data
+representation. It also cuts out information that are accepted to be removed by
+the service requester. However, since the proxy modifies the data being sent,
+the checksum of the data is also changed. In applications where we want to be
+sure that no one has tempered with the data before arriving, checksums is often
+used. Therefor this solution would not work for such applications.
 
 
 \subsection{Configuration}
@@ -287,7 +296,7 @@ plasseres i proxier.
 %%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
-Web services are client and server applications that communicate over a network
+Web Services are client and server applications that communicate over a network
 and can be used to implement a service-oriented architecture. All communication
 is based on sending XML-based SOAP messages. There exists many definitions of
 Web services where the core principles are the same, but the finer details may
@@ -304,9 +313,11 @@ as\cite{wrc-web-service}:
 }
 
 \paragraph{}
+
 This definition points out a set of standards that enables machine-to-machine
-interactions. These standards are discussed in the following sections.
-Figur her.
+interactions. These standards are discussed in the following sections. The Web
+Service technology, following the \gls{soa} principles, provides loouse coupling
+and ease integration beteween systems. Figur her.
 
 
 \subsection{XML}

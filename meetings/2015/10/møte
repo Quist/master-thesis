@@ -1,18 +1,15 @@
 Siden sist
-
+=======
 Begynt å skrive. Har ikke hatt så mye tid i det siste.
 
-Hvordan struktere?
-Hva skal i introduction og hva skal i background?
 
-Hvor mye "fakta" skal jeg skrive om Web services og SOAP.
-
-
+Struktur
+========
 Helt overordnet i introduksjonen.
 Utdyp i bakgrunn.
 
 Intro
-SOA- Web services . Hvorfor, hva er bra med det.
+SOA - Web services . Hvorfor, hva er bra med det.
 DIL på høyt nivå. Utfordringen. Avbrudd, korte og lange. - Adapsjon.
 Din opppgave.
     IST-090 - Anbefaler proxy. Hva skal jeg gjøre i forhold til det. Systematisk tilnærming til å se på hvilke optmaliseringer man kan gjøre.
@@ -32,7 +29,3 @@ Clienter for implementering:
 1. Profilering. Wireshark.
 
 2. Fungerende FAS, functional area service. Blue force tracking.
-
-
-Refranser - sider?
-Optimaliseringsteknikker i introen.

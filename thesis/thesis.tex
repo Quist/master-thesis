@@ -14,7 +14,10 @@
 % Acronyms
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited}
 \newacronym{nec}{NEC}{Network Enabled Capability}
+\newacronym{rest}{REST}{Restful web services}
 \newacronym{soa}{SOA}{Service-Oriented Architecture}
+\newacronym{soap}{SOAP}{SOAP}
+\newacronym{xml}{XML}{Extensible Markup Language}
 
 \title{Improving the performance of Web Services in Disconnected, Intermittent
 and Limited Environments}
@@ -110,7 +113,7 @@ reprogram, reconfigure, or restart the service consumers. This is possible
 through the usage of service discovery, which is dynamically retrieval of the
 new location of the service.
 
-Furthermore \gls{soa} enables service implementation neutrality. The
+ Furthermore \gls{soa} enables service implementation neutrality. The
 implementation of service is completely separated from the service description.
 This allows re-implementation and alteration of a service without affecting the
 service consumers. Thus this can attribute to keep development costs low and
@@ -120,10 +123,12 @@ which may help cost reduction and avoids duplication. \gls{soa} is only a
 pattern and the concepts can be realized by a range of technologies. The most
 common used approach is the Web service familiy of standards, using the SOAP
 messaging protocol. To achieve interoperability between systems from different
-nations and vendors, NATO has chosen the Web service technology in order to
-realize the \gls{soa}  principles. This allows member nations to implement their
-own technology as long as they adhere to the standards. Web services are are
-discussed in detail in \cref{web-services}.
+nations and vendors, NATO has chosen the Web Service technology in order to
+realize the \gls{soa}  principles. This allows member nations to implement
+their own technology as long as they adhere to the standards. The Web service
+technology is discussed in detail in \cref{web-services}. Another approach to
+\gls{soa} is \gls{rest}, which use HTTP over TCP. \gls{rest} has gained a lot
+of traction in the civil industry and is discussed in section \cref{rest}.
 
 \subsection{Military Networks}
 % Trenger mer kjøtt her.
@@ -227,9 +232,10 @@ plasseres i proxier.
 \section{Web services}
 \label{web-services}
 Web services are client and server applications that communicate over a network
-and can be used to implement a service-oriented architecture. There exists many
-definitions of Web services where the core principles are the same, but the
-finer details may vary. The World Wide Web Consortium has defined Web Services
+and can be used to implement a service-oriented architecture. All communication
+is based on sending XML-based SOAP messages. There exists many definitions of
+Web services where the core principles are the same, but the finer details may
+vary. The World Wide Web Consortium has defined Web Services
 as\cite{wrc-web-service}:
 \paragraph{}
 \textit{
@@ -247,7 +253,7 @@ interactions. These standards are discussed in the following sections.
 Figur her.
 
 \subsection{XML}
-Extensible Markup Language(XML) is a markup language and is considered as the
+\gls{xml} is a markup language and is considered as the
 base standard for Web services. An XML document consist of data surrounded by
 tags and is designed to be both machine and user readable. In a Web service, XML
 is used to tag the data.
@@ -258,21 +264,23 @@ describes available functions, data types for message requests and responses and
 binding information about the transport protocol, as well as address information
 for locating the service.
 \subsection{SOAP}
-SOAP is an application level XML based protocol specification for information
-exchange in the implementation of Web services. It is transport protocol
-agnostic and can be carried over various protocols. The far most used is HTTP
-over TCP, but other protocols such as UDP and SMTP can be used as well.
-A SOAP message consist of a optional header and a required body. The header can
-contain information not directly related to the message, such as routing
-information for the message. The body contains the data being sent, known as the
-payload.
-\subsection{Other Web services}
+\gls{soap} is an application level XML based protocol specification for
+information exchange in the implementation of Web services. It It is transport
+protocol agnostic and can be carried over various protocols. The far most used
+is HTTP over TCP, but other protocols such as UDP and SMTP can be used as well.
+A SOAP message is an "envelope" consisting of an optional header and a required
+body. The header can contain information not directly related to the message,
+such as routing information for the message. The body contains the data being
+sent, known as the payload.
+\subsection{\glsentrylong{rest}}
+\label{rest}
 However, there also exist other types of Web services which does not follow the
-previously discussed standards. RESTful web services let users manipulate data
-using a set of stateless operations. It uses exclusively HTTP. REST services are
-easy to understand and have gained a lot of traction in the civil industry in
-the latest years.
-
+previously discussed standards. \glsentrylong{rest} let users manipulate data
+using a set of stateless operations. \gls{rest} is easy to understand and has
+gained a lot of traction in the civil industry in the latest years. \gls{rest}
+uses exclusively HTTP over TCP. However, TCP does not necessarily perform
+satisfactorily in \gls{dil} environments, which limits the usability in tactical
+networks(trenger kilde?).
 
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
 \section{\glsentrylong{dil}}

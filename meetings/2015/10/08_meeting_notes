@@ -1,0 +1,44 @@
+Diverse
+=====
+
+### Hva kan man forvente sensor kan?
+Generelt om nettverk. Han kan ikke noe om SOA, militære nett og utfordringer med militære nett.
+Han kan ikke protokoller utover TCP/HTTP.
+
+Ikke snakk om Disadvantaged grids, men om DIL!
+
+Skriv om hva som skiller det jeg skal gjøre i min masteroppgave mot tidligere arbeid. Hva er nytt med det jeg skal gjøre?
+=> Det har ikke blitt lagd proxier for både rest/web services før -> kun SOAP proxier!
+
+Oppgave struktur
+=====
+### Introduksjon
+Diskutere SOA. Så komme inn på Web services og REST. SÅ snakke om SOAP
+
+Snakke om krav til proxien. For at den skal kunne bli sikkerhetsgodkjent er det viktig at den ikke er for komplisert. Keep it simple studpid!
+Proxy må være enkel og mulig og verifisiere.
+For kompleks -> dyr og vanskelig å gjennomføre!
+
+Introduser proxier og hva det er for noe i introduksjonen. Pek på studier som sier at proxier er veien å gå -> IST-090.
+
+Sensor vet ingenting om militære nett. Her må det fortelles mer i detalj. Kanskje en figur?
+
+### Generelt
+Ikke bruk ordet bandwidth, bruk data rate, throughput.
+
+
+### Proxier
+Snakk om related work.
+
+Kategoriser proxier. HTTP-proxier/SOAP-proxier. Transparent proxies etc. Så fortell om hva jeg skal lage.
+
+Snakke om DSProxy.
+
+Eksisterende proxier: AFRO og Netproxy. Jeg burde google og undersøke.
+
+Skrive om hvordan deployere proxier. Kjøretøyseksempel?
+
+ ### Komprimering.
+Batterihensyn. Viktig med valg av implmentasjon av algoritme.
+
+Jeg skal bruke GZIP. Skriv om hvorfor

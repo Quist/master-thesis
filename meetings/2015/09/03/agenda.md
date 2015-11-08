@@ -1,0 +1,24 @@
+Møte med veiledere 25. august 2015
+====================
+FFI
+
+#### Tilstede:
+
+Trude & Frank
+
+Joakim
+
+
+Siden sist
+- Jeg har satt opp eksempel Web Services med Spring.
+- Sett på proxien til Eggum.
+- Sett igjenom masteren til Michael og overført litt av strukturen til min egen oppgave.
+
+
+Tomcat vs Glassfish vs Standalone.
+  - Hvilke benefits ulemper har de forskjellige?
+  - Hordan konfiguere web Servicene til å bruke proxien. Settes det opp i Web
+    Servicene eller applikasjonsserveren?
+    - Java EE
+
+Web Servicene - Forskjell på client/server eller to Web Services som bare snakker sammen?

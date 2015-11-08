@@ -1,0 +1,31 @@
+Siden sist
+=======
+Begynt å skrive. Har ikke hatt så mye tid i det siste.
+
+
+Struktur
+========
+Helt overordnet i introduksjonen.
+Utdyp i bakgrunn.
+
+Intro
+SOA - Web services . Hvorfor, hva er bra med det.
+DIL på høyt nivå. Utfordringen. Avbrudd, korte og lange. - Adapsjon.
+Din opppgave.
+    IST-090 - Anbefaler proxy. Hva skal jeg gjøre i forhold til det. Systematisk tilnærming til å se på hvilke optmaliseringer man kan gjøre.
+Metode. Denning, glass. Engineering
+Claims - Forskningsspørsmål som skal besvares i oppgaven. Taktisk adapsjon av web Services. Hvor lavt båndbredde kan vi bruke Web services på. etc. Hyllevare. Ca 3. claims.
+Outline
+Ikke nevne opptimaliseringsteknikker her!
+
+Background
+Trenger ikke si noe om SOA.
+Web service. Trekant. Hvordan fungerer det. Finnes mange flere standarer enn de tre. 2-4 sider. SOAP - Transportuavhengig.
+
+Krav og premisstabell. "Outputen" til background.
+
+
+Clienter for implementering:
+1. Profilering. Wireshark.
+
+2. Fungerende FAS, functional area service. Blue force tracking.

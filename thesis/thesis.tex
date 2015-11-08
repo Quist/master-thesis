@@ -12,11 +12,15 @@
 \makeglossaries
 
 % Acronyms
+\newacronym{afro}{AFRO}{Adaption Framework foR Web Services prOvision}
+\newacronym{cots}{COTS}{Commercial off-the-shelf}
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited}
 \newacronym{nec}{NEC}{Network Enabled Capability}
+\newacronym{qos}{QoS}{Quality of Service}
 \newacronym{rest}{REST}{Restful web services}
 \newacronym{soa}{SOA}{Service-Oriented Architecture}
 \newacronym{soap}{SOAP}{SOAP}
+\newacronym{wsdl}{WSDL}{Web Services Description Language}
 \newacronym{xml}{XML}{Extensible Markup Language}
 
 \title{Improving the performance of Web Services in Disconnected, Intermittent
@@ -167,7 +171,7 @@ challenges. However, it can be very expensive to alter existing Web service
 technology and incorporate proprietary solutions. A NATO research task group has
 previously identified the foundation on open standards to avoid tighter coupling
 between service providers and consumers\cite{IST-090}. It is much better to use
-commercial off-the-shelf software. By placing the optimization in proxies, the
+\gls{cots} software. By placing the optimization in proxies, the
 Web services can remain unchanged.
 
 The goal of this thesis is to investigate different optimization techniques that
@@ -257,7 +261,22 @@ their work they investigated three different ways to do this:
 \end{enumerate}
 
 \subsection{Proxies}
-DSproxy, AFRO proxy.
+
+
+\subsubsection{DSProxy}
+
+DSProxy is a proxy solution developed by \gls{FFI} which transports SOAP
+messages over DIL networks. It reduces bandwidth needs by employing different
+optimization techniques such as compression. It also provides delay tolerance
+which allows \gls{COTS} clients to function in DIL networks.
+
+
+\subsubsection{AFRO}
+
+\gls{afro} is an edge proxy which offers different levels of \gls{qos} to Web
+Services through performance monitoring and application of the context-aware
+service provision paradigm.
+
 
 \subsection{Configuration}
 IST-90: Configure HTTP on the application server or ESP to prevent time-outs.
@@ -289,17 +308,24 @@ This definition points out a set of standards that enables machine-to-machine
 interactions. These standards are discussed in the following sections.
 Figur her.
 
+
 \subsection{XML}
-\gls{xml} is a markup language and is considered as the
-base standard for Web services. An XML document consist of data surrounded by
-tags and is designed to be both machine and user readable. In a Web service, XML
-is used to tag the data.
+
+\gls{xml} is a markup language and is considered as the base standard for Web
+services. An XML document consist of data surrounded by tags and is designed to
+be both machine and user readable. Tags describe the data they enclose. The tags
+can be standarized, which allows exchange and understanding of data in a
+standarized, machine-readable way.
+
+
 \subsection{Service descriptions: WSDL}
-Web Services Description Language(WSDL) is an interface definition language that
-using XML describes functionality offered by a Web service. The interface
-describes available functions, data types for message requests and responses and
-binding information about the transport protocol, as well as address information
-for locating the service.
+
+\gls{wsdl} is an interface definition language that using XML describes
+functionality offered by a Web Service. The interface describes available
+functions, data types for message requests and responses and binding information
+about the transport protocol, as well as address information for locating the
+service. This enables a formal, machine-readable description of Web Service
+which clients can invoke.
 
 
 \subsection{SOAP}

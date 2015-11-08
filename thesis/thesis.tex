@@ -229,10 +229,13 @@ alternative protocols can be used. With employing a proxy solution, standards
 complience can be retained.
 
 
-
 \subsubsection{Network heterogeneity}
-Different technologies used. Different performance in networks may lead to
-buildup of data in buffers, risking loss of information.
+
+Another issuse is when heterogenous networks are interconnected. Different
+performance in networks may lead to buildup of data in buffers, risking loss of
+information. A proposed solution to this is to have store-and-forward support
+which can support that messages are not dropped, but stored and forwarded when
+possible.
 
 
 \subsubsection{Web Service overhead}
@@ -441,11 +444,10 @@ HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP i
 \caption{Transport protocols}
 \end{table}
 
-\section{Proxies}
-A proxy is a server that acts as intermediary for requests between a client and
-server over a network. Proxies can be used to accomplish different tasks, from
-caching web content to bypassing filtering and censorship. We can group proxies
-into three types, forwarding proxies, reverse proxies and gateway proxies.
+
+
+
+
 \section{Requirement Analysis}
 A discussed in \cref{section:DIL-problems}, the dependency on end-to-end
 connections needs to be removed. This can be done by adding proxies to the

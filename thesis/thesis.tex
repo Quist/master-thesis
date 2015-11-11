@@ -58,7 +58,7 @@ Services as key enablers\cite{nnec-study}.
 Web services are well tested in civil environments where the network is stable
 and the data rate is abundant. However, military networks may suffer from high
 error rates and very low date rate, which can leave the Web services unusable.
-In this thesis I investigate how these challenges can be overcome by applying
+This thesis investigate how these challenges can be overcome by applying
 optimization techniques at different layers of the protocol stack.
 %Ikke ta for gitt at sensor vet hva protocol stack er? Kanske forenkle eller
 % utdype
@@ -70,7 +70,7 @@ protect the freedom and security of its members through political and military
 means. In joint military operations the relatively large number of member
 countries can be a challenge when setting up machine-to machine information
 exchange. Differences in communication systems and equipment can attribute to
-make data communicating difficult. In order to address this issue, NATO has
+make data exchange difficult. In order to address this issue, NATO has
 chosen the \gls{soa} concept\cite{IST-090}.
 
 \subsection{Service-Oriented Architecture}
@@ -149,7 +149,7 @@ headquarters. The tactical network connects deployed headquarters with mobile
 units. These types of networks are unpredictable and may have very low date
 rate, possibly high delay, high error rates and frequent disconnections. They
 are often called disadvantaged grids or \gls{dil} which is the term used in this
-thesis. NATO studies has identified such networks to have the following
+thesis. NATO studies have identified such networks to have the following
 characteristics:
 \\\\
 \textit{
@@ -161,7 +161,7 @@ The characteristics of these networks and what challenges they impose are
 discussed in detail in \cref{dil}.
 
 \section{Problem Statement}
-Most of the Web Service solutions used today are aimed for civilian use and does
+Most of the Web Service solutions used today are aimed for civilian use and do
 not necessarily perform well in military environments. In contrast to civilian
 networks where the date rate is abundant, mobile tactical networks may suffer
 from high error rates and low date rate. Adapting Web service solutions meant
@@ -183,24 +183,85 @@ The Web Service itself does not need to pay attention to the bad connectivity,
 the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises}
-The Web services does not need to be changed.
+The Web services and clients do not need to be changed.
 
 \section{Scope and Limitations}
 Snevre inn oppgaven.
 
-Sikkerhet er ikke adressert i denne oppgaven.
+Sikkerhet er ikke adressert i denne oppgaven(skal kanskje se på IPsec).
+
+SOAP over HTTP klart det mest brukte, samt rest er utelukkende på HTTP. Derfor
+støtter proxien kun HTTP ut og inn.
+
 \section{Research Methodology}
 Denning.
 
+
 \section{Contribution}
-The outcome of this thesis is an recommendation regarding which optimizations
+
+The outcome of this thesis is a recommendation regarding which optimizations
 techniques which can be used in DIL to enhance the performance of Web services.
+Aswell as a prototype implementation of a DIL proxy.
+
 \section{Outline}
 Hvordan er resten av oppgaven strukturert.
 
 
 %%%%% BACKGROUND %%%%
 \chapter{Background}
+
+%%%%%%%%%% DIL %%%%%%%%%%%%%%%
+\section{\glsentrylong{dil}}
+\label{dil}
+The \gls{dil} concept refers to three characteristics of a network. As discussed
+in the introduction, military tactical networks may suffer from these
+constraints. These limitations are discussed in this section.
+
+\begin{description}
+\item[Disconnected]
+Military units that participating in a tactical network are highly mobile
+and may disconnect from a network either voluntarily or not. This causes
+topology changes. Unplanned loss of connectivity can be due to various reasons,
+such as loss of signal or equipment malfunction.  The disconnected term refers
+to that nodes in the network may be disconnected for a long time, possibly for
+multiple days.
+\item[Intermittent]
+Nodes in a \gls{dil} may loose connection temporarily before reconnecting. The
+duration range from seconds to minutes.
+
+\item[Limited] The Date rate, how many bits that are sent per second, is limited
+in \gls{dil} networks. Various aspects that affects the date rate are discussed
+in the next section.
+
+\end{description}
+
+\subsection{Network metrics}
+\begin{description}
+
+\item[Link throughput] The link throughput is influenced by how large distance
+there is between the units communicating.
+
+\item[Link reliability] How much of the arriving data that is correct. This is
+called \textit{bit error rate} or \textit{packet error rate}. With high error
+rates, more data to be transmitted again due to the data arriving being
+incorrect. This contributes to longer transmission time. In a military setting,
+an enemy may deliberate sabotage the network with jamming, causing higher error
+rates.
+
+\item[Link latency] The communication technology in use influences how fast data
+transmission can be done. Long delay may cause that the application sending data
+timing out.
+
+\end{description}
+
+\subsection{Other constraints}
+Energy constraints imposed by the wireless communication grid. The battery
+capacity and the transmission range of the communication equipment for mobile
+units may be limited. Another issue is that in some cases military units are
+required to enter radio silence in order to avoid being detected by the enemy.
+During radio silence units may only receive data and not send any.
+
+
 \section{Related Work}
 Diskuterer eksisterende arbeid.
 
@@ -361,56 +422,6 @@ uses exclusively HTTP over TCP. However, TCP does not necessarily perform
 satisfactorily in \gls{dil} environments, which limits the usability in tactical
 networks(trenger kilde?).
 
-%%%%%%%%%% DIL %%%%%%%%%%%%%%%
-\section{\glsentrylong{dil}}
-\label{dil}
-The \gls{dil} concept refers to three characteristics of a network. As discussed
-in the introduction, military tactical networks may suffer from these
-constraints. These limitations are discussed in this section.
-
-\begin{description}
-\item[Disconnected]
-Military units that participating in a tactical network are highly mobile
-and may disconnect from a network either voluntarily or not. This causes
-topology changes. Unplanned loss of connectivity can be due to various reasons,
-such as loss of signal or equipment malfunction.  The disconnected term refers
-to that nodes in the network may be disconnected for a long time, possibly for
-multiple days.
-\item[Intermittent]
-Nodes in a \gls{dil} may loose connection temporarily before reconnecting. The
-duration range from seconds to minutes.
-
-\item[Limited] The Date rate, how many bits that are sent per second, is limited
-in \gls{dil} networks. Various aspects that affects the date rate are discussed
-in the next section.
-
-\end{description}
-
-\subsection{Network metrics}
-\begin{description}
-
-\item[Link throughput] The link throughput is influenced by how large distance
-there is between the units communicating.
-
-\item[Link reliability] How much of the arriving data that is correct. This is
-called \textit{bit error rate} or \textit{packet error rate}. With high error
-rates, more data to be transmitted again due to the data arriving being
-incorrect. This contributes to longer transmission time. In a military setting,
-an enemy may deliberate sabotage the network with jamming, causing higher error
-rates.
-
-\item[Link latency] The communication technology in use influences how fast data
-transmission can be done. Long delay may cause that the application sending data
-timing out.
-
-\end{description}
-
-\subsection{Other constraints}
-Energy constraints imposed by the wireless communication grid. The battery
-capacity and the transmission range of the communication equipment for mobile
-units may be limited. Another issue is that in some cases military units are
-required to enter radio silence in order to avoid being detected by the enemy.
-During radio silence units may only receive data and not send any.
 
 \section{Optimization techniques}
 The Web service technology enable interoperability between systems, but also

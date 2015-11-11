@@ -13,6 +13,7 @@
 
 % Acronyms
 \newacronym{afro}{AFRO}{Adaption Framework foR Web Services prOvision}
+\newacronym{coap}{CoAP}{The Constrained Application Protocol}
 \newacronym{cots}{COTS}{Commercial off-the-shelf}
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited}
 \newacronym{ffi}{FFI}{Forsvarets forskningsinstitutt}
@@ -493,7 +494,23 @@ HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP i
 \end{table}
 
 
+\section{Transport Protocols}
 
+\subsection{\glsentrylong{coap}}
+
+\gls{coap} is a specialized web transfer protocol designed for use with
+constrained nodes and constrained networks in the Internet of Things. It is
+based on the REST model, where server makes resources available  under a URL.
+Clients access these resources using the HTTP-verbs GET, PUT, POST and DELETE.
+Designed to use minimal resources, both on the device and on the network.
+
+\begin{itemize}
+    \item Application level protocol.
+    \item Can carry any data format.
+    \item UDP on IP.
+    \item Standardized in RFC 7252.
+    \item Simple binary base header format
+\end{itemize}
 
 
 \section{Requirement Analysis}

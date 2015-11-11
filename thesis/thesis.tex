@@ -470,7 +470,8 @@ this thesis.
 The first optimization techniques deals with the optimization of the encoding. By compressing the Web service payload, we can reduce the amount of data that need to be sent.
 \begin{itemize}
 \item GZIP
-\item EFX(Efficient XML).
+\item EFX(Efficient XML). XML spesefikt, får ikke brukt på REST når vi har andre
+payloads..
 \end{itemize}
 Previous experiments shows EFX has the compression results with GZIP as the second best alternative\cite{johnsen-trude-compression-techniqes}.
 
@@ -500,9 +501,10 @@ HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP i
 
 \gls{coap} is a specialized web transfer protocol designed for use with
 constrained nodes and constrained networks in the Internet of Things. It is
-based on the REST model, where server makes resources available  under a URL.
-Clients access these resources using the HTTP-verbs GET, PUT, POST and DELETE.
-Designed to use minimal resources, both on the device and on the network.
+based on the REST model, where the server makes resources available  under a
+URL. Clients access these resources using the HTTP-verbs GET, PUT, POST and
+DELETE. Designed to use minimal resources, both on the device and on the
+network.
 
 \begin{itemize}
     \item Application level protocol.
@@ -526,7 +528,11 @@ SCTP is
 TCP is
 
 \subsection{UDP}
-UDP is
+WSReliability?
+
+For rest må det da bygges inn støtte i proxien.
+
+Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
 
 
 \section{Requirement Analysis}

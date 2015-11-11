@@ -1,0 +1,87 @@
+IOT og DIl. Ish det samme.
+
+
+Reliable UDP. UDP- med pålitelighet.
+
+
+Unngå I will in this theis.
+Heller: This thesis investigates.
+
+Eksempel i introen
+Search-and-rescue.
+Samarbeid mellom militære og sivile enheter. Få fram behov for interoperibilitet.
+
+
+SOA
+Putte inn definisjon på en service. Fra OASIS.
+
+Vurdere å flytte litt fra SOA inn i background.
+Ha eksempel search and destroy her.
+
+
+1.1.3 Example.
+
+
+Referere SOA Baseline. Må refere nato har valgt web services.-
+SOA Baseline.
+
+
+Tactical networks
+. Når jeg introduserer DIL, pek videre til vår det er diskutert.
+
+Ta med figur trekant.
+
+Premesis.
+
+Web services and clients does not need to be changed.
+
+Scope and limitatuion
+Sikkerhet.
+IP-sec??
+
+Anta HTTP klienter inn og ut fra og til proxier.
+Komprimering.
+GZIP er best generelle komprimeringsgreie.
+IKke fokusere så mye på komprermering, mer på protokollvalg.
+
+JEG SKAL kun ha gzip.
+
+Contribution
+Også prototypeimplementasjon av en proxy.
+Open source.
+
+
+Background
+Beskriv DIL før related works.
+
+
+Proxier
+Suri. Thisservice . Burde sjekke ut.
+Disservice
+
+Simplicity. Viktighet av å ha en enkel proxy.
+
+SOAP
+Nevne at de aller fleste bruker http/TCP . Referere til premisse i introduksjonen at vi kun ser på HTTP trafikk.
+
+REST
+Mer på rest.
+
+Oppsumere med
+Proxien min kan brukes på både web services og rest siden begge bruker HTTP.
+
+
+DIL
+Trenger litt fugerer.
+iiiii
+
+NETEM
+
+SPADE ?
+
+
+Where to place the optimalization.
+Bør generaliseres bort fra SOAP. TIl å også å dekke REST.
+
+Protokoller
+AMQP, MQTT, SCTP, TCP, UDP, COAP. 

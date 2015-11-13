@@ -18,6 +18,8 @@
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited}
 \newacronym{ffi}{FFI}{Forsvarets forskningsinstitutt}
 \newacronym{nec}{NEC}{Network Enabled Capability}
+\newacronym{oasis}{OASIS}{Organization for the Advancement of Structured
+Information Standards}
 \newacronym{qos}{QoS}{Quality of Service}
 \newacronym{rest}{REST}{Restful web services}
 \newacronym{soa}{SOA}{Service-Oriented Architecture}
@@ -79,8 +81,7 @@ chosen the \gls{soa} concept\cite{IST-090}.
 provide services to other components over a network. \gls{soa} is built on
 concepts such as object-orientation and distributed computing and aims to get
 a loose coupling between clients and services. In their reference model for
-\gls{soa}\cite{oasis-soa-reference-model}, the Organization for the Advancement
-of Structured Information Standards (OASIS) define \gls{soa} as: \paragraph{}
+\gls{soa}\cite{oasis-soa-reference-model}, the \gls{oasis} define \gls{soa} as: \paragraph{}
 \textit{Service Oriented Architecture is a paradigm for organizing and utilizing
 distributed capabilities that may be under the control of different ownership
 domains. It provides a uniform means to offer, discover, interact with and use
@@ -91,16 +92,13 @@ and expectations.} % SOA Trekant figur her
  In \gls{soa} business logic is divided into smaller chunks of logic, referred
  to as \textit{services}. A service can be business related, e.g a patient
  register service, or a infrastructure service used by other services and not by
- a user application.  Services are provided by \textit{service providers} and
- are consumed by \textit{service consumers}. The service provider is responsible
- for creating a service description, making the service available to others and
- implementing the service according to the service description. Services are
- made available to service consumers through a form of \textit{service
- discovery}. This can be a static configuration, or more dynamic with a central
- \textit{service registry}, where service providers publish service
- descriptions. Service consumers find the services they need by contacting the
- service registry. The communication between services occur through the exchange
- of standardized messages.
+ a user application. \gls{oasis} define a service as:
+ \paragraph{}
+\textit{
+A service is a mechanism to enable access to one or more capabilities, where the
+access is  provided using a prescribed interface and is exercised consistent
+with constraints and policies as  specified by the service description
+}
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/SOA.png}
@@ -354,6 +352,17 @@ used. Therefor this solution would not work for such applications.
 IST-90: Configure HTTP on the application server or ESP to prevent time-outs.
 Anbefaler at hvis man trenger å gjøre propetiære optimaliseringer, så burde de
 plasseres i proxier.
+
+\section{Service-Oriented Architecture}
+Services are provided by \textit{service providers} and are consumed by
+\textit{service consumers}. The service provider is responsible for creating a
+service description, making the service available to others and implementing the
+service according to the service description. Services are made available to
+service consumers through a form of \textit{service discovery}. This can be a
+static configuration, or more dynamic with a central \textit{service registry},
+where service providers publish service descriptions. Service consumers find the
+services they need by contacting the service registry. The communication between
+services occur through the exchange of standardized messages.
 
 
 %%%%%%% WEB SERVICES

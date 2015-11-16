@@ -1,5 +1,6 @@
 \documentclass[USenglish]{ifimaster}
 
+\usepackage[export]{adjustbox}
 \usepackage[utf8]{inputenc}
 \usepackage{ifimasterforside}
 \usepackage{graphicx}
@@ -120,26 +121,38 @@ through the usage of service discovery, which is dynamically retrieval of the
 new location of the service.
 
  Furthermore \gls{soa} enables service implementation neutrality. The
-implementation of service is completely separated from the service description.
-This allows re-implementation and alteration of a service without affecting the
-service consumers. Thus this can attribute to keep development costs low and
-avoiding proprietary solutions and vendor lock-in. Another benefit with
-\gls{soa} is re-usability by dividing common business processes into services,
-which may help cost reduction and avoids duplication. \gls{soa} is only a
-pattern and the concepts can be realized by a range of technologies. The most
-common used approach is the Web service familiy of standards, using the SOAP
-messaging protocol. To achieve interoperability between systems from different
-nations and vendors, NATO has chosen the Web Service technology in order to
-realize the \gls{soa}  principles\cite{soa-baseline}. This allows member nations to implement
-their own technology as long as they adhere to the standards. The Web service
-technology is discussed in detail in \cref{web-services}. Another approach to
-\gls{soa} is \gls{rest}, which use HTTP over TCP. \gls{rest} has gained a lot
-of traction in the civil industry and is discussed in section \cref{rest}.
+ implementation of service is completely separated from the service description.
+ This allows re-implementation and alteration of a service without affecting the
+ service consumers. Thus this can attribute to keep development costs low and
+ avoiding proprietary solutions and vendor lock-in. Another benefit with
+ \gls{soa} is re-usability by dividing common business processes into services,
+ which may help cost reduction and avoids duplication. \gls{soa} is only a
+ pattern and the concepts can be realized by a range of technologies. The most
+ common used approach is the Web service familiy of standards, using the SOAP
+ messaging protocol. To achieve interoperability between systems from different
+ nations and vendors, NATO has chosen the Web Service technology in order to
+ realize the \gls{soa}  principles\cite{soa-baseline}. This allows member
+ nations to implement their own technology as long as they adhere to the
+ standards. The Web service technology is discussed in detail in
+ \cref{web-services}. Another approach to \gls{soa} is \gls{rest}, which use
+ HTTP over TCP. \gls{rest} has gained a lot of traction in the civil industry
+ and is discussed in section \cref{rest}.
+
 
 \subsection{Military Networks}
-% Trenger mer kjøtt her.
-Web services can be used in strategic military networks as they have network
-infrastructure with the same characteristics as civil networks.
+
+Web services are in widespread use both in civilian and military applications.
+Military networks are complex and consist of many different heterogeneous
+network technologies. We can group them into layers which have different
+chararistics as can been seen in \cref{figure:military-networks}. At the highest level,
+there are fixed infrastructure and a relatively static users. At the lower levels, there are fewer units, but they are much more dynamic. The lower level is called tactical networks which is discussed in the next paragraph.
+
+\begin{figure}[h]
+\includegraphics[scale=0.4, left]{images/network_complexity.png}
+\caption{Complexity of military networks(from \cite{pervasive-web})}
+\label{figure:military-networks}
+\end{figure}
+
 
 \subsubsection{Tactical Networks}
 Tactical networks are characterized by that the units are deployed to operate in

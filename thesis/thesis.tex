@@ -22,7 +22,7 @@
 \newacronym{oasis}{OASIS}{Organization for the Advancement of Structured
 Information Standards}
 \newacronym{qos}{QoS}{Quality of Service}
-\newacronym{rest}{REST}{Restful web services}
+\newacronym{rest}{REST}{Representational State Transfer}
 \newacronym{sctp}{SCTP}{Stream Control Transmission Protocol}
 \newacronym{soa}{SOA}{Service-Oriented Architecture}
 \newacronym{soap}{SOAP}{SOAP}
@@ -459,13 +459,18 @@ payload.
 
 \subsection{\glsentrylong{rest}}
 \label{rest}
-However, there also exist other types of Web services which does not follow the
-previously discussed standards. \glsentrylong{rest} let users manipulate data
-using a set of stateless operations. \gls{rest} is easy to understand and has
-gained a lot of traction in the civil industry in the latest years. \gls{rest}
-uses exclusively HTTP over TCP. However, TCP does not necessarily perform
-satisfactorily in \gls{dil} environments, which limits the usability in tactical
-networks(trenger kilde?).
+
+There also exist other types of Web services which does not follow the
+previously discussed standards. \gls{rest} is an architectural style which let
+users manipulate data using a set of stateless operations. It is based on a
+client-server model where a client requests data from a server when needed. It
+is closely associated with HTTP and use HTTP verbs(e.g GET, POST,
+DELETE) to operate on resources on a server.
+
+ \gls{rest} is easy to understand and has gained a lot of traction in the civil
+ industry in the latest years. \gls{rest} uses exclusively HTTP over TCP.
+ However, TCP does not necessarily perform satisfactorily in \gls{dil}
+ environments, which limits the usability in tactical networks(trenger kilde?). It also lack standardization, which may have interoperability issues.
 
 
 \section{Optimization techniques}

@@ -13,6 +13,7 @@
 
 % Acronyms
 \newacronym{afro}{AFRO}{Adaption Framework foR Web Services prOvision}
+\newacronym{amqp}{AMQP}{Advanced Message Queuing Protocol}
 \newacronym{coap}{CoAP}{The Constrained Application Protocol}
 \newacronym{cots}{COTS}{Commercial off-the-shelf}
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited}
@@ -22,8 +23,11 @@
 Information Standards}
 \newacronym{qos}{QoS}{Quality of Service}
 \newacronym{rest}{REST}{Restful web services}
+\newacronym{sctp}{SCTP}{Stream Control Transmission Protocol}
 \newacronym{soa}{SOA}{Service-Oriented Architecture}
 \newacronym{soap}{SOAP}{SOAP}
+\newacronym{tcp}{TCP}{Transmission Control Protocol}
+\newacronym{udp}{UDP}{User Datagram Protocol}
 \newacronym{wsdl}{WSDL}{Web Services Description Language}
 \newacronym{xml}{XML}{Extensible Markup Language}
 
@@ -324,7 +328,11 @@ their work they investigated three different ways to do this:
     \item Employing content filtering, which filters out uneccessary data.
 \end{enumerate}
 
+
 \subsection{Proxies}
+
+This section lists previous implementations of proxies designed to work in
+\gls{dil} environments.
 
 
 \subsubsection{DSProxy}
@@ -348,10 +356,37 @@ sure that no one has tempered with the data before arriving, checksums is often
 used. Therefor this solution would not work for such applications.
 
 
+\subsubsection{Suri?}
+Finn ut mer.
+
+
+\subsection{Evaluation of Transport Protocols}
+
+Previous studies have investigated potential gains from replacing HTTP/TCP
+with alternative transport protocols
+\cite{evaluation-transport-protocols-web-services}. They looked into how TCP,
+UDP, SCTP and AMQP for conveying Web services traffic under typical military
+networking conditions.
+
+\begin{itemize}
+    \item \gls{sctp} has the highest success rate in military tactical
+    communication. However, on the lower bandwidth links the protocols tends to
+     generate more overhead than TCP. Due to SCTP has a more complex connection
+     handshake procedure and in addition use heartbeat packets.
+\end{itemize}
+
 \subsection{Configuration}
 IST-90: Configure HTTP on the application server or ESP to prevent time-outs.
 Anbefaler at hvis man trenger å gjøre propetiære optimaliseringer, så burde de
 plasseres i proxier.
+
+
+\subsection{Compression}
+
+\gls{xml} is the data format used by Web Services and has a significant
+overhead. Previous studies have evaluated different compressions algorithms for
+Web services.
+
 
 \section{Service-Oriented Architecture}
 Services are provided by \textit{service providers} and are consumed by
@@ -477,13 +512,24 @@ this thesis.
 
 
 \subsection{Compressing the payload}
-The first optimization techniques deals with the optimization of the encoding. By compressing the Web service payload, we can reduce the amount of data that need to be sent.
+
+The first optimization techniques deals with the optimization of the encoding.
+By compressing the Web service payload, we can reduce the amount of data that
+need to be sent. This optimization technique addresses one of the many
+challenges of tactical networks, namely the bandwidth consumption due to large
+message sizes.
+
 \begin{itemize}
 \item GZIP
+
 \item EFX(Efficient XML). XML spesefikt, får ikke brukt på REST når vi har andre
 payloads..
+
 \end{itemize}
-Previous experiments shows EFX has the compression results with GZIP as the second best alternative\cite{johnsen-trude-compression-techniqes}.
+
+Previous experiments shows EFX has the compression results with GZIP as the
+second best alternative\cite{johnsen-trude-compression-techniqes}.
+
 
 \subsection{Reducing overhead of SOAP}
 HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP is transport protocol agnostic different protocols can be used. Experiments show that this is possible.
@@ -525,25 +571,45 @@ network.
 \end{itemize}
 
 
-\subsection{AMQP}
-AMQP is
+\subsection{\glsentrylong{amqp}}
+
+\gls{amqp} is a messaging middleware that can utilize different transport
+protocols.
+
+\begin{itemize}
+    \item Support both request/response and publish/subscribe communication
+    paradigms.
+    \item Reliable when facing network disruptions, since it employs a
+    broker-based architecture with store-and-forward capabilities.
+\end{itemize}
 
 \subsection{MQTT}
 MQTT is
 
-\subsection{SCTP}
-SCTP is
+\subsection{\glsentrylong{sctp}}
 
-\subsection{TCP}
-TCP is
+\gls{sctp} is transport-layer protocol which offers functionallity from both \gls{udp} and \gls{tcp}.
+\begin{itemize}
+    \item Message-oriented like UDP.
+    \item Ensure reliable, in sequence transport of messages with congestion control like TCP.
+    \item Multi-homing and multi-streaming.
+\end{itemize}
+
+
+\subsection{\glsentrylong{tcp}}
+\gls{tcp} is one of the core transport protocol of the Internet Protocol Suite.
+\begin{itemize}
+    \item Connection-oriented.
+    \item End-to-end reliability.
+\end{itemize}
 
 \subsection{UDP}
-WSReliability?
-
-For rest må det da bygges inn støtte i proxien.
-
+WSReliability? For rest må det da bygges inn støtte i proxien.
 Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
-
+\begin{itemize}
+    \item No mechanisms for flow control, packet ordering or integrity of
+    messages.
+\end{itemize}
 
 \section{Requirement Analysis}
 A discussed in \cref{section:DIL-problems}, the dependency on end-to-end

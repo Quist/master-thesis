@@ -19,6 +19,7 @@
 \newacronym{cots}{COTS}{Commercial off-the-shelf}
 \newacronym{dil}{DIL}{Disconnected, Intermittent and Limited}
 \newacronym{ffi}{FFI}{Forsvarets forskningsinstitutt}
+\newacronym{nato}{NATO}{North Atlantic Treaty Organization}
 \newacronym{nec}{NEC}{Network Enabled Capability}
 \newacronym{oasis}{OASIS}{Organization for the Advancement of Structured
 Information Standards}
@@ -65,33 +66,38 @@ sint corpora repudiandae eam.
 
 
 \chapter{Introduction}
+
 Military units may operate under conditions where the reliability of the network
 connection is low. They can operate far from existing communication
 infrastructure and rely only on wireless communication. Such networks are often
 characterized by unreliable connections with low date rate and high error rates
 making data communication difficult. In a military scenario it is necessary for
 units at all operational levels to seamlessly exchange information across
-different types of communication systems. To NATO, this concept is referred to
-as \gls{nec}. In a feasibility study, NATO identified the \gls{soa} and Web
-Services as key enablers\cite{nnec-study}.
+different types of communication systems. This ranges from foot soldiers with
+radio equipment operating on the battlefield, to the commanding officer in a far
+away headquarter full of computers. To \gls{nato}, this concept is referred to
+as \gls{nec}. In a feasibility study, \gls{nato} identified the \gls{soa}
+paradigm and the Web Service technology as key enablers\cite{nnec-study} for
+such information exchange.
 
-Web services are well tested in civil environments where the network is stable
-and the data rate is abundant. However, military networks may suffer from high
-error rates and very low date rate, which can leave the Web services unusable.
-This thesis investigate how these challenges can be overcome by applying
-optimization techniques at different layers of the protocol stack.
-%Ikke ta for gitt at sensor vet hva protocol stack er? Kanske forenkle eller
-% utdype
+Web Service technology is well tested and in widespread use in civil
+applications where the network is stable and the data rate is abundant. However,
+certain military networks suffer from high error rates and very low date rate,
+which can leave Web Services built for civilian use unusable. This thesis
+investigate how these challenges can be overcome by applying optimization
+techniques at different layers of the protocol stack.
+
 
 \section{Background and Motivation}
-NATO is a military alliance consisting of 28 member
+
+\gls{nato} is a military alliance consisting of 28 member
 countries\cite{nato-homepage-member-countries} and which primary goal is to
 protect the freedom and security of its members through political and military
 means. In joint military operations the relatively large number of member
 countries can be a challenge when setting up machine-to machine information
-exchange. Differences in communication systems and equipment can attribute to
-make data exchange difficult. In order to address this issue, NATO has
-chosen the \gls{soa} concept\cite{ist-090}.
+exchange. Differences in communication systems and equipment attribute to making
+the integration of such systems more difficult. In order to address this issue,
+NATO has chosen the \gls{soa} concept\cite{ist-090}.
 
 \subsection{Service-Oriented Architecture}
 \glsentryfull{soa} is an architectural pattern where application components
@@ -157,8 +163,11 @@ new location of the service.
 Web services are in widespread use both in civilian and military applications.
 Military networks are complex and consist of many different heterogeneous
 network technologies. We can group them into layers which have different
-chararistics as can been seen in \cref{figure:military-networks}. At the highest level,
-there are fixed infrastructure and a relatively static users. At the lower levels, there are fewer units, but they are much more dynamic. The lower level is called tactical networks which is discussed in the next paragraph.
+chararistics as can been seen in \cref{figure:military-networks}. At the highest
+level, there is fixed infrastructure and relatively static users, meaning that
+they seldome move around or disconnects. At the lower levels, there are fewer
+units, but they are much more dynamic. The lower level is called tactical
+networks which is discussed in the next paragraph.
 
 \begin{figure}[h]
 \includegraphics[scale=0.4, left]{images/network_complexity.png}
@@ -173,21 +182,29 @@ a battlefield, which means there is no existing communication infrastructure.
 They use tactical communication equipment which includes technologies like VHF,
 UHF, HF, tactical broadband and satellites\cite{ist-090}.
 % Mangler referanse på bruk av satelitter.
+
 Examples of such units are mobile units like vehicles, foot soldiers and field
 headquarters. The tactical network connects deployed headquarters with mobile
 units. These types of networks are unpredictable and may have very low date
 rate, possibly high delay, high error rates and frequent disconnections. They
-are often called disadvantaged grids or \gls{dil} which is the term used in this
-thesis. \gls{dil} is discussed in \cref{dil}. NATO studies have identified such
-networks to have the following characteristics:
+are often called disadvantaged grids or \gls{dil}, which is the term used in
+this thesis. \gls{dil} is discussed in \cref{dil}.
+
+NATO studies\cite{nato-disadvantaged-grids} have identified such networks to
+have the following characteristics:
 \\\\
 \textit{
 Disadvantaged grids are characterized by low bandwidth,variable throughput,
 unreliable connectivity, and energy constraints imposed by the wireless
-communications grid that link the nodes}\cite{nato-disadvantaged-grids}.
+communications grid that link the nodes}.
 \paragraph{}
 The characteristics of these networks and what challenges they impose are
 discussed in detail in \cref{dil}.
+
+\section{Example scenario}
+
+Tenkte her å introdusere et scenario som illustererer problemer og utfordringer
+med DIL nettverk.
 
 \section{Problem Statement}
 Most of the Web Service solutions used today are aimed for civilian use and do
@@ -215,8 +232,6 @@ the proxy will choose the appropriate protocol and configuration.
 The Web services and clients do not need to be changed.
 
 \section{Scope and Limitations}
-Snevre inn oppgaven.
-
 Sikkerhet er ikke adressert i denne oppgaven(skal kanskje se på IPsec).
 
 SOAP over HTTP klart det mest brukte, samt rest er utelukkende på HTTP. Derfor
@@ -242,9 +257,10 @@ Hvordan er resten av oppgaven strukturert.
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
 \section{\glsentrylong{dil}}
 \label{dil}
-The \gls{dil} concept refers to three characteristics of a network. As discussed
-in the introduction, military tactical networks may suffer from these
-constraints. These limitations are discussed in this section.
+
+The \gls{dil} concept refers to three characteristics of a network. As we
+discussed in the introduction, military tactical networks may suffer from these
+constraints.
 
 \begin{description}
 \item[Disconnected]
@@ -292,8 +308,6 @@ During radio silence units may only receive data and not send any.
 
 
 \section{Related Work}
-Diskuterer eksisterende arbeid.
-
 IST-090 ser på muligheten av å bruke SOA på taktisk nivå, med spesielt fokus på
 disadvantged grids. Fokuserer på mulighet for Web services across disadvantaged
 networks. Samt Data Distribution Service(DDS) på taktisk nivå.
@@ -669,8 +683,7 @@ also requires more battery. This trade-off needs to be considered.
 \chapter{Design and Implementation}
 \section{Overall Design}
 \section{Proxy}
-\subsection{Squid}
-Squid is a fully-featured HTTP/1.0 proxy.
+\subsection{Apache Camel}
 \begin{figure}[h]
 \includegraphics[scale=0.4]{images/architecture.png}
 \caption{Architectural overview of proposed design}

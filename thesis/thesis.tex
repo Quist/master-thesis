@@ -77,8 +77,8 @@ different types of communication systems. This ranges from foot soldiers with
 radio equipment operating on the battlefield, to the commanding officer in a far
 away headquarter full of computers. To \gls{nato}, this concept is referred to
 as \gls{nec}. In a feasibility study, \gls{nato} identified the \gls{soa}
-paradigm and the Web Service technology as key enablers\cite{nnec-study} for
-such information exchange.
+paradigm and the Web Service technology as key enablers for
+such information exchange\cite{nnec-study}.
 
 Web Service technology is well tested and in widespread use in civil
 applications where the network is stable and the data rate is abundant. However,
@@ -97,14 +97,17 @@ means. In joint military operations the relatively large number of member
 countries can be a challenge when setting up machine-to machine information
 exchange. Differences in communication systems and equipment attribute to making
 the integration of such systems more difficult. In order to address this issue,
-NATO has chosen the \gls{soa} concept\cite{ist-090}.
+NATO has chosen the \gls{soa} concept\cite{nnec-study}.
 
 \subsection{Service-Oriented Architecture}
 \glsentryfull{soa} is an architectural pattern where application components
 provide services to other components over a network. \gls{soa} is built on
 concepts such as object-orientation and distributed computing and aims to get
 a loose coupling between clients and services. In their reference model for
-\gls{soa}\cite{oasis-soa-reference-model}, the \gls{oasis} define \gls{soa} as: \paragraph{}
+\gls{soa}, the \gls{oasis} define \gls{soa} as\cite{oasis-soa-reference-model}:
+
+\paragraph{}
+
 \textit{Service Oriented Architecture is a paradigm for organizing and utilizing
 distributed capabilities that may be under the control of different ownership
 domains. It provides a uniform means to offer, discover, interact with and use
@@ -112,11 +115,13 @@ capabilities to produce desired effects consistent with measurable preconditions
 and expectations.} % SOA Trekant figur her
 
 \paragraph{}
- In \gls{soa} business logic is divided into smaller chunks of logic, referred
- to as \textit{services}. A service can be business related, e.g a patient
- register service, or a infrastructure service used by other services and not by
- a user application. \gls{oasis} define a service as:
- \paragraph{}
+
+In \gls{soa}, business processes are divided into smaller chunks of business
+logic, referred to as \textit{services}. A service can be business related, e.g
+a patient register service, or a infrastructure service used by other services
+and not by a user application. \gls{oasis} define a service as:
+
+\paragraph{}
 \textit{
 A service is a mechanism to enable access to one or more capabilities, where the
 access is  provided using a prescribed interface and is exercised consistent
@@ -136,7 +141,7 @@ enable services and its consumers to not be available at the same instance of
 time. This enables asynchronous communication. Loose coupling with regards to
 location allows the location of an service to be changed without needing to
 reprogram, reconfigure, or restart the service consumers. This is possible
-through the usage of service discovery, which is dynamically retrieval of the
+through the usage of service discovery, which is dynamic retrieval of the
 new location of the service.
 
  Furthermore \gls{soa} enables service implementation neutrality. The
@@ -165,7 +170,7 @@ Military networks are complex and consist of many different heterogeneous
 network technologies. We can group them into layers which have different
 chararistics as can been seen in \cref{figure:military-networks}. At the highest
 level, there is fixed infrastructure and relatively static users, meaning that
-they seldome move around or disconnects. At the lower levels, there are fewer
+they seldom move around or disconnects. At the lower levels, there are fewer
 units, but they are much more dynamic. The lower level is called tactical
 networks which is discussed in the next paragraph.
 
@@ -187,7 +192,7 @@ Examples of such units are mobile units like vehicles, foot soldiers and field
 headquarters. The tactical network connects deployed headquarters with mobile
 units. These types of networks are unpredictable and may have very low date
 rate, possibly high delay, high error rates and frequent disconnections. They
-are often called disadvantaged grids or \gls{dil}, which is the term used in
+are often called disadvantaged grids or \gls{dil} environments, which is the term used in
 this thesis. \gls{dil} is discussed in \cref{dil}.
 
 NATO studies\cite{nato-disadvantaged-grids} have identified such networks to
@@ -264,17 +269,19 @@ constraints.
 
 \begin{description}
 \item[Disconnected]
-Military units that participating in a tactical network are highly mobile
+Military units that participate in a tactical network are highly mobile
 and may disconnect from a network either voluntarily or not. This causes
 topology changes. Unplanned loss of connectivity can be due to various reasons,
 such as loss of signal or equipment malfunction.  The disconnected term refers
 to that nodes in the network may be disconnected for a long time, possibly for
 multiple days.
-\item[Intermittent]
-Nodes in a \gls{dil} may loose connection temporarily before reconnecting. The
-duration range from seconds to minutes.
 
-\item[Limited] The Date rate, how many bits that are sent per second, is limited
+\item[Intermittent]
+
+Nodes in a \gls{dil} environment may lose connection temporarily before
+reconnecting. The duration range from seconds to minutes.
+
+\item[Limited] The Data rate, how many bits that are sent per second, is limited
 in \gls{dil} networks. Various aspects that affects the date rate are discussed
 in the next section.
 
@@ -314,8 +321,8 @@ networks. Samt Data Distribution Service(DDS) på taktisk nivå.
 
 In the report IST-090, a task group investigated solutions for making \gls{soa}
 applicable at the tactical level. Three key issues that needs to be addressed in
-order to apply Web Services in tactical networks was
-identified\cite{ist-118}\cite{ist-090}:
+order to apply Web Services in tactical networks were
+identified\cite{ist-118,ist-090}:
 
 \label{section:DIL-problems}
 
@@ -324,20 +331,20 @@ identified\cite{ist-118}\cite{ist-090}:
 Web Services depend on a direct, end-to-end connection between the client and
 the service. Attempting to establish and maintaining connections in DIL
 environments can lead to increased communication overhead and possible complete
-breakdown of communication. Most Web Services use TCP as the transport protcol,
+breakdown of communication. Most Web Services use TCP as the transport protocol,
 which is a connection-oriented protocol designed for wired networks. In DIL
 environments with high error rates and high latencies, the congestion control of
 TCP will cause sub-optimal utilization of the network due to frequent connection
-timeouts. Simmilar, HTTP, which is the application layer protocol most often
-used together with TCP, struggeles in such enviroments. HTTP is a synchronous
+timeouts. Similar, HTTP, which is the application layer protocol most often
+used together with TCP, struggles in such environments. HTTP is a synchronous
 protocol which means that the HTTP connection is kept open until a response is
-received. Long response time cause timeouts. IST-090 points out the obivious
+received. Long response time cause timeouts. IST-090 points out the obvious
 solution to replace HTTP and TCP with other, more suitable protocols.
 
 The report mentions two approaches to replace HTTP/TCP. The clients and services
 itself can be modified to support other protocols, or proxies which support
 alternative protocols can be used. With employing a proxy solution, standards
-complience can be retained.
+compliance can be retained.
 
 
 \subsubsection{Network heterogeneity}

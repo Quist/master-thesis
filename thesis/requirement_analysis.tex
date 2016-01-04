@@ -1,1 +1,19 @@
 \chapter{Requirement Analysis}
+As discussed in \cref{section:DIL-problems}, the dependency on end-to-end
+connections needs to be removed. This can be done by adding proxies to the
+network. Mobile units have to carry batteries with them and the capacity is
+therefore limited. Advanced compression techniques may reduce the overhead, but
+also requires more battery. This trade-off needs to be considered.
+\\ \\ \\
+\begin{table}[h]
+\begin{tabular}{| l | l |}
+\hline
+  \textbf{Requirement} & \textbf{Priority} \\ \hline
+  Receive and forward HTTP 1.X requests & 1\\ \hline
+  Allow modifications on the payload & 1 \\ \hline
+  Allow configuration of HTTP timeouts & 1 \\ \hline
+  Keep HTTP-connection alive & 1 \\ \hline
+  Support protocol X and y & 2 \\ \hline
+\end{tabular}
+\caption{Proxy requirements}
+\end{table}

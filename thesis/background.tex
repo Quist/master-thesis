@@ -1,0 +1,295 @@
+\chapter{Technical Background}
+
+In this chapter concepts and technologies that are central for this thesis will
+be explained.
+
+%%%%%%%%%% DIL %%%%%%%%%%%%%%%
+\section{\glsentrylong{dil}}
+\label{dil}
+
+The \gls{dil} concept refers to three characteristics of a network. As we
+discussed in the introduction, military tactical networks may suffer from these
+constraints.
+
+\begin{description}
+\item[Disconnected]
+Military units that participate in a tactical network are highly mobile
+and may disconnect from a network either voluntarily or not. This causes
+topology changes. Unplanned loss of connectivity can be due to various reasons,
+such as loss of signal or equipment malfunction.  The disconnected term refers
+to that nodes in the network may be disconnected for a long time, possibly for
+multiple days.
+
+\item[Intermittent]
+
+Nodes in a \gls{dil} environment may lose connection temporarily before
+reconnecting. The duration range from seconds to minutes.
+
+\item[Limited] The Data rate, how many bits that are sent per second, is limited
+in \gls{dil} networks. Various aspects that affects the date rate are discussed
+in the next section.
+
+\end{description}
+
+\subsection{Network metrics}
+\begin{description}
+
+\item[Link throughput] The link throughput is influenced by how large distance
+there is between the units communicating.
+
+\item[Link reliability] How much of the arriving data that is correct. This is
+called \textit{bit error rate} or \textit{packet error rate}. With high error
+rates, more data to be transmitted again due to the data arriving being
+incorrect. This contributes to longer transmission time. In a military setting,
+an enemy may deliberate sabotage the network with jamming, causing higher error
+rates.
+
+\item[Link latency] The communication technology in use influences how fast data
+transmission can be done. Long delay may cause that the application sending data
+timing out.
+
+\end{description}
+
+\subsection{Other constraints}
+Energy constraints imposed by the wireless communication grid. The battery
+capacity and the transmission range of the communication equipment for mobile
+units may be limited. Another issue is that in some cases military units are
+required to enter radio silence in order to avoid being detected by the enemy.
+During radio silence units may only receive data and not send any.
+
+
+%%%%%%% WEB SERVICES
+\section{Web services}
+
+\subsection{W3 Web services}
+\label{web-services}
+Web Services are client and server applications that communicate over a network
+and can be used to implement a service-oriented architecture. All communication
+is based on sending XML-based SOAP messages. There exists many definitions of
+Web services where the core principles are the same, but the finer details may
+vary. The World Wide Web Consortium has defined Web Services
+as\cite{wrc-web-service}:
+\paragraph{}
+\textit{
+    A Web service is a software system designed to support interoperable
+    machine-to-machine interaction over a network. It has an interface described in
+    a machine-processable format (specifically WSDL). Other systems interact with
+    the Web service in a manner prescribed by its description using SOAP-messages,
+    typically conveyed using HTTP with an XML serialization in conjunction with
+    other Web-related standards.
+}
+
+\paragraph{}
+
+This definition points out a set of standards that enables machine-to-machine
+interactions. These standards are discussed in the following sections. The Web
+Service technology, following the \gls{soa} principles, provides loouse coupling
+and ease integration beteween systems. Figur her.
+
+
+\subsubsection{XML}
+
+\gls{xml} is a markup language and is considered as the base standard for Web
+services. An XML document consist of data surrounded by tags and is designed to
+be both machine and user readable. Tags describe the data they enclose. The tags
+can be standarized, which allows exchange and understanding of data in a
+standarized, machine-readable way.
+
+
+\subsubsection{Service descriptions: WSDL}
+
+\gls{wsdl} is an interface definition language that using XML describes
+functionality offered by a Web Service. The interface describes available
+functions, data types for message requests and responses and binding information
+about the transport protocol, as well as address information for locating the
+service. This enables a formal, machine-readable description of Web Service
+which clients can invoke.
+
+
+\subsubsection{SOAP}
+
+\gls{soap} is an application level XML-based protocol specification for
+information exchange in the implementation of Web services. It is transport
+protocol agnostic and can be carried over various protocols. The far most
+transport protocol used is HTTP over TCP, but other protocols such as UDP and
+SMTP can be used as well. A SOAP message is an "envelope" consisting of an
+optional header and a required body. The header can contain information not
+directly related to the message such as routing information for the message and
+security information. The body contains the data being sent, known as the
+payload.
+
+\subsection{\glsentrylong{rest}}
+\label{rest}
+
+There also exist other types of Web services which does not follow the
+previously discussed standards. \gls{rest} is an architectural style which let
+users manipulate data using a set of stateless operations. It is based on a
+client-server model where a client requests data from a server when needed. It
+is closely associated with HTTP and use HTTP verbs(e.g GET, POST,
+DELETE) to operate on resources on a server.
+
+ \gls{rest} is easy to understand and has gained a lot of traction in the civil
+ industry in the latest years. \gls{rest} uses exclusively HTTP over TCP.
+ However, TCP does not necessarily perform satisfactorily in \gls{dil}
+ environments, which limits the usability in tactical networks(trenger kilde?). It also lack standardization, which may have interoperability issues.
+
+
+\section{Optimization techniques}
+The Web service technology enable interoperability between systems, but also
+increase the information overhead, requiring higher data rate demands. Employing
+Web Services developed for use in civilian networks directly into a \gls{dil}
+environment may not perform satisfactorily. To increase the performance we can
+apply optimalization techniques. There are many approaches and optimalization
+techniques which can be applied at different levels of the protocol stack. In
+the coming sections the different optimization techniques are presented and a
+overview is presented in \Cref{table:optimalization-overview}. Another issue
+that needs to be addressed is, when we have identified optimization techniques,
+where do we place them? In the application itself or in a proxy? This is
+discussed in the next section.
+
+\subsection{Where to place the optimalization?}
+One approach is to modify the Web service application itself. However, this
+would mean that every application that is used in a tactical network would
+require modification. This would require a lot of resources and severely limit
+the flexibility of using Web services. Another solution is, by using proxies, we
+can place the optimization there without altering the Web Services themselves.
+The only thing required to do is to setup the application to send and receive
+data through the proxy. The proxy will take care of the optimization for
+tactical networks. This seems like a more reasonable approach and is explored in
+this thesis.
+
+
+%%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X |}
+\hline
+  \textbf{Protocol Stack} & \textbf{optimization possibilities} \\ \hline
+  The application & Optimize the application\\ \hline
+  Web service messaging: SOAP & Optimize SOAP, e.g XML compression \\ \hline
+  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other
+  protocols can be used. \\ \hline
+  IP & NATO NEC feasibility study states that all protocols should be over IP. \\
+  \hline
+  Lower layers & Not in the scope of this thesis. \\ \hline
+\end{tabularx}
+\caption{Optimization possibilities.} \label{table:optimalization-overview}
+\end{table}
+
+
+\subsection{Compressing the payload}
+
+The first optimization techniques deals with the optimization of the encoding.
+By compressing the Web service payload, we can reduce the amount of data that
+need to be sent. This optimization technique addresses one of the many
+challenges of tactical networks, namely the bandwidth consumption due to large
+message sizes.
+
+\begin{itemize}
+\item GZIP
+
+\item EFX(Efficient XML). XML spesefikt, får ikke brukt på REST når vi har andre
+payloads..
+
+\end{itemize}
+
+\subsection{Reducing overhead of SOAP}
+HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP is transport protocol agnostic different protocols can be used. Experiments show that this is possible.
+
+
+%%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X |}
+\hline
+  \textbf{Transport Protocol} & \textbf{Summary} \\ \hline
+  HTTP over TCP & Widely used. Breaks down in DIL environments.\\ \hline
+  MQTT & Summary here\\ \hline
+  Stream Control Transmission Protocol(SCTP) & Features multihoming. \\ \hline
+  Advanced Message Queuing Protocol(AMPQ) & Application level protocol. Employs
+  a broker architecture with store-and-forward capabilities. \\ \hline
+  SOAP directly on TCP & Its possible \\ \hline
+\end{tabularx}
+\caption{Transport protocols}
+\end{table}
+
+
+\section{Transport Protocols}
+
+\subsection{\glsentrylong{coap}}
+
+\gls{coap} is a specialized web transfer protocol designed for use with
+constrained nodes and constrained networks in the Internet of Things. It is
+based on the REST model, where the server makes resources available  under a
+URL. Clients access these resources using the HTTP-verbs GET, PUT, POST and
+DELETE. Designed to use minimal resources, both on the device and on the
+network.
+
+\begin{itemize}
+    \item Application level protocol.
+    \item Can carry any data format.
+    \item UDP on IP.
+    \item Standardized in RFC 7252.
+    \item Simple binary base header format
+\end{itemize}
+
+
+\subsection{\glsentrylong{amqp}}
+
+\gls{amqp} is a messaging middleware that can utilize different transport
+protocols.
+
+\begin{itemize}
+    \item Support both request/response and publish/subscribe communication
+    paradigms.
+    \item Reliable when facing network disruptions, since it employs a
+    broker-based architecture with store-and-forward capabilities.
+\end{itemize}
+
+\subsection{MQTT}
+MQTT is
+
+\subsection{\glsentrylong{sctp}}
+
+\gls{sctp} is transport-layer protocol which offers functionallity from both \gls{udp} and \gls{tcp}.
+\begin{itemize}
+    \item Message-oriented like UDP.
+    \item Ensure reliable, in sequence transport of messages with congestion control like TCP.
+    \item Multi-homing and multi-streaming.
+\end{itemize}
+
+
+\subsection{\glsentrylong{tcp}}
+\gls{tcp} is one of the core transport protocol of the Internet Protocol Suite.
+\begin{itemize}
+    \item Connection-oriented.
+    \item End-to-end reliability.
+\end{itemize}
+
+\subsection{UDP}
+WSReliability? For rest må det da bygges inn støtte i proxien.
+Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
+\begin{itemize}
+    \item No mechanisms for flow control, packet ordering or integrity of
+    messages.
+\end{itemize}
+
+\section{Requirement Analysis}
+A discussed in \cref{section:DIL-problems}, the dependency on end-to-end
+connections needs to be removed. This can be done by adding proxies to the
+network. Mobile units have to carry batteries with them and the capacity is
+therefore limited. Advanced compression techniques may reduce the overhead, but
+also requires more battery. This trade-off needs to be considered.
+\\ \\ \\
+\begin{table}[h]
+\begin{tabular}{| l | l |}
+\hline
+  \textbf{Requirement} & \textbf{Priority} \\ \hline
+  Receive and forward HTTP 1.X requests & 1\\ \hline
+  Allow modifications on the payload & 1 \\ \hline
+  Allow configuration of HTTP timeouts & 1 \\ \hline
+  Keep HTTP-connection alive & 1 \\ \hline
+  Support protocol X and y & 2 \\ \hline
+\end{tabular}
+\caption{Proxy requirements}
+\end{table}
+
+\section{Summary}

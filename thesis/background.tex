@@ -161,23 +161,32 @@ It also lack standardization, which may cause interoperability issues.
 
 
 
-%%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
+
+
+\section{Protocols of interest}
+
+In order to improve the performance of Web services in \gls{dil} environments
+we're in this thesis investigated usage of alternative transport protocol
+other than TCP can be utilized. In this thesis we're looking into protocols in
+the transport and application layer of the Internet Protocol Suite\cite{rfc-1122}.
+
+%%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
-\begin{tabularx}{\textwidth}{| X | X |}
+\begin{tabularx}{\textwidth}{| X |}
 \hline
-  \textbf{Transport Protocol} & \textbf{Summary} \\ \hline
-  HTTP over TCP & Widely used. Breaks down in DIL environments.\\ \hline
-  MQTT & Summary here\\ \hline
-  Stream Control Transmission Protocol(SCTP) & Features multihoming. \\ \hline
-  Advanced Message Queuing Protocol(AMPQ) & Application level protocol. Employs
-  a broker architecture with store-and-forward capabilities. \\ \hline
-  SOAP directly on TCP & Its possible \\ \hline
+  \textbf{Application Layer} \\ \hline
+  \textbf{Transport Layer} \\ \hline
+  \textbf{Internet Layer} \\ \hline
+  \textbf{Link layer} \\ \hline
 \end{tabularx}
-\caption{Transport protocols}
+\caption{The layers of the Internet Protocol Suite}
 \end{table}
 
 
-\section{Transport Protocols}
+In the following sections we will give a short introduction to the protocols we're
+investigating in this thesis.
+
+
 
 \subsection{\glsentrylong{coap}}
 
@@ -209,12 +218,17 @@ protocols.
     broker-based architecture with store-and-forward capabilities.
 \end{itemize}
 
-\subsection{MQTT}
-MQTT is
+\subsection{\glsentrylong{mqtt}}
+
+MQTT is a client server publish/subscribe messaging transport protocol
+\cite{oasis-mqtt}. It is considered lightweight and is designed for use in networks
+where the bandwidth is limited. It is broker-based, where the broker is
+responsible for delivering messages to clients based on the topic of a
+message. 
 
 \subsection{\glsentrylong{sctp}}
 
-\gls{sctp} is transport-layer protocol which offers functionallity from both \gls{udp} and \gls{tcp}.
+\gls{sctp} is transport-layer protocol which offers functionality from both \gls{udp} and \gls{tcp}.
 \begin{itemize}
     \item Message-oriented like UDP.
     \item Ensure reliable, in sequence transport of messages with congestion control like TCP.
@@ -239,3 +253,20 @@ Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
 
 
 \section{Summary}
+
+
+%%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X |}
+\hline
+  \textbf{Protocol} & \textbf{Summary} \\ \hline
+  HTTP over TCP & Widely used. Breaks down in DIL environments.\\ \hline
+  CoAP & Application level protocol designed for use in the Internet of Things. \\ \hline
+  AMQP & Messaging middleware with store-and-forward capabilities.\\ \hline
+  MQTT & Summary here\\ \hline
+  SCTP & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
+  TCP & The well-known transport protocol. \\ \hline
+  UDP & Lacks reliability, but frameworks exist that provides it. \\ \hline
+\end{tabularx}
+\caption{Protocols of Interest}
+\end{table}

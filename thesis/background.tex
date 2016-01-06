@@ -159,66 +159,6 @@ environments, which limits the usability in tactical networks(trenger kilde?).
 It also lack standardization, which may cause interoperability issues.
 
 
-\section{Optimization techniques}
-The Web service technology enable interoperability between systems, but also
-increase the information overhead, requiring higher data rate demands. Employing
-Web Services developed for use in civilian networks directly into a \gls{dil}
-environment may not perform satisfactorily. To increase the performance we can
-apply optimalization techniques. There are many approaches and optimalization
-techniques which can be applied at different levels of the protocol stack. In
-the coming sections the different optimization techniques are presented and a
-overview is presented in \Cref{table:optimalization-overview}. Another issue
-that needs to be addressed is, when we have identified optimization techniques,
-where do we place them? In the application itself or in a proxy? This is
-discussed in the next section.
-
-\subsection{Where to place the optimalization?}
-One approach is to modify the Web service application itself. However, this
-would mean that every application that is used in a tactical network would
-require modification. This would require a lot of resources and severely limit
-the flexibility of using Web services. Another solution is, by using proxies, we
-can place the optimization there without altering the Web Services themselves.
-The only thing required to do is to setup the application to send and receive
-data through the proxy. The proxy will take care of the optimization for
-tactical networks. This seems like a more reasonable approach and is explored in
-this thesis.
-
-
-%%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
-\begin{table}[h]
-\begin{tabularx}{\textwidth}{| X | X |}
-\hline
-  \textbf{Protocol Stack} & \textbf{optimization possibilities} \\ \hline
-  The application & Optimize the application\\ \hline
-  Web service messaging: SOAP & Optimize SOAP, e.g XML compression \\ \hline
-  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other
-  protocols can be used. \\ \hline
-  IP & NATO NEC feasibility study states that all protocols should be over IP. \\
-  \hline
-  Lower layers & Not in the scope of this thesis. \\ \hline
-\end{tabularx}
-\caption{Optimization possibilities.} \label{table:optimalization-overview}
-\end{table}
-
-
-\subsection{Compressing the payload}
-
-The first optimization techniques deals with the optimization of the encoding.
-By compressing the Web service payload, we can reduce the amount of data that
-need to be sent. This optimization technique addresses one of the many
-challenges of tactical networks, namely the bandwidth consumption due to large
-message sizes.
-
-\begin{itemize}
-\item GZIP
-
-\item EFX(Efficient XML). XML spesefikt, får ikke brukt på REST når vi har andre
-payloads..
-
-\end{itemize}
-
-\subsection{Reducing overhead of SOAP}
-HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP is transport protocol agnostic different protocols can be used. Experiments show that this is possible.
 
 
 %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%

@@ -4,7 +4,7 @@ In this chapter concepts and technologies that are central for this thesis will
 be explained.
 
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
-\section{\glsentrylong{dil}}
+\section{\glsentrylong{dil} Networks}
 \label{dil}
 
 To improve the performance of Web services in limited military networks, we
@@ -22,7 +22,7 @@ to that nodes in the network may be disconnected for a long time, possibly for
 multiple days.
 
 \item[Intermittent]
-
+	
 Nodes in a \gls{dil} environment may lose connection temporarily before
 reconnecting. The duration range from seconds to minutes.
 
@@ -34,8 +34,8 @@ in the next section.
 
 \subsection{Other constraints}
 
-Aswell as being restricted  by the communication link itself, military units
-may have other limitations aswell. Consider that military foot patrols have
+As well as being restricted  by the communication link itself, military units
+may have other limitations as well. Consider that military foot patrols have
 limited battery capacity as they have to carry it with them in their
 backpacks. The transmission range of the communication equipment for mobile
 units may also be limited. Another factor that comes into play for military
@@ -46,7 +46,7 @@ may only receive data, but not send any.
 
 \subsection{Network metrics}
 
-Network metrics are used to describe various ascpects of data transfer from a
+Network metrics are used to describe various aspects of data transfer from a
 point to another.
 
 \begin{description}
@@ -73,16 +73,22 @@ timing out.
 %%%%%%% WEB SERVICES
 \section{Web services}
 
-Web services in general are..
+Web services are client and server applications that communicate over a
+network and can be used to implement a service-oriented architecture. Web
+services are critical in any data systems and are in widespread use in both
+civilian and military systems. It is a broad term and can be used to describe
+different types of services that are available over a network. The most common
+usage of the term refers to the \gls{w3c} definition of SOAP-based Web
+services, but could also refer to more simple HTTP-based \gls{rest} services.
 
-\subsection{W3 Web services}
+In this thesis we investigate optimization techniques that should support both
+\gls{w3c} Web services and \gls{rest}ful web services.
+
+\subsection{W3C Web services}
 \label{web-services}
-Web Services are client and server applications that communicate over a network
-and can be used to implement a service-oriented architecture. All communication
-is based on sending XML-based SOAP messages. There exists many definitions of
-Web services where the core principles are the same, but the finer details may
-vary. The World Wide Web Consortium has defined Web Services
-as\cite{wrc-web-service}:
+
+\gls{w3c} has defined Web Services as \cite{wrc-web-service}:
+
 \paragraph{}
 \textit{
     A Web service is a software system designed to support interoperable
@@ -96,28 +102,32 @@ as\cite{wrc-web-service}:
 \paragraph{}
 
 This definition points out a set of standards that enables machine-to-machine
-interactions. These standards are discussed in the following sections. The Web
-Service technology, following the \gls{soa} principles, provides loouse coupling
-and ease integration beteween systems. Figur her.
+interactions. All communication is based on sending XML-based SOAP messages.
+It exists many definitions of Web services where the core principles are the
+same, but the finer details may vary.  These standards are discussed in the
+following sections. The Web Service technology is realization of the \gls{soa}
+principles which provides loose coupling and ease integration between systems.
+
+Figur her.
 
 
 \subsubsection{XML}
 
 \gls{xml} is a markup language and is considered as the base standard for Web
-services. An XML document consist of data surrounded by tags and is designed to
-be both machine and user readable. Tags describe the data they enclose. The tags
-can be standarized, which allows exchange and understanding of data in a
-standarized, machine-readable way.
+services. An XML document consist of data surrounded by tags and is designed
+to be both machine and user readable. Tags describe the data they enclose. The
+tags can be standardized, which allows exchange and understanding of data in a
+standardized, machine-readable way.
 
 
 \subsubsection{Service descriptions: WSDL}
 
 \gls{wsdl} is an interface definition language that using XML describes
 functionality offered by a Web Service. The interface describes available
-functions, data types for message requests and responses and binding information
-about the transport protocol, as well as address information for locating the
-service. This enables a formal, machine-readable description of Web Service
-which clients can invoke.
+functions, data types for message requests and responses and binding
+information about the transport protocol, as well as address information for
+locating the service. This enables a formal, machine-readable description of
+Web Service which clients can invoke.
 
 
 \subsubsection{SOAP}
@@ -142,10 +152,11 @@ client-server model where a client requests data from a server when needed. It
 is closely associated with HTTP and use HTTP verbs(e.g GET, POST,
 DELETE) to operate on resources on a server.
 
- \gls{rest} is easy to understand and has gained a lot of traction in the civil
- industry in the latest years. \gls{rest} uses exclusively HTTP over TCP.
- However, TCP does not necessarily perform satisfactorily in \gls{dil}
- environments, which limits the usability in tactical networks(trenger kilde?). It also lack standardization, which may have interoperability issues.
+ \gls{rest} is easy to understand and has gained a lot of traction in the
+civil  industry in the latest years. \gls{rest} uses exclusively HTTP over
+TCP.  However, TCP does not necessarily perform satisfactorily in \gls{dil}
+environments, which limits the usability in tactical networks(trenger kilde?).
+It also lack standardization, which may cause interoperability issues.
 
 
 \section{Optimization techniques}

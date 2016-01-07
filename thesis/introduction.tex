@@ -143,7 +143,7 @@ costs low and avoiding proprietary solutions and vendor lock-in. Another
 benefit with \gls{soa} is re-usability by dividing common business processes
 into services, which may help cost reduction and avoids duplication. \gls{soa}
 is only a pattern and the concepts can be realized by a range of technologies.
-The most common used approach is the Web service familiy of standards, using
+The most common used approach is the Web service family of standards, using
 the SOAP messaging protocol.
 
 To achieve interoperability between systems from different nations and
@@ -156,6 +156,9 @@ HTTP over TCP. \gls{rest} has gained a lot of traction in the civil industry
 and is discussed in section \cref{rest}.
 
 
+\subsection{Proxies}
+
+Short explanation about proxies and why we would want it in this thesis.
 
 
 \section{Example scenario}
@@ -186,13 +189,25 @@ The Web Service itself does not need to pay attention to the bad connectivity,
 the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises}
-The Web services and clients do not need to be changed.
+\begin{itemize}
+
+\item The web services should not be required to be customized, all
+optimization should be placed in proxies.
+\item Platform independent?
+\item Applications that is to be used in military networks need to be approved by security authorities. If the application is to complex, e.g.  a very large code base or use a lot of external frameworks, the approvement process will be very lengthy. It is therefor a premises that the proxy is relatively simple. 
+\item Use open source libraries.
+
+\end{itemize}
 
 \section{Scope and Limitations}
-Sikkerhet er ikke adressert i denne oppgaven(skal kanskje se på IPsec).
 
-SOAP over HTTP klart det mest brukte, samt rest er utelukkende på HTTP. Derfor
-støtter proxien kun HTTP ut og inn.
+The goal of this thesis is to investigate optimization techniques for Web
+services in dil environments. Security is therefore not addressed in this
+thesis. However, some security features such as IPSec will be enabled or
+disabled as part of the evaluation of the proxy.
+
+The proxy implemented as a part of this thesis, will be a HTTP-proxy. As we
+will discuss later in \cref{web-services}, most Web services use HTTP.
 
 \section{Research Methodology}
 Denning.

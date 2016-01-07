@@ -1,0 +1,11 @@
+* Hva syns dere om den nye strukturen?
+
+* Hvor skal jeg introdusere Apache Camel? Jeg må vel legge fram flere alternativer for å implementere en proxy, diskutere, og til slutt ta et valg? Hvor i strukturen min skal jeg gjøre det.
+
+
+### Kravspekfikasjon
+
+* Skal jeg sette tall på hvor lav data-rate proxien burde støtte?
+* Samme med hvor lang disconnects.
+
+Hva skal jeg skrive i requriements analysen om dette.

@@ -1,7 +1,8 @@
 \chapter{Technical Background}
 
-In this chapter concepts and technologies that are central for this thesis will
-be explained.
+In this chapter we will present concepts and protocols that are central for
+this thesis. Furthermore we will discuss available approaches to creating a
+HTTP-proxy.
 
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
 \section{\glsentrylong{dil} Networks}
@@ -72,6 +73,7 @@ timing out.
 
 %%%%%%% WEB SERVICES
 \section{Web services}
+\label{web-services}
 
 Web services are client and server applications that communicate over a
 network and can be used to implement a service-oriented architecture. Web
@@ -85,7 +87,6 @@ In this thesis we investigate optimization techniques that should support both
 \gls{w3c} Web services and \gls{rest}ful web services.
 
 \subsection{W3C Web services}
-\label{web-services}
 
 \gls{w3c} has defined Web Services as \cite{wrc-web-service}:
 
@@ -134,11 +135,11 @@ Web Service which clients can invoke.
 
 \gls{soap} is an application level XML-based protocol specification for
 information exchange in the implementation of Web services. It is transport
-protocol agnostic and can be carried over various protocols. The far most
-transport protocol used is HTTP over TCP, but other protocols such as UDP and
-SMTP can be used as well. A SOAP message is an "envelope" consisting of an
-optional header and a required body. The header can contain information not
-directly related to the message such as routing information for the message and
+protocol agnostic and can be carried over various protocols. The far most used
+transport protocol is HTTP over TCP, but other protocols such as UDP and SMTP
+can be used as well. A SOAP message is an "envelope" consisting of an optional
+header and a required body. The header can contain information not directly
+related to the message such as routing information for the message and
 security information. The body contains the data being sent, known as the
 payload.
 
@@ -252,6 +253,9 @@ Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
 \end{itemize}
 
 
+\section{Proxies}
+Presenter ulike løsninger for proxies.
+
 \section{Summary}
 
 
@@ -269,4 +273,18 @@ Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
   UDP & Lacks reliability, but frameworks exist that provides it. \\ \hline
 \end{tabularx}
 \caption{Protocols of Interest}
+\end{table}
+
+
+
+%%%%%%%%%%%% Proxy approaches %%%%%%%%%%%%%%%%%%%
+\begin{table}
+    \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Approach}          & \textbf{Summary}     \\ \hline
+    Build from scract & Time consuming, complex.       \\ \hline
+    Apache Camel      & Supports some of the protocols \\ \hline
+    Squid      & \\ \hline
+    \end{tabular}
+    \caption {Possible proxy approches}
 \end{table}

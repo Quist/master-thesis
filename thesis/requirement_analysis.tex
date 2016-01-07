@@ -1,30 +1,60 @@
-\chapter{Requirement Analysis}
+\chapter{Requirement Analysis} 
+
+In this chapter we will discuss the requirements for our proxy. Since we're
+creating a proxy aimed at use in a military context, military operational
+requirements are part of the requirements for this proxy. As discussed earlier
+this proxy must provide robustness and reliable delivery of data in \gls{dil}
+environments.
+
+The first requirements are the premises we discussed in the introduction. The
+proxy should be able to receive and forward HTTP-requests.
+
+Next, the proxy must be able to handle the difficult network conditions of
+dil. It must handle very low data rates and handle brief disconnects. It
+should also support disconnects over a longer period of time by having store-
+and-forward capabilities.
+
+In order to perform compression the proxy must be able to modify the payload
+of the message. Due to security mechanisms that detect changes to the
+payload(checksums), the payload must be restored back to its original form
+before being forwarded to the final receiver.
+
 As discussed in \cref{section:DIL-problems}, the dependency on end-to-end
 connections needs to be removed. This can be done by adding proxies to the
 network. Mobile units have to carry batteries with them and the capacity is
-therefore limited. Advanced compression techniques may reduce the overhead, but
-also requires more battery. This trade-off needs to be considered.
-\\ \\ \\
+therefore limited. Advanced compression techniques may reduce the overhead,
+but also requires more battery. This trade-off needs to be considered.
+
+
 \begin{table}[h]
 \begin{tabular}{| l | l |}
 \hline
   \textbf{Requirement} & \textbf{Priority} \\ \hline
-  Receive and forward HTTP 1.X requests & 1\\ \hline
+  Receive and forward HTTP requests & 1\\ \hline
   Allow modifications on the payload & 1 \\ \hline
+  Retain the checksum of the payload & 1 \\ \hline
   Allow configuration of HTTP timeouts & 1 \\ \hline
   Keep HTTP-connection alive & 1 \\ \hline
   Support protocol X and y & 2 \\ \hline
+  Handle very low data rate \\ \hline
+  Have store-and-forward capabilities \\ \hline
+  Handle frequent disconnects\\ \hline
 \end{tabular}
-\caption{Proxy requirements}
+\caption{Summary of proxy requirements}
 \end{table}
 
 
 \section{Optimization techniques}
+
+As we saw in the previous chapter there has been quite amount of research into
+optimization techniques in \gls{dil} environments. In this section we'll try to
+summarize which techniques we want to support in our proxy.
+
 The Web service technology enable interoperability between systems, but also
 increase the information overhead, requiring higher data rate demands. Employing
 Web Services developed for use in civilian networks directly into a \gls{dil}
 environment may not perform satisfactorily. To increase the performance we can
-apply optimalization techniques. There are many approaches and optimalization
+apply optimization techniques. There are many approaches and optimization
 techniques which can be applied at different levels of the protocol stack. In
 the coming sections the different optimization techniques are presented and a
 overview is presented in \Cref{table:optimalization-overview}. Another issue
@@ -32,7 +62,7 @@ that needs to be addressed is, when we have identified optimization techniques,
 where do we place them? In the application itself or in a proxy? This is
 discussed in the next section.
 
-\subsection{Where to place the optimalization?}
+\subsection{Where to place the optimization?}
 One approach is to modify the Web service application itself. However, this
 would mean that every application that is used in a tactical network would
 require modification. This would require a lot of resources and severely limit
@@ -72,10 +102,15 @@ message sizes.
 \begin{itemize}
 \item GZIP
 
-\item EFX(Efficient XML). XML spesefikt, får ikke brukt på REST når vi har andre
+\item EFX(Efficient XML). XML spesifikt, får ikke brukt på REST når vi har andre
 payloads..
 
 \end{itemize}
 
 \subsection{Reducing overhead of SOAP}
 HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP is transport protocol agnostic different protocols can be used. Experiments show that this is possible.
+
+
+\section{Summary}
+
+In this chapter we have discussed the requirements for our proxy. See table xx for a summary. Next we will discuss the design and implementation of our proxy.

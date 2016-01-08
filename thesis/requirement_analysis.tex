@@ -38,9 +38,9 @@ but also requires more battery. This trade-off needs to be considered.
   Allow configuration of HTTP timeouts & 1 \\ \hline
   Keep HTTP-connection alive & 1 \\ \hline
   Support protocol X and y & 2 \\ \hline
-  Handle very low data rate \\ \hline
-  Have store-and-forward capabilities \\ \hline
-  Handle frequent disconnects\\ \hline
+  Handle very low data rate & 1 \\ \hline
+  Have store-and-forward capabilities & 1 \\ \hline
+  Handle frequent disconnects & 1\\ \hline
 \end{tabular}
 \caption{Summary of proxy requirements}
 \end{table}
@@ -51,29 +51,6 @@ but also requires more battery. This trade-off needs to be considered.
 As we saw in the previous chapter there has been quite amount of research into
 optimization techniques in \gls{dil} environments. In this section we'll try to
 summarize which techniques we want to support in our proxy.
-
-The Web service technology enable interoperability between systems, but also
-increase the information overhead, requiring higher data rate demands. Employing
-Web Services developed for use in civilian networks directly into a \gls{dil}
-environment may not perform satisfactorily. To increase the performance we can
-apply optimization techniques. There are many approaches and optimization
-techniques which can be applied at different levels of the protocol stack. In
-the coming sections the different optimization techniques are presented and a
-overview is presented in \Cref{table:optimalization-overview}. Another issue
-that needs to be addressed is, when we have identified optimization techniques,
-where do we place them? In the application itself or in a proxy? This is
-discussed in the next section.
-
-\subsection{Where to place the optimization?}
-One approach is to modify the Web service application itself. However, this
-would mean that every application that is used in a tactical network would
-require modification. This would require a lot of resources and severely limit
-the flexibility of using Web services. Another solution is, by using proxies, we
-can place the optimization there without altering the Web Services themselves.
-The only thing required to do is to setup the application to send and receive
-data through the proxy. The proxy will take care of the optimization for
-tactical networks. This seems like a more reasonable approach and is explored in
-this thesis.
 
 
 %%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%

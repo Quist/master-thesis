@@ -5,12 +5,9 @@ the performance of Web services in dil environments. We will try to identify
 results and recommendations that are applicable to this thesis. Furthermore, we
 will discuss existing proxies and what they offer.
 
-
-Si noe om mengden på arbeid, hvem har gjort det, hvorfor de har gjort det.
-
-IST-090 ser på muligheten av å bruke SOA på taktisk nivå, med spesielt fokus på
-disadvantged grids. Fokuserer på mulighet for Web services across disadvantaged
-networks. Samt Data Distribution Service(DDS) på taktisk nivå.
+Quite an amount of research has been done in the area of compression. Also,
+improving the performance of Web services in dil environments has been explored,
+but mostly for SOAP-based Web services.
 
 In the report IST-090, a task group investigated solutions for making \gls{soa}
 applicable at the tactical level. Three key issues that needs to be addressed in
@@ -66,13 +63,13 @@ different ways to do this:
 \end{enumerate}
 
 
-\subsection{Proxies}
+\section{Proxies}
 
 This section lists previous implementations of proxies designed to work in
 \gls{dil} environments.
 
 
-\subsubsection{DSProxy}
+\subsection{DSProxy}
 
 DSProxy is a proxy solution developed by \gls{ffi} which transports SOAP
 messages over DIL networks. It reduces bandwidth needs by employing different
@@ -80,7 +77,7 @@ optimization techniques such as compression. It also provides delay tolerance
 which allows \gls{cots} clients to function in DIL networks.
 
 
-\subsubsection{AFRO}
+\subsection{AFRO}
 
 \gls{afro} is an edge proxy which offers different levels of \gls{qos} to Web
 Services through performance monitoring and application of the context-aware
@@ -90,14 +87,13 @@ representation. It also cuts out information that are accepted to be removed by
 the service requester. However, since the proxy modifies the data being sent,
 the checksum of the data is also changed. In applications where we want to be
 sure that no one has tempered with the data before arriving, checksums is often
-used. Therefor this solution would not work for such applications.
+used. Therefore this solution would not work for such applications.
 
 
-\subsubsection{Suri?}
-Finn ut mer.
+\subsection{Suri}
+To be done.
 
-
-\subsection{Evaluation of Transport Protocols}
+\section{Evaluation of Transport Protocols}
 
 Previous studies have investigated potential gains from replacing HTTP/TCP
 with alternative transport protocols
@@ -118,11 +114,11 @@ Anbefaler at hvis man trenger å gjøre propetiære optimaliseringer, så burde 
 plasseres i proxier.
 
 
-\subsection{Compression}
+\section{Compression}
 
 \gls{xml} is the data format used by Web Services and has a significant
 overhead. Previous studies have evaluated different compressions algorithms for
-Web services. Previous experiments shows EFX has the compression results with
+Web services. Previous experiments shows EFX has the best compression results with
 GZIP as the second best alternative\cite{johnsen-trude-compression-techniqes}.
 
 

@@ -10,7 +10,7 @@ information across different types of communication systems. This ranges from
 foot soldiers with radio equipment on a remote battlefield, to the commanding
 officer in a far away headquarter full of computers. To \gls{nato}, this
 concept is referred to as \gls{nec}. In a feasibility study, \gls{nato}
-identified the \gls{soa} paradigm and the Web Service technology as key	
+identified the \gls{soa} paradigm and the Web Service technology as key
 enablers for information exchange in \gls{nato}\cite{nnec-study}.
 
 Web Service technology is well tested and in widespread use in civil
@@ -40,11 +40,11 @@ military networks are explained in the next section.
 
 Military networks are complex and consist of many different heterogeneous
 network technologies. We can group them into layers which have different
-chararistics as can been seen in \cref{figure:military-networks}. At the highest
-level, there is fixed infrastructure and relatively static users, meaning that
-they seldom move around or disconnects. At the lower levels, there are fewer
-units, but they are much more dynamic. The lower level is called tactical
-networks which is discussed in the next paragraph.
+characteristics as can been seen in \cref{figure:military-networks}. At the
+highest level, there is fixed infrastructure and relatively static users,
+meaning that they seldom move around or disconnects. At the lower levels, there
+are fewer units, but they are much more dynamic. The lower level is called
+tactical networks which is discussed in the next paragraph.
 
 \begin{figure}[h]
 \includegraphics[scale=0.4, left]{images/network_complexity.png}
@@ -156,9 +156,28 @@ HTTP over TCP. \gls{rest} has gained a lot of traction in the civil industry
 and is discussed in section \cref{rest}.
 
 
-\subsection{Proxies}
+\subsection{Employing proxies}
 
-Short explanation about proxies and why we would want it in this thesis.
+The Web service technology enable interoperability between systems, but also
+increase the information overhead, requiring higher data rate demands. Employing
+Web Services developed for use in civilian networks directly into a \gls{dil}
+environment may not perform satisfactorily. To increase the performance we can
+apply optimization techniques. There are many approaches and optimization
+techniques which can be applied at different levels of the protocol stack. In
+the coming sections the different optimization techniques are presented and a
+overview is presented in \Cref{table:optimalization-overview}. Another issue
+that needs to be addressed is, when we have identified optimization techniques,
+where do we place them? In the application itself or in a proxy?
+
+One approach is to modify the Web service application itself. However, this
+would mean that every application that is used in a tactical network would
+require modification. This would require a lot of resources and severely limit
+the flexibility of using Web services. Another solution is, by using proxies, we
+can place the optimization there without altering the Web Services themselves.
+The only thing required to do is to setup the application to send and receive
+data through the proxy. The proxy will take care of the optimization for
+tactical networks. This seems like a more reasonable approach and is explored in
+this thesis.
 
 
 \section{Example scenario}
@@ -194,7 +213,7 @@ the proxy will choose the appropriate protocol and configuration.
 \item The web services should not be required to be customized, all
 optimization should be placed in proxies.
 \item Platform independent?
-\item Applications that is to be used in military networks need to be approved by security authorities. If the application is to complex, e.g.  a very large code base or use a lot of external frameworks, the approvement process will be very lengthy. It is therefor a premises that the proxy is relatively simple. 
+\item Applications that is to be used in military networks need to be approved by security authorities. If the application is to complex, e.g.  a very large code base or use a lot of external frameworks, the approvement process will be very lengthy. It is therefor a premises that the proxy is relatively simple.
 \item Use open source libraries.
 
 \end{itemize}
@@ -217,7 +236,7 @@ Denning.
 
 The outcome of this thesis is a recommendation regarding which optimizations
 techniques which can be used in DIL to enhance the performance of Web services.
-Aswell as a prototype implementation of a DIL proxy.
+As well as a prototype implementation of a DIL proxy.
 
 \section{Outline}
 Hvordan er resten av oppgaven strukturert.

@@ -1,4 +1,4 @@
-\chapter{Requirement Analysis} 
+\chapter{Requirement Analysis}
 
 In this chapter we will discuss the requirements for our proxy. Since we're
 creating a proxy aimed at use in a military context, military operational
@@ -13,6 +13,8 @@ Next, the proxy must be able to handle the difficult network conditions of
 dil. It must handle very low data rates and handle brief disconnects. It
 should also support disconnects over a longer period of time by having store-
 and-forward capabilities.
+
+Payload agnostic. The data type doesn't matter(JSON, XML etc.).
 
 In order to perform compression the proxy must be able to modify the payload
 of the message. Due to security mechanisms that detect changes to the

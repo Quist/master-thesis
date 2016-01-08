@@ -1,8 +1,15 @@
 \chapter{Technical Background}
 
 In this chapter we will present concepts and protocols that are central for
-this thesis. Furthermore we will discuss available approaches to creating a
-HTTP-proxy.
+this thesis.
+
+We will get started by exploring the challenges a military network has. Next, we
+will discuss common Web services used for exchanging data in military systems.
+Then we will look into a number of protocols that we can replace HTTP/TCP with
+in order to increase the performance of Web services. We will also introduce
+some common optimization techniques used to improve network performance.
+Finally, we will present some available frameworks and solutions for creating a
+proxy.
 
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
 \section{\glsentrylong{dil} Networks}
@@ -23,7 +30,7 @@ to that nodes in the network may be disconnected for a long time, possibly for
 multiple days.
 
 \item[Intermittent]
-	
+
 Nodes in a \gls{dil} environment may lose connection temporarily before
 reconnecting. The duration range from seconds to minutes.
 
@@ -143,6 +150,13 @@ related to the message such as routing information for the message and
 security information. The body contains the data being sent, known as the
 payload.
 
+\subsubsection{W3C Web Service overhead}
+
+W3C Web services are accoicated with a considerable amount of overhead. Web
+Service technology is based on SOAP, which use XML-based messages. It is a
+textual data format and produce much larger messages than binary formats.
+
+
 \subsection{\glsentrylong{rest}}
 \label{rest}
 
@@ -158,11 +172,6 @@ civil  industry in the latest years. \gls{rest} uses exclusively HTTP over
 TCP.  However, TCP does not necessarily perform satisfactorily in \gls{dil}
 environments, which limits the usability in tactical networks(trenger kilde?).
 It also lack standardization, which may cause interoperability issues.
-
-
-
-
-
 
 \section{Protocols of interest}
 
@@ -225,7 +234,7 @@ MQTT is a client server publish/subscribe messaging transport protocol
 \cite{oasis-mqtt}. It is considered lightweight and is designed for use in networks
 where the bandwidth is limited. It is broker-based, where the broker is
 responsible for delivering messages to clients based on the topic of a
-message. 
+message.
 
 \subsection{\glsentrylong{sctp}}
 
@@ -252,6 +261,16 @@ Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
     messages.
 \end{itemize}
 
+
+\section{Compression}
+
+Data compression is the technique of encoding information using fewer bits than
+the original representation. The goal is to reduce data transmission time or the
+storage requirements. We divide compression lossy and lossless compression.
+Lossy compression is used to compress data such as images and movies where the
+consequence of loosing some of the data is not critical. Lossless compression
+utilize repeating patterns in the  data in order to represents the same data in
+a more efficient way.
 
 \section{Proxies}
 Presenter ulike løsninger for proxies.
@@ -282,7 +301,7 @@ Presenter ulike løsninger for proxies.
     \begin{tabular}{|l|l|}
     \hline
     \textbf{Approach}          & \textbf{Summary}     \\ \hline
-    Build from scract & Time consuming, complex.       \\ \hline
+    Build from scratch & Time consuming, complex.       \\ \hline
     Apache Camel      & Supports some of the protocols \\ \hline
     Squid      & \\ \hline
     \end{tabular}

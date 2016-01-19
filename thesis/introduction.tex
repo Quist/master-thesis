@@ -1,7 +1,7 @@
 \chapter{Introduction}
 
 Military units operate under conditions where the reliability of the
-network connection is low. They can operate far from existing communication
+network connection may be low. They can operate far from existing communication
 infrastructure and rely only on wireless communication. Such networks are
 often characterized by unreliable connections with low date rate and high
 error rates making data communication difficult. In a military scenario it is
@@ -17,7 +17,7 @@ Web Service technology is well tested and in widespread use in civil
 applications where the network is stable and the data rate is abundant.
 However, certain military networks suffer from high error rates and very low
 date rate, which can leave Web Services built for civilian use unusable. This
-thesis investigate how these challenges can be overcome by applying  different
+thesis investigates how these challenges can be overcome by applying  different
 optimization techniques. We apply different techniques, the most central one
 investigating how using alternative transport protocols than HTTP/TCP may
 increase speed and reliability.
@@ -26,66 +26,21 @@ increase speed and reliability.
 \section{Background and Motivation}
 
 \gls{nato} is a military alliance consisting of 28 member countries
-\cite{nato-homepage-member-countries} and which primary goal is to protect
-the freedom and security of its members through political and military means.
-In joint military operations the relatively large number of member countries
-can be a challenge when setting up machine-to machine information exchange.
-Differences in communication systems and equipment attribute to making the
-integration of such systems more difficult. In order to address this issue,
-NATO has chosen the \gls{soa} concept\cite{nnec-study}. The characteristics of
-military networks are explained in the next section.
+\cite{nato-homepage-member-countries} and which primary goal is to protect the
+freedom and security of its members through political and military means. In
+joint military operations the relatively large number of member countries can be
+a challenge when setting up machine-to-machine information exchange. Differences
+in communication systems and equipment attribute to making the integration of
+such systems more difficult. In order to address this issue, NATO has chosen the
+\gls{soa} concept, which when built using open standards facilitates
+interoperability\cite{nnec-study}.
 
-
-\subsection{Military Networks}
-
-Military networks are complex and consist of many different heterogeneous
-network technologies. We can group them into layers which have different
-characteristics as can been seen in \cref{figure:military-networks}. At the
-highest level, there is fixed infrastructure and relatively static users,
-meaning that they seldom move around or disconnects. At the lower levels, there
-are fewer units, but they are much more dynamic. The lower level is called
-tactical networks which is discussed in the next paragraph.
-
-\begin{figure}[h]
-\includegraphics[scale=0.4, left]{images/network_complexity.png}
-\caption{Complexity of military networks(from \cite{pervasive-web})}
-\label{figure:military-networks}
-\end{figure}
-
-
-\subsubsection{Tactical Networks}
-Tactical networks are characterized by that the units are deployed to operate in
-a battlefield, which means there is no existing communication infrastructure.
-They use tactical communication equipment which includes technologies like VHF,
-UHF, HF, tactical broadband and satellites\cite{ist-090}.
-% Mangler referanse på bruk av satelitter.
-
-Examples of such units are mobile units like vehicles, foot soldiers and field
-headquarters. The tactical network connects deployed headquarters with mobile
-units. These types of networks are unpredictable and may have very low date
-rate, possibly high delay, high error rates and frequent disconnections. They
-are often called disadvantaged grids or \gls{dil} environments, which is the term used in
-this thesis. \gls{dil} is discussed in \cref{dil}.
-
-NATO studies\cite{nato-disadvantaged-grids} have identified such networks to
-have the following characteristics:
-\\\\
-\textit{
-Disadvantaged grids are characterized by low bandwidth,variable throughput,
-unreliable connectivity, and energy constraints imposed by the wireless
-communications grid that link the nodes}.
-\paragraph{}
-The characteristics of these networks and what challenges they impose are
-discussed in detail in \cref{dil}.
-
-
-
-\subsection{Service-Oriented Architecture}
-\glsentryfull{soa} is an architectural pattern where application components
+\subsection{\glsentrylong{soa}}
+\gls{soa} is an architectural pattern where application components
 provide services to other components over a network. \gls{soa} is built on
 concepts such as object-orientation and distributed computing and aims to get
 a loose coupling between clients and services. In their reference model for
-\gls{soa}, the \gls{oasis} define \gls{soa} as\cite{oasis-soa-reference-model}:
+\gls{soa}, the \gls{oasis} define \gls{soa} as \cite{oasis-soa-reference-model}:
 
 \paragraph{}
 
@@ -100,7 +55,8 @@ and expectations.} % SOA Trekant figur her
 In \gls{soa}, business processes are divided into smaller chunks of business
 logic, referred to as \textit{services}. A service can be business related, e.g
 a patient register service, or a infrastructure service used by other services
-and not by a user application. \gls{oasis} define a service as:
+and not by a user application. \gls{oasis} define a service as
+\cite{oasis-soa-reference-model}:
 
 \paragraph{}
 \textit{
@@ -130,10 +86,10 @@ flexible, as new components can be integrated with minimal impact on the
 existing system. Another aspect of loose coupling is with regard to time, which
 enable services and its consumers to not be available at the same instance of
 time. This enables asynchronous communication. Loose coupling with regards to
-location allows the location of an service to be changed without needing to
+location allows the location of a service to be changed without needing to
 reprogram, reconfigure, or restart the service consumers. This is possible
-through the usage of service discovery, which is dynamic retrieval of the
-new location of the service.
+through the usage of service discovery, which is dynamic retrieval of the new
+location of the service.
 
 Furthermore \gls{soa} enables service implementation neutrality. The
 implementation of service is completely separated from the service
@@ -146,19 +102,68 @@ is only a pattern and the concepts can be realized by a range of technologies.
 The most common used approach is the Web service family of standards, using
 the SOAP messaging protocol.
 
-To achieve interoperability between systems from different nations and
-vendors, NATO has chosen the Web Service technology in order to realize the
-\gls{soa}  principles\cite{soa-baseline}. This allows member nations to
-implement their own technology as long as they adhere to the standards. The
-Web service technology is discussed in detail in \cref{web-services}. Another
-approach to realize \gls{soa} is \gls{rest}, an architecture style which use
-HTTP over TCP. \gls{rest} has gained a lot of traction in the civil industry
-and is discussed in section \cref{rest}.
+To achieve interoperability between systems from different nations and vendors,
+NATO has chosen the Web Service technology in order to realize the \gls{soa}
+principles\cite{soa-baseline}. This allows member nations to implement their own
+technology as long as they adhere to the standards. The Web service technology
+is discussed in detail in \cref{web-services}. Another approach to realize
+\gls{soa} is \gls{rest}, an architecture style which uses HTTP over TCP.
+\gls{rest} has gained a lot of traction in the civil industry and is discussed
+in section \cref{rest}.
+
+
+\subsection{Military Networks}
+
+Military networks are complex and consist of many different heterogeneous
+network technologies. We can group them into layers which have different
+characteristics as can been seen in \cref{figure:military-networks}. At the
+highest level, there is fixed infrastructure and relatively static users,
+meaning that they seldom move around or disconnect. At the lower levels, there
+are fewer units, but they are much more dynamic. The lower level is called
+tactical networks, which is discussed in the next paragraph.
+
+\begin{figure}[h]
+\includegraphics[scale=0.4, left]{images/network_complexity.png}
+\caption{Complexity of military networks(from \cite{pervasive-web})}
+\label{figure:military-networks}
+\end{figure}
+
+\subsubsection{Tactical Networks}
+Tactical networks are characterized by that the units are deployed to operate in
+a battlefield, which means there is no existing communication infrastructure.
+They use tactical communication equipment, which includes technologies like VHF,
+UHF, HF, tactical broadband and satellites\cite{ist-090}.
+% Mangler referanse på bruk av satelitter.
+
+Examples of such units are mobile units like vehicles, foot soldiers and field
+headquarters. The tactical network connects deployed headquarters with mobile
+units. These types of networks are unpredictable and may have very low date
+rate, possibly high delay, high error rates and frequent disconnections. They
+are often called disadvantaged grids or \gls{dil} environments, which is the
+term used in this thesis. \gls{dil} is discussed in \cref{dil}.
+
+NATO studies\cite{nato-disadvantaged-grids} have identified such networks to
+have the following characteristics:
+\\\\
+\textit{
+Disadvantaged grids are characterized by low bandwidth, variable throughput,
+unreliable connectivity, and energy constraints imposed by the wireless
+communications grid that link the nodes
+}.
+\paragraph{}
+The characteristics of these networks and what challenges they impose are
+discussed in further detail in \cref{dil}.
+
+
+\section{Example scenario}
+
+Jeg tenkte her å introdusere et scenario som illustererer problemer og utfordringer
+med DIL nettverk.
 
 
 \subsection{Employing proxies}
 
-The Web service technology enable interoperability between systems, but also
+The Web service technology enables interoperability between systems, but also
 increase the information overhead, requiring higher data rate demands. Employing
 Web Services developed for use in civilian networks directly into a \gls{dil}
 environment may not perform satisfactorily. To increase the performance we can
@@ -180,13 +185,8 @@ tactical networks. This seems like a more reasonable approach and is explored in
 this thesis.
 
 
-\section{Example scenario}
-
-Jeg tenkte her å introdusere et scenario som illustererer problemer og utfordringer
-med DIL nettverk.
-
 \section{Problem Statement}
-Most of the Web Service solutions used today are aimed for civilian use and do
+Most of the Web service solutions used today are aimed for civilian use and do
 not necessarily perform well in military environments. In contrast to civilian
 networks where the date rate is abundant, mobile tactical networks may suffer
 from high error rates and low date rate. Adapting Web service solutions meant
@@ -202,26 +202,30 @@ Web Services can remain unchanged.
 The goal of this thesis is to investigate different optimization techniques that
 can be applied in order to improve Web service performance in \gls{dil}
 networks. In order for the clients and services to remain interoperable the
-optimization techniques will be placed in proxies. The Web Services will
+optimization techniques will be placed in proxies. The Web services will
 communicate as normal, while all network traffic is tunneled through a proxy.
-The Web Service itself does not need to pay attention to the bad connectivity,
+The Web service itself does not need to pay attention to the bad connectivity,
 the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises}
 \begin{itemize}
 
-\item The web services should not be required to be customized, all
+\item The Web services should not be required to be customized, all
 optimization should be placed in proxies.
+
 \item Platform independent?
-\item Applications that is to be used in military networks need to be approved by security authorities. If the application is to complex, e.g.  a very large code base or use a lot of external frameworks, the approvement process will be very lengthy. It is therefor a premises that the proxy is relatively simple.
-\item Use open source libraries.
+
+\item Applications that are to be used in military networks need to be approved
+by security authorities. If the application is too complex, e.g.  a very large
+code base or use a lot of external frameworks, the approvement process will be
+very lengthy. It is therefore a premises that the proxy is relatively simple.
 
 \end{itemize}
 
 \section{Scope and Limitations}
 
 The goal of this thesis is to investigate optimization techniques for Web
-services in dil environments. Security is therefore not addressed in this
+services in \gls{dil} environments. Security is therefore not addressed in this
 thesis. However, some security features such as IPSec will be enabled or
 disabled as part of the evaluation of the proxy.
 
@@ -235,7 +239,7 @@ Denning.
 \section{Contribution}
 
 The outcome of this thesis is a recommendation regarding which optimizations
-techniques which can be used in DIL to enhance the performance of Web services.
+techniques, which can be used in DIL to enhance the performance of Web services.
 As well as a prototype implementation of a DIL proxy.
 
 \section{Outline}

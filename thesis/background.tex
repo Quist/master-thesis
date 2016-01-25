@@ -1,88 +1,19 @@
 \chapter{Technical Background}
 
-In this chapter we will present concepts and protocols that are central for
-this thesis.
+In this chapter we present concepts and protocols that are central for this
+thesis.
 
-We will get started by exploring the challenges a military network has. Next, we
-will discuss common Web services used for exchanging data in military systems.
-Then we will look into a number of protocols that we can replace HTTP/TCP with
-in order to increase the performance of Web services. We will also introduce
-some common optimization techniques used to improve network performance.
-Finally, we will present some available frameworks and solutions for creating a
-proxy.
-
-%%%%%%%%%% DIL %%%%%%%%%%%%%%%
-\section{\glsentrylong{dil} Networks}
-\label{dil}
-
-To improve the performance of Web services in limited military networks, we
-must understand what limitations we're dealing with. The \gls{dil} concept refers
-to three characteristics of a limited network. As we discussed in the
-introduction, military tactical networks may suffer from these constraints.
-
-\begin{description}
-\item[Disconnected]
-Military units that participate in a tactical network are highly mobile
-and may disconnect from a network either voluntarily or not. This causes
-topology changes. Unplanned loss of connectivity can be due to various reasons,
-such as loss of signal or equipment malfunction.  The disconnected term refers
-to that nodes in the network may be disconnected for a long time, possibly for
-multiple days.
-
-\item[Intermittent]
-
-Nodes in a \gls{dil} environment may lose connection temporarily before
-reconnecting. The duration range from seconds to minutes.
-
-\item[Limited] The Data rate, how many bits that are sent per second, is limited
-in \gls{dil} networks. Various aspects that affects the date rate are discussed
-in the next section.
-
-\end{description}
-
-\subsection{Other constraints}
-
-As well as being restricted  by the communication link itself, military units
-may have other limitations as well. Consider that military foot patrols have
-limited battery capacity as they have to carry it with them in their
-backpacks. The transmission range of the communication equipment for mobile
-units may also be limited. Another factor that comes into play for military
-units is that in some cases they are required to enter radio silence in order
-to avoid being detected by the enemy. During such circumstances the soldiers
-may only receive data, but not send any.
-
-
-\subsection{Network metrics}
-
-Network metrics are used to describe various aspects of data transfer from a
-point to another.
-
-\begin{description}
-
-\item[Link throughput] The link throughput is influenced by how large distance
-there is between the units communicating.
-
-\item[Link reliability] How much of the arriving data that is correct. This is
-called \textit{bit error rate} or \textit{packet error rate}. With high error
-rates, more data to be transmitted again due to the data arriving being
-incorrect. This contributes to longer transmission time. In a military setting,
-an enemy may deliberate sabotage the network with jamming, causing higher error
-rates.
-
-\item[Link latency] The communication technology in use influences how fast data
-transmission can be done. Long delay may cause that the application sending data
-timing out.
-
-\end{description}
-
-
-\section{HTTP}
-
+We explore challenges a military network has. Next, we discuss common Web
+services used for exchanging data in military systems. Then we look into a
+number of protocols that we can replace HTTP/TCP with in order to increase the
+performance of Web services. We also introduce some common optimization
+techniques used to improve network performance. Finally, we present some
+available frameworks and solutions for creating a proxy.
 
 %%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
-
+%TO-DO lede inn smooth mot soa.
 Web services are client and server applications that communicate over a
 network and can be used to implement a service-oriented architecture. Web
 services are critical in any data systems and are in widespread use in both
@@ -122,11 +53,11 @@ Figur her.
 
 \subsubsection{XML}
 
-\gls{xml} is a markup language and is considered as the base standard for Web
-services. An XML document consist of data surrounded by tags and is designed
-to be both machine and user readable. Tags describe the data they enclose. The
-tags can be standardized, which allows exchange and understanding of data in a
-standardized, machine-readable way.
+The \gls{xml} is considered as the base standard for Web services. An XML
+document consist of data surrounded by tags and is designed to be both machine
+and user readable. Tags describe the data they enclose. The tags can be
+standardized, which allows exchange and understanding of data in a standardized,
+machine-readable way.
 
 
 \subsubsection{Service descriptions: WSDL}
@@ -157,6 +88,7 @@ W3C Web services are associated with a considerable amount of overhead. Web
 Service technology is based on SOAP, which use XML-based messages. It is a
 textual data format and produce much larger messages than binary formats.
 
+% Referere  til IST-090 sluttarpport. IST-090 diskuterer alt.
 
 \subsection{\glsentrylong{rest}}
 \label{rest}
@@ -174,12 +106,23 @@ TCP.  However, TCP does not necessarily perform satisfactorily in \gls{dil}
 environments, which limits the usability in tactical networks(trenger kilde?).
 It also lack standardization, which may cause interoperability issues.
 
+%Frank tipser om FFI-rapport som kilde. Ref. samtale 14 jan 46:30
+
+
+\section{HTTP}
+
+\section{Transport protocols}
+
+
 \section{Protocols of interest}
 
-In order to improve the performance of Web services in \gls{dil} environments
-we're in this thesis investigated usage of alternative transport protocol
-other than TCP can be utilized. In this thesis we're looking into protocols in
-the transport and application layer of the Internet Protocol Suite\cite{rfc-1122}.
+% Trengs en diskjon om NATO's everything over IP her. Man sier det i scope, men
+%må diskutere det her.
+
+In order to improve the performance of Web services in \gls{dil} environments we
+have investigated the usage of alternative transport protocol other than TCP can
+be utilized. In this thesis we're looking into protocols in the transport and
+application layer of the Internet Protocol Suite\cite{rfc-1122}.
 
 %%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
@@ -262,17 +205,6 @@ Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
     messages.
 \end{itemize}
 
-
-\section{Compression}
-
-Data compression is the technique of encoding information using fewer bits than
-the original representation. The goal is to reduce data transmission time or the
-storage requirements. We divide compression lossy and lossless compression.
-Lossy compression is used to compress data such as images and movies where the
-consequence of loosing some of the data is not critical. Lossless compression
-utilize repeating patterns in the  data in order to represents the same data in
-a more efficient way.
-
 \section{Proxies}
 
 A proxy is an application which acts as an intermediary between an client and a
@@ -308,18 +240,4 @@ In this section we will briefly present available popular web proxies.
   UDP & Lacks reliability, but frameworks exist that provides it. \\ \hline
 \end{tabularx}
 \caption{Protocols of Interest}
-\end{table}
-
-
-
-%%%%%%%%%%%% Proxy approaches %%%%%%%%%%%%%%%%%%%
-\begin{table}
-    \begin{tabular}{|l|l|}
-    \hline
-    \textbf{Approach}          & \textbf{Summary}     \\ \hline
-    Build from scratch & Time consuming, complex.       \\ \hline
-    Apache Camel      & Supports some of the protocols \\ \hline
-    Squid      & \\ \hline
-    \end{tabular}
-    \caption {Possible proxy approches}
 \end{table}

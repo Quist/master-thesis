@@ -155,6 +155,71 @@ The characteristics of these networks and what challenges they impose are
 discussed in further detail in \cref{dil}.
 
 
+%%%%%%%%%% DIL %%%%%%%%%%%%%%%
+\subsection{\glsentrylong{dil} Networks}
+\label{dil}
+
+To improve the performance of Web services in limited military networks, we
+must understand what limitations we're dealing with. The \gls{dil} concept refers
+to three characteristics of a limited network. As we discussed in the
+introduction, military tactical networks may suffer from these constraints.
+
+\begin{description}
+\item[Disconnected]
+Military units that participate in a tactical network are highly mobile
+and may disconnect from a network either voluntarily or not. This causes
+topology changes. Unplanned loss of connectivity can be due to various reasons,
+such as loss of signal or equipment malfunction.  The disconnected term refers
+to that nodes in the network may be disconnected for a long time, possibly for
+multiple days.
+
+\item[Intermittent]
+
+Nodes in a \gls{dil} environment may lose connection temporarily before
+reconnecting. The duration range from seconds to minutes.
+
+\item[Limited] The Data rate, how many bits that are sent per second, is limited
+in \gls{dil} networks. Various aspects that affects the date rate are discussed
+in the next section.
+
+\end{description}
+
+\subsubsection{Other constraints}
+
+As well as being restricted  by the communication link itself, military units
+may have other limitations as well. Consider that military foot patrols have
+limited battery capacity as they have to carry it with them in their
+backpacks. The transmission range of the communication equipment for mobile
+units may also be limited. Another factor that comes into play for military
+units is that in some cases they are required to enter radio silence in order
+to avoid being detected by the enemy. During such circumstances the soldiers
+may only receive data, but not send any.
+
+
+\subsubsection{Network metrics}
+
+Network metrics are used to describe various aspects of data transfer from a
+point to another.
+
+\begin{description}
+
+\item[Link throughput] The link throughput is influenced by how large distance
+there is between the units communicating.
+
+\item[Link reliability] How much of the arriving data that is correct. This is
+called \textit{bit error rate} or \textit{packet error rate}. With high error
+rates, more data to be transmitted again due to the data arriving being
+incorrect. This contributes to longer transmission time. In a military setting,
+an enemy may deliberate sabotage the network with jamming, causing higher error
+rates.
+
+\item[Link latency] The communication technology in use influences how fast data
+transmission can be done. Long delay may cause that the application sending data
+timing out.
+
+\end{description}
+
+
 \section{Example scenario}
 
 Jeg tenkte her å introdusere et scenario som illustererer problemer og utfordringer

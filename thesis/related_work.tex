@@ -1,17 +1,17 @@
 \chapter{Related Work}
 
 In this chapter we will discuss earlier relevant work in the area of improving
-the performance of Web services in dil environments. We will try to identify
-results and recommendations that are applicable to this thesis. Furthermore, we
-will discuss existing proxies and what they offer.
+the performance of Web services in \gls{dil} environments. We identify results
+and recommendations that are applicable to this thesis. Furthermore, we discuss
+existing proxies and what they offer.
 
 Quite an amount of research has been done in the area of compression. Also,
-improving the performance of Web services in dil environments has been explored,
+improving the performance of Web services in \gls{dil} environments has been explored,
 but mostly for SOAP-based Web services.
 
 In the report IST-090, a task group investigated solutions for making \gls{soa}
 applicable at the tactical level. Three key issues that needs to be addressed in
-order to apply Web Services in tactical networks were
+order to apply Web services in tactical networks were
 identified\cite{ist-118,ist-090}:
 
 \label{section:DIL-problems}
@@ -28,11 +28,11 @@ TCP will cause sub-optimal utilization of the network due to frequent connection
 timeouts. Similar, HTTP, which is the application layer protocol most often
 used together with TCP, struggles in such environments. HTTP is a synchronous
 protocol which means that the HTTP connection is kept open until a response is
-received. Long response time cause timeouts. IST-090 points out the obvious
+received. Long response times cause timeouts. IST-090 points out the obvious
 solution to replace HTTP and TCP with other, more suitable protocols.
 
-The report mentions two approaches to replace HTTP/TCP. The clients and services
-itself can be modified to support other protocols, or proxies which support
+The report\cite{ist-090} mentions two approaches to replace HTTP/TCP. The clients and services
+themselves can be modified to support other protocols, or proxies which support
 alternative protocols can be used. With employing a proxy solution, standards
 compliance can be retained.
 
@@ -83,10 +83,10 @@ which allows \gls{cots} clients to function in DIL networks.
 Services through performance monitoring and application of the context-aware
 service provision paradigm. It perform so called adaption actions, which
 modifies the SOAP XML messages by changing their encoding to more efficient data
-representation. It also cuts out information that are accepted to be removed by
+representation. It also cuts out information that is accepted to be removed by
 the service requester. However, since the proxy modifies the data being sent,
 the checksum of the data is also changed. In applications where we want to be
-sure that no one has tempered with the data before arriving, checksums is often
+sure that no one has tampered with the data before arriving, checksums are often
 used. Therefore this solution would not work for such applications.
 
 
@@ -113,8 +113,18 @@ IST-90: Configure HTTP on the application server or ESP to prevent time-outs.
 Anbefaler at hvis man trenger å gjøre propetiære optimaliseringer, så burde de
 plasseres i proxier.
 
+% Heller kanskje referere til ist-118
+
 
 \section{Compression}
+
+Data compression is the technique of encoding information using fewer bits than
+the original representation. The goal is to reduce data transmission time or the
+storage requirements. We divide compression lossy and lossless compression.
+Lossy compression is used to compress data such as images and movies where the
+consequence of loosing some of the data is not critical. Lossless compression
+utilize repeating patterns in the  data in order to represents the same data in
+a more efficient way.
 
 \gls{xml} is the data format used by Web Services and has a significant
 overhead. Previous studies have evaluated different compressions algorithms for
@@ -128,3 +138,15 @@ As discussed in this chapter, there exist research and experiments targeting
 SOAP-based Web services in \gls{dil} environments. Proxies have been created but
 their are either limited to SOAP-based Web Services or are inadequate to be used
 due to security reasons.
+
+%%%%%%%%%%%% Proxy approaches %%%%%%%%%%%%%%%%%%%
+\begin{table}
+    \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Approach}          & \textbf{Summary}     \\ \hline
+    Build from scratch & Time consuming, complex.       \\ \hline
+    Apache Camel      & Supports some of the protocols \\ \hline
+    Squid      & \\ \hline
+    \end{tabular}
+    \caption {Possible proxy approches}
+\end{table}

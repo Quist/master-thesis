@@ -109,9 +109,90 @@ It also lack standardization, which may cause interoperability issues.
 %Frank tipser om FFI-rapport som kilde. Ref. samtale 14 jan 46:30
 
 
-\section{HTTP}
+\section{\glsentrylong{http}}
 
-\section{Transport protocols}
+As we have seen in the previous section, both restful and w3c Web services
+utilizes the \gls{http} as their way to communicate with other services. The
+usage of \gls{http} is very widespread and it is the foundation of data
+communication for the \glsentrylong{www} since the early 90's. It's protocol
+specification is coordinated by \gls{ietf} and the \gls{w3c}, and is defined
+as\cite{rfc-2616}:
+
+\paragraph{}
+\textit{
+    The Hypertext Transfer Protocol (HTTP) is an application-level
+    protocol for distributed, collaborative, hypermedia information
+    systems. It is a generic, stateless, protocol which can be used for
+    many tasks beyond its use for hypertext, such as name servers and
+    distributed object management systems, through extension of its
+    request methods, error codes and headers
+}
+
+\paragraph{}
+
+\gls{http} started out as a simple protocol for raw data transfer across the
+Internet and has since been updated in HTTP/1.0, HTTP/1.1 and most recently a
+major update with HTTP/2.0. It is a request-reply protocol which means that all
+data exchanges is initiated with a client invoking a HTTP-request and then waits
+until a server responds with a HTTP response. A HTTP-request consist of the
+request method, URI, protocol version, client information, and a optional body.
+The server responds with a message containing a status line, protocol version, a
+code indicating the success or error of the request, and a optional body. Both
+HTTP requests and responses use a generic message format and can contain zero or
+more HTTP headers. Headers are used to provide information about the
+request/reply or about the message body, e.g information about the encoding and
+caching information.
+
+HTTP, being an application level protocol, relies on a transport protocol to
+actually transfer data to an another machine. HTTP communication most often, but
+not necessarily, occurs over TCP/IP connections. The only requirement is that a
+reliable transport protocol is used.
+
+\section{Transport layer}
+
+In the Internet protocol suite model, the transport layer provides end-to-end
+communication services for applications\cite{rfc-1122}. The far most used
+transport protocol is the \gls{tcp}, which provides reliable transport of data
+to applications. With reliable transport we mean that if data in transmission is
+lost or received in the wrong order, this is all handled by the transport
+protocol. This provides an important abstraction for applications so that they
+don't need to deal with the characteristics of the physical network itself.
+
+\subsection{\glsentrylong{tcp}}
+\label{tcp}
+
+\gls{tcp} is called the workhorse of the Internet because it is so critical for
+how the Internet works. It is the primary transport protocol of the Internet
+Protocol Suite\cite{rfc-1122} and provides reliable, in-sequence delivery of a
+full-duplex stream of data. In this subsection we present the characteristics of
+TCP and some of the issues we may encounter working with it.
+
+\gls{tcp} was defined in RFC 793 back in September 1981 and has since been
+improved in various RFC's. The main motivation was to provide reliable
+end-to-end byte streams over unreliable networks. It is connection-oriented
+which means that a connection between a sender and the receiver must be
+established before any data can be transfered.
+
+\paragraph{Reliablility}
+
+When transferring data over the Internet, the data may pass through various
+networks, routers and physical networks. Some of the routers may be not working
+correctly, a bit may be flipped when transfering data wirelessly, or some other
+factor may come in to play. For those reasons, we have to accept that some of
+the data will be damaged, lost, duplicated or delivered out of order.
+
+TCP recovers from such faults by assigning sequence number to each packet being
+sent. It then requires an positive acknowledgement from the receiver that the
+data was actually received. If the acknowledgement is not received within a
+timeout interval, the data is transmitted again. For the receiver the sequence
+numbers are used to ensure that data is received in the correct order, as well
+as eliminating duplicates. Furthermore, to detect damaged data, TCP applies
+checksums to each segment transmitted. At the receiver the checksum is then
+checked and damaged segments are discarded.
+
+
+
+
 
 
 \section{Protocols of interest}
@@ -190,12 +271,7 @@ message.
 \end{itemize}
 
 
-\subsection{\glsentrylong{tcp}}
-\gls{tcp} is one of the core transport protocol of the Internet Protocol Suite.
-\begin{itemize}
-    \item Connection-oriented.
-    \item End-to-end reliability.
-\end{itemize}
+
 
 \subsection{UDP}
 WSReliability? For rest må det da bygges inn støtte i proxien.

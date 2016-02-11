@@ -10,6 +10,28 @@ performance of Web services. We also introduce some common optimization
 techniques used to improve network performance. Finally, we present some
 available frameworks and solutions for creating a proxy.
 
+
+
+\section{Network layers}
+
+To reduce design complexity, networks are organized into layers, each one built
+upon the one below it. In the Internet Protocol Suite\cite{rfc-1122}, networks
+is divided into 4 layers. As stated in the scope of this thesis, we only look
+into optimization techniques for the application and transport layer.
+
+%%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X |}
+\hline
+  \textbf{Application Layer} \\ \hline
+  \textbf{Transport Layer} \\ \hline
+  \textbf{Internet Layer} \\ \hline
+  \textbf{Link layer} \\ \hline
+\end{tabularx}
+\caption{The layers of the Internet Protocol Suite}
+\end{table}
+
+
 %%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
@@ -163,21 +185,19 @@ don't need to deal with the characteristics of the physical network itself.
 
 \gls{tcp} is called the workhorse of the Internet because it is so critical for
 how the Internet works. It is the primary transport protocol of the Internet
-Protocol Suite\cite{rfc-1122} and provides reliable, in-sequence delivery of a
-full-duplex stream of data. In this subsection we present the characteristics of
-TCP and some of the issues we may encounter working with it.
+Protocol Suite\cite{rfc-1122} and provides reliable, in-sequence delivery of
+two-way traffic(full-duplex) data.  In this subsection we present the
+characteristics of TCP and some of the issues we may encounter working with it.
 
-\gls{tcp} was defined in RFC 793 back in September 1981 and has since been
+\gls{tcp} was defined in RFC 793\cite{rfc-793} back in September 1981 and has since been
 improved in various RFC's. The main motivation was to provide reliable
-end-to-end byte streams over unreliable networks. It is connection-oriented
-which means that a connection between a sender and the receiver must be
-established before any data can be transfered.
+end-to-end byte streams over unreliable networks.
 
 \paragraph{Reliablility}
 
 When transferring data over the Internet, the data may pass through various
 networks, routers and physical networks. Some of the routers may be not working
-correctly, a bit may be flipped when transfering data wirelessly, or some other
+correctly, a bit may be flipped when transferring data wirelessly, or some other
 factor may come in to play. For those reasons, we have to accept that some of
 the data will be damaged, lost, duplicated or delivered out of order.
 
@@ -190,9 +210,43 @@ as eliminating duplicates. Furthermore, to detect damaged data, TCP applies
 checksums to each segment transmitted. At the receiver the checksum is then
 checked and damaged segments are discarded.
 
+\paragraph{Flow Control}
 
+If a fast receiver sends data faster than a slow receiver is able to process,
+the receiver will be swamped with data and may experience serious performance
+reduction. Flow control is a mechanism to manage the rate of the data
+transmission to avoid overflowing a receiver. TCP provides this by using a
+window of acceptable sequence numbers that the receiver is willing to accept.
+With every acknowledgement sent back to the sender, the window is specified.
+This allows the receiver to control which segments, and how fast, the sender
+can send.
 
+\paragraph{Connection}
 
+TCP is connection-oriented which means that a connection between a sender and
+the receiver must be established before any data can be transfered. A connection
+is specified by a pair of sockets identifying its two sides. Associated with
+each connection TCP initialize and maintains some status information for each
+connection. This includes window size, socket information and sequence numbers.
+
+\paragraph{Protocol}
+
+Computers supporting TCP has a piece of software which manages TCP streams and
+interfaces to the IP layer. Most often this software is a part of the
+kernel\cite{computer-networks}. It accepts data streams from local processes,
+and breaks them up into pieces, before sending them to the IP layer. The pieces
+are called TCP segments, which consist of a fixed 20 byte header, followed by
+zero or more data byte. The TCP software decide how big the segment should be,
+but for performance reasons they should not exceeds the \gls{mtu} of the
+link(the physical network). Each segment should be so small that they can be
+sent in a single, unfragmented package over the entire network. This usually
+limits the size of each segment to the \gls{mtu} of the Ethernet, which is 1500
+bytes.
+
+When the TCP software receives data from applications, it is not necessarily
+sent imediately as it may be buffered before its sent. At the receiver, data is
+delivered to the TCP software, which reconstructs the original byte streams and
+deliver them to the target application.
 
 
 \section{Protocols of interest}
@@ -205,30 +259,20 @@ have investigated the usage of alternative transport protocol other than TCP can
 be utilized. In this thesis we're looking into protocols in the transport and
 application layer of the Internet Protocol Suite\cite{rfc-1122}.
 
-%%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
-\begin{table}[h]
-\begin{tabularx}{\textwidth}{| X |}
-\hline
-  \textbf{Application Layer} \\ \hline
-  \textbf{Transport Layer} \\ \hline
-  \textbf{Internet Layer} \\ \hline
-  \textbf{Link layer} \\ \hline
-\end{tabularx}
-\caption{The layers of the Internet Protocol Suite}
-\end{table}
-
-
-In the following sections we will give a short introduction to the protocols we're
-investigating in this thesis.
+In the following sections we will give a short introduction to the protocols
+we're investigating in this thesis.
 
 
 
 \subsection{\glsentrylong{coap}}
 
 \gls{coap} is a specialized web transfer protocol designed for use with
-constrained nodes and constrained networks in the Internet of Things. It is
-based on the REST model, where the server makes resources available  under a
-URL. Clients access these resources using the HTTP-verbs GET, PUT, POST and
+constrained nodes(low power) and constrained networks(lossy)\cite{rfc-7252}. It
+is designed for machine-to-machine applications, typically in the Internet of
+Things. \gls{coap} was standardized in RFC-7252 as late as in June 2014.
+
+It is based on the REST model, where the server makes resources available  under
+a URL. Clients access these resources using the HTTP-verbs GET, PUT, POST and
 DELETE. Designed to use minimal resources, both on the device and on the
 network.
 
@@ -236,7 +280,6 @@ network.
     \item Application level protocol.
     \item Can carry any data format.
     \item UDP on IP.
-    \item Standardized in RFC 7252.
     \item Simple binary base header format
 \end{itemize}
 
@@ -269,7 +312,6 @@ message.
     \item Ensure reliable, in sequence transport of messages with congestion control like TCP.
     \item Multi-homing and multi-streaming.
 \end{itemize}
-
 
 
 

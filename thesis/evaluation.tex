@@ -11,6 +11,28 @@ obtained.
     \item W3c Web services.
 \end{enumerate}
 
+Both the REST and Web service applications were developed with Java.
+
+\subsection{Using proxies}
+
+In order to enable the applications to tunnel all their HTTP traffic through our
+proxy, we needed a way to setup a proxy without altering the applications
+themselves. Fortunately, Java provide mechanisms to deal with
+proxies\cite{oracle-proxy}. We configured the \gls{jvm} to get the applications
+to tunnel all HTTP traffic through our proxy. This is done by setting properties
+to the \gls{jvm}:
+
+
+\begin{lstlisting}[frame=single, caption="Setting a proxy on the \gls{jvm}", label=test]
+java -Dhttp.proxyHost=localhost \
+-Dhttp.proxyPort=3001 \
+-Dhttp.nonProxyHosts= \
+-jar target/client.jar
+\end{lstlisting}
+
+In \cref{test} the application \textbf{client.jar} is started and all HTTP
+traffic will go through the proxy server at localhost on port 3001.
+
 
 \section{\glsentrylong{netem}}
 
@@ -41,13 +63,15 @@ NetEm can emulate delays on packets on a specific link.
 In this example we add a fixed delay on 100 ms to all packets going out of local
 Ethernet.
 
-\section{Execution of tests}
+\section{Testing environment}
 
-Although testing on regular machines gives us a indication, to get as realistic
-results as possible we also performed tests on military communication equipment.
+The majority of testing was performed on machines located at the FFI-lab at
+Kjeller. Although testing on regular machines gives us a indication, to get as
+realistic results as possible we also performed tests on military communication
+equipment.
 
 \subsection{Testing on computers}
-Describe test setup.
+Describe the test setup.
 
 \subsection{Testing on real hardware}
 Kongsberg radio.

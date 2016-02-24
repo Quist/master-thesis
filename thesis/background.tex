@@ -56,7 +56,7 @@ In this thesis we investigate optimization techniques that should support both
 
 \subsection{W3C Web services}
 
-\gls{w3c} has defined Web Services as \cite{wrc-web-service}:
+\gls{w3c} has defined Web services as \cite{wrc-web-service}:
 
 \paragraph{}
 \textit{
@@ -74,8 +74,8 @@ This definition points out a set of standards that enables machine-to-machine
 interactions. All communication is based on sending XML-based SOAP messages.
 It exists many definitions of Web services where the core principles are the
 same, but the finer details may vary.  These standards are discussed in the
-following sections. The Web Service technology is realization of the \gls{soa}
-principles which provides loose coupling and ease integration between systems.
+following sections. The Web service technology is realization of the \gls{soa}
+principles, which provides loose coupling and ease integration between systems.
 
 Figur her.
 
@@ -92,11 +92,11 @@ machine-readable way.
 \subsubsection{Service descriptions: WSDL}
 
 \gls{wsdl} is an interface definition language that using XML describes
-functionality offered by a Web Service. The interface describes available
+functionality offered by a Web service. The interface describes available
 functions, data types for message requests and responses and binding
 information about the transport protocol, as well as address information for
 locating the service. This enables a formal, machine-readable description of
-Web Service which clients can invoke.
+Web service which clients can invoke.
 
 
 \subsubsection{SOAP}
@@ -111,7 +111,7 @@ related to the message such as routing information for the message and
 security information. The body contains the data being sent, known as the
 payload.
 
-\subsubsection{W3C Web Service overhead}
+\subsubsection{W3C Web service overhead}
 
 W3C Web services are associated with a considerable amount of overhead. Web
 Service technology is based on SOAP, which use XML-based messages. It is a
@@ -234,7 +234,7 @@ can send.
 
 \paragraph{Connection}
 
-TCP is connection-oriented which means that a connection between a sender and
+TCP is connection-oriented, which means that a connection between a sender and
 the receiver must be established before any data can be transfered. A connection
 is specified by a pair of sockets identifying its two sides. Associated with
 each connection TCP initialize and maintains some status information for each
@@ -242,7 +242,7 @@ connection. This includes window size, socket information and sequence numbers.
 
 \paragraph{Protocol}
 
-Computers supporting TCP has a piece of software which manages TCP streams and
+Computers supporting TCP has a piece of software, which manages TCP streams and
 interfaces to the IP layer. Most often this software is a part of the
 kernel\cite{computer-networks}. It accepts data streams from local processes,
 and breaks them up into pieces, before sending them to the IP layer. The pieces
@@ -317,7 +317,7 @@ message.
 
 \subsection{\glsentrylong{sctp}}
 
-\gls{sctp} is transport-layer protocol which offers functionality from both \gls{udp} and \gls{tcp}.
+\gls{sctp} is transport-layer protocol, which offers functionality from both \gls{udp} and \gls{tcp}.
 \begin{itemize}
     \item Message-oriented like UDP.
     \item Ensure reliable, in sequence transport of messages with congestion control like TCP.

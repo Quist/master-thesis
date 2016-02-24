@@ -1,7 +1,16 @@
 \chapter{Testing and Evaluation}
 
-In this chapter we present how the testing was performed and the present the
-results we obtained.
+To answer our research question of how to improve the performance of Web
+services in dil environments, we developed some test scenarios. In this chapter
+we present how the testing was performed and then present the results we
+obtained.
+
+\section{Test Scenarios}
+\begin{enumerate}
+    \item REST-client and server sending each other GET requests.
+    \item W3c Web services.
+\end{enumerate}
+
 
 \section{\glsentrylong{netem}}
 
@@ -19,7 +28,7 @@ a selected network interface.
 \subsection{NetEm emulating}
 
 \textbf{tc}(traffic control) is a linux program to configure and control the
-linux kernels Network scheduler. 
+linux kernels Network scheduler.
 
 \subsubsection{Delays}
 
@@ -32,9 +41,16 @@ NetEm can emulate delays on packets on a specific link.
 In this example we add a fixed delay on 100 ms to all packets going out of local
 Ethernet.
 
+\section{Execution of tests}
 
-\section{Testing on real hardware}
-Kongsberg radio
+Although testing on regular machines gives us a indication, to get as realistic
+results as possible we also performed tests on military communication equipment.
+
+\subsection{Testing on computers}
+Describe test setup.
+
+\subsection{Testing on real hardware}
+Kongsberg radio.
 
 
 \section{Evaluation Tools}

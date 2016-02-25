@@ -1,14 +1,12 @@
 \chapter{Technical Background}
 
-In this chapter we present concepts and protocols that are central for this
-thesis.
-
-We explore challenges a military network has. Next, we discuss common Web
-services used for exchanging data in military systems. Then we look into a
+In this chapter we present the technical background of the concepts and
+protocols that are central for this thesis. We first give a introduction to
+computer networks in general and how they are organized. Next, we discuss common
+Web services used for exchanging data in military systems. Then we look into a
 number of protocols that we can replace HTTP/TCP with in order to increase the
-performance of Web services. We also introduce some common optimization
-techniques used to improve network performance. Finally, we present some
-available frameworks and solutions for creating a proxy.
+performance of Web services. Finally, we present some available frameworks and
+solutions for creating a proxy.
 
 
 
@@ -39,13 +37,45 @@ network component used to interconnect nodes in a network. Link layer protocols
 operate between adjacent network nodes. An example of a link layer protocol is
 Ethernet.
 
+\paragraph{Internet Layer}
+
+ Where the link layer is only concerned of moving data over a wire to an
+ adjacent node, the Internet layer is concerned of how to deliver data all the
+ way from a source to a destination, possible passing through multiple nodes on
+ its way. It does not guarantee delivery of data, since data can be lost on the
+ way to the destination. Guaranteed delivery is usually handled on the higher
+ levels of the Internet Protocol Suite.
+
+ The core protocol of the Internet layer is \gls{ip} and its routing function
+ enables sending data over interconnected networks.
+
+\paragraph{Transport layer}
+
+In the Internet protocol suite model, the transport layer provides end-to-end
+communication services for applications. It builds on top on the network layer,
+and takes responsibility of sending data all the way from a process on a source
+machine to a process on the destination machine. The far most used transport
+protocol is the \gls{tcp}, which provides reliable transport of data to
+applications. With reliable transport we mean that if data in transmission is
+lost or received in the wrong order, this is all handled by the transport
+protocol. This provides an important abstraction for applications so that they
+don't need to deal with the characteristics of the physical network itself.
+
+\paragraph{Application layer}
+
+The top layer is the application layer and is where applications real user use
+reside. The other layers provide transport services to applications found in the
+application layer. When we talk about application layer protocols, we talk about
+protocols that applications use to communicate with other applications.
+Application layer protocols use the communication services the transport layer
+provides.  Examples of application layer protocols is \gls{http} and \gls{ftp}.
 
 %%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
 %TO-DO lede inn smooth mot soa.
 Web services are client and server applications that communicate over a
-network and can be used to implement a service-oriented architecture. Web
+network and can be used to implement a service oriented architecture. Web
 services are critical in any data systems and are in widespread use in both
 civilian and military systems. It is a broad term and can be used to describe
 different types of services that are available over a network. The most common
@@ -182,17 +212,7 @@ reliable transport protocol is used.
 GET, HEAD, POST, PUT, DELETE.
 
 
-\section{Transport layer}
-
-In the Internet protocol suite model, the transport layer provides end-to-end
-communication services for applications\cite{rfc-1122}. The far most used
-transport protocol is the \gls{tcp}, which provides reliable transport of data
-to applications. With reliable transport we mean that if data in transmission is
-lost or received in the wrong order, this is all handled by the transport
-protocol. This provides an important abstraction for applications so that they
-don't need to deal with the characteristics of the physical network itself.
-
-\subsection{\glsentrylong{tcp}}
+\section{\glsentrylong{tcp}}
 \label{tcp}
 
 \gls{tcp} is called the workhorse of the Internet because it is so critical for

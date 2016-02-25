@@ -14,13 +14,12 @@ Service technology as key enablers for information exchange in
 \gls{nato}\cite{nnec-study}.
 
 Web service technology is well tested and in widespread use in civil
-applications where the network is stable and the data rate is abundant.
-However, certain military networks suffer from high error rates and very low
-date rate, which can leave Web services built for civilian use unusable. This
-thesis investigates how these challenges can be overcome by applying  different
-optimization techniques. We apply different techniques, the most central one
-investigating how using alternative transport protocols than HTTP/TCP may
-increase speed and reliability.
+applications where the network is stable and the data rate is abundant. However,
+certain military networks suffer from high error rates and very low date rate,
+which can leave Web services built for civilian use unusable. This thesis
+investigates how these challenges can be overcome by applying  different
+optimization techniques. The main approach looks into how using alternative
+transport protocols other than HTTP/TCP may increase speed and reliability.
 
 
 \section{Background and Motivation}
@@ -103,7 +102,7 @@ The most common used approach is the Web service family of standards, using
 the SOAP messaging protocol.
 
 To achieve interoperability between systems from different nations and vendors,
-NATO has chosen the Web Service technology in order to realize the \gls{soa}
+NATO has chosen the Web service technology in order to realize the \gls{soa}
 principles\cite{soa-baseline}. This allows member nations to implement their own
 technology as long as they adhere to the standards. The Web service technology
 is discussed in detail in \cref{web-services}. Another approach to realize
@@ -111,6 +110,11 @@ is discussed in detail in \cref{web-services}. Another approach to realize
 \gls{rest} has gained a lot of traction in the civil industry and is discussed
 in section \cref{rest}.
 
+However, employing Web service solutions directly into military use may not be
+straight forward. These technologies were not specifically designed to handle
+conditions found in certain military networks. In the following sections we
+discuss characteristics of such networks and the possible challenges of using
+Web services in them.
 
 \subsection{Military Networks}
 
@@ -195,59 +199,46 @@ units is that in some cases they are required to enter radio silence in order
 to avoid being detected by the enemy. During such circumstances the soldiers
 may only receive data, but not send any.
 
-
-\subsubsection{Network metrics}
-
-Network metrics are used to describe various aspects of data transfer from a
-point to another.
-
-\begin{description}
-
-\item[Link throughput] The link throughput is influenced by how large distance
-there is between the units communicating.
-
-\item[Link reliability] How much of the arriving data that is correct. This is
-called \textit{bit error rate} or \textit{packet error rate}. With high error
-rates, more data to be transmitted again due to the data arriving being
-incorrect. This contributes to longer transmission time. In a military setting,
-an enemy may deliberate sabotage the network with jamming, causing higher error
-rates.
-
-\item[Link latency] The communication technology in use influences how fast data
-transmission can be done. Long delay may cause that the application sending data
-timing out.
-
-\end{description}
-
-
 \section{Example scenario}
 
 Jeg tenkte her å introdusere et scenario som illustererer problemer og utfordringer
 med DIL nettverk.
 
 
-\subsection{Employing proxies}
+\section{A suggested solution}
 
 The Web service technology enables interoperability between systems, but also
 increase the information overhead, requiring higher data rate demands. Employing
-Web Services developed for use in civilian networks directly into a \gls{dil}
+Web services developed for use in civilian networks directly into a \gls{dil}
 environment may not perform satisfactorily. To increase the performance we can
-apply optimization techniques. There are many approaches and optimization
-techniques, which can be applied at different levels of the protocol stack. In
-the coming sections the different optimization techniques are presented and a
-overview is presented in \Cref{table:optimalization-overview}. Another issue
-that needs to be addressed is, when we have identified optimization techniques,
-where do we place them? In the application itself or in a proxy?
+apply different optimization techniques. The task-group(?) IST-090\cite{ist-090}
+investigated which improvements that could be made in order to get SOA
+applicable at the tactical level. They did not find a magic bullet that would
+solve all problems, but identified factors that would offer measurable
+improvements. The most important findings were:
 
-One approach is to modify the Web service application itself. However, this
-would mean that every application that is used in a tactical network would
-require modification. This would require a lot of resources and severely limit
-the flexibility of using Web services. Another solution is, by using proxies, we
-can place the optimization there without altering the Web Services themselves.
-The only thing required to do is to setup the application to send and receive
-data through the proxy. The proxy will take care of the optimization for
-tactical networks. This seems like a more reasonable approach and is explored in
-this thesis.
+\begin{itemize}
+    \item Foundation on open-standards.
+    \item Ease of management and configuration.
+    \item Transparency to the user.
+    \item The Web services should optimized without the need to incorporate proprietary, ad hoc solutions that ensure tighter coupling between providers and consumers of services.
+\end{itemize}
+
+The last bullet point refers to the issue of that when we have identified
+optimization techniques, where do we place them? One approach is to modify the
+Web service application itself. However, this would mean that every application
+that is used in a tactical network would require modification. This would
+require a lot of resources and severely limit the flexibility of using Web
+services. Another solution is, by using proxies, we can apply the optimization
+there without altering the Web services themselves. The only thing required to
+do is to configure the application to send and receive data through the proxy.
+The proxy will take handle of the optimization for tactical networks. This
+approach is identified in IST-090 and  is explored in this thesis.
+
+\subsection{Proxies}
+What is a proxy?
+
+Possible proxy optimization. Compression, delay tolerance, overcome network disruptions.
 
 
 \section{Problem Statement}
@@ -262,7 +253,7 @@ technology and incorporate proprietary solutions. A NATO research task group has
 previously identified the foundation on open standards to avoid tighter coupling
 between service providers and consumers\cite{ist-090}. It is much better to use
 \gls{cots} software. By placing the optimization in proxies, the
-Web Services can remain unchanged.
+Web services can remain unchanged.
 
 The goal of this thesis is to investigate different optimization techniques that
 can be applied in order to improve Web service performance in \gls{dil}
@@ -272,30 +263,36 @@ communicate as normal, while all network traffic is tunneled through a proxy.
 The Web service itself does not need to pay attention to the bad connectivity,
 the proxy will choose the appropriate protocol and configuration.
 
-\section{Premises}
-\begin{itemize}
+\section{Premises of thesis}
 
-\item The Web services should not be required to be customized, all
-optimization should be placed in proxies.
-
-\item Platform independent?
-
-\item Applications that are to be used in military networks need to be approved
-by security authorities. If the application is too complex, e.g.  a very large
-code base or use a lot of external frameworks, the approvement process will be
-very lengthy. It is therefore a premises that the proxy is relatively simple.
-
-\end{itemize}
+The proxy developed as a part of this thesis shall support both REST and Web
+service communication between machines connected in a DIL network. In order to
+optimize Web services in DIL environments, the applications themselves should
+not be required to be customized, all optimization should be placed in proxies.
+This retains the interoperability with standardized solutions(COTS).
 
 \section{Scope and Limitations}
 
 The goal of this thesis is to investigate optimization techniques for Web
 services in \gls{dil} environments. Security is therefore not addressed in this
-thesis. However, some security features such as IPSec will be enabled or
-disabled as part of the evaluation of the proxy.
+thesis. However, applications that are to be used in military networks need to
+be approved by security authorities. If the application is too complex, e.g. it
+has a very large code base or use a lot of external frameworks, the approvement
+process will be very lengthy. It is therefore a important that the proxy is
+relatively simple. Furthermore, some security features such as IPSec will be
+enabled or disabled as part of the evaluation of the proxy.
 
-The proxy implemented as a part of this thesis, will be a HTTP-proxy. As we
-will discuss later in \cref{web-services}, most Web services use HTTP.
+When investigating optimization techniques, we limit it to techniques that can
+be applied at the application or the transport layer of the Internet protocol
+suite(see \cref{figure-network-layers}). The reason for this is that NATO has
+previously decided "everything over IP", a statement describing that all data
+communication in NATO should occur with IP packets. We therefore limit our
+optimization possibilities to the mentioned layers.
+
+Finally, the proxy implemented as a part of this thesis, only accepts \gls{http} as
+input from the Web services. As we discuss later in \cref{web-services}, most
+Web services use \gls{http} to communicate.
+
 
 \section{Research Methodology}
 Denning.

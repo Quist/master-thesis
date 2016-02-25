@@ -29,6 +29,7 @@ into optimization techniques for the application and transport layer.
   \textbf{Link layer} \\ \hline
 \end{tabularx}
 \caption{The layers of the Internet Protocol Suite}
+\label{figure-network-layers}
 \end{table}
 
 \paragraph{Link layer}
@@ -357,8 +358,36 @@ Route.
 \subsection{Nginx}
 
 
-\section{Summary}
+\section{Performance testing}
 
+To determine which optimization techniques that have a positive effect on the
+performance of Web services in DIL environments, we can do performance testing.
+
+\subsection{Network metrics}
+
+Network metrics are used to describe various aspects of data transfer from a
+point to another.
+
+\begin{description}
+
+\item[Link throughput] The link throughput is influenced by how large distance
+there is between the units communicating.
+
+\item[Link reliability] How much of the arriving data that is correct. This is
+called \textit{bit error rate} or \textit{packet error rate}. With high error
+rates, more data to be transmitted again due to the data arriving being
+incorrect. This contributes to longer transmission time. In a military setting,
+an enemy may deliberate sabotage the network with jamming, causing higher error
+rates.
+
+\item[Link latency] The communication technology in use influences how fast data
+transmission can be done. Long delay may cause that the application sending data
+timing out.
+
+\end{description}
+
+\section{Summary}
+Summary of background chapter here.
 
 %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]

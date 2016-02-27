@@ -102,63 +102,64 @@ In this thesis we investigate optimization techniques that should support both
 \paragraph{}
 
 This definition points out a set of standards that enables machine-to-machine
-interactions. All communication is based on sending XML-based SOAP messages.
-It exists many definitions of Web services where the core principles are the
-same, but the finer details may vary.  These standards are discussed in the
-following sections. The Web service technology is realization of the \gls{soa}
-principles, which provides loose coupling and ease integration between systems.
+interactions. All communication is based on sending XML-based SOAP messages. It
+exists many definitions of Web services where the core principles are the same,
+but the finer details may vary. The Web service technology is realization of the
+\gls{soa} principles, which provides loose coupling and ease integration between
+systems.
 
-Figur her.
+\begin{figure}[h]
+\includegraphics[scale=0.6]{images/web_services.pdf}
+\caption{W3C Web services}
+\label{figure-w3c-web-services}
+\end{figure}
 
+These standards that together makes W3C Web services are presented in the
+following sections.
 
 \subsubsection{XML}
 
-The \gls{xml} is considered as the base standard for Web services. An XML
-document consist of data surrounded by tags and is designed to be both machine
-and user readable. Tags describe the data they enclose. The tags can be
+The \gls{xml}\cite{W3C-XML} is considered as the base standard for Web services.
+An XML document consist of data surrounded by tags and is designed to be both
+machine and user readable. Tags describe the data they enclose. The tags can be
 standardized, which allows exchange and understanding of data in a standardized,
 machine-readable way.
 
 
 \subsubsection{Service descriptions: WSDL}
 
-\gls{wsdl} is an interface definition language that using XML describes
-functionality offered by a Web service. The interface describes available
-functions, data types for message requests and responses and binding
+\gls{wsdl} is an XML-based interface definition language that describes
+functionality offered by a Web service\cite{w3c-wsdl}. The interface describes
+available functions, data types for message requests and responses, binding
 information about the transport protocol, as well as address information for
-locating the service. This enables a formal, machine-readable description of
-Web service which clients can invoke.
-
+locating the service. This enables a formal, machine-readable description of Web
+service which clients can invoke.
 
 \subsubsection{SOAP}
 
-\gls{soap} is an application level XML-based protocol specification for
-information exchange in the implementation of Web services. It is transport
-protocol agnostic and can be carried over various protocols. The far most used
-transport protocol is HTTP over TCP, but other protocols such as UDP and SMTP
-can be used as well. A SOAP message is an "envelope" consisting of an optional
-header and a required body. The header can contain information not directly
-related to the message such as routing information for the message and
-security information. The body contains the data being sent, known as the
-payload.
+SOAP is an application level, XML-based protocol specification for information
+exchange\cite{w3c-soap} in the implementation of Web services. Data
+communication in SOAP is done by nodes sending each other whats called SOAP
+messages. A SOAP message can be considered as an "envelope" consisting of an
+optional message header and a required message body. The header can contain
+information not directly related to the message such as routing information for
+the message and security information. The body contains the data being sent,
+known as the payload.
 
-\subsubsection{W3C Web service overhead}
-
-W3C Web services are associated with a considerable amount of overhead. Web
-Service technology is based on SOAP, which use XML-based messages. It is a
-textual data format and produce much larger messages than binary formats.
-
-% Referere  til IST-090 sluttarpport. IST-090 diskuterer alt.
+It is transport protocol agnostic, which means it can be carried over various
+underlying protocols. The far most used transport protocol is HTTP over TCP, but
+other protocols such as UDP and SMTP can be used as well.
 
 \subsection{\glsentrylong{rest}}
 \label{rest}
 
-There also exist other types of Web services which does not follow the
-previously discussed standards. \gls{rest} is an architectural style which let
-users manipulate data using a set of stateless operations. It is based on a
-client-server model where a client requests data from a server when needed. It
-is closely associated with HTTP and use HTTP verbs(e.g GET, POST,
-DELETE) to operate on resources on a server.
+In the previous sections we looked into the standards and specifications that
+utgjør W3C Web services. However, there also exist other types of Web services
+which does not follow the these standards. \gls{rest} is an architectural style
+which let users manipulate data using a set of stateless operations. It is based
+on a client-server model where a client requests data from a server when needed.
+It is closely associated with HTTP and use HTTP verbs(e.g GET, POST, DELETE) to
+operate on resources on a server.
 
  \gls{rest} is easy to understand and has gained a lot of traction in the
 civil  industry in the latest years. \gls{rest} uses exclusively HTTP over
@@ -269,7 +270,7 @@ kernel\cite{computer-networks}. It accepts data streams from local processes,
 and breaks them up into pieces, before sending them to the IP layer. The pieces
 are called TCP segments, which consist of a fixed 20 byte header, followed by
 zero or more data byte. The TCP software decide how big the segment should be,
-but for performance reasons they should not exceeds the \gls{mtu} of the
+but for performance reasons they should not exceed the \gls{mtu} of the
 link(the physical network). Each segment should be so small that they can be
 sent in a single, unfragmented package over the entire network. This usually
 limits the size of each segment to the \gls{mtu} of the Ethernet, which is 1500

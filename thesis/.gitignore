@@ -13,6 +13,7 @@
 *.blg
 *.bcf
 *.bbl
+*.xdy
 thesis.acr
 thesis.alg
 thesis.glg

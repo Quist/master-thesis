@@ -173,7 +173,7 @@ expose some sort of information, called resources in REST. Resources are
 identified by a resource identifier. \Cref{table-rest} illustrates how a
 component exposes a set of operations of the car resource.
 
- %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%% REST eksempel %%%%%%%%%%%%%%%%%%%
  \begin{table}[h]
  \begin{tabularx}{\textwidth}{| X | X | X |}
  \hline
@@ -233,12 +233,32 @@ caching information.
 
 HTTP, being an application level protocol, relies on a transport protocol to
 actually transfer data to an another machine. HTTP communication most often, but
-not necessarily, occurs over TCP/IP connections. The only requirement is that a
-reliable transport protocol is used.
+not necessarily, occurs over TCP/IP connections. The only requirement in HTTP
+specification is that a reliable transport protocol is used.
 
 \subsubsection{HTTP methods}
-GET, HEAD, POST, PUT, DELETE.
 
+ Associated with all HTTP requests are a request method, which indicates the
+ desired action to be performed on a resource located on a Web server. The set
+ of HTTP methods defined in HTTP/1.1 is listed in \cref{table-http-methods}.
+
+ %%%%%%%%%%%% HTTP methods %%%%%%%%%%%%%%%%%%%
+ \begin{table}[h]
+ \begin{tabularx}{\textwidth}{| X | X |}
+ \hline
+   \textbf{HTTP Method} & \textbf{Purpose} \\ \hline
+   OPTIONS & Asks the server which HTTP methods and header field it supports. \\ \hline
+   GET & Retrieve information identified by the resource indentifier(Request-URI). \\ \hline
+   HEAD & Identical to GET, except that the HTTP-body is not returned from the server. \\ \hline
+   POST & Asks the server to accept the message payload from the client as a new resource.\\ \hline
+   PUT & Similar to POST but allows the client to ask the server to update a resource identified by the request-uri \\ \hline
+   DELETE & Requests that the resource identified by the request-uri is deleted \\ \hline
+   TRACE & Echoes the HTTP request. Used for debugging \\ \hline
+   CONNECT & For use with a proxy that can dynamically switch to being a tunnel\\ \hline
+ \end{tabularx}
+ \caption{HTTP methods}
+ \label{table-http-methods}
+ \end{table}
 
 \section{\glsentrylong{tcp}}
 \label{tcp}

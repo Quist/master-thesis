@@ -154,25 +154,52 @@ other protocols such as UDP and SMTP can be used as well.
 \label{rest}
 
 In the previous sections we looked into the standards and specifications that
-utgjør W3C Web services. However, there also exist other types of Web services
-which does not follow the these standards. \gls{rest} is an architectural style
-which let users manipulate data using a set of stateless operations. It is based
-on a client-server model where a client requests data from a server when needed.
-It is closely associated with HTTP and use HTTP verbs(e.g GET, POST, DELETE) to
-operate on resources on a server.
+compose W3C Web services. However, there also exist other types of Web services
+which does not follow the these standards. In year 2000, the computer scientist
+Roy Fielding introduced \gls{rest} where he presented a model of how the web
+\textit{should} work. This idealized model of interactions within an Web
+application\cite{rest-fielding} is what we refer to as the REST architectural
+style. REST attempts to minimize latency and network communication while
+maximizing the independence and scalability of component implementations. This
+is done by placing constraints on connector semantics rather than on component
+semantics like W3C Web services.  REST is based on a client-server model where a
+client requests data from a server when needed. While W3C Web services is
+service oriented, we can look at REST as being more data oriented.
 
- \gls{rest} is easy to understand and has gained a lot of traction in the
-civil  industry in the latest years. \gls{rest} uses exclusively HTTP over
-TCP.  However, TCP does not necessarily perform satisfactorily in \gls{dil}
-environments, which limits the usability in tactical networks(trenger kilde?).
-It also lack standardization, which may cause interoperability issues.
+Web services that adhere to the REST style is called RESTful Web services. They
+are closely associated with HTTP and use HTTP verbs(e.g GET, POST, DELETE) to
+operate on information located on a server. RESTful Web services typically
+expose some sort of information, called resources in REST. Resources are
+identified by a resource identifier. \Cref{table-rest} illustrates how a
+component exposes a set of operations of the car resource.
 
-%Frank tipser om FFI-rapport som kilde. Ref. samtale 14 jan 46:30
+ %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
+ \begin{table}[h]
+ \begin{tabularx}{\textwidth}{| X | X | X |}
+ \hline
+   \textbf{Resource identifier} & \textbf{HTTP Method}  & \textbf{Meaning}\\ \hline
+   /vehicles/cars/1234 & GET & Return a car with ID 1234 from the system. \\ \hline
+   /vehicles/cars/ & POST & Create a new car which will be added to the list of cars. \\ \hline
+   /vehicles/cars/1234 & DELETE & Delete a car with ID 1234 from the system. \\ \hline
+ \end{tabularx}
+ \caption{Example of REST operations}
+ \label{table-rest}
+ \end{table}
 
+ \gls{rest} is easy to understand and has gained a lot of traction in the civil
+ industry in the latest years. Although NATO has chosen W3C Web services as the
+ technology to do information-exchange, REST is identified as a technology of
+ interest to certain groups in
+ NATO\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}. One
+ downside to NATO with REST is that it lack standardization, which may cause
+ interoperability issues.
+
+ In the next section we will look into \gls{http}, which is closely associated
+ with REST and is the most used transport protocol for W3C Web services.
 
 \section{\glsentrylong{http}}
 
-As we have seen in the previous section, both restful and w3c Web services
+As we have seen in the previous sections, both RESTful and W3C Web services
 utilizes the \gls{http} as their way to communicate with other services. The
 usage of \gls{http} is very widespread and it is the foundation of data
 communication for the \glsentrylong{www} since the early 90's. It's protocol

@@ -71,13 +71,31 @@ realistic results as possible we also performed tests on military communication
 equipment.
 
 \subsection{Testing on computers}
-Describe the test setup.
+
+ The Web service and client are connected to each other through a third
+ computer, acting as a router. This machine have two network cards and will
+ receive and forward IP packets from the client and Web service. The machines
+ are networked together by Ethernet cables.
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/testing_environment.pdf}
 \caption{Testing environment}
 \label{figure-testing-environment}
 \end{figure}
+
+\paragraph{Configuration}
+
+This section describes how the test setup was performed. The computers running
+the client and Web service are connect by an Ethernet cable to the "routing"
+machine. Then they are assigned an IP address. This is done by the Linux network
+interface administration program \textit{ifconfig}. In \cref{listing-ifconfig}
+the Ethernet interface is assigned the IP address 192.168.2.3.
+
+\begin{lstlisting}[frame=single, caption="Configuring a network interface", label=listing-ifconfig]
+ifconfig eth0 192.168.2.3 up
+
+\end{lstlisting}
+
 
 \subsection{Testing on real hardware}
 Kongsberg radio.

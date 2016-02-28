@@ -266,8 +266,9 @@ specification is that a reliable transport protocol is used.
 \gls{tcp} is called the workhorse of the Internet because it is so critical for
 how the Internet works. It is the primary transport protocol of the Internet
 Protocol Suite\cite{rfc-1122} and provides reliable, in-sequence delivery of
-two-way traffic(full-duplex) data.  In this subsection we present the
-characteristics of TCP and some of the issues we may encounter working with it.
+two-way traffic(full-duplex) data. HTTP most often uses TCP as its transport
+protocol. In this subsection we present the characteristics of TCP and some of
+the issues we may encounter working with it.
 
 \gls{tcp} was defined in RFC 793\cite{rfc-793} back in September 1981 and has
 since been improved in various RFC's. The main motivation behind \gls{tcp} was
@@ -324,7 +325,7 @@ limits the size of each segment to the \gls{mtu} of the Ethernet, which is 1500
 bytes.
 
 When the TCP software receives data from applications, it is not necessarily
-sent imediately as it may be buffered before its sent. At the receiver, data is
+sent immediately as it may be buffered before its sent. At the receiver, data is
 delivered to the TCP software, which reconstructs the original byte streams and
 deliver them to the target application.
 
@@ -334,34 +335,79 @@ deliver them to the target application.
 % Trengs en diskjon om NATO's everything over IP her. Man sier det i scope, men
 %må diskutere det her.
 
-In order to improve the performance of Web services in \gls{dil} environments we
-have investigated the usage of alternative transport protocol other than TCP can
-be utilized. In this thesis we're looking into protocols in the transport and
-application layer of the Internet Protocol Suite\cite{rfc-1122}.
+Since previous experiments have shown that employing Web services built on
+HTTP/TCP breaks down in networks with the DIL characteristics, we're in this
+thesis looking into alternative protocols. One important limitation however, is
+that NATO has chosen the "everything over IP", which means that all optimization
+must ocour on the top of the network layer. Of this follows that we will
+evaluate protocols in the transport and application layer of the Internet
+Protocol Suite.
 
 In the following sections we will give a short introduction to the protocols
-we're investigating in this thesis.
+we're investigating in this thesis. We'll get started by discussing \gls{udp},
+which alongside \gls{tcp} is one of the core protocols of the Internet protocol
+suite. The remaining protocols discussed in the next section all use either
+\gls{tcp} or \gls{udp} as their transport protocol.
 
+Skrive noe om hvorfor vi har valgt de protokollene som vi velger å presentere i denne seksjonen.
 
+\subsection{\glsentrylong{udp}}
+
+The Internet has two main protocols in transport layer, \gls{udp} and \gls{tcp}.
+They have fundamentally different characteristics and use cases, which we will
+go through in this section. \gls{udp} was formally defined in 1980 in RFC
+768\cite{rfc-udp} and is a more simpler protocol than \gls{tcp}. It sends
+messages, called datagrams, to nodes over the \gls{ip} network. While \gls{tcp}
+provides reliable transmission along with flow control and congestion control,
+does UDP only support sending IP datagrams. Furthermore it is a connectionless
+protocol, which means that the protocol can send messages \textit{without} first
+establishing a connection. Since \gls{udp} does not provide guaranteed delivery
+or in-order delivery of messages, it should only be used by applications that
+does not require this.
+
+To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller headers and
+less overhead, which makes it faster protocol. The downside is that is does not
+provide any mechisms for reliability. However, it is worth to note that
+applications can build their own reliability on top of \gls{udp}.
 
 \subsection{\glsentrylong{coap}}
 
-\gls{coap} is a specialized web transfer protocol designed for use with
-constrained nodes(low power) and constrained networks(lossy)\cite{rfc-7252}. It
-is designed for machine-to-machine applications, typically in the Internet of
-Things. \gls{coap} was standardized in RFC-7252 as late as in June 2014.
-
-It is based on the REST model, where the server makes resources available  under
-a URL. Clients access these resources using the HTTP-verbs GET, PUT, POST and
-DELETE. Designed to use minimal resources, both on the device and on the
-network.
+\gls{coap} is a specialized Web transfer protocol standardized in June 2014
+designed for use with constrained nodes and  networks\cite{rfc-7252}. It is
+designed for machine-to-machine applications, typically in the Internet of
+Things. Furthermore it is designed with an similar interface as HTTP, in order
+to easily integrate with Web services. \gls{coap} is based on the REST model,
+where the server makes resources available  under a resource identifier(URI).
+Clients access these resources using the HTTP-verbs GET, PUT, POST and DELETE.
+CoAP main features includes:
 
 \begin{itemize}
-    \item Application level protocol.
-    \item Can carry any data format.
-    \item UDP on IP.
-    \item Simple binary base header format
+
+    \item UDP transport with optional reliability supporting unicast and
+    multicast requests.
+
+    \item Asynchronous message exchanges.
+
+    \item A stateless HTTP mapping, allowing proxies to be built providing
+    access to CoAP resources via HTTP in a uniform way or for HTTP simple
+    interfaces to be realized alternatively over CoAP.
+
+     \item Low header overhead and parsing complexity.
+
 \end{itemize}
+
+\gls{coap} works similar to HTTP in the way that they use a client-server
+interaction model. \gls{coap} requests is sent from a client to request an
+action on a resource located on a server. The server then responds with a
+response code and a possible response body. Unlike HTTP which uses TCP as its
+transport protocol, \gls{coap} uses \gls{udp}. Since \gls{udp} does not
+guarantee delivery, \gls{coap} provide mechanisms for optional reliability.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{images/coap.pdf}
+\caption{Overview of CoAP}
+\end{figure}
 
 
 \subsection{\glsentrylong{amqp}}
@@ -395,13 +441,7 @@ message.
 
 
 
-\subsection{UDP}
-WSReliability? For rest må det da bygges inn støtte i proxien.
-Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
-\begin{itemize}
-    \item No mechanisms for flow control, packet ordering or integrity of
-    messages.
-\end{itemize}
+
 
 \section{Proxies}
 

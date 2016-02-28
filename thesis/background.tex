@@ -365,10 +365,11 @@ establishing a connection. Since \gls{udp} does not provide guaranteed delivery
 or in-order delivery of messages, it should only be used by applications that
 does not require this.
 
-To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller headers and
-less overhead, which makes it faster protocol. The downside is that is does not
-provide any mechisms for reliability. However, it is worth to note that
-applications can build their own reliability on top of \gls{udp}.
+To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller
+headers and less overhead, which makes it faster protocol. The downside is that
+is does not provide any mechanisms for reliability. However, it is worth to note
+that applications can build their own reliability on top of \gls{udp}. This is
+done by the next protocol we're looking into.
 
 \subsection{\glsentrylong{coap}}
 
@@ -412,15 +413,31 @@ guarantee delivery, \gls{coap} provide mechanisms for optional reliability.
 
 \subsection{\glsentrylong{amqp}}
 
-\gls{amqp} is a messaging middleware that can utilize different transport
-protocols.
+\gls{amqp} is an application layer protocol for sending messages. It support
+both request/response and the publish/subscribe communication paradigms. The
+protocol is based on the concept of messaging queues, where information
+producers sends messages into message queues, while information consumers fetch
+information from queues. A overview of the architecture can be seen in
+\cref{figure-amqp}. Exchanges are the entities that accepts messages from a
+producer and inserts it into a suitable queue. The implementation of exchanges
+are known as \textit{brokers}, which runs as a separate decoupled application.
 
-\begin{itemize}
-    \item Support both request/response and publish/subscribe communication
-    paradigms.
-    \item Reliable when facing network disruptions, since it employs a
-    broker-based architecture with store-and-forward capabilities.
-\end{itemize}
+\begin{figure}[h]
+\includegraphics[scale=0.35]{images/amqp.pdf}
+\caption{Overview of AMQP}
+\label{figure-amqp}
+\end{figure}
+
+An important observation about AMQP is that it has two major versions which are
+fundamentally different, version 0.9.1 and 1.0. The latter has been standardized
+by \gls{oasis}\cite{oasis-amqp}, and is a  more narrow protocol as it only defines the network
+wire-level protocol for the exchange of messages between two endpoints.
+Wire-level protocols refers to the means for a application running at one
+machine to communicate with an application running at another machine using the
+Internet. Another difference between the versions is that version 1.0 does not
+specify the details of broker implementation.
+
+Next, we will look into another, more lightweight, publish/subscribe protocol.
 
 \subsection{\glsentrylong{mqtt}}
 

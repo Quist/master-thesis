@@ -207,3 +207,19 @@ area of tuning application server parameters. Finally, we discussed previously
 developed proxies for DIL networks and discovered that they do not fulfill all
 the requirements that we have. Proxies previously created are either limited to
 SOAP-based Web services or are inadequate to be used due to security reasons.
+
+%%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X |}
+\hline
+  \textbf{Protocol Stack} & \textbf{optimization possibilities} \\ \hline
+  The application & Optimize the application\\ \hline
+  Web service messaging: SOAP & Optimize SOAP, e.g XML compression \\ \hline
+  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other
+  protocols can be used. \\ \hline
+  IP & NATO NEC feasibility study states that all protocols should be over IP. \\
+  \hline
+  Lower layers & Not in the scope of this thesis. \\ \hline
+\end{tabularx}
+\caption{Optimization possibilities.} \label{table:optimalization-overview}
+\end{table}

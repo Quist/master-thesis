@@ -1,30 +1,61 @@
 \chapter{Requirement Analysis}
 
-In this chapter we discuss the requirements for our proxy. Since we're creating
-a proxy aimed at use in a military context, military operational requirements
-are part of the requirements for this proxy. As discussed earlier this proxy
-must provide robustness and reliable delivery of data in \gls{dil} environments.
+In this chapter we discuss the requirements for the proxy being developed as a
+part of this thesis. Those requirements builds on the scope and premises
+discussed in the introduction. To recap, these defining requirements were:
 
-The first requirements are the premises we discussed in the introduction. The
-proxy should be able to receive and forward HTTP-requests.
+\begin{enumerate}
+    \item Support both REST and Web service communication between machines connected in a DIL network.
+    \item Work on top of the IP-layer.
+    \item All optimization techniques must be placed in a proxy, and not in the Web service applications themselves.
+\end{enumerate}
 
-Next, the proxy must be able to handle the difficult network conditions of
-dil. It must handle very low data rates and handle brief disconnects. It
+\section{A DIL HTTP Proxy}
+
+The first requirement implies that our proxy must accept HTTP, as this is the
+far most used Web service protocol. Our proxy must be able to accept a HTTP
+requests from a Web service, forward it to the other proxy, which in turn
+delivers it to the intended receiver. The communication between the proxies are
+not required to be HTTP, but rather a protocol than deals with DIL networks in a
+better way. However, since ultimately a HTTP request should be delivered to the
+intended receiver, the HTTP properties must be retained. This means that the
+proxy must preserve the HTTP Method and HTTP headers. Also, since REST is
+payload agnostic, the proxy muse be able to support different types of data
+being sent through it(XML, JSON etc.).
+
+Furthermore, the proxy must be able to handle the difficult network conditions
+of DIL. It must handle very low data rates and handle brief disconnects. It
 should also support disconnects over a longer period of time by having store-
 and-forward capabilities.
 
-Payload agnostic. The data type doesn't matter(JSON, XML etc.).
+\section{Support optimization techniques}
 
-In order to perform compression the proxy must be able to modify the payload
-of the message. Due to security mechanisms that detect changes to the
+\subsection{Compression}
+
+In order to perform compression the proxy must be able to modify the payload of
+the message. Due to security mechanisms that detect changes to the
 payload(checksums), the payload must be restored back to its original form
 before being forwarded to the final receiver.
 
-As discussed in \cref{section:DIL-problems}, the dependency on end-to-end
-connections needs to be removed. This can be done by adding proxies to the
-network. Mobile units have to carry batteries with them and the capacity is
-therefore limited. Advanced compression techniques may reduce the overhead,
-but also requires more battery. This trade-off needs to be considered.
+\subsection{Proxy protocol communication}
+
+One of the optimization techniques identified was the usage of alternative
+protocols. The proxy should therefor support a sub set of them, and be easily
+configured to use other protocols for testing purposes.
+
+\section{Other considerations}
+
+Since we're creating a proxy aimed for use in a military context, military
+operational requirements are part of the requirements for this proxy. Mobile
+units have to carry batteries with them and the capacity is therefore limited.
+Advanced compression techniques may reduce the overhead, but also requires more
+battery. This trade-off needs to be considered.
+
+
+
+\section{Summary}
+
+In this chapter we have discussed the requirements for our proxy, which are summarized in \cref{table-proxy-requirements}. Next we discuss the design and implementation of our proxy.
 
 
 \begin{table}[h]
@@ -42,61 +73,5 @@ but also requires more battery. This trade-off needs to be considered.
   Handle frequent disconnects & 1\\ \hline
 \end{tabular}
 \caption{Summary of proxy requirements}
+\label{table-proxy-requirements}
 \end{table}
-
-
-\section{Optimization techniques}
-
-As we saw in the previous chapter there has been quite amount of research into
-optimization techniques in \gls{dil} environments. In this section we summarize
-which techniques we support in our proxy.
-
-
-%%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
-\begin{table}[h]
-\begin{tabularx}{\textwidth}{| X | X |}
-\hline
-  \textbf{Protocol Stack} & \textbf{optimization possibilities} \\ \hline
-  The application & Optimize the application\\ \hline
-  Web service messaging: SOAP & Optimize SOAP, e.g XML compression \\ \hline
-  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other
-  protocols can be used. \\ \hline
-  IP & NATO NEC feasibility study states that all protocols should be over IP. \\
-  \hline
-  Lower layers & Not in the scope of this thesis. \\ \hline
-\end{tabularx}
-\caption{Optimization possibilities.} \label{table:optimalization-overview}
-\end{table}
-
-\subsection{\glsentrylong{udp}}
-WSReliability? For rest må det da bygges inn støtte i proxien.
-Reliable UDP. Implmentasjon av UDP som er reliable. En gammel protokoll?
-
-
-\subsection{Compressing the payload}
-
-The first optimization techniques deals with the optimization of the encoding.
-By compressing the Web service payload, we can reduce the amount of data that
-need to be sent. This optimization technique addresses one of the many
-challenges of tactical networks, namely the bandwidth consumption due to large
-message sizes.
-
-\begin{itemize}
-\item GZIP
-
-\item EFX(Efficient XML). XML spesifikt, får ikke brukt på REST når vi har andre
-payloads..
-
-\end{itemize}
-
-\subsection{Reducing overhead of SOAP}
-
-HTTP/TCP is the most used transport protocol for SOAP messages, but since SOAP
-is transport protocol agnostic different protocols can be used. Experiments show
-that this is possible.
-
-
-\section{Summary}
-
-In this chapter we have discussed the requirements for our proxy. See table xx
-for a summary. Next we discuss the design and implementation of our proxy.

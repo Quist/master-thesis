@@ -421,6 +421,7 @@ information from queues. A overview of the architecture can be seen in
 \cref{figure-amqp}. Exchanges are the entities that accepts messages from a
 producer and inserts it into a suitable queue. The implementation of exchanges
 are known as \textit{brokers}, which runs as a separate decoupled application.
+AMQP uses TCP for reliable delivery.
 
 \begin{figure}[h]
 \includegraphics[scale=0.35]{images/amqp.pdf}
@@ -439,26 +440,35 @@ specify the details of broker implementation.
 
 Next, we will look into another, more lightweight, publish/subscribe protocol.
 
-\subsection{\glsentrylong{mqtt}}
+\subsection{MQTT}
 
-MQTT is a client server publish/subscribe messaging transport protocol
-\cite{oasis-mqtt}. It is considered lightweight and is designed for use in networks
-where the bandwidth is limited. It is broker-based, where the broker is
-responsible for delivering messages to clients based on the topic of a
-message.
+Like AMQP is MQTT a publish/subscribe messaging transport protocol
+\cite{oasis-mqtt}. However, it is considered to be much more lightweight and is
+designed for use in networks where the bandwidth is limited. It is also
+broker-based, where the broker is responsible for delivering messages to clients
+based on the topic of a message. MQTT run over the TCP/IP protocols.
+
+
 
 \subsection{\glsentrylong{sctp}}
 
-\gls{sctp} is transport-layer protocol, which offers functionality from both \gls{udp} and \gls{tcp}.
-\begin{itemize}
-    \item Message-oriented like UDP.
-    \item Ensure reliable, in sequence transport of messages with congestion control like TCP.
-    \item Multi-homing and multi-streaming.
-\end{itemize}
+\gls{sctp} is transport-layer protocol, which offers functionality from both
+\gls{udp} and \gls{tcp}\cite{rfc-sctp}. The motivation behind the protocol was
+that many developers found TCP too limiting, but still required more reliability
+that UDP could provide. \gls{sctp} tries to solve these issues. It is
+message-oriented like UDP, but ensure reliable, in sequence transport of
+messages with congestion control like TCP. \gls{sctp} is a connection-oriented
+protocol and provide features like multi-homing and multi-streaming.
+Multi-homing is the possibility to use more than one network path between two
+nodes. This increases reliability since if one path fails, messages can still be
+sent over the other link(s). Multi-streaming refers to \gls{sctp} ability to
+transmit several independent streams of data at the same time, for example
+sending an image at the same time as a HTML Web page. 
 
-
-
-
+\begin{figure}[h]
+\includegraphics[scale=0.5]{images/sctp.pdf}
+\caption{Overview of SCTP}
+\end{figure}
 
 \section{Proxies}
 

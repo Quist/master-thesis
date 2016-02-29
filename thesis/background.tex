@@ -463,35 +463,12 @@ Multi-homing is the possibility to use more than one network path between two
 nodes. This increases reliability since if one path fails, messages can still be
 sent over the other link(s). Multi-streaming refers to \gls{sctp} ability to
 transmit several independent streams of data at the same time, for example
-sending an image at the same time as a HTML Web page. 
+sending an image at the same time as a HTML Web page.
 
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/sctp.pdf}
 \caption{Overview of SCTP}
 \end{figure}
-
-\section{Proxies}
-
-A proxy is an application which acts as an intermediary between an client and a
-server. Proxies are widely in use and their usage and type varies. Example of
-usage is load balancing, caching and security. Web proxies are proxies that
-forward HTTP requests, which is what we are investigating in this thesis.
-
-In this section we will briefly present available popular web proxies.
-
-\subsection{Apache}
-
-\subsection{Squid}
-
-\subsection{Apache Camel}
-
-This does the work of converting the specific input/request (like an HTTP
-request) into something generic - a Camel Exchange - that can travel down a
-Route.
- - quoute. må skrives om.
-
-\subsection{Nginx}
-
 
 \section{Performance testing}
 
@@ -522,20 +499,30 @@ timing out.
 \end{description}
 
 \section{Summary}
-Summary of background chapter here.
+
+In this chapter we have presented computer networks in general, before we
+discussed the two most common type of Web services. Moreover, we have discussed
+the protocols that these Web services use in order to transmit messages over the
+Internet. We also introduced some new protocols designed to work in "Internet of
+things" networks, which have many of the same characteristics as DIL networks.
+Finally, we introduced the concept of performance testing and important network
+metrics when doing such testing.
+
+Many of the mentioned protocols has been previously researched for use in DIL
+networks. In the next chapter we will present relevant work in this area.
 
 %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
-\begin{tabularx}{\textwidth}{| X | X |}
+\begin{tabularx}{\textwidth}{| l | l | X |}
 \hline
-  \textbf{Protocol} & \textbf{Summary} \\ \hline
-  HTTP over TCP & Widely used. Breaks down in DIL environments.\\ \hline
-  CoAP & Application level protocol designed for use in the Internet of Things. \\ \hline
-  AMQP & Messaging middleware with store-and-forward capabilities.\\ \hline
-  MQTT & Summary here\\ \hline
-  SCTP & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
-  TCP & The well-known transport protocol. \\ \hline
-  UDP & Lacks reliability, but frameworks exist that provides it. \\ \hline
+  \textbf{Protocol} & \textbf{Network layer} & \textbf{Summary} \\ \hline
+  HTTP & Application. Uses TCP. &  Widely used. Breaks down in DIL environments.\\ \hline
+  TCP & Transport & The well-known transport protocol. \\ \hline
+  UDP & Transport & Lacks reliability, but frameworks exist that provides it. \\ \hline
+  CoAP & Application. Uses UDP. & Designed for use in the Internet of Things. \\ \hline
+  AMQP & Application. Uses TCP. &  Messaging middleware with store-and-forward capabilities.\\ \hline
+  MQTT & Application. Uses TCP & Pub/sub designed for use in the Internet of Things\\ \hline
+  SCTP & Transport & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
 \end{tabularx}
-\caption{Protocols of Interest}
+\caption{Summary of protocols}
 \end{table}

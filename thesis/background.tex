@@ -31,7 +31,7 @@ into optimization techniques for the application and transport layer.
 
 \paragraph{Link layer}
 
-The lowest layer is the link layer, where link refers to the to the physical
+The lowest layer is the link layer, where link refers to the physical
 network component used to interconnect nodes in a network. Link layer protocols
 operate between adjacent network nodes. An example of a link layer protocol is
 Ethernet.
@@ -63,8 +63,8 @@ don't need to deal with the characteristics of the physical network itself.
 \paragraph{Application layer}
 
 The top layer is the application layer and is where applications real user use
-reside. The other layers provide transport services to applications found in the
-application layer. When we talk about application layer protocols, we talk about
+reside. The other layers provide transport services to applications found in
+this layer. When we talk about application layer protocols, we talk about
 protocols that applications use to communicate with other applications.
 Application layer protocols use the communication services the transport layer
 provides.  Examples of application layer protocols is \gls{http} and \gls{ftp}.
@@ -101,13 +101,14 @@ In this thesis we investigate optimization techniques that should support both
 \paragraph{}
 
 This definition points out a set of standards that enables machine-to-machine
-interactions. All communication is based on sending XML-based SOAP messages. It
-exists many definitions of Web services where the core principles are the same,
-but the finer details may vary. The Web service technology is realization of the
-\gls{soa} principles, which provides loose coupling and ease integration between
-systems.
+interactions. All communication is based on sending XML-based SOAP messages.
+There exists many definitions of Web services where the core principles are the
+same, but the finer details may vary. The Web service technology is realization
+of the \gls{soa} principles, which provides loose coupling and ease integration
+between systems.
 
 \begin{figure}[h]
+\centering
 \includegraphics[scale=0.6]{images/web_services.pdf}
 \caption{W3C Web services}
 \label{figure-w3c-web-services}
@@ -155,8 +156,8 @@ other protocols such as UDP and SMTP can be used as well.
 In the previous sections we looked into the standards and specifications that
 compose W3C Web services. However, there also exist other types of Web services
 which does not follow the these standards. In year 2000, the computer scientist
-Roy Fielding introduced \gls{rest} where he presented a model of how the web
-\textit{should} work. This idealized model of interactions within an Web
+Roy Fielding introduced \gls{rest} where he presented a model of how the Web
+\textit{should} work. This idealized model of interactions within a Web
 application\cite{rest-fielding} is what we refer to as the REST architectural
 style. REST attempts to minimize latency and network communication while
 maximizing the independence and scalability of component implementations. This
@@ -232,7 +233,7 @@ caching information.
 
 HTTP, being an application level protocol, relies on a transport protocol to
 actually transfer data to an another machine. HTTP communication most often, but
-not necessarily, occurs over TCP/IP connections. The only requirement in HTTP
+not necessarily, occurs over TCP/IP connections. The only requirement in the HTTP
 specification is that a reliable transport protocol is used.
 
 \subsubsection{HTTP methods}
@@ -353,19 +354,19 @@ Skrive noe om hvorfor vi har valgt de protokollene som vi velger å presentere i
 \subsection{\glsentrylong{udp}}
 
 The Internet has two main protocols in transport layer, \gls{udp} and \gls{tcp}.
-They have fundamentally different characteristics and use cases, which we will
-go through in this section. \gls{udp} was formally defined in 1980 in RFC
+They have fundamentally different characteristics and use cases, which we go
+through in this section. \gls{udp} was formally defined in 1980 in RFC
 768\cite{rfc-udp} and is a more simpler protocol than \gls{tcp}. It sends
 messages, called datagrams, to nodes over the \gls{ip} network. While \gls{tcp}
 provides reliable transmission along with flow control and congestion control,
-does UDP only support sending IP datagrams. Furthermore it is a connectionless
+does UDP only support the sending of IP datagrams. Furthermore it is a connectionless
 protocol, which means that the protocol can send messages \textit{without} first
 establishing a connection. Since \gls{udp} does not provide guaranteed delivery
 or in-order delivery of messages, it should only be used by applications that
 does not require this.
 
 To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller
-headers and less overhead, which makes it faster protocol. The downside is that
+headers and less overhead, which makes it a faster protocol. The downside is that
 is does not provide any mechanisms for reliability. However, it is worth to note
 that applications can build their own reliability on top of \gls{udp}. This is
 done by the next protocol we're looking into.

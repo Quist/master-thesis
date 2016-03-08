@@ -1,24 +1,51 @@
 \chapter{Testing and Evaluation}
 
-To answer our research question of how to improve the performance of Web
-services in DIL environments, we developed some test scenarios. We used a simple
-Web client which query a Web service for some sort of data, which was then
-returned by the Web service. We then performed tests with two setups, first with
-machine-to-machine over an Ethernet cable, then over actual military
-communication equipment. Moreover the testing was split into two phases,
-function tests and DIL tests. The purpose of the function tests was to perform
-testing without any intended limitations to the network.
+To be able to answer our research questions of how to improve the performance of
+Web services in DIL environments, we developed test setups and environments to
+evaluate the proxy. The goal is to measure any possible improvements(or
+deterioration) of performance when we use the proxy developed as a part of
+this thesis. In this chapter we present how the testing was performed and
+finally present the results we obtained.
 
-In this chapter we present how the testing was performed and finally present the
-results.
+\section{Introduction}
 
-\section{Test Scenarios}
-\begin{enumerate}
-    \item REST-client and server sending each other GET requests.
-    \item W3c Web services.
-\end{enumerate}
+The proxy is being developed as a prototype for military usage, we therefore
+wanted to use a test scenario that resembles actual military usage. For the
+purpose of testing we for those reasons used two applications developed by FFI,
+programs which allows soldiers in the field to report positions of friendly and
+enemy forces back to a headquarter. The soldiers use a simple Web service client
+which sends a Web service some sort of data. These applications are W3C Web
+services, but as we have previously discussed it is also interesting to look at
+RESTful Web services. For testing, we therefore also developed a RESTful Web
+service, which does X. Each test case is performed with both a W3C Web services
+and RESTful Web services.
 
-Both the REST and Web service applications were developed with Java.
+Furthermore we performed tests with two setups, first with machine-to-machine
+over an Ethernet cable, then over actual military communication equipment. The
+usage of actual military equipment allowed us to get as realistic results as
+possible. To evaluate how different network properties affects performance, the
+tests was performed on networks with different characteristics. The base case
+was to test without any intentional limitations to the network and without the
+actual usage of the proxy. Then we introduced usage of the proxy and evaluated
+it in different types of network types. An infinite number of possible network
+combinations exists, so we have in this thesis chosen to focus on five different
+network types. These five different types were identified by the task group
+IST-118 for DIL-testing and are summarized in \cref{table-network-types}.
+
+\begin{table}[h]
+\begin{tabular}{| l | l | l | l | l |}
+\hline
+  \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
+  Satellite Communication & 250 kbps & 550 ms & 0 \% \\ \hline
+  Line of Sight & 2 mbps & 5 ms & 0 \% \\ \hline
+  Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
+  WiFi 2 & 2 mbps & 5 ms & 20 \% \\ \hline
+  Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
+
+\end{tabular}
+\caption{Different network types}
+\label{table-network-types}
+\end{table}
 
 \section{Evaluation Tools}
 
@@ -27,7 +54,7 @@ properties of the network traffic. In this thesis we use two approaches, the
 first one connecting two machines through a third machine. The third machine
 will use a component of the linux kernel to control the flow of the network
 traffic flowing through it, allowing us to simulate a DIL network. The second
-one approach involves using actual military equipment in laboratory at FFI. The
+approach involves using actual military equipment in laboratory at FFI. The
 benefit of using actual equipment, is that we get as realistic tests as
 possible.
 
@@ -97,7 +124,7 @@ java -Dhttp.proxyHost=localhost \
 In \cref{test} the application \textbf{client.jar} is started and all HTTP
 traffic will go through the proxy server at localhost on port 3001.
 
-\subsection{Testing on computers}
+\subsection{Setting up routing}
 
  The Web service and client are connected to each other through a third
  computer, acting as a router. This machine have two network cards and will
@@ -130,21 +157,34 @@ overhead associated with the usage of the proxy.
 
 The Web service client and the service itself was started on separately machines
 interconnect through a third machines acting as a router as discussed in
-\cref{testing-environment}.
+\cref{testing-environment}. However for the first phase, the client and server
+did not use any proxy.
 
-However for the first phase, the client and server did not use any proxy.
 
 \subsection{Results}
-\begin{table}[h]
-\begin{tabular}{| l | l |}
+
+\begin{table}[h!]
+\begin{tabular}{| l | l | l |}
 \hline
-  \textbf{Test} & \textbf{Transfer time} \\ \hline
-  REST service without proxy & 1000 ms \\ \hline
-  W3C Web service without proxy & 1100 ms \\ \hline
-  REST service with proxy & 1200 ms \\ \hline
-  W3C Web service with proxy & 1400 ms \\ \hline
+  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
+  Without proxy & 1100 ms & 900 ms \\ \hline
+  Proxy with HTTP & 1400 ms & 1200 ms \\ \hline
+  Proxy with AMQP & 1400 ms & 1200 ms \\ \hline
+  Proxy with CoAP & 1400 ms & 1200 ms \\ \hline
 \end{tabular}
-\caption{Results of function tests}
+\caption{W3C Web service results}
+\end{table}
+
+\begin{table}[h!]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
+  Without proxy & 1000 ms & N/A \\ \hline
+  Proxy with HTTP & 1200 ms & 1000\\ \hline
+  Proxy with AMQP & 1200 ms & 1000\\ \hline
+  Proxy with CoAP & 1200 ms & 1000\\ \hline
+\end{tabular}
+\caption{RESTful Web service results}
 \end{table}
 
 
@@ -152,25 +192,37 @@ However for the first phase, the client and server did not use any proxy.
 
 In this scenario we evaluating the performance with the DIL characteristic
 \textit{disconnected}, which refers to the network suddenly going down when the
-application is sending data.
-
-The objective of this testing is to evaluate how the proxy manages disconnects.
+application is sending data. The objective of this testing is to evaluate how
+the proxy manages disconnects.
 
 \subsection{Execution}
 
 Physically removing the Ethernet cable during transmission. 60 seconds?
 
 \subsection{Results}
-\begin{table}[h]
-\begin{tabular}{| l | l | l | l |}
+
+\begin{table}[h!]
+\begin{tabular}{| l | l |}
 \hline
-  \textbf{Test} & \textbf{10 sec} & \textbf{30 sec} & \textbf{60 sec} \\ \hline
-  REST service without proxy & 10000 ms & Timeout & Timeout \\ \hline
-  W3C Web service without proxy & Timeout & Timeout & Timeout \\ \hline
-  REST service with proxy & 1200 ms & 12000 & 60000 \\ \hline
-  W3C Web service with proxy & 1400 ms & 40000 & Timeout \\ \hline
+  \textbf{Test} & \textbf{Result} \\ \hline
+  Without proxy & Timeout \\ \hline
+  Proxy with HTTP & Success \\ \hline
+  Proxy with AMQP & Success \\ \hline
+  Proxy with CoAP & Success \\ \hline
 \end{tabular}
-\caption{Results of DIL Tests- Disconnected}
+\caption{W3C Web service results}
+\end{table}
+
+\begin{table}[h!]
+\begin{tabular}{| l | l |}
+\hline
+  \textbf{Test} & \textbf{Result} \\ \hline
+  Without proxy & Timeout \\ \hline
+  Proxy with HTTP & Success \\ \hline
+  Proxy with AMQP & Success \\ \hline
+  Proxy with CoAP & Success \\ \hline
+\end{tabular}
+\caption{RESTful Web service results}
 \end{table}
 
 \section{DIL Tests - Intermittent}
@@ -183,38 +235,37 @@ Disconnect physically, then reconnecting it.
 
 \subsection{Results}
 
-\begin{table}[h]
+\begin{table}[h!]
 \begin{tabular}{| l | l | l | l |}
 \hline
   \textbf{Test} & \textbf{10 sec} & \textbf{30 sec} & \textbf{60 sec} \\ \hline
-  REST service without proxy & 10000 ms & Timeout & Timeout \\ \hline
-  W3C Web service without proxy & Timeout & Timeout & Timeout \\ \hline
-  REST service with proxy & 1200 ms & 12000 & 60000 \\ \hline
-  W3C Web service with proxy & 1400 ms & 40000 & Timeout \\ \hline
+  Without proxy & Timeout & Timeout & Timeout \\ \hline
+  Proxy with HTTP & 1400 ms & 40000 & Timeout \\ \hline
+  Proxy with AMQP & 1400 ms & 40000 & Timeout \\ \hline
+  Proxy with CoAP & 1400 ms & 40000 & Timeout \\ \hline
 \end{tabular}
-\caption{Results of DIL Tests- Intermittent}
+\caption{W3C Web service results}
+\end{table}
+
+\begin{table}[h!]
+\begin{tabular}{| l | l | l | l |}
+\hline
+  \textbf{Test} & \textbf{10 sec} & \textbf{30 sec} & \textbf{60 sec} \\ \hline
+  Without proxy & 10000 ms & Timeout & Timeout \\ \hline
+  Proxy with HTTP & 1200 ms & 12000 & 60000 \\ \hline
+  Proxy with AMQP & 1200 ms & 12000 & 60000 \\ \hline
+  Proxy with CoAP & 1200 ms & 12000 & 60000 \\ \hline
+\end{tabular}
+\caption{RESTful Web service results}
 \end{table}
 
 \section{DIL Tests - Limited}
 
 The third DIL characteristic \textit{limited} refers to different ways a network
-can be limited. This includes high delays, packet loss and low bandwidth.
-
-Different types of networks we want to test.
-
-\begin{table}[h]
-\begin{tabular}{| l | l | l | l | l |}
-\hline
-  \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
-  Satellite Communication & 250 kbps & 550 ms & 0 \% \\ \hline
-  Line of Sight & 2 mbps & 5 ms & 0 \% \\ \hline
-  Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
-  WiFi 2 & 2 mbps & 5 ms & 20 \% \\ \hline
-  Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
-
-\end{tabular}
-\caption{Different network types}
-\end{table}
+can be limited. This includes high delays, packet loss and low bandwidth. The
+different types of networks we want to test were listed in
+\cref{table-network-types}. In the following sections the proxy is tested for
+each network configuration.
 
 
 \subsection{Satellite communication}
@@ -222,7 +273,18 @@ Different types of networks we want to test.
 In this test scenario we emulate \gls{satcom}. Low data rate, high delay.
 
 \paragraph{Results}
-Placeholder.
+
+\begin{table}[h!]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
+  Without proxy & 1100 ms & 900 ms \\ \hline
+  Proxy with HTTP & 1400 ms & 1200 ms \\ \hline
+  Proxy with AMQP & 1400 ms & 1200 ms \\ \hline
+  Proxy with CoAP & 1400 ms & 1200 ms \\ \hline
+\end{tabular}
+\caption{RESTful Web service results}
+\end{table}
 
 \subsection{Line-of-Sight}
 

@@ -166,11 +166,11 @@ did not use any proxy.
 \begin{table}[h!]
 \begin{tabular}{| l | l | l |}
 \hline
-  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 1100 ms & 900 ms \\ \hline
-  Proxy with HTTP & 1400 ms & 1200 ms \\ \hline
-  Proxy with AMQP & 1400 ms & 1200 ms \\ \hline
-  Proxy with CoAP & 1400 ms & 1200 ms \\ \hline
+  \textbf{Test} & \textbf{Avg. RTT} & \textbf{With compression}\\ \hline
+  Without proxy & 117 ms & N/A \\ \hline
+  Proxy with HTTP & 148 ms & 93 ms \\ \hline
+  Proxy with AMQP & 631 ms & 509 ms \\ \hline
+  Proxy with CoAP & 255 ms & 102 ms \\ \hline
 \end{tabular}
 \caption{W3C Web service results}
 \end{table}
@@ -278,10 +278,10 @@ In this test scenario we emulate \gls{satcom}. Low data rate, high delay.
 \begin{tabular}{| l | l | l |}
 \hline
   \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 1100 ms & 900 ms \\ \hline
-  Proxy with HTTP & 1400 ms & 1200 ms \\ \hline
-  Proxy with AMQP & 1400 ms & 1200 ms \\ \hline
-  Proxy with CoAP & 1400 ms & 1200 ms \\ \hline
+  Without proxy & 6235 ms & N/A ms \\ \hline
+  Proxy with HTTP & X ms & 3504 ms \\ \hline
+  Proxy with AMQP & X ms & 24414 ms \\ \hline
+  Proxy with CoAP & X ms & 11210 ms \\ \hline
 \end{tabular}
 \caption{RESTful Web service results}
 \end{table}

@@ -1,36 +1,28 @@
 \chapter{Testing and Evaluation}
 
-To be able to answer our research questions of how to improve the performance of
+
+
+\section{Introduction}
+
+In order to answer our research questions of how to improve the performance of
 Web services in DIL environments, we developed test setups and environments to
 evaluate the proxy. The goal is to measure any possible improvements(or
 deterioration) of performance when we use the proxy developed as a part of
 this thesis. In this chapter we present how the testing was performed and
-finally present the results we obtained.
+finally present the results we obtained. Since the proxy is being developed as
+a prototype for military usage, we wanted to use test scenarios that resembles
+actual military and civilian usage. Each test case is performed with both a
+W3C Web service applications and RESTful Web services.
 
-\section{Introduction}
+To evaluate how different network properties affects performance, the tests
+was performed on networks with different characteristics. The base case was to
+test without any intentional limitations to the network and without the actual
+usage of the proxy. Then we introduced usage of the proxy and evaluated it in
+different types of networks. An infinite number of possible network
+combinations exists, so we have in this thesis chosen to focus on five
+different network types identified by the task group IST-118 for DIL-testing.
+The different networks are summarized in \cref{table-network-types}.
 
-The proxy is being developed as a prototype for military usage, we therefore
-wanted to use a test scenario that resembles actual military usage. For the
-purpose of testing we for those reasons used two applications developed by FFI,
-programs which allows soldiers in the field to report positions of friendly and
-enemy forces back to a headquarter. The soldiers use a simple Web service client
-which sends a Web service some sort of data. These applications are W3C Web
-services, but as we have previously discussed it is also interesting to look at
-RESTful Web services. For testing, we therefore also developed a RESTful Web
-service, which does X. Each test case is performed with both a W3C Web services
-and RESTful Web services.
-
-Furthermore we performed tests with two setups, first with machine-to-machine
-over an Ethernet cable, then over actual military communication equipment. The
-usage of actual military equipment allowed us to get as realistic results as
-possible. To evaluate how different network properties affects performance, the
-tests was performed on networks with different characteristics. The base case
-was to test without any intentional limitations to the network and without the
-actual usage of the proxy. Then we introduced usage of the proxy and evaluated
-it in different types of network types. An infinite number of possible network
-combinations exists, so we have in this thesis chosen to focus on five different
-network types. These five different types were identified by the task group
-IST-118 for DIL-testing and are summarized in \cref{table-network-types}.
 
 \begin{table}[h]
 \begin{tabular}{| l | l | l | l | l |}
@@ -46,6 +38,15 @@ IST-118 for DIL-testing and are summarized in \cref{table-network-types}.
 \caption{Different network types}
 \label{table-network-types}
 \end{table}
+
+Furthermore we performed tests with two setups, first with machine-to-machine
+over an Ethernet cable, then over actual military communication equipment. The
+usage of actual military equipment allowed us to get as realistic results as
+possible. 
+
+
+
+
 
 \section{Evaluation Tools}
 
@@ -69,11 +70,6 @@ other characteristics to packets outgoing from a selected network interface.
 %Siter man-page om tc-netem
 %Siter tldp -> Traffic Control HOWTO
 
-\begin{figure}[h]
-\includegraphics[scale=0.6]{images/testing_environment.pdf}
-\caption{Testing environment}
-\label{figure-testing-environment}
-\end{figure}
 
 
 \textbf{tc}(traffic control) is a linux program to configure and control the
@@ -92,11 +88,8 @@ NetEm can emulate delays on packets on a specific link.
 In this example we add a fixed delay on 100 ms to all packets going out of local
 Ethernet.
 
-\subsection{Testing on military communication equipment}
-Kongsberg radio.
 
-
-\section{Testing environment}
+\section{Test Setup}
 \label{testing-environment}
 
 The majority of testing was performed on machines located at the FFI-lab at
@@ -104,7 +97,54 @@ Kjeller. Although testing on regular machines gives us a indication, to get as
 realistic results as possible we also performed tests on military communication
 equipment.
 
-\subsection{Using proxies}
+The Web service and client are connected to each other through a third
+computer, acting as a router. This router machine had two network cards and
+networked together the other machines by Ethernet cables. In order for the
+router machine to forward IP packets back and forth between the client and
+server, IP forwarding was enabled on the kernel. The specifications of the
+machines involded in the testing are listed in \cref{table-machines}.
+
+\begin{figure}[h]
+\includegraphics[scale=0.6]{images/testing_environment.pdf}
+\caption{Testing environment}
+\label{figure-testing-environment}
+\end{figure}
+
+
+\begin{table}[h]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Role} & \textbf{OS} & \textbf{Kernel version}\\ \hline
+  Client & Debian & 2.16 \\ \hline
+  Web service & Ubuntu & 2.15 \\ \hline
+  Router & Ubuntu & 2.15 \\ \hline
+\end{tabular}
+\caption{Machines involved in the testing}
+\label{table-machines}
+\end{table}
+
+
+The server and client are assigned an IP address in two different subnets.
+This is done by the Linux network interface administration program
+\textit{ifconfig}. In \cref{listing-ifconfig-client} the client machine is is
+assigned the IP address 192.168.2.44.
+
+\begin{lstlisting}[frame=single, caption="Configuring a network interface of the router", label=listing-ifconfig-client]
+ifconfig eth0 192.168.2.1 up
+\end{lstlisting}
+
+After setting up the IP addresses we need to configure the routing so that the
+kernel know where to route the network traffic. In this case we want all
+traffic to go through the routing machine. In \cref{listing-routing} we
+configure all IP traffic boud for the subnet 192.168.1.X to be routed through
+the router machine with IP 192.168.2.1.
+
+\begin{lstlisting}[frame=single, caption="Configuring routing rules for the client", label=listing-routing]
+ip route add unicast 192.168.1.0/24 via 192.168.2.1
+\end{lstlisting}
+
+
+\subsection{Enabling proxies}
 
 In order to enable the applications to tunnel all their HTTP traffic through our
 proxy, we needed a way to setup a proxy without altering the applications
@@ -124,34 +164,54 @@ java -Dhttp.proxyHost=localhost \
 In \cref{test} the application \textbf{client.jar} is started and all HTTP
 traffic will go through the proxy server at localhost on port 3001.
 
-\subsection{Setting up routing}
+\subsection{Emulating networks}
 
- The Web service and client are connected to each other through a third
- computer, acting as a router. This machine have two network cards and will
- receive and forward IP packets from the client and Web service. The machines
- are networked together by Ethernet cables.
+Since all network trafic passes through the routing machine, we can control
+the flow of IP packets here. As previously discussed, we use Netem.  For each
+network configuration, a bash script is run. This script configures the
+network interfaces in order to get the correct network behaviour. Both
+interfaces are configured so the netowrk is symmetrical in both directions. 
 
-\paragraph{Configuration}
+\section{Test Execution}
 
-This section describes how the test setup was performed. The computers running
-the client and Web service are connect by an Ethernet cable to the "routing"
-machine. Then they are assigned an IP address. This is done by the Linux network
-interface administration program \textit{ifconfig}. In \cref{listing-ifconfig}
-the Ethernet interface is assigned the IP address 192.168.2.3.
+\subsection{W3C Web service test applications}
 
-\begin{lstlisting}[frame=single, caption="Configuring a network interface of the router", label=listing-ifconfig]
-ifconfig eth0 192.168.2.1 up
-\end{lstlisting}
+For the purpose of testing W3C Web service applications we simulated a system
+which allows units in the field to report positions of friendly forces back to
+a headquarter. The position reports use the \gls{nffi} format, which has an
+accoicaced XML schema with it. 
+
+The client requests these data over the network. This is repeated x times and
+the the average rount-trip time is calculated. The test service was deployed
+with Glassfish 4, an application server. The client was ran through the IDEA
+Netbeans.
 
 
-\begin{lstlisting}[frame=single, caption="Configuring a network interface of client", label=listing-ifconfig]
-ifconfig eth0 192.168.2.44 up
-\end{lstlisting}
+\subsection{RESTful Web service test applicatons}
 
-\begin{lstlisting}[frame=single, caption="Configuring routing rules for the client", label=listing-ifconfig]
-ip route add unicast 192.168.1.0/24 via 192.168.2.1
-\end{lstlisting}
+For testing we developed a small RESTful Web service, an example service
+keeping order of cars in a ``car system''. The service exposes an \gls{api}
+which offers different operations to manage the car system. Clients can invoke
+these operations by using HTTP requests and utilizing the associated HTTP
+method to indicate what to do with an resource. Since RESTful services are
+payload agnostic, we choose JSON to represent the data being sent between the
+server and the client. JSON is a lightweight data-format.
 
+Each test case consist of a client sequentialy invoking the server with
+different API requests. The most common HTTP-methods GET, PUT, POST, and
+DELETE are all part of the testing.
+
+
+
+\subsection{Test parameters}
+
+\begin{itemize}
+	\item Compression on/off.
+	\item Proxy on/off.
+\end{itemize}
+
+\subsection{Testing on military communication equipment}
+Kongsberg radio.
 
 \section{Function tests}
 
@@ -270,11 +330,17 @@ Disconnect physically, then reconnecting it.
 
 \section{DIL Tests - Limited}
 
-The third DIL characteristic \textit{limited} refers to different ways a network
-can be limited. This includes high delays, packet loss and low bandwidth. The
-different types of networks we want to test were listed in
-\cref{table-network-types}. In the following sections the proxy is tested for
-each network configuration.
+The third DIL characteristic \textit{limited} refers to different ways a
+network can be limited. This includes high delays, packet loss and low
+bandwidth. The different types of networks seeks to emulate properties of
+actual communication devices used by the military. These include satellite
+link networks(SATCOM), line-of-sight(LOS), combat network radio(CNR) and WIFI.
+Wifi is dived into two to illustrate both with good connection and one with
+less. We also investigate LTE networks, which has become in widespread use in
+the latest years.
+
+In the following sections the Web services is tested for each network
+configuration. 
 
 
 \subsection{Satellite communication}

@@ -139,10 +139,19 @@ machine. Then they are assigned an IP address. This is done by the Linux network
 interface administration program \textit{ifconfig}. In \cref{listing-ifconfig}
 the Ethernet interface is assigned the IP address 192.168.2.3.
 
-\begin{lstlisting}[frame=single, caption="Configuring a network interface", label=listing-ifconfig]
-ifconfig eth0 192.168.2.3 up
-
+\begin{lstlisting}[frame=single, caption="Configuring a network interface of the router", label=listing-ifconfig]
+ifconfig eth0 192.168.2.1 up
 \end{lstlisting}
+
+
+\begin{lstlisting}[frame=single, caption="Configuring a network interface of client", label=listing-ifconfig]
+ifconfig eth0 192.168.2.44 up
+\end{lstlisting}
+
+\begin{lstlisting}[frame=single, caption="Configuring routing rules for the client", label=listing-ifconfig]
+ip route add unicast 192.168.1.0/24 via 192.168.2.1
+\end{lstlisting}
+
 
 \section{Function tests}
 

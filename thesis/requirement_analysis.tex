@@ -2,7 +2,7 @@
 
 In this chapter we discuss the requirements for the proxy being developed as a
 part of this thesis. Those requirements builds on the scope and premises
-discussed in the introduction. To recap, these defining requirements were:
+discussed in the introduction. To recap, these defining premesis were:
 
 \begin{enumerate}
     \item Support both REST and Web service communication between machines connected in a DIL network.
@@ -10,7 +10,7 @@ discussed in the introduction. To recap, these defining requirements were:
     \item All optimization techniques must be placed in a proxy, and not in the Web service applications themselves.
 \end{enumerate}
 
-\section{A DIL HTTP Proxy}
+\section{HTTP Proxy}
 
 The first requirement implies that our proxy must accept HTTP, as this is the
 far most used Web service protocol. Our proxy must be able to accept a HTTP
@@ -20,13 +20,32 @@ not required to be HTTP, but rather a protocol than deals with DIL networks in a
 better way. However, since ultimately a HTTP request should be delivered to the
 intended receiver, the HTTP properties must be retained. This means that the
 proxy must preserve the HTTP Method and HTTP headers. Also, since REST is
-payload agnostic, the proxy muse be able to support different types of data
+payload agnostic, the proxy must be able to support different types of data
 being sent through it(XML, JSON etc.).
 
 Furthermore, the proxy must be able to handle the difficult network conditions
-of DIL. It must handle very low data rates and handle brief disconnects. It
-should also support disconnects over a longer period of time by having store-
-and-forward capabilities.
+of DIL. The specific requirements are outlined in the following sections.
+
+\section{Cope with DIL}
+
+\subsection{Disconnected}
+
+Support disconnects over a longer period of time. Previous work identified the
+removal of end-to-end dependencies as important. By employing proxies, the
+end-to-end dependency is instead between the client and the proxy locally.
+However, the connection between the proxies over a DIL network can still be
+lost. This means that the proxy must be able to maintain the connection with the
+local application, while managing loss of connection with the other proxy. When
+the connection are reestablished, the proxy should continue sending the data and
+finally delivering a response back to the client.
+
+\subsection{Intermittent}
+
+Handle brief disconnects. Same requirements as for disconnected. The proxy should "hide" disconnects from the client.
+
+\subsection{Limited}
+
+It must handle very low data rates.
 
 \section{Support optimization techniques}
 
@@ -52,10 +71,11 @@ Advanced compression techniques may reduce the overhead, but also requires more
 battery. This trade-off needs to be considered.
 
 
-
 \section{Summary}
 
-In this chapter we have discussed the requirements for our proxy, which are summarized in \cref{table-proxy-requirements}. Next we discuss the design and implementation of our proxy.
+In this chapter we have discussed the requirements for our proxy, which are
+summarized in \cref{table-proxy-requirements}. Next we discuss the design and
+implementation of our proxy.
 
 
 \begin{table}[h]
@@ -63,6 +83,7 @@ In this chapter we have discussed the requirements for our proxy, which are summ
 \hline
   \textbf{Requirement} & \textbf{Priority} \\ \hline
   Receive and forward HTTP requests & 1\\ \hline
+  Retain HTTP-headers & 1\\ \hline
   Allow modifications on the payload & 1 \\ \hline
   Retain the checksum of the payload & 1 \\ \hline
   Allow configuration of HTTP timeouts & 1 \\ \hline
@@ -71,6 +92,7 @@ In this chapter we have discussed the requirements for our proxy, which are summ
   Handle very low data rate & 1 \\ \hline
   Have store-and-forward capabilities & 1 \\ \hline
   Handle frequent disconnects & 1\\ \hline
+  Handle disconnects over longer periodes of time & 1\\ \hline
 \end{tabular}
 \caption{Summary of proxy requirements}
 \label{table-proxy-requirements}

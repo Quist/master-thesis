@@ -7,12 +7,14 @@
 In order to answer our research questions of how to improve the performance of
 Web services in DIL environments, we developed test setups and environments to
 evaluate the proxy. The goal is to measure any possible improvements(or
-deterioration) of performance when we use the proxy developed as a part of
-this thesis. In this chapter we present how the testing was performed and
-finally present the results we obtained. Since the proxy is being developed as
-a prototype for military usage, we wanted to use test scenarios that resembles
-actual military and civilian usage. Each test case is performed with both a
-W3C Web service applications and RESTful Web services.
+deterioration) of performance when we use the proxy developed as a part of this
+thesis. In this chapter we present how the testing was performed and finally
+present the results we obtained. Since the proxy is being developed as a
+prototype for military usage, we wanted to use test scenarios that resembles
+actual military and civilian usage.  While W3C services only uses HTTP as a
+transport mechanism, REST utilizes the different HTTP methods to indicate which
+operation to perform on a resource. Each test scenario is therefor performed
+with both a W3C Web service applications and RESTful Web services.
 
 To evaluate how different network properties affects performance, the tests
 was performed on networks with different characteristics. The base case was to
@@ -23,29 +25,10 @@ combinations exists, so we have in this thesis chosen to focus on five
 different network types identified by the task group IST-118 for DIL-testing.
 The different networks are summarized in \cref{table-network-types}.
 
-
-\begin{table}[h]
-\begin{tabular}{| l | l | l | l | l |}
-\hline
-  \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
-  Satellite Communication & 250 kbps & 550 ms & 0 \% \\ \hline
-  Line of Sight & 2 mbps & 5 ms & 0 \% \\ \hline
-  Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
-  WiFi 2 & 2 mbps & 5 ms & 20 \% \\ \hline
-  Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
-
-\end{tabular}
-\caption{Different network types}
-\label{table-network-types}
-\end{table}
-
 Furthermore we performed tests with two setups, first with machine-to-machine
 over an Ethernet cable, then over actual military communication equipment. The
 usage of actual military equipment allowed us to get as realistic results as
-possible. 
-
-
-
+possible.
 
 
 \section{Evaluation Tools}
@@ -166,23 +149,27 @@ traffic will go through the proxy server at localhost on port 3001.
 
 \subsection{Emulating networks}
 
-Since all network trafic passes through the routing machine, we can control
+Since all network traffic passes through the routing machine, we can control
 the flow of IP packets here. As previously discussed, we use Netem.  For each
 network configuration, a bash script is run. This script configures the
 network interfaces in order to get the correct network behaviour. Both
-interfaces are configured so the netowrk is symmetrical in both directions. 
+interfaces are configured so the network is symmetrical in both directions.
 
 \section{Test Execution}
+
+In our tests we use two different sets of applications. One for W3C Web services
+and one for RESTful  Web services. Data being sent between the client and server
+is sent uncompressed.
 
 \subsection{W3C Web service test applications}
 
 For the purpose of testing W3C Web service applications we simulated a system
 which allows units in the field to report positions of friendly forces back to
 a headquarter. The position reports use the \gls{nffi} format, which has an
-accoicaced XML schema with it. 
+associated XML schema with it.
 
 The client requests these data over the network. This is repeated x times and
-the the average rount-trip time is calculated. The test service was deployed
+the the average round-trip time is calculated. The test service was deployed
 with Glassfish 4, an application server. The client was ran through the IDEA
 Netbeans.
 
@@ -197,7 +184,7 @@ method to indicate what to do with an resource. Since RESTful services are
 payload agnostic, we choose JSON to represent the data being sent between the
 server and the client. JSON is a lightweight data-format.
 
-Each test case consist of a client sequentialy invoking the server with
+Each test case consist of a client sequentially invoking the server with
 different API requests. The most common HTTP-methods GET, PUT, POST, and
 DELETE are all part of the testing.
 
@@ -225,12 +212,21 @@ overhead associated with the usage of the proxy.
 \subsection{Execution}
 
 The Web service client and the service itself was started on separately machines
-interconnect through a third machines acting as a router as discussed in
+interconnected through a third machines acting as a router as discussed in
 \cref{testing-environment}. However for the first phase, the client and server
 did not use any proxy.
 
+Warm-up.
 
-\subsection{Results}
+Number of tests.
+
+
+
+\subsection{Results and Analysis}
+
+Enabling compression yields an improvement in the performance. We also notice
+that HTTP and CoAP has a almost identical performance, while AMQP has
+significant longer RTT.
 
 \begin{table}[h!]
 \begin{tabular}{| l | l | l |}
@@ -259,14 +255,19 @@ did not use any proxy.
 
 \section{DIL Tests - Disconnected}
 
-In this scenario we evaluating the performance with the DIL characteristic
+In this scenario we evaluate  the performance with the DIL characteristic
 \textit{disconnected}, which refers to the network suddenly going down when the
 application is sending data. The objective of this testing is to evaluate how
-the proxy manages disconnects.
+the proxy manages disconnects over longer periods of time. We define the success
+criteria for this test to be that the client is able to eventually process his
+request after the connection is reestablished. The client HTTP request should
+not be interrupted in any way, other than it taking longer time to process the
+request.
 
 \subsection{Execution}
 
-Physically removing the Ethernet cable during transmission. 60 seconds?
+ The tests are performed on a unlimited network. During testing we physically
+ remove the Ethernet cable during transmission. 60 seconds?
 
 \subsection{Results}
 
@@ -296,11 +297,14 @@ Physically removing the Ethernet cable during transmission. 60 seconds?
 
 \section{DIL Tests - Intermittent}
 
-\textit{Intermittent} refers to the network connection being lost, but then regained again.
+\textit{Intermittent} refers to the network connection being lost, but then
+regained again. The objective of this testing is to evaluate how the proxy
+manages frequent temporary loss of connections. The success criteria is the same
+as for disconnected, the client should not notice any disruption of service.
 
 \subsection{Execution}
 
-Disconnect physically, then reconnecting it.
+Make script for handling this? Disconnects which lasts ms and seconds.
 
 \subsection{Results}
 
@@ -330,24 +334,58 @@ Disconnect physically, then reconnecting it.
 
 \section{DIL Tests - Limited}
 
-The third DIL characteristic \textit{limited} refers to different ways a
-network can be limited. This includes high delays, packet loss and low
-bandwidth. The different types of networks seeks to emulate properties of
-actual communication devices used by the military. These include satellite
-link networks(SATCOM), line-of-sight(LOS), combat network radio(CNR) and WIFI.
-Wifi is dived into two to illustrate both with good connection and one with
-less. We also investigate LTE networks, which has become in widespread use in
-the latest years.
+The third DIL characteristic, \textit{limited}, refers to different ways a network
+can be limited. This includes high delays, packet loss and low bandwidth. The
+different types of networks seeks to emulate properties of actual communication
+devices used by the military. These include satellite link networks(SATCOM),
+line-of-sight(LOS), combat network radio(CNR) and WIFI. Wifi is divided into two
+types to illustrate both with good connection and one with less. We also
+investigate \gls{lte}, commonly known as 4G, a network technology which has
+become in widespread use in the latest years. The reason for including LTE in
+addition to the ones from IST-118, is that the Norwegian Defense is looking into
+the possibility of using LTE. Thus making it interesting for us to investigate
+the performance under this type of network as well.
 
-In the following sections the Web services is tested for each network
-configuration. 
+The metrics we use to characterize a network is data rate, delay and \gls{per}.
+The term data rate refers to the amount of data that can be transmitted over a
+network per unit of time. Delay refers to the time it takes for a bit of data to
+travel across the network from machine to machine. \gls{per} means the number of
+incorrectly received packets divided by the total number of received packets. A
+packet is incorrect if at least one bit is transmitted erroneous. This is used
+to simulate a network which transmits corrupt, lost or duplicate packets.
+
+\begin{table}[h]
+\begin{tabular}{| l | l | l | l | l |}
+\hline
+  \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
+  Satellite Communication & 250 kbps & 550 ms & 0 \% \\ \hline
+  Line of Sight & 2 mbps & 5 ms & 0 \% \\ \hline
+  Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
+  WiFi 2 & 2 mbps & 100 ms & 20 \% \\ \hline
+  Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
+  LTE (4G) & 20 mbps & 100 ms & 1 \% \\ \hline
+\end{tabular}
+\caption{Different network types}
+\label{table-network-types}
+\end{table}
+
+\begin{figure}[h]
+\includegraphics[scale=0.25]{images/networks_overview.pdf}
+\caption{Overview of tested networks}
+\label{figure-networks-overview}
+\end{figure}
+
+In the following sections the test cases is ran for each network
+configuration.
 
 
 \subsection{Satellite communication}
 
 In this test scenario we emulate \gls{satcom}. Low data rate, high delay.
 
-\paragraph{Results}
+\paragraph{Results and analysis}
+
+
 
 \begin{table}[h!]
 \begin{tabular}{| l | l | l |}
@@ -378,7 +416,17 @@ Placeholder
 
 \subsection{Combat Net Radio with Forward Error Correction}
 
-Placeholder.
+\begin{table}[h!]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
+  Without proxy & 6235 ms & N/A ms \\ \hline
+  Proxy with HTTP & X ms & 3504 ms \\ \hline
+  Proxy with AMQP & X ms & 24414 ms \\ \hline
+  Proxy with CoAP & X ms & 11210 ms \\ \hline
+\end{tabular}
+\caption{RESTful Web service results}
+\end{table}
 
 \section{Summary}
 

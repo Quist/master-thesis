@@ -19,7 +19,7 @@ certain military networks suffer from high error rates and very low date rate,
 which can leave Web services built for civilian use unusable. This thesis
 investigates how these challenges can be overcome by applying  different
 optimization techniques. The main approach looks into how using alternative
-transport protocols other than HTTP/TCP may increase speed and reliability.
+network transport protocols may increase speed and reliability.
 
 
 \section{Background and Motivation}
@@ -47,7 +47,7 @@ a loose coupling between clients and services. In their reference model for
 distributed capabilities that may be under the control of different ownership
 domains. It provides a uniform means to offer, discover, interact with and use
 capabilities to produce desired effects consistent with measurable preconditions
-and expectations.} % SOA Trekant figur her
+and expectations.}
 
 \paragraph{}
 
@@ -66,18 +66,20 @@ with constraints and policies as  specified by the service description
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/SOA.png}
-\caption{The three roles in SOA(from \cite{ist-090})}
+\caption{The three roles in SOA}
+\label{figure-soa-roles}
 \end{figure}
 
 Services are provided by \textit{service providers} and are consumed by
-\textit{service consumers}. The service provider is responsible for creating a
-service description, making the service available to others and implementing the
-service according to the service description. Services are made available to
-service consumers through a form of \textit{service discovery}. This can be a
-static configuration, or more dynamic with a central \textit{service registry},
-where service providers publish service descriptions. Service consumers find the
-services they need by contacting the service registry. The communication between
-services occur through the exchange of standardized messages.
+\textit{service consumers} as illustrated in \cref{figure-soa-roles}. The
+service provider is responsible for creating a service description, making the
+service available to others and implementing the service according to the
+service description. Services are made available to service consumers through a
+form of \textit{service discovery}. This can be a static configuration, or more
+dynamic with a central \textit{service registry}, where service providers
+publish service descriptions. Service consumers find the services they need by
+contacting the service registry. The communication between services occur
+through the exchange of standardized messages.
 
 Following the \gls{soa} principles dictates a very loose coupling between
 services and the consumers of those. This allows software systems to be more
@@ -96,25 +98,25 @@ description. This allows re-implementation and alteration of a service without
 affecting the service consumers. Thus this can attribute to keep development
 costs low and avoiding proprietary solutions and vendor lock-in. Another
 benefit with \gls{soa} is re-usability by dividing common business processes
-into services, which may help cost reduction and avoids duplication. \gls{soa}
-is only a pattern and the concepts can be realized by a range of technologies.
-The most common used approach is the Web service family of standards, using
-the SOAP messaging protocol.
+into services, which may help cost reduction and avoids duplication.
 
-To achieve interoperability between systems from different nations and vendors,
-NATO has chosen the Web service technology in order to realize the \gls{soa}
-principles\cite{soa-baseline}. This allows member nations to implement their own
-technology as long as they adhere to the standards. The Web service technology
-is discussed in detail in \cref{web-services}. Another approach to realize
-\gls{soa} is \gls{rest}, an architecture style which uses HTTP over TCP.
-\gls{rest} has gained a lot of traction in the civil industry and is discussed
-in section \cref{rest}.
+\gls{soa} is only a pattern and the concepts can be realized by a range of
+technologies. The most common used approach is the Web service family of
+standards, using the SOAP messaging protocol. To achieve interoperability
+between systems from different nations and vendors, NATO has chosen this
+technology in order to realize the \gls{soa} principles\cite{soa-baseline}. This
+allows member nations to implement their own technology as long as they adhere
+to the standards. The Web service technology is discussed in detail in
+\cref{web-services}. Another approach to realize the \gls{soa} principles is
+\gls{rest}, an architecture style which has gained a lot of traction in the
+civil industry and is discussed further in section \cref{rest}.
 
-However, employing Web service solutions directly into military use may not be
-straight forward. These technologies were not specifically designed to handle
-conditions found in certain military networks. In the following sections we
-discuss characteristics of such networks and the possible challenges of using
-Web services in them.
+The mentioned Web service technologies, both REST and W3C Web services, are in
+widespread use, both in the civil and military world. However, employing Web
+service solutions directly into military use may not be so straight forward.
+These technologies were not specifically designed to handle conditions found in
+certain military networks. In the following sections we discuss characteristics
+of such networks and the possible challenges of using Web services in them.
 
 \subsection{Military Networks}
 
@@ -133,58 +135,63 @@ tactical networks, which is discussed in the next paragraph.
 \end{figure}
 
 \subsubsection{Tactical Networks}
-Tactical networks are characterized by that the units are deployed to operate in
-a battlefield, which means there is no existing communication infrastructure.
-They use tactical communication equipment, which includes technologies like VHF,
-UHF, HF, tactical broadband and satellites\cite{ist-090}.
-% Mangler referanse på bruk av satelitter.
+
+Tactical networks are characterized by that the units are deployed to operate on
+a battlefield, which means there is possible little to no existing
+communication infrastructure. They use tactical communication equipment, which
+includes technologies like VHF, UHF, HF, tactical broadband and
+satellites\cite{ist-090}.
 
 Examples of such units are mobile units like vehicles, foot soldiers and field
 headquarters. The tactical network connects deployed headquarters with mobile
 units. These types of networks are unpredictable and may have very low date
-rate, possibly high delay, high error rates and frequent disconnections. They
-are often called disadvantaged grids or \gls{dil} environments, which is the
-term used in this thesis. \gls{dil} is discussed in \cref{dil}.
+rate, possibly high delay, high error rates and frequent disconnections.  NATO studies\cite{nato-disadvantaged-grids} have identified such networks to have the following characteristics:
+\\
 
-NATO studies\cite{nato-disadvantaged-grids} have identified such networks to
-have the following characteristics:
-\\\\
 \textit{
 Disadvantaged grids are characterized by low bandwidth, variable throughput,
 unreliable connectivity, and energy constraints imposed by the wireless
 communications grid that link the nodes
 }.
-\paragraph{}
-The characteristics of these networks and what challenges they impose are
-discussed in further detail in \cref{dil}.
 
+\paragraph{}
+
+These types of networks are often called disadvantaged grids or \gls{dil}
+environments, which is the term we use in this thesis.
 
 %%%%%%%%%% DIL %%%%%%%%%%%%%%%
 \subsection{\glsentrylong{dil} Networks}
 \label{dil}
 
-To improve the performance of Web services in limited military networks, we
-must understand what limitations we're dealing with. The \gls{dil} concept refers
-to three characteristics of a limited network. As we discussed in the
-introduction, military tactical networks may suffer from these constraints.
+To improve the performance of Web services in limited military networks, it is
+important to understand the limitations we're dealing with. The \gls{dil}
+concept refers to three characteristics of a limited network: \textit{Disconnected, Intermittent} and \textit{Limited}.
 
 \begin{description}
 \item[Disconnected]
-Military units that participate in a tactical network are highly mobile
-and may disconnect from a network either voluntarily or not. This causes
-topology changes. Unplanned loss of connectivity can be due to various reasons,
-such as loss of signal or equipment malfunction.  The disconnected term refers
-to that nodes in the network may be disconnected for a long time, possibly for
-multiple days.
+
+Military units that participate in a tactical network may be highly mobile and
+may disconnect from a network either voluntarily or not. Unplanned loss of
+connectivity can be due to various reasons, such as loss of signal or equipment
+malfunction.  The disconnected term refers to that nodes in the network may be
+disconnected for a long time, possibly for multiple hours and even days.
 
 \item[Intermittent]
 
 Nodes in a \gls{dil} environment may lose connection temporarily before
-reconnecting. The duration range from seconds to minutes.
+reconnecting again. The duration can range from milliseconds to seconds. As an
+example, consider a military vehicle driving on a countryside road. It may
+temporary loose connection due to the signal being obstructed by trees beside
+the road, driving into tunnels or simply having a bad radio signal.
 
-\item[Limited] The Data rate, how many bits that are sent per second, is limited
-in \gls{dil} networks. Various aspects that affects the date rate are discussed
-in the next section.
+\item[Limited] Limited refers to various way a network can be limited. The Data
+rate may be low, the network delay may be high and the \gls{per} may be high.
+The term data rate refers to the amount of data that can be transmitted over a
+network per unit of time. Delay refers to the time it takes for a bit of data to
+travel across the network from machine to machine. \gls{per} means the number of
+incorrectly received packets divided by the total number of received packets. A
+packet is considered as incorrect if at least one bit is transmitted erroneous.
+
 
 \end{description}
 
@@ -246,7 +253,7 @@ approach is identified in IST-090 and  is explored in this thesis.
 A proxy is an application which acts as an intermediary between an client and a
 server. Proxies are widely in use and their usage and type varies. Example of
 proxy usage is for load balancing, caching and security. Web proxies are proxies
-that forward HTTP requests, which is what we are investigating in this thesis.
+that forward \gls{http} requests, which is what we are investigating in this thesis.
 This proxy will support features for compression, delay tolerance and overcome
 network disruptions.
 
@@ -296,8 +303,8 @@ When investigating optimization techniques, we limit it to techniques that can
 be applied at the application or the transport layer of the Internet protocol
 suite(see \cref{figure-network-layers}). The reason for this is that NATO has
 previously decided "everything over IP", a statement describing that all data
-communication in NATO should occur with IP packets. We therefore limit our
-optimization possibilities to the mentioned layers.
+communication in NATO should occur with IP packets\cite{nnec-study}. We
+therefore limit our optimization possibilities to the mentioned layers.
 
 Finally, the proxy implemented as a part of this thesis, only accepts \gls{http} as
 input from the Web services. As we discuss later in \cref{web-services}, most

@@ -330,26 +330,28 @@ delivered to the TCP software, which reconstructs the original byte streams and
 deliver them to the target application.
 
 
+
+
+
 \section{Protocols of interest}
 
-% Trengs en diskjon om NATO's everything over IP her. Man sier det i scope, men
-%må diskutere det her.
 
 Since previous experiments have shown that employing Web services built on
 HTTP/TCP breaks down in networks with the DIL characteristics, we're in this
 thesis looking into alternative protocols. One important limitation however, is
 that NATO has chosen the "everything over IP", which means that all optimization
-must ocour on the top of the network layer. Of this follows that we will
+must occur on the top of the network layer. Of this follows that we will
 evaluate protocols in the transport and application layer of the Internet
 Protocol Suite.
 
 In the following sections we will give a short introduction to the protocols
-we're investigating in this thesis. We'll get started by discussing \gls{udp},
-which alongside \gls{tcp} is one of the core protocols of the Internet protocol
-suite. The remaining protocols discussed in the next section all use either
-\gls{tcp} or \gls{udp} as their transport protocol.
+we're investigating in this thesis. The protocols has been selected because of
+their prevalence in the civil and military world or their reported performance
+in the "Internet of things". We'll get started by discussing \gls{udp}, which
+alongside \gls{tcp} is one of the core protocols of the Internet protocol suite.
+The remaining protocols discussed in the next section all use either \gls{tcp}
+or \gls{udp} as their transport protocol.
 
-Skrive noe om hvorfor vi har valgt de protokollene som vi velger å presentere i denne seksjonen.
 
 \subsection{\glsentrylong{udp}}
 
@@ -442,12 +444,11 @@ Next, we will look into another, more lightweight, publish/subscribe protocol.
 
 \subsection{MQTT}
 
-Like AMQP is MQTT a publish/subscribe messaging transport protocol
-\cite{oasis-mqtt}. However, it is considered to be much more lightweight and is
-designed for use in networks where the bandwidth is limited. It is also
-broker-based, where the broker is responsible for delivering messages to clients
-based on the topic of a message. MQTT run over the TCP/IP protocols.
-
+MQTT is also a publish/subscribe messaging transport protocol \cite{oasis-mqtt}.
+However, it is considered to be much more lightweight and is designed for use in
+networks where the bandwidth is limited. It is broker-based, where the broker is
+responsible for delivering messages to clients based on the topic of a message.
+MQTT run over the TCP/IP protocols.
 
 
 \subsection{\glsentrylong{sctp}}

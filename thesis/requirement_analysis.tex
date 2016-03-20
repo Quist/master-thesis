@@ -39,9 +39,20 @@ local application, while managing loss of connection with the other proxy. When
 the connection are reestablished, the proxy should continue sending the data and
 finally delivering a response back to the client.
 
+This requires the proxy to have some sort of redeliver mechanism, which after a
+time tries to retransmit the data. If still unsuccessful, the proxy waits an
+amount of time before attempting again. This should be done indefinitely until
+the connection is reestablished. One consideration about this is the risk of
+overflowing the receiver. It is therefor common to use an exponential back off.
+This mechanisms grants that the proxy tries frequently immediately after loss of
+connection, but gradually tries more and more seldom. Different use cases may
+require different parameters, so back-off and redeliver delay should be able to
+alter via proxy configuration.
+
 \subsection{Intermittent}
 
-Handle brief disconnects. Same requirements as for disconnected. The proxy should "hide" disconnects from the client.
+Handle brief disconnects. Same requirements as for disconnected. The proxy
+should "hide" disconnects from the client.
 
 \subsection{Limited}
 
@@ -62,6 +73,13 @@ One of the optimization techniques identified was the usage of alternative
 protocols. The proxy should therefor support a sub set of them, and be easily
 configured to use other protocols for testing purposes.
 
+MQTT is pub/sub, unfit for our request/reply setup.
+
+"Ren" TCP dropper vi fordi vi vet at den brekker fra tidligere forsøk.
+
+UDP krever så mye tid å implementere at vi dropper det.
+
+
 \section{Other considerations}
 
 Since we're creating a proxy aimed for use in a military context, military
@@ -74,26 +92,17 @@ battery. This trade-off needs to be considered.
 \section{Summary}
 
 In this chapter we have discussed the requirements for our proxy, which are
-summarized in \cref{table-proxy-requirements}. Next we discuss the design and
-implementation of our proxy.
+summarized here:
 
+\begin{enumerate}
+    \item Receive and forward HTTP requests
+    \item Retain HTTP request and response headers.
+    \item Support GZIP compression of payload.
+    \item Handle frequent disconnects.
+    \item Handle disconnects over longer periodes of time.
+    \item Handle very low data rate.
+    \item Allow for configuration of redelivery delay.
+    \item Support usage of HTTP, AMQP and CoAP between proxies.
+\end{enumerate}
 
-\begin{table}[h]
-\begin{tabular}{| l | l |}
-\hline
-  \textbf{Requirement} & \textbf{Priority} \\ \hline
-  Receive and forward HTTP requests & 1\\ \hline
-  Retain HTTP-headers & 1\\ \hline
-  Allow modifications on the payload & 1 \\ \hline
-  Retain the checksum of the payload & 1 \\ \hline
-  Allow configuration of HTTP timeouts & 1 \\ \hline
-  Keep HTTP-connection alive & 1 \\ \hline
-  Support protocol X and y & 2 \\ \hline
-  Handle very low data rate & 1 \\ \hline
-  Have store-and-forward capabilities & 1 \\ \hline
-  Handle frequent disconnects & 1\\ \hline
-  Handle disconnects over longer periodes of time & 1\\ \hline
-\end{tabular}
-\caption{Summary of proxy requirements}
-\label{table-proxy-requirements}
-\end{table}
+Next we discuss the design and implementation of our proxy.

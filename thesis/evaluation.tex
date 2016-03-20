@@ -195,10 +195,14 @@ DELETE are all part of the testing.
 \begin{itemize}
 	\item Compression on/off.
 	\item Proxy on/off.
+    \item Transport protocol
+    \item Message size
 \end{itemize}
 
 \subsection{Testing on military communication equipment}
-Kongsberg radio.
+
+To verify the results from the other tests, we also wanted to run some of the
+tests as close to reality as possible. We therefore used Kongsberg radios.
 
 \section{Function tests}
 
@@ -347,12 +351,6 @@ the possibility of using LTE. Thus making it interesting for us to investigate
 the performance under this type of network as well.
 
 The metrics we use to characterize a network is data rate, delay and \gls{per}.
-The term data rate refers to the amount of data that can be transmitted over a
-network per unit of time. Delay refers to the time it takes for a bit of data to
-travel across the network from machine to machine. \gls{per} means the number of
-incorrectly received packets divided by the total number of received packets. A
-packet is incorrect if at least one bit is transmitted erroneous. This is used
-to simulate a network which transmits corrupt, lost or duplicate packets.
 
 \begin{table}[h]
 \begin{tabular}{| l | l | l | l | l |}

@@ -1,0 +1,5 @@
+Date	       "Without Compression"   "With Compression"
+Default	        30.34	               22.58
+"HTTP Proxy"	23.83	               20.33
+"AMQP Proxy"	50.50	               16.17
+"CoAP Proxy"	67.59	               21.74

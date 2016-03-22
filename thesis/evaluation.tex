@@ -224,6 +224,8 @@ Warm-up.
 
 Number of tests.
 
+Delay less than 1 ms.
+Iperf bandwidth: 7.76 Mbits/sec
 
 
 \subsection{Results and Analysis}
@@ -236,10 +238,10 @@ significant longer RTT.
 \begin{tabular}{| l | l | l |}
 \hline
   \textbf{Test} & \textbf{Avg. RTT} & \textbf{With compression}\\ \hline
-  Without proxy & 117 ms & N/A \\ \hline
-  Proxy with HTTP & 148 ms & 93 ms \\ \hline
-  Proxy with AMQP & 631 ms & 509 ms \\ \hline
-  Proxy with CoAP & 255 ms & 102 ms \\ \hline
+  Without proxy & 122 ms & N/A \\ \hline
+  Proxy with HTTP & 163 ms & 99 ms \\ \hline
+  Proxy with AMQP & 529 ms & 490 ms \\ \hline
+  Proxy with CoAP & 284 ms & 122 ms \\ \hline
 \end{tabular}
 \caption{W3C Web service results}
 \end{table}
@@ -248,10 +250,10 @@ significant longer RTT.
 \begin{tabular}{| l | l | l |}
 \hline
   \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 1000 ms & N/A \\ \hline
-  Proxy with HTTP & 1200 ms & 1000\\ \hline
-  Proxy with AMQP & 1200 ms & 1000\\ \hline
-  Proxy with CoAP & 1200 ms & 1000\\ \hline
+  Without proxy & 244 ms & N/A \\ \hline
+  Proxy with HTTP & 368 ms & 337\\ \hline
+  Proxy with AMQP & 2084 ms & 2040\\ \hline
+  Proxy with CoAP & 331 ms & 334\\ \hline
 \end{tabular}
 \caption{RESTful Web service results}
 \end{table}
@@ -299,6 +301,8 @@ request.
 \caption{RESTful Web service results}
 \end{table}
 
+
+
 \section{DIL Tests - Intermittent}
 
 \textit{Intermittent} refers to the network connection being lost, but then
@@ -313,25 +317,25 @@ Make script for handling this? Disconnects which lasts ms and seconds.
 \subsection{Results}
 
 \begin{table}[h!]
-\begin{tabular}{| l | l | l | l |}
+\begin{tabular}{| l | l |}
 \hline
-  \textbf{Test} & \textbf{10 sec} & \textbf{30 sec} & \textbf{60 sec} \\ \hline
-  Without proxy & Timeout & Timeout & Timeout \\ \hline
-  Proxy with HTTP & 1400 ms & 40000 & Timeout \\ \hline
-  Proxy with AMQP & 1400 ms & 40000 & Timeout \\ \hline
-  Proxy with CoAP & 1400 ms & 40000 & Timeout \\ \hline
+  \textbf{Test} & \textbf{Result} \\ \hline
+  Without proxy & Timeout \\ \hline
+  Proxy with HTTP & Success \\ \hline
+  Proxy with AMQP & Success \\ \hline
+  Proxy with CoAP & Success \\ \hline
 \end{tabular}
 \caption{W3C Web service results}
 \end{table}
 
 \begin{table}[h!]
-\begin{tabular}{| l | l | l | l |}
+\begin{tabular}{| l | l |}
 \hline
-  \textbf{Test} & \textbf{10 sec} & \textbf{30 sec} & \textbf{60 sec} \\ \hline
-  Without proxy & 10000 ms & Timeout & Timeout \\ \hline
-  Proxy with HTTP & 1200 ms & 12000 & 60000 \\ \hline
-  Proxy with AMQP & 1200 ms & 12000 & 60000 \\ \hline
-  Proxy with CoAP & 1200 ms & 12000 & 60000 \\ \hline
+  \textbf{Test} & \textbf{Result} \\ \hline
+  Without proxy & Timeout \\ \hline
+  Proxy with HTTP & Success \\ \hline
+  Proxy with AMQP & Success \\ \hline
+  Proxy with CoAP & Success \\ \hline
 \end{tabular}
 \caption{RESTful Web service results}
 \end{table}
@@ -361,7 +365,7 @@ The metrics we use to characterize a network is data rate, delay and \gls{per}.
   Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
   WiFi 2 & 2 mbps & 100 ms & 20 \% \\ \hline
   Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
-  LTE (4G) & 20 mbps & 100 ms & 1 \% \\ \hline
+  Edge & 125 kbps & 200 ms & 0 \% \\ \hline
 \end{tabular}
 \caption{Different network types}
 \label{table-network-types}
@@ -380,21 +384,36 @@ configuration.
 \subsection{Satellite communication}
 
 In this test scenario we emulate \gls{satcom}. Low data rate, high delay.
+Delay ~ 1100 ms.
+Iperf bandwidth:
+[  4]   0.00-10.00  sec   491 KBytes   402 Kbits/sec    1             sender
+[  4]   0.00-10.00  sec   355 KBytes   291 Kbits/sec                  receiver
+
 
 \paragraph{Results and analysis}
-
-
 
 \begin{table}[h!]
 \begin{tabular}{| l | l | l |}
 \hline
   \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 6235 ms & N/A ms \\ \hline
-  Proxy with HTTP & X ms & 3504 ms \\ \hline
-  Proxy with AMQP & X ms & 24414 ms \\ \hline
-  Proxy with CoAP & X ms & 11210 ms \\ \hline
+  Without proxy & 14651 ms & N/A ms \\ \hline
+  Proxy with HTTP & 13771 ms & 13849 ms \\ \hline
+  Proxy with AMQP & 105713 ms & 103230 ms \\ \hline
+  Proxy with CoAP & 13720 ms & 13687 ms \\ \hline
 \end{tabular}
 \caption{RESTful Web service results}
+\end{table}
+
+\begin{table}[h!]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
+  Without proxy & 5680 ms & N/A ms \\ \hline
+  Proxy with HTTP & 13771 ms & 3621 ms \\ \hline
+  Proxy with AMQP & 23697 ms & 24123 ms \\ \hline
+  Proxy with CoAP & 111651 ms & 13687 ms \\ \hline
+\end{tabular}
+\caption{W3C Web service results}
 \end{table}
 
 \subsection{Line-of-Sight}
@@ -402,6 +421,12 @@ In this test scenario we emulate \gls{satcom}. Low data rate, high delay.
 In this test scenario we emulate so-called \gls{los} networks, which are
 characterized by being a radio-based type of network with no physical obstacles
 between the nodes in the network. High data rate, low delay and zero error.
+
+Delay ~ 11 ms.
+Iperf bandwidth:
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec  2.79 MBytes  2.34 Mbits/sec    0             sender
+[  4]   0.00-10.00  sec  2.56 MBytes  2.15 Mbits/sec                  receiver
 
 \subsection{WiFi 1}
 

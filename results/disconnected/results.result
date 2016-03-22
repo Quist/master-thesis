@@ -1,0 +1,91 @@
+amqp:
+
+94379 [qtp1926004335-17] INFO processors.ProxyRequestPreprocessor - Starting pre processing exchange before sending to other proxy.
+
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:209)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.net.SocketInputStream.read(SocketInputStream.java:127)
+	at org.apache.qpid.amqp_1_0.client.TCPTransportProvier.doRead(TCPTransportProvier.java:178)
+	at org.apache.qpid.amqp_1_0.client.TCPTransportProvier.access$000(TCPTransportProvier.java:38)
+	at org.apache.qpid.amqp_1_0.client.TCPTransportProvier$1.run(TCPTransportProvier.java:138)
+	at java.lang.Thread.run(Thread.java:745)
+Mar 22, 2016 2:53:56 PM org.springframework.jms.listener.DefaultMessageListenerContainer handleListenerSetupFailure
+WARNING: Setup of JMS message listener invoker failed for destination '3001' - trying to recover. Cause: Force detach the link because the session is remotely ended.
+Mar 22, 2016 2:53:56 PM org.springframework.jms.listener.DefaultMessageListenerContainer refreshConnectionUntilSuccessful
+INFO: Successfully refreshed JMS Connection
+
+
+444407 [Camel (camel-1) thread #1 - JmsReplyManagerTimeoutChecker[4001]] WARN org.apache.camel.component.jms.reply.TemporaryQueueReplyManager - Timeout occurred after 40000 millis waiting for reply message with correlationID [Camel-ID-utgard-58231-1458654613690-0-109] on destination org.apache.qpid.amqp_1_0.jms.impl.TemporaryQueueImpl@fc89d255. Setting ExchangeTimedOutException on (MessageId: ID-utgard-58231-1458654613690-0-101 on ExchangeId: ID-utgard-58231-1458654613690-0-100) and continue routing.
+454564 [Camel (camel-1) thread #6 - TemporaryQueueReplyManager[4001]] INFO processors.ProxyResponsePostProcessor - Received response from other proxy. HTTP status: 200 - OK
+
+
+
+
+
+
+
+
+COAP
+
+44452 [qtp48208774-14] INFO coap.CoapProducer - Producing CoAP request
+114329 [qtp48208774-14] WARN coap.CoapProducer - No CoAP response received.
+124333 [qtp48208774-14] INFO coap.CoapProducer - Producing CoAP request
+197249 [qtp48208774-14] WARN coap.CoapProducer - No CoAP response received.
+207249 [qtp48208774-14] INFO coap.CoapProducer - Producing CoAP request
+222968 [qtp48208774-14] INFO coap.CoapProducer - CoAP response received. Status code: 2.05
+
+
+
+
+
+HTTP
+Good times
+
+
+
+Plain
+
+Exception in thread "main" javax.xml.ws.WebServiceException: Failed to access the WSDL at: http://192.168.10.10:8080/SIP3Master/SIP3_Service_ReqRes?wsdl. It failed with:
+	Connection timed out.
+	at com.sun.xml.internal.ws.wsdl.parser.RuntimeWSDLParser.tryWithMex(RuntimeWSDLParser.java:250)
+	at com.sun.xml.internal.ws.wsdl.parser.RuntimeWSDLParser.parse(RuntimeWSDLParser.java:231)
+	at com.sun.xml.internal.ws.wsdl.parser.RuntimeWSDLParser.parse(RuntimeWSDLParser.java:194)
+	at com.sun.xml.internal.ws.wsdl.parser.RuntimeWSDLParser.parse(RuntimeWSDLParser.java:163)
+	at com.sun.xml.internal.ws.client.WSServiceDelegate.parseWSDL(WSServiceDelegate.java:348)
+	at com.sun.xml.internal.ws.client.WSServiceDelegate.<init>(WSServiceDelegate.java:306)
+	at com.sun.xml.internal.ws.client.WSServiceDelegate.<init>(WSServiceDelegate.java:215)
+	at com.sun.xml.internal.ws.client.WSServiceDelegate.<init>(WSServiceDelegate.java:196)
+	at com.sun.xml.internal.ws.client.WSServiceDelegate.<init>(WSServiceDelegate.java:192)
+	at com.sun.xml.internal.ws.spi.ProviderImpl.createServiceDelegate(ProviderImpl.java:104)
+	at javax.xml.ws.Service.<init>(Service.java:77)
+	at nato.fft.protocols.sip3.reqresservice.SIP3ServiceReqRes.<init>(SIP3ServiceReqRes.java:53)
+	at sip3client.SIP3Client.pullDataOperation(SIP3Client.java:75)
+	at sip3client.SIP3Client.aksess(SIP3Client.java:50)
+	at sip3client.SIP3Client.start(SIP3Client.java:44)
+	at sip3client.SIP3Client.main(SIP3Client.java:30)
+Caused by: java.net.ConnectException: Connection timed out
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:589)
+	at java.net.Socket.connect(Socket.java:538)
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:180)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:432)
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:527)
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:211)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:308)
+	at sun.net.www.http.HttpClient.New(HttpClient.java:326)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1168)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1104)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:998)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:932)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1512)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1440)
+	at java.net.URL.openStream(URL.java:1038)
+	at com.sun.xml.internal.ws.wsdl.parser.RuntimeWSDLParser.createReader(RuntimeWSDLParser.java:984)
+	at com.sun.xml.internal.ws.wsdl.parser.RuntimeWSDLParser.resolveWSDL(RuntimeWSDLParser.java:385)
+	at com.sun.xml.internal.ws.wsdl.parser.RuntimeWSDLParser.parse(RuntimeWSDLParser.java:216)
+	... 14 more

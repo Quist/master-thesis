@@ -1,0 +1,5 @@
+Using proxy at port 3001
+Running jar 100 times..
+Average: 0.333796
+Standard Deviation: 0.025533
+Variance: 0.000652

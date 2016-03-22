@@ -1,0 +1,4 @@
+ping: 200 ms
+iperf:
+[  4]   0.00-10.00  sec  2.05 MBytes  1.72 Mbits/sec   11             sender
+[  4]   0.00-10.00  sec  1.99 MBytes  1.67 Mbits/sec                  receiver

@@ -2,4 +2,4 @@ Date	       "Without Compression"   "With Compression"
 Default	        5680	               0
 "HTTP Proxy"	4688	               3621
 "AMQP Proxy"	23697	               24123
-"CoAP Proxy"	111651                  X
+"CoAP Proxy"	111651                 12455

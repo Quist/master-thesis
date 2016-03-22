@@ -1,7 +1,7 @@
 set terminal pdf
 set output 'out.pdf'
 
-set title "Satellite"
+set title "WIFI1 - REST"
 set ylabel "Average Time(ms)"
 
 fontsize = 12
@@ -19,4 +19,4 @@ set style histogram clustered
 
 set autoscale
 
-plot for [COL=2:3] '../satellite/rest/results.data' using COL:xticlabels(1) title columnheader
+plot for [COL=2:3] '../wifi1/rest/results.data' using COL:xticlabels(1) title columnheader

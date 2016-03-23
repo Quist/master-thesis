@@ -1,7 +1,7 @@
 set terminal pdf
 set output 'out.pdf'
 
-set title "Function test - REST"
+set title "WIFI 2 - W3C Web service"
 set ylabel "Average Time(ms)"
 
 fontsize = 12
@@ -19,4 +19,4 @@ set style histogram clustered
 
 set autoscale
 
-plot for [COL=2:3] '../function_tests/rest/results.data' using COL:xticlabels(1) title columnheader
+plot for [COL=2:3] 'results.data' using COL:xticlabels(1) title columnheader

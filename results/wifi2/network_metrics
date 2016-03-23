@@ -1,0 +1,6 @@
+77 packets transmitted, 59 received, 23% packet loss, time 76163ms
+rtt min/avg/max/mdev = 0.000/197.733/201.377/25.963 ms
+
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec   153 KBytes   125 Kbits/sec   33             sender
+[  4]   0.00-10.00  sec   122 KBytes  99.6 Kbits/sec                  receiver

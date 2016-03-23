@@ -1,0 +1,9 @@
+
+Ping
+--- 192.168.10.10 ping statistics ---
+16 packets transmitted, 16 received, 0% packet loss, time 15002ms
+rtt min/avg/max/mdev = 200.770/201.092/201.347/0.568 ms
+
+
+[  4]   0.00-10.00  sec  49.5 KBytes  40.5 Kbits/sec    1             sender
+[  4]   0.00-10.00  sec  42.4 KBytes  34.7 Kbits/sec                  receiver

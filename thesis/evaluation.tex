@@ -4,17 +4,18 @@
 
 \section{Introduction}
 
-In order to answer our research questions of how to improve the performance of
-Web services in DIL environments, we developed test setups and environments to
-evaluate the proxy. The goal is to measure any possible improvements(or
-deterioration) of performance when we use the proxy developed as a part of this
-thesis. In this chapter we present how the testing was performed and finally
-present the results we obtained. Since the proxy is being developed as a
-prototype for military usage, we wanted to use test scenarios that resembles
-actual military and civilian usage.  While W3C services only uses HTTP as a
-transport mechanism, REST utilizes the different HTTP methods to indicate which
-operation to perform on a resource. Each test scenario is therefor performed
-with both a W3C Web service applications and RESTful Web services.
+To answer our research questions of how to improve the performance of Web
+services in DIL environments, we came up with a set of test scenarios and test
+environments to evaluate the proxy. The goal is to measure any possible
+improvements(or deterioration) of performance when we use the proxy developed as
+a part of this thesis. In this chapter we present how the testing was performed
+and finally present the results we obtained. Since the proxy is being developed
+as a prototype for military usage, we wanted to use test scenarios that
+resembles actual military and civilian usage.  While W3C web Services only uses
+HTTP simply as a transport mechanism, REST utilizes the different HTTP methods to
+indicate which operation to perform on a resource. Each test scenario is
+therefor performed with both a W3C Web service applications and RESTful Web
+services.
 
 To evaluate how different network properties affects performance, the tests
 was performed on networks with different characteristics. The base case was to
@@ -37,28 +38,27 @@ In order to simulate \gls{dil} environments we need some way to control the
 properties of the network traffic. In this thesis we use two approaches, the
 first one connecting two machines through a third machine. The third machine
 will use a component of the linux kernel to control the flow of the network
-traffic flowing through it, allowing us to simulate a DIL network. The second
+traffic flowing through it, allowing us to simulate DIL networks. The second
 approach involves using actual military equipment in laboratory at FFI. The
 benefit of using actual equipment, is that we get as realistic tests as
 possible.
 
 \subsection{\glsentrylong{netem}}
 
-Fortunately, the Linux kernel offers a rich set of tools for managing and
-manipulating the transmission of packets. \gls{netem} is an enchancement of the
-traffic control facilities that allows us to control delay, packet loss and
-other characteristics to packets outgoing from a selected network interface.
-\Cref{figure-testing-environment} illustrates the setup of this approach.
+The Linux kernel offers a rich set of tools for managing and manipulating the
+transmission of packets. \textbf{tc}(traffic control) is a Linux program to
+configure and control the linux kernels Network scheduler. \gls{netem} is an
+enchancement of the traffic control facilities that allows us to control delay,
+packet loss and other characteristics to packets outgoing from a selected
+network interface. \Cref{figure-testing-environment} illustrates the setup of
+this approach. This tools allow us to emulate many of the network
+characteristics that DIL has and the different setups are explained in the
+coming sections.
 
 %Siter man-page om tc-netem
 %Siter tldp -> Traffic Control HOWTO
 
 
-
-\textbf{tc}(traffic control) is a linux program to configure and control the
-linux kernels Network scheduler. This program allows us to emulate many of the
-network characteristics that DIL has and the different setups are explained in
-the coming sections.
 
 \subsubsection{Delays}
 
@@ -71,21 +71,31 @@ NetEm can emulate delays on packets on a specific link.
 In this example we add a fixed delay on 100 ms to all packets going out of local
 Ethernet.
 
+\subsubsection{Error rate}
+Placeholder
+
+\subsubsection{Data rate}
+Placeholder
+
+\subsection{Iperf 3}
+
+Tool for measuring network properties. Since Netem is only a network emulator,
+we used this tool to confirm that the Netem configuration worked as expected.
 
 \section{Test Setup}
 \label{testing-environment}
 
-The majority of testing was performed on machines located at the FFI-lab at
-Kjeller. Although testing on regular machines gives us a indication, to get as
-realistic results as possible we also performed tests on military communication
-equipment.
+The majority of testing was performed at the FFI-lab at Kjeller.  The Web
+service and client are connected to each other through a third computer, acting
+as a router. This router machine had two network cards and networked together
+the other machines by Ethernet cables. In order for the router machine to
+forward IP packets back and forth between the client and server, IP forwarding
+was enabled on the kernel. The specifications of the machines involved in the
+testing are listed in \cref{table-machines}.
 
-The Web service and client are connected to each other through a third
-computer, acting as a router. This router machine had two network cards and
-networked together the other machines by Ethernet cables. In order for the
-router machine to forward IP packets back and forth between the client and
-server, IP forwarding was enabled on the kernel. The specifications of the
-machines involded in the testing are listed in \cref{table-machines}.
+Although testing on regular machines with emulated network gives us a good
+indication, to get as realistic results as possible we also performed tests on
+military communication equipment.
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/testing_environment.pdf}
@@ -159,9 +169,14 @@ interfaces are configured so the network is symmetrical in both directions.
 
 In our tests we use two different sets of applications. One for W3C Web services
 and one for RESTful  Web services. Data being sent between the client and server
-is sent uncompressed.
+is default sent uncompressed.
 
-\subsection{W3C Web service test applications}
+During testing we discovered that especially CoAP was very sensentive to the
+size of the messages being sent. We therefor developed a test application that
+allowed the client to request a number of bytes from the server. This allowed us
+to see how CoAP performed with different message sizes.
+
+\subsection{NFFI W3C Web service}
 
 For the purpose of testing W3C Web service applications we simulated a system
 which allows units in the field to report positions of friendly forces back to
@@ -174,7 +189,7 @@ with Glassfish 4, an application server. The client was ran through the IDEA
 Netbeans.
 
 
-\subsection{RESTful Web service test applicatons}
+\subsection{RESTful car Web service}
 
 For testing we developed a small RESTful Web service, an example service
 keeping order of cars in a ``car system''. The service exposes an \gls{api}
@@ -189,8 +204,14 @@ different API requests. The most common HTTP-methods GET, PUT, POST, and
 DELETE are all part of the testing.
 
 
+\subsection{Request size application}
+
+This application allowed us to test with different message sizes. The application was a W3C Web service and deployed with Glassfish. 
+
 
 \subsection{Test parameters}
+
+The tests was performed with the following parameters.
 
 \begin{itemize}
 	\item Compression on/off.
@@ -234,29 +255,17 @@ Enabling compression yields an improvement in the performance. We also notice
 that HTTP and CoAP has a almost identical performance, while AMQP has
 significant longer RTT.
 
-\begin{table}[h!]
-\begin{tabular}{| l | l | l |}
-\hline
-  \textbf{Test} & \textbf{Avg. RTT} & \textbf{With compression}\\ \hline
-  Without proxy & 122 ms & N/A \\ \hline
-  Proxy with HTTP & 163 ms & 99 ms \\ \hline
-  Proxy with AMQP & 529 ms & 490 ms \\ \hline
-  Proxy with CoAP & 284 ms & 122 ms \\ \hline
-\end{tabular}
-\caption{W3C Web service results}
-\end{table}
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/function_tests/nffi/out.pdf}
+\caption{W3C Web services results}
+\end{figure}
 
-\begin{table}[h!]
-\begin{tabular}{| l | l | l |}
-\hline
-  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 244 ms & N/A \\ \hline
-  Proxy with HTTP & 368 ms & 337\\ \hline
-  Proxy with AMQP & 2084 ms & 2040\\ \hline
-  Proxy with CoAP & 331 ms & 334\\ \hline
-\end{tabular}
-\caption{RESTful Web service results}
-\end{table}
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/function_tests/rest/out.pdf}
+\caption{REST results}
+\end{figure}
 
 
 \section{DIL Tests - Disconnected}
@@ -393,10 +402,12 @@ configuration.
 
 In this test scenario we emulate \gls{satcom}. Low data rate, high delay.
 
-\paragraph{Results and analysis}\mbox{}\\
+\subsubsection{Execution}
+Placeholder
 
+\subsubsection{Results and analysis}
 AMQP has a very long response time for both test scenarios while also CoAP
-struggles with uncompressed xml-messages. Other 
+struggles with uncompressed xml-messages. Other
 
 \begin{figure}[H]
 \center
@@ -416,6 +427,11 @@ In this test scenario we emulate so-called \gls{los} networks, which are
 characterized by being a radio-based type of network with no physical obstacles
 between the nodes in the network. High data rate, low delay and zero error.
 
+\subsubsection{Execution}
+Placeholder
+
+\subsubsection{Results and analysis}
+
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/los/nffi/out.pdf}
@@ -429,6 +445,13 @@ between the nodes in the network. High data rate, low delay and zero error.
 \end{figure}
 
 \subsection{WiFi 1}
+
+About this type of network.
+
+\subsubsection{Execution}
+Placeholder
+
+\subsubsection{Results and analysis}
 
 \begin{figure}[H]
 \center
@@ -445,6 +468,13 @@ between the nodes in the network. High data rate, low delay and zero error.
 
 \subsection{WiFi 2}
 
+About this type of network.
+
+\subsubsection{Execution}
+Placeholder
+
+\subsubsection{Results and analysis}
+
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/wifi2/nffi/out.pdf}
@@ -459,6 +489,13 @@ between the nodes in the network. High data rate, low delay and zero error.
 
 \subsection{Combat Net Radio with Forward Error Correction}
 
+About this type of network.
+
+\subsubsection{Execution}
+Placeholder
+
+\subsubsection{Results and analysis}
+
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/cnr/nffi/out.pdf}
@@ -472,7 +509,24 @@ between the nodes in the network. High data rate, low delay and zero error.
 \end{figure}
 
 
+\subsection{Edge}
+
+About this type of network.
+
+\subsubsection{Execution}
+Placeholder
+
+\subsubsection{Results and analysis}
+
 \subsection{Kongsberg Radio}
+
+About this type of network.
+
+\subsubsection{Execution}
+Placeholder
+
+\subsubsection{Results and analysis}
+
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/kongsberg/nffi/out.pdf}
@@ -484,6 +538,8 @@ between the nodes in the network. High data rate, low delay and zero error.
 \includegraphics[scale=0.75]{../results/kongsberg/rest/out.pdf}
 \caption{REST results}
 \end{figure}
+
+
 
 
 \section{Summary}

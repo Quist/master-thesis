@@ -1,7 +1,7 @@
 set terminal pdf
 set output 'out.pdf'
 
-set title "WIFI 2 - REST"
+set title "CNR - REST"
 set ylabel "Average Time(ms)"
 
 fontsize = 12

@@ -272,16 +272,23 @@ request.
 
 \subsection{Execution}
 
- The tests are performed on a unlimited network. During testing we physically
- remove the Ethernet cable during transmission. 60 seconds?
+ The tests are performed on a unlimited network. During testing the Ethernet
+ cable between the client machine and the router was removed for about 60
+ seconds. It was then reconnected.
 
 \subsection{Results}
+
+For both the REST and W3C Web service test scenarios the results were identical.
+Without using proxies, the connection timed out and the applications were unable
+to continue. With proxies the connection did not time out, and the protocols
+retransmission mechanism were able to continue transmission when connection was
+reestablished.
 
 \begin{table}[h!]
 \begin{tabular}{| l | l |}
 \hline
   \textbf{Test} & \textbf{Result} \\ \hline
-  Without proxy & Timeout \\ \hline
+  Without proxy & Connection timeout \\ \hline
   Proxy with HTTP & Success \\ \hline
   Proxy with AMQP & Success \\ \hline
   Proxy with CoAP & Success \\ \hline
@@ -293,7 +300,7 @@ request.
 \begin{tabular}{| l | l |}
 \hline
   \textbf{Test} & \textbf{Result} \\ \hline
-  Without proxy & Timeout \\ \hline
+  Without proxy & Connection timeout \\ \hline
   Proxy with HTTP & Success \\ \hline
   Proxy with AMQP & Success \\ \hline
   Proxy with CoAP & Success \\ \hline
@@ -312,15 +319,15 @@ as for disconnected, the client should not notice any disruption of service.
 
 \subsection{Execution}
 
-Make script for handling this? Disconnects which lasts ms and seconds.
+Not done yet. Similar to disconnect.
 
 \subsection{Results}
 
-\begin{table}[h!]
+\begin{table}[H]
 \begin{tabular}{| l | l |}
 \hline
   \textbf{Test} & \textbf{Result} \\ \hline
-  Without proxy & Timeout \\ \hline
+  Without proxy & Connection timeout \\ \hline
   Proxy with HTTP & Success \\ \hline
   Proxy with AMQP & Success \\ \hline
   Proxy with CoAP & Success \\ \hline
@@ -328,11 +335,11 @@ Make script for handling this? Disconnects which lasts ms and seconds.
 \caption{W3C Web service results}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
 \begin{tabular}{| l | l |}
 \hline
   \textbf{Test} & \textbf{Result} \\ \hline
-  Without proxy & Timeout \\ \hline
+  Without proxy & Connection timeout \\ \hline
   Proxy with HTTP & Success \\ \hline
   Proxy with AMQP & Success \\ \hline
   Proxy with CoAP & Success \\ \hline
@@ -356,7 +363,13 @@ the performance under this type of network as well.
 
 The metrics we use to characterize a network is data rate, delay and \gls{per}.
 
-\begin{table}[h]
+\begin{figure}[h!]
+\includegraphics[scale=0.25]{images/networks_overview.pdf}
+\caption{Overview of tested networks}
+\label{figure-networks-overview}
+\end{figure}
+
+\begin{table}[h!]
 \begin{tabular}{| l | l | l | l | l |}
 \hline
   \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
@@ -371,11 +384,6 @@ The metrics we use to characterize a network is data rate, delay and \gls{per}.
 \label{table-network-types}
 \end{table}
 
-\begin{figure}[h]
-\includegraphics[scale=0.25]{images/networks_overview.pdf}
-\caption{Overview of tested networks}
-\label{figure-networks-overview}
-\end{figure}
 
 In the following sections the test cases is ran for each network
 configuration.
@@ -384,37 +392,23 @@ configuration.
 \subsection{Satellite communication}
 
 In this test scenario we emulate \gls{satcom}. Low data rate, high delay.
-Delay ~ 1100 ms.
-Iperf bandwidth:
-[  4]   0.00-10.00  sec   491 KBytes   402 Kbits/sec    1             sender
-[  4]   0.00-10.00  sec   355 KBytes   291 Kbits/sec                  receiver
 
+\paragraph{Results and analysis}\mbox{}\\
 
-\paragraph{Results and analysis}
+AMQP has a very long response time for both test scenarios while also CoAP
+struggles with uncompressed xml-messages. Other 
 
-\begin{table}[h!]
-\begin{tabular}{| l | l | l |}
-\hline
-  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 14651 ms & N/A ms \\ \hline
-  Proxy with HTTP & 13771 ms & 13849 ms \\ \hline
-  Proxy with AMQP & 105713 ms & 103230 ms \\ \hline
-  Proxy with CoAP & 13720 ms & 13687 ms \\ \hline
-\end{tabular}
-\caption{RESTful Web service results}
-\end{table}
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/satellite/nffi/out.pdf}
+\caption{W3C Web services results}
+\end{figure}
 
-\begin{table}[h!]
-\begin{tabular}{| l | l | l |}
-\hline
-  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 5680 ms & N/A ms \\ \hline
-  Proxy with HTTP & 13771 ms & 3621 ms \\ \hline
-  Proxy with AMQP & 23697 ms & 24123 ms \\ \hline
-  Proxy with CoAP & 111651 ms & 13687 ms \\ \hline
-\end{tabular}
-\caption{W3C Web service results}
-\end{table}
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/satellite/rest/out.pdf}
+\caption{REST results}
+\end{figure}
 
 \subsection{Line-of-Sight}
 
@@ -422,36 +416,75 @@ In this test scenario we emulate so-called \gls{los} networks, which are
 characterized by being a radio-based type of network with no physical obstacles
 between the nodes in the network. High data rate, low delay and zero error.
 
-Delay ~ 11 ms.
-Iperf bandwidth:
-[ ID] Interval           Transfer     Bandwidth       Retr
-[  4]   0.00-10.00  sec  2.79 MBytes  2.34 Mbits/sec    0             sender
-[  4]   0.00-10.00  sec  2.56 MBytes  2.15 Mbits/sec                  receiver
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/los/nffi/out.pdf}
+\caption{W3C Web services results}
+\end{figure}
 
-
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/los/rest/out.pdf}
+\caption{REST results}
+\end{figure}
 
 \subsection{WiFi 1}
 
-Placeholder.
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/wifi1/nffi/out.pdf}
+\caption{W3C Web services results}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/wifi1/rest/out.pdf}
+\caption{REST results}
+\end{figure}
 
 
 \subsection{WiFi 2}
 
-Placeholder
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/wifi2/nffi/out.pdf}
+\caption{W3C Web services results}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/wifi2/rest/out.pdf}
+\caption{REST results}
+\end{figure}
 
 \subsection{Combat Net Radio with Forward Error Correction}
 
-\begin{table}[h!]
-\begin{tabular}{| l | l | l |}
-\hline
-  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
-  Without proxy & 6235 ms & N/A ms \\ \hline
-  Proxy with HTTP & X ms & 3504 ms \\ \hline
-  Proxy with AMQP & X ms & 24414 ms \\ \hline
-  Proxy with CoAP & X ms & 11210 ms \\ \hline
-\end{tabular}
-\caption{RESTful Web service results}
-\end{table}
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/cnr/nffi/out.pdf}
+\caption{W3C Web services results}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/cnr/rest/out.pdf}
+\caption{REST results}
+\end{figure}
+
+
+\subsection{Kongsberg Radio}
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/kongsberg/nffi/out.pdf}
+\caption{W3C Web services results}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/kongsberg/rest/out.pdf}
+\caption{REST results}
+\end{figure}
+
 
 \section{Summary}
 

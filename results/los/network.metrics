@@ -1,0 +1,5 @@
+Delay ~ 11 ms.
+Iperf bandwidth:
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec  2.79 MBytes  2.34 Mbits/sec    0             sender
+[  4]   0.00-10.00  sec  2.56 MBytes  2.15 Mbits/sec                  receiver

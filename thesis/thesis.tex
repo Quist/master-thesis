@@ -4,8 +4,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage{ifimasterforside}
 \usepackage{graphicx}
+\usepackage{float}
 
 \usepackage[acronym, toc]{glossaries}
+\usepackage[toc,page]{appendix}
 
 \usepackage[backend=biber,sorting=none]{biblatex}
 \usepackage{listings}
@@ -101,5 +103,20 @@ sint corpora repudiandae eam.
 \pagebreak
 \printbibliography{}
 \printglossaries{}
+
+\begin{appendices}
+\chapter{Results}
+\begin{table}[h!]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Test} & \textbf{Transfer time} & \textbf{With compression}\\ \hline
+  Without proxy & 6235 ms & N/A ms \\ \hline
+  Proxy with HTTP & X ms & 3504 ms \\ \hline
+  Proxy with AMQP & X ms & 24414 ms \\ \hline
+  Proxy with CoAP & X ms & 11210 ms \\ \hline
+\end{tabular}
+\caption{RESTful Web service results}
+\end{table}
+\end{appendices}
 
 \end{document}

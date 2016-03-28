@@ -1,7 +1,7 @@
 set terminal pdf
 set output 'out.pdf'
 
-set title "WIFI 2 - W3C Web service"
+set title "CNR - W3C Web service"
 set ylabel "Average Time(ms)"
 
 fontsize = 12

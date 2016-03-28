@@ -1,5 +1,5 @@
-set terminal pdf
-set output 'out.pdf'
+set terminal latex
+set output 'results.tex'
 
 set title "WIFI 2 - W3C Web service"
 set ylabel "Average Time(ms)"

@@ -18,7 +18,7 @@ introduce the different test applications, test cases and the different types
 of networks used for testing. Then we present the test results for each of the
 three aspects of DIL, \textit{disconnected, intermittent} and
 \textit{limited.} The aspects were tested separately. We started with the
-disconnected and intermittent tests, where we investigated the behavoiour when
+disconnected and intermittent tests, where we investigated the behaviour when
 connection was lost. For the limited tests, we saw how different types of
 networks influenced the performance of Web services. The base case was to
 test without any intentional limitations to the network and without the actual
@@ -36,7 +36,7 @@ Military communication can occur over a wide range of different technologies and
 environments. These include satellite link networks(SATCOM), line-of-sight(LOS),
 combat network radio(CNR) and WIFI. Wifi is divided into two types to illustrate
 both with good connection and one with less. Some communication technology, such
-as Satellite communication, is characterised by long communication delay while
+as Satellite communication, is characterized by long communication delay while
 others may be by their low data rate. An overview of military communication
 technologies can be seen in \cref{figure-networks-overview}.
 
@@ -95,8 +95,8 @@ possible.
 
 The Linux kernel offers a rich set of tools for managing and manipulating the
 transmission of packets. \textbf{tc}(traffic control) is a Linux program to
-configure and control the linux kernels Network scheduler. \gls{netem} is an
-enchancement of the traffic control facilities that allows us to control delay,
+configure and control the Linux kernels Network scheduler. \gls{netem} is an
+enhancement of the traffic control facilities that allows us to control delay,
 packet loss and other characteristics to packets outgoing from a selected
 network interface\cite{man-netem}. These tools allow us to emulate many of the network
 characteristics that makes DIL.
@@ -131,7 +131,7 @@ expected.
 
 \subsection{Wireshark}
 
-Wireshark is a packet analyser and allows for network analysis and let us see
+Wireshark is a packet analyzer and allows for network analysis and let us see
 the network traffic. Using this tool, we could investigate the behaviour of each
 protocol used for testing.
 
@@ -187,7 +187,7 @@ ifconfig eth0 192.168.2.1 up
 After setting up the IP addresses we need to configure the routing so that the
 kernel know where to route the network traffic. In this case we want all
 traffic to go through the routing machine. In \cref{listing-routing} we
-configure all IP traffic boud for the subnet 192.168.1.X to be routed through
+configure all IP traffic bound for the subnet 192.168.1.X to be routed through
 the router machine with IP 192.168.2.1.
 
 \begin{lstlisting}[frame=single, caption="Configuring routing rules for the client", label=listing-routing]
@@ -244,10 +244,10 @@ uses HTTP simply as a transport mechanism, REST utilizes the different HTTP
 methods to indicate which operation to perform on a resource. Each test scenario
 was therefor performed with both a W3C Web service application and RESTful Web
 service application. Each service is deployed in Glassfish 4, while the client
-is executued either from the command line or directly from the Netbeans IDEA.
+is executed either from the command line or directly from the Netbeans IDEA.
 Data being sent between the client and server is by default sent uncompressed.
 
-During testing we discovered that especially CoAP was very sensentive to the
+During testing we discovered that especially CoAP was very sensitive to the
 size of the messages being sent. We therefor developed a test application that
 allowed the client to request a number of bytes from the server. This allowed us
 to see how CoAP performed with different message sizes.
@@ -261,7 +261,7 @@ XML schema with it. One test run is illustrated in \cref{figure-nffi-flow} and
 consist of the client making a HTTP POST request to the Web service. Associated
 with the request is an XML payload which tells the Web service which operation
 to invoke. In our case, the service then returns an XML message containing a
-large number of positions in the nffi format.
+large number of positions in the NFFI format.
 
 \begin{figure}[h]
 \centering
@@ -325,7 +325,7 @@ Enabling compression yields an improvement in the performance, especially for
 W3C Web services which had much larger messages. We also notice that HTTP and
 CoAP has a almost identical performance, while AMQP has significant longer
 average response time. Furthermore we can observe that the default solution
-without proxies has the best performance in this unlimted network.
+without proxies has the best performance in this unlimited network.
 
 \begin{figure}[H]
 \center
@@ -432,21 +432,22 @@ Not done yet. Similar to disconnect.
 
 The third DIL characteristic, \textit{limited}, refers to different ways a
 network can be limited. This includes high delays, packet loss and low
-bandwidth. In this section we present the testing performed for the different types of networks identified in \cref{table-network-types}.
+bandwidth. In this section we present the testing performed for the different
+types of networks identified in \cref{table-network-types}.
 
 
 
 \subsection{Satellite communication}
 
 In this test scenario we emulate \gls{satcom}. With satellite communication
-all data is relayed through an communication satellite in orbit arround
-the earth. This type of communication is characterised by its low data rate
+all data is relayed through an communication satellite in orbit around
+the earth. This type of communication is characterized by its low data rate
 and high delay.
 
 \subsubsection{Results and analysis}
 
 AMQP has a very long response time for both test scenarios, while also CoAP
-struggles with large uncompressed xml messages of the NFFI service. For both
+struggles with large uncompressed XML messages of the NFFI service. For both
 with and without compression, we observe that employing HTTP proxies yields a
 small improvement of performance, compared to the default. We can also notice
 that for the RESTful service, CoAP has better performance than default, and
@@ -470,9 +471,9 @@ In this test scenario we emulate so-called \gls{los} networks, which are
 characterized by being a radio-based type of network with no physical obstacles
 between the nodes in the network. High data rate, low delay and zero error.
 
-\subsubsection{Results and analysis} 
+\subsubsection{Results and analysis}
 
-Again we notice CoAP really struggeling with uncompressed XML messages, aswell
+Again we notice CoAP really struggling with uncompressed XML messages, as well
 as AMQP performing significantly poorer than the other protocols. However,
 when the message is compressed CoAP has roughly equal performance as the
 default. When we look on the RESTful test application results, we see that
@@ -494,9 +495,9 @@ CoAP performs better than default and HTTP with compressed messages.
 
 \subsection{WiFi 1}
 
-With this type of network we emulate communcation over WiFI where the
+With this type of network we emulate communication over WiFi where the
 conditions are relatively good. The data rate is high, the delay is moderate
-and the packet error rate is arround 1 \%.
+and the packet error rate is around 1 \%.
 
 \subsubsection{Results and analysis}
 
@@ -527,7 +528,7 @@ and very high packet error rate(20 \%).
 
 \subsubsection{Results and analysis}
 
-Compared to WiFI 1, we see that all response times has increased
+Compared to WiFi 1, we see that all response times has increased
 significantly. The importance of compression has increased, the tests with
 compression turned on yields a large performance increase. In the uncompressed
 NFFI test scenario, CoAP reached it's time out, and were unable to finish. In
@@ -548,7 +549,7 @@ HTTP. HTTP proxies with compression yielded the best results.
 
 \subsection{Combat Net Radio with Forward Error Correction}
 
-This type of network is characterised by very low data rate, moderate timeout
+This type of network is characterized by very low data rate, moderate timeout
 and packet error rate on around 1 \%.
 
 
@@ -579,12 +580,12 @@ About this type of network.
 
 \subsection{Kongsberg Radio}
 
-Two KDA WM 600. 
+Two KDA WM 600.
 
 
 \subsubsection{Results and analysis}
 
-For NFFI tests, compression yields a lot of increase in performance. 
+For NFFI tests, compression yields a lot of increase in performance.
 
 \begin{figure}[H]
 \center
@@ -611,4 +612,3 @@ to the discussion and conclusion in the next chapter.
 \item CoAP struggles with larger messages.
 \item CoAP has the best performance with smaller messages in networks with low data rate.
 \end{itemize}
-

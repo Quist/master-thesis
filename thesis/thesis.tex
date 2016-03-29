@@ -105,49 +105,6 @@ sint corpora repudiandae eam.
 \printbibliography{}
 \printglossaries{}
 
-\begin{appendices}
-\chapter{Results}
-
-\section{Function tests}
-
-\begin{itemize}
-	\item Ping measured to \textasciitilde 1 ms.
-	\item Iperf 3 measured data rate: 7.76 Mbits/sec.
-\end{itemize}
-
-\begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 122 ms & 29 & 869 & 300 \\ \hline
-  Proxy with HTTP & 163 ms & 25 & 601 & 300 \\ \hline
-  Proxy with HTTP \& GZIP & 99 ms & 19 & 346 & 300 \\ \hline
-  Proxy with AMQP & 529 ms & 60 & 3690 & 300 \\ \hline
-  Proxy with AMQP \& GZIP & 490 ms & 62 & 3847 & 300\\ \hline
-  Proxy with CoAP & 285 ms & 33 & 1122 & 300 \\ \hline
-  Proxy with CoAP \& GZIP & 122 ms & 33 & 1091 & 300 \\ \hline
-\end{tabular}
-\caption{NFFI Web service results}
-\end{table}
-
-
-\begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 243 ms & 15 & 0.2 & 100 \\ \hline
-  Proxy with HTTP & 368 ms & 30 & 0.9 & 100 \\ \hline
-  Proxy with HTTP \& GZIP & 337 ms & 27 & 0.7 & 100 \\ \hline
-  Proxy with AMQP & 2084 ms & 123 & 15 & 100 \\ \hline
-  Proxy with AMQP \& GZIP & 2040 ms & 97 & 9 & 100\\ \hline
-  Proxy with CoAP & 331 ms & 22 & 0.5 & 100 \\ \hline
-  Proxy with CoAP \& GZIP & 334 ms & 26 & 0.7 & 100 \\ \hline
-\end{tabular}
-\caption{REST Web service results}
-\end{table}
-
-
-
-\end{appendices}
+\include{appendix}
 
 \end{document}

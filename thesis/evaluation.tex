@@ -16,7 +16,7 @@ sending messages of different sizes.
 We'll get started by discussing the test and evaluation tools used, before we
 introduce the different test applications, test cases and the different types of
 networks used for testing. Then we present the test results for each of the
-three aspects of DIL, \textit{disconnected, intermittent and disconnected.}
+three aspects of DIL, \textit{disconnected, intermittent and limited.}
 
 
 
@@ -313,29 +313,18 @@ The first phase of the testing was performed without any actual intended
 limitations to the network. The objective of this testing is to validate that
 the proxy is working correctly and have a benchmark to compare other results
 with. This phase was again divided into two phases, one without the usage of
-proxy and one with the usage of it. This allows us to investigate any potential
-overhead associated with the usage of the proxy.
-
-\subsection{Execution}
-
-The Web service client and the service itself was started on separately machines
-interconnected through a third machines acting as a router as discussed in
-\cref{testing-environment}. However for the first phase, the client and server
-did not use any proxy.
-
-Warm-up.
-
-Number of tests.
-
-Delay less than 1 ms.
-Iperf bandwidth: 7.76 Mbits/sec
+proxy and one with. Doing this allowed us to investigate any potential
+overhead associated with the usage of the proxy. We used the NetEm setup with
+a third machine acting as a router, although without any NetEm limitations
+turned on.
 
 
 \subsection{Results and Analysis}
 
-Enabling compression yields an improvement in the performance. We also notice
-that HTTP and CoAP has a almost identical performance, while AMQP has
-significant longer RTT.
+Enabling compression yields an improvement in the performance, especially for
+W3C Web services which had much larger messages. We also notice that HTTP and
+CoAP has a almost identical performance, while AMQP has significant longer
+average response time. Furthermore we can observe that the default solution without proxies has the best performance in this unlimted network. 
 
 \begin{figure}[H]
 \center
@@ -358,7 +347,7 @@ application is sending data. The objective of this testing is to evaluate how
 the proxy manages disconnects over longer periods of time. We define the success
 criteria for this test to be that the client is able to eventually process his
 request after the connection is reestablished. The client HTTP request should
-not be interrupted in any way, other than it taking longer time to process the
+not be interrupted in any way, other then it taking longer time to process the
 request.
 
 \subsection{Execution}

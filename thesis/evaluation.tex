@@ -1,47 +1,95 @@
 \chapter{Testing and Evaluation}
 
+In this chapter we present how the testing and evaluation of the proxy was
+performed and present the results we obtained.  The goal is to measure any
+possible improvements(or deterioration) of the performance of Web services when
+the proxy developed as a part of this thesis is being used. Since the proxy was
+developed as a prototype for military usage, we wanted to use test scenarios
+that resembles actual military and civilian usage. For the purpose of testing,
+we therefor originally developed two set of applications, one W3C Web service
+and one RESTful Web service. These applications were then put to test in
+networks with different characteristics. During testing, we discovered that some
+of the protocols were very sensitive to the size of the messages being sent. We
+therefor also developed a complementary test service which allowed us to test
+sending messages of different sizes.
+
+We'll get started by discussing the test and evaluation tools used, before we
+introduce the different test applications, test cases and the different types of
+networks used for testing. Then we present the test results for each of the
+three aspects of DIL, \textit{disconnected, intermittent and disconnected.}
 
 
-\section{Introduction}
-
-To answer our research questions of how to improve the performance of Web
-services in DIL environments, we came up with a set of test scenarios and test
-environments to evaluate the proxy. The goal is to measure any possible
-improvements(or deterioration) of performance when we use the proxy developed as
-a part of this thesis. In this chapter we present how the testing was performed
-and finally present the results we obtained. Since the proxy is being developed
-as a prototype for military usage, we wanted to use test scenarios that
-resembles actual military and civilian usage.  While W3C web Services only uses
-HTTP simply as a transport mechanism, REST utilizes the different HTTP methods to
-indicate which operation to perform on a resource. Each test scenario is
-therefor performed with both a W3C Web service applications and RESTful Web
-services.
 
 To evaluate how different network properties affects performance, the tests
 was performed on networks with different characteristics. The base case was to
 test without any intentional limitations to the network and without the actual
 usage of the proxy. Then we introduced usage of the proxy and evaluated it in
-different types of networks. An infinite number of possible network
-combinations exists, so we have in this thesis chosen to focus on five
-different network types identified by the task group IST-118 for DIL-testing.
-The different networks are summarized in \cref{table-network-types}.
-
+different types of networks.
 Furthermore we performed tests with two setups, first with machine-to-machine
 over an Ethernet cable, then over actual military communication equipment. The
 usage of actual military equipment allowed us to get as realistic results as
 possible.
 
+\section{Types of DIL networks}
 
-\section{Evaluation Tools}
+Military communication can occur over a wide range of different technologies and
+environments. These include satellite link networks(SATCOM), line-of-sight(LOS),
+combat network radio(CNR) and WIFI. Wifi is divided into two types to illustrate
+both with good connection and one with less. Some communication technology, such
+as Satellite communication, is characterised by long communication delay while
+others may be by their low data rate. An overview of military communication
+technologies can be seen in \cref{figure-networks-overview}.
 
-In order to simulate \gls{dil} environments we need some way to control the
-properties of the network traffic. In this thesis we use two approaches, the
-first one connecting two machines through a third machine. The third machine
-will use a component of the linux kernel to control the flow of the network
-traffic flowing through it, allowing us to simulate DIL networks. The second
-approach involves using actual military equipment in laboratory at FFI. The
-benefit of using actual equipment, is that we get as realistic tests as
+\begin{figure}[h]
+\includegraphics[scale=0.25]{images/networks_overview.pdf}
+\caption{Overview of tested networks}
+\label{figure-networks-overview}
+\end{figure}
+
+An infinite number of possible network combinations exists, so we have in this
+thesis chosen to focus on five different network types identified by the task
+group IST-118 for DIL-testing. We also investigated \gls{lte}, commonly known as
+4G, a network technology which has become in widespread use in the latest years.
+The reason for including LTE in addition to the ones from IST-118, is that the
+Norwegian Defense is looking into the possibility of using LTE. Thus making it
+interesting for us to investigate the performance under this type of network as
+well. However, we eventually found out that LTE has gotten so fast and reliable,
+that it is not really relevant from a DIL perspective. We therefor instead
+looked into \gls{edge}, which is used as a fall back in geographical areas where
+\gls{lte} and 3G is not available. The different networks and their properties
+are summarized in \cref{table-network-types}.
+
+\begin{table}[h]
+\begin{tabular}{| l | l | l | l | l |}
+\hline
+  \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
+  Satellite Communication & 250 kbps & 550 ms & 0 \% \\ \hline
+  Line of Sight & 2 mbps & 5 ms & 0 \% \\ \hline
+  Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
+  WiFi 2 & 2 mbps & 100 ms & 20 \% \\ \hline
+  Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
+  Edge & 125 kbps & 200 ms & 0 \% \\ \hline
+\end{tabular}
+\caption{Different network types}
+\label{table-network-types}
+\end{table}
+
+
+\section{Testing and Evaluation Tools}
+
+In order to evaluate how our solution impacts the performance of Web services in
+DIL environments, we needed some way of simulating such environments. Obviously,
+we would have got the most realistic test environment by testing "out in the
+field" ourself. However, this would require of a considerable amount of effort
+and it would be difficult to reproduce the exact same environment and test
+results. We therefor choose to instead emulate DIL networks. For testing we used
+two approaches, the first one connecting two machines through a third machine.
+The third machine used a component in the Linux kernel to control the flow
+of the network traffic flowing through it, allowing us to simulate DIL networks.
+The second approach involved using actual military equipment in a laboratory at
+FFI. The benefit of using actual equipment, is that we got as realistic tests as
 possible.
+
 
 \subsection{\glsentrylong{netem}}
 
@@ -50,72 +98,82 @@ transmission of packets. \textbf{tc}(traffic control) is a Linux program to
 configure and control the linux kernels Network scheduler. \gls{netem} is an
 enchancement of the traffic control facilities that allows us to control delay,
 packet loss and other characteristics to packets outgoing from a selected
-network interface. \Cref{figure-testing-environment} illustrates the setup of
-this approach. This tools allow us to emulate many of the network
-characteristics that DIL has and the different setups are explained in the
-coming sections.
+network interface\cite{man-netem}. These tools allow us to emulate many of the network
+characteristics that makes DIL.
 
 %Siter man-page om tc-netem
 %Siter tldp -> Traffic Control HOWTO
 
-
-
 \subsubsection{Delays}
 
-NetEm can emulate delays on packets on a specific link.
+NetEm can emulate delays on packets on a specific link. In
+\cref{listing-netem-delay} we add a fixed delay on 100 ms to all packets going
+out of local Ethernet.
 
-\begin{lstlisting}[frame=single, caption="Emulating delay"]
+\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
   tc qdisc add dev eth0 root netem delay 100ms
 \end{lstlisting}
 
-In this example we add a fixed delay on 100 ms to all packets going out of local
-Ethernet.
+\subsubsection{Corrupt rate}
 
-\subsubsection{Error rate}
-Placeholder
+The corrupt rate allows us to insert random data into a chosen percent of
+packets.
 
 \subsubsection{Data rate}
-Placeholder
+
+NetEm can set the data rate by delaying packets based on their packet size.
 
 \subsection{Iperf 3}
 
-Tool for measuring network properties. Since Netem is only a network emulator,
-we used this tool to confirm that the Netem configuration worked as expected.
+iperf is a tool for performing network throughput measurements. Together with
+ping we, used this tool to confirm that the \gls{netem} configuration worked as
+expected.
+
+\subsection{Wireshark}
+
+Wireshark is a packet analyser and allows for network analysis and let us see
+the network traffic. Using this tool, we could investigate the behaviour of each
+protocol used for testing.
+
+
 
 \section{Test Setup}
 \label{testing-environment}
 
-The majority of testing was performed at the FFI-lab at Kjeller.  The Web
-service and client are connected to each other through a third computer, acting
-as a router. This router machine had two network cards and networked together
-the other machines by Ethernet cables. In order for the router machine to
-forward IP packets back and forth between the client and server, IP forwarding
-was enabled on the kernel. The specifications of the machines involved in the
-testing are listed in \cref{table-machines}.
+The majority of testing was performed at the FFI-lab at Kjeller. All the test
+applications consisted of one client and one Web service, where the client would
+request the service for some sort of data. The client were hosted on one
+computer and the service at an another computer. The majority of testing was
+done using NetEm to emulate DIL networks, and some testing was done using actual
+military radios. The machines used for testing is listed in
+\cref{table-machines}.
 
-Although testing on regular machines with emulated network gives us a good
-indication, to get as realistic results as possible we also performed tests on
-military communication equipment.
+\begin{table}[h]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Role} & \textbf{OS} & \textbf{Kernel version}\\ \hline
+  Client & Debian & x \\ \hline
+  Web service & Ubuntu & x  \\ \hline
+  Router & Ubuntu & x \\ \hline
+\end{tabular}
+\caption{Machines involved in the testing}
+\label{table-machines}
+\end{table}
+
+\subsection{NetEm Setup}
+
+In this setup, the client and Web service machines were connected to each other
+through a third computer, acting as a router. This router machine had two
+network cards and networked together the other machines by Ethernet cables. The
+setup can been seen in \cref{figure-testing-environment}. In order for the
+router machine to forward IP packets back and forth between the client and
+server, IP forwarding was enabled on the kernel.
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/testing_environment.pdf}
 \caption{Testing environment}
 \label{figure-testing-environment}
 \end{figure}
-
-
-\begin{table}[h]
-\begin{tabular}{| l | l | l |}
-\hline
-  \textbf{Role} & \textbf{OS} & \textbf{Kernel version}\\ \hline
-  Client & Debian & 2.16 \\ \hline
-  Web service & Ubuntu & 2.15 \\ \hline
-  Router & Ubuntu & 2.15 \\ \hline
-\end{tabular}
-\caption{Machines involved in the testing}
-\label{table-machines}
-\end{table}
-
 
 The server and client are assigned an IP address in two different subnets.
 This is done by the Linux network interface administration program
@@ -136,8 +194,29 @@ the router machine with IP 192.168.2.1.
 ip route add unicast 192.168.1.0/24 via 192.168.2.1
 \end{lstlisting}
 
+\subsubsection{Emulating different types of networks}
 
-\subsection{Enabling proxies}
+Since all network traffic passes through the routing machine, we can control
+the flow of IP packets here. As previously discussed, we use NetEm.  For each
+network configuration, a bash script is run. This script configures the
+network interfaces in order to get the correct network behaviour. Both
+interfaces are configured so the network is symmetrical in both directions.
+
+\subsection{Military Radio Setup}
+
+Although testing on regular machines with emulated network gives us a good
+indication, to get as realistic results as possible we also performed tests on
+military communication equipment. The setup is illustrated in
+\cref{figure-radio-testing-environment}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{images/radio_testing_environment.pdf}
+\caption{Testing environment}
+\label{figure-radio-testing-environment}
+\end{figure}
+
+\subsection{Proxy setup}
 
 In order to enable the applications to tunnel all their HTTP traffic through our
 proxy, we needed a way to setup a proxy without altering the applications
@@ -157,19 +236,16 @@ java -Dhttp.proxyHost=localhost \
 In \cref{test} the application \textbf{client.jar} is started and all HTTP
 traffic will go through the proxy server at localhost on port 3001.
 
-\subsection{Emulating networks}
-
-Since all network traffic passes through the routing machine, we can control
-the flow of IP packets here. As previously discussed, we use Netem.  For each
-network configuration, a bash script is run. This script configures the
-network interfaces in order to get the correct network behaviour. Both
-interfaces are configured so the network is symmetrical in both directions.
-
 \section{Test Execution}
 
-In our tests we use two different sets of applications. One for W3C Web services
-and one for RESTful  Web services. Data being sent between the client and server
-is default sent uncompressed.
+For our tests we use originally used two different sets of applications. One for
+W3C Web services and one for RESTful  Web services. While W3C web Services only
+uses HTTP simply as a transport mechanism, REST utilizes the different HTTP
+methods to indicate which operation to perform on a resource. Each test scenario
+was therefor performed with both a W3C Web service application and RESTful Web
+service application. Each service is deployed in Glassfish 4, while the client
+is executued either from the command line or directly from the Netbeans IDEA.
+Data being sent between the client and server is by default sent uncompressed.
 
 During testing we discovered that especially CoAP was very sensentive to the
 size of the messages being sent. We therefor developed a test application that
@@ -178,52 +254,58 @@ to see how CoAP performed with different message sizes.
 
 \subsection{NFFI W3C Web service}
 
-For the purpose of testing W3C Web service applications we simulated a system
-which allows units in the field to report positions of friendly forces back to
-a headquarter. The position reports use the \gls{nffi} format, which has an
-associated XML schema with it.
+For the purpose of testing W3C Web service applications we created a mock system
+which allows a client to request a service to report positions of friendly
+forces. The position reports use the \gls{nffi} format, which has an associated
+XML schema with it. One test run is illustrated in \cref{figure-nffi-flow} and
+consist of the client making a HTTP POST request to the Web service. Associated
+with the request is an XML payload which tells the Web service which operation
+to invoke. In our case, the service then returns an XML message containing a
+large number of positions in the nffi format.
 
-The client requests these data over the network. This is repeated x times and
-the the average round-trip time is calculated. The test service was deployed
-with Glassfish 4, an application server. The client was ran through the IDEA
-Netbeans.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{images/nffi_flow.pdf}
+\caption{NFFI Web service}
+\label{figure-nffi-flow}
+\end{figure}
 
 
 \subsection{RESTful car Web service}
 
-For testing we developed a small RESTful Web service, an example service
-keeping order of cars in a ``car system''. The service exposes an \gls{api}
-which offers different operations to manage the car system. Clients can invoke
-these operations by using HTTP requests and utilizing the associated HTTP
-method to indicate what to do with an resource. Since RESTful services are
-payload agnostic, we choose JSON to represent the data being sent between the
-server and the client. JSON is a lightweight data-format.
+The RESTful Web service is an example service keeping order of cars in a ``car
+system''. The service exposes an \gls{api} which offers different operations to
+manage the car system. Clients can invoke these operations by using HTTP
+requests and utilizing the associated HTTP method to indicate what to do with an
+resource. Since RESTful services are payload agnostic, we choose JSON to
+represent the data being sent between the server and the client. JSON is a
+lightweight data-format. Each test run consist of a client sequentially invoking
+the server with different API requests. The most common HTTP-methods GET, PUT,
+POST, and DELETE are all part of the testing. An example, not inclusive, test run
+is illustrated in \cref{figure-rest-flow}.
 
-Each test case consist of a client sequentially invoking the server with
-different API requests. The most common HTTP-methods GET, PUT, POST, and
-DELETE are all part of the testing.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{images/rest_flow.pdf}
+\caption{RESTful car service}
+\label{figure-rest-flow}
+\end{figure}
 
 
 \subsection{Request size application}
 
-This application allowed us to test with different message sizes. The application was a W3C Web service and deployed with Glassfish. 
-
+This application allowed us to test with different message sizes.
 
 \subsection{Test parameters}
 
 The tests was performed with the following parameters.
 
 \begin{itemize}
-	\item Compression on/off.
-	\item Proxy on/off.
-    \item Transport protocol
-    \item Message size
+	\item GZIP compression on/off.
+	\item Without and with proxies.
+    \item Transport protocol used.
 \end{itemize}
 
-\subsection{Testing on military communication equipment}
-
-To verify the results from the other tests, we also wanted to run some of the
-tests as close to reality as possible. We therefore used Kongsberg radios.
 
 \section{Function tests}
 
@@ -357,41 +439,17 @@ Not done yet. Similar to disconnect.
 \end{table}
 
 \section{DIL Tests - Limited}
-
-The third DIL characteristic, \textit{limited}, refers to different ways a network
-can be limited. This includes high delays, packet loss and low bandwidth. The
+The
 different types of networks seeks to emulate properties of actual communication
-devices used by the military. These include satellite link networks(SATCOM),
-line-of-sight(LOS), combat network radio(CNR) and WIFI. Wifi is divided into two
-types to illustrate both with good connection and one with less. We also
-investigate \gls{lte}, commonly known as 4G, a network technology which has
-become in widespread use in the latest years. The reason for including LTE in
-addition to the ones from IST-118, is that the Norwegian Defense is looking into
-the possibility of using LTE. Thus making it interesting for us to investigate
-the performance under this type of network as well.
+devices used by the military.
+The third DIL characteristic, \textit{limited}, refers to different ways a network
+can be limited. This includes high delays, packet loss and low bandwidth.
 
 The metrics we use to characterize a network is data rate, delay and \gls{per}.
 
-\begin{figure}[h!]
-\includegraphics[scale=0.25]{images/networks_overview.pdf}
-\caption{Overview of tested networks}
-\label{figure-networks-overview}
-\end{figure}
 
-\begin{table}[h!]
-\begin{tabular}{| l | l | l | l | l |}
-\hline
-  \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
-  Satellite Communication & 250 kbps & 550 ms & 0 \% \\ \hline
-  Line of Sight & 2 mbps & 5 ms & 0 \% \\ \hline
-  Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
-  WiFi 2 & 2 mbps & 100 ms & 20 \% \\ \hline
-  Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
-  Edge & 125 kbps & 200 ms & 0 \% \\ \hline
-\end{tabular}
-\caption{Different network types}
-\label{table-network-types}
-\end{table}
+
+
 
 
 In the following sections the test cases is ran for each network

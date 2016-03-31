@@ -1,5 +1,5 @@
-Running without proxy
-Running jar 100 times..
-Average: 0.243997
-Standard Deviation: 0.014731
-Variance: 0.000217
+[INFO] carsystem.Simulator:start Finished running 100 tests
+[INFO] carsystem.Simulator:start 2016-03-31T13:26:58.342
+[INFO] carsystem.Simulator:start Mean: 30.089999999999996
+[INFO] carsystem.Simulator:start Standard Deviation: 12.114850224397978
+[INFO] carsystem.Simulator:start Variance: 146.76959595959573

@@ -26,16 +26,7 @@
 
 \begin{table}[H]
 \begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 243 ms & 15 & 0.2 & 100 \\ \hline
-  Proxy with HTTP & 368 ms & 30 & 0.9 & 100 \\ \hline
-  Proxy with HTTP \& GZIP & 337 ms & 27 & 0.7 & 100 \\ \hline
-  Proxy with AMQP & 2084 ms & 123 & 15 & 100 \\ \hline
-  Proxy with AMQP \& GZIP & 2040 ms & 97 & 9 & 100\\ \hline
-  Proxy with CoAP & 331 ms & 22 & 0.5 & 100 \\ \hline
-  Proxy with CoAP \& GZIP & 334 ms & 26 & 0.7 & 100 \\ \hline
-\end{tabular}
+\include{../results/function_tests/rest/results}
 \caption{REST Web service results}
 \end{table}
 

@@ -1,5 +1,5 @@
-Using proxy at port 3001
-Running jar 100 times..
-Average: 0.368444
-Standard Deviation: 0.029737
-Variance: 0.000884
+[INFO] carsystem.Simulator:start Finished running 100 tests
+[INFO] carsystem.Simulator:start 2016-03-31T14:19:48.367
+[INFO] carsystem.Simulator:start Mean: 160.21999999999997
+[INFO] carsystem.Simulator:start Standard Deviation: 97.39553637128606
+[INFO] carsystem.Simulator:start Variance: 9485.890505050504

@@ -77,7 +77,8 @@ service available to others and implementing the service according to the
 service description. Services are made available to service consumers through a
 form of \textit{service discovery}. This can be a static configuration, or more
 dynamic with a central \textit{service registry}, where service providers
-publish service descriptions. Service consumers find the services they need by
+publish service descriptions. Service consumers fin
+d the services they need by
 contacting the service registry. The communication between services occur
 through the exchange of standardized messages.
 
@@ -137,16 +138,18 @@ tactical networks, which is discussed in the next paragraph.
 \subsubsection{Tactical Networks}
 
 Tactical networks are characterized by that the units are deployed to operate on
-a battlefield, which means there is possible little to no existing
-communication infrastructure. They use tactical communication equipment, which
-includes technologies like VHF, UHF, HF, tactical broadband and
-satellites\cite{ist-090}.
+a battlefield. We distinguish between deployed and mobile tactical networks,
+where deployed may use existing communication infrastructure. Mobile tactical
+networks have no existing communication infrastructure and therefor have the
+largest communication challenges.
 
-Examples of such units are mobile units like vehicles, foot soldiers and field
-headquarters. The tactical network connects deployed headquarters with mobile
-units. These types of networks are unpredictable and may have very low date
-rate, possibly high delay, high error rates and frequent disconnections.  NATO studies\cite{nato-disadvantaged-grids} have identified such networks to have the following characteristics:
-\\
+ In tactical networks in general the users use tactical communication equipment,
+ which includes technologies like VHF, UHF, HF, tactical broadband and
+ satellites\cite{ist-090}. Examples of such units are mobile units like
+ vehicles, foot soldiers and field headquarters. These types of networks are
+ unpredictable and may have very low date rate, possibly high delay, high error
+ rates and frequent disconnections.  NATO studies\cite{nato-disadvantaged-grids}
+ have identified such networks to have the following characteristics: \\
 
 \textit{
 Disadvantaged grids are characterized by low bandwidth, variable throughput,
@@ -232,30 +235,32 @@ improvements. The most important findings were:
 \end{itemize}
 
 The last bullet point refers to the issue of that when we have identified
-optimization techniques, where do we place them? One approach is to modify the
-Web service application itself. However, this would mean that every application
-that is used in a tactical network would require modification. This would
+optimization techniques, where do we apply them? One approach could be to modify
+the Web service application itself. However, this would mean that every
+application deployed tactical network would require modification. This would
 require a lot of resources and severely limit the flexibility of using Web
-services. Another solution is, by using proxies, we can apply the optimization
-there without altering the Web services themselves. The only thing required to
-do is to configure the application to send and receive data through the proxy.
-The proxy will take handle of the optimization for tactical networks. This
-approach is identified in IST-090 and  is explored in this thesis.
+services. Another possible solution is, by using proxies, applying the
+optimization in them without altering the Web services themselves. With this
+approach, the only thing required to do is to configure the applications to send
+and receive data through the proxies. The proxies will then handle the
+optimization for tactical networks. This approach is identified in IST-090 and
+is explored in this thesis. \Cref{figure-proposed-proxy-solution} illustrates a
+setup like this, where the client invoke Web services through a proxy pair over
+a DIL network.
 
-\begin{figure}[h]
-\includegraphics[scale=0.5]{images/proposed_solution.pdf}
-\caption{Proposed proxy solution}
+\begin{figure}[h] \includegraphics[scale=0.5]{images/proposed_solution.pdf}
+\caption{Proposed proxy solution} \label{figure-proposed-proxy-solution}
 \end{figure}
 
 
 \subsection{Proxies}
 
-A proxy is an application which acts as an intermediary between an client and a
+A proxy is an application which acts as an intermediary between a client and a
 server. Proxies are widely in use and their usage and type varies. Example of
 proxy usage is for load balancing, caching and security. Web proxies are proxies
-that forward \gls{http} requests, which is what we are investigating in this thesis.
-This proxy will support features for compression, delay tolerance and overcome
-network disruptions.
+that forward \gls{http} requests, which is what we are investigating in this
+thesis. This proxy will support features for compression, delay tolerance and
+overcome network disruptions.
 
 
 \section{Problem Statement}
@@ -282,33 +287,52 @@ the proxy will choose the appropriate protocol and configuration.
 
 \section{Premises of thesis}
 
-The proxy developed as a part of this thesis shall support both REST and Web
-service communication between machines connected in a DIL network. In order to
+In this section we define the premises for the thesis and the proxy being
+developed as a part of this thesis. As we have previously discussed, W3C Web
+services are in widespread in use NATO, and the REST architectural style
+has identified as a technology of interest to NATO. The first and second
+premise is therefor that the proxies must support both REST and Web service
+communication between machines connected in a DIL network. Next, in order to
 optimize Web services in DIL environments, the applications themselves should
 not be required to be customized, all optimization should be placed in proxies.
-This retains the interoperability with standardized solutions(COTS).
+This retains the interoperability with standardized solutions(COTS). The forth
+and final premise is that the proxy must work with standard security mechanisms.
+In our case this means that any messages sent through the proxies, must be
+exactly the same at the receiver as it would have been without the proxies. This
+is due to both the header fields and the body of the message can be part of
+security mechanisms, such as checksums and the presence of authentication header
+fields.
+
+To summarize, the premises of this thesis are listed here:
+
+\begin{enumerate}
+    \item Support RESTful and W3C Web services.
+    \item Work in DIL networks.
+    \item Interoperable with standardized solutions(COTS).
+    \item Work with security mechanisms.
+\end{enumerate}
 
 \section{Scope and Limitations}
 
 The goal of this thesis is to investigate optimization techniques for Web
-services in \gls{dil} environments. Security is therefore not addressed in this
-thesis. However, applications that are to be used in military networks need to
-be approved by security authorities. If the application is too complex, e.g. it
-has a very large code base or use a lot of external frameworks, the approvement
-process will be very lengthy. It is therefore a important that the proxy is
-relatively simple. Furthermore, some security features such as IPSec will be
-enabled or disabled as part of the evaluation of the proxy.
-
-When investigating optimization techniques, we limit it to techniques that can
-be applied at the application or the transport layer of the Internet protocol
+services in \gls{dil} environments. We limit it to techniques that can be
+applied at the application or the transport layer of the Internet protocol
 suite(see \cref{figure-network-layers}). The reason for this is that NATO has
 previously decided "everything over IP", a statement describing that all data
 communication in NATO should occur with IP packets\cite{nnec-study}. We
 therefore limit our optimization possibilities to the mentioned layers.
 
-Finally, the proxy implemented as a part of this thesis, only accepts \gls{http} as
-input from the Web services. As we discuss later in \cref{web-services}, most
-Web services use \gls{http} to communicate.
+Since we focus on performance of Web services in this thesis, security is not
+addressed. However, applications that are to be used in military
+networks need to be approved by security authorities. If the application is too
+complex, e.g. it has a very large code base or use a lot of external frameworks,
+the approvement process can be very lengthy. It is therefore a important
+consideration to make the proxy as relatively simple as possible.
+
+Finally, the proxy implemented as a part of this thesis, only accepts \gls{http}
+as input from the Web services. As we discuss later in \cref{web-services}, this
+is a fair limitation since most Web services use \gls{http} to communicate with
+other applications.
 
 
 \section{Research Methodology}

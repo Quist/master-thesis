@@ -1,13 +1,13 @@
 \chapter{Technical Background}
 
 Before diving into the design and implementation of the proxy developed in this
-thesis, we're in this chapter we presenting the technical background of the
-central concepts and protocols central. We first give a introduction to computer
-networks in general and how they are organized. Next, we discuss common Web
-services used for exchanging data in military systems. Then we look into a
-number of protocols that we can replace HTTP/TCP with in order to increase the
-performance of Web services. Finally, we introduce the concept of performance
-testing and network metrics.
+thesis, in this chapter we present the technical background of the central
+concepts and protocols. We first give an introduction to computer networks in
+general and how they are organized. Next, we discuss common Web services used
+for exchanging data in military systems. Then we look into a number of protocols
+that we can replace HTTP/TCP with in order to increase the performance of Web
+services. Finally, we introduce the concept of performance testing and network
+metrics.
 
 \section{Network layers}
 
@@ -53,7 +53,7 @@ Ethernet.
 In the Internet protocol suite model, the transport layer provides end-to-end
 communication services for applications. It builds on top on the network layer,
 and takes responsibility of sending data all the way from a process on a source
-machine to a process on the destination machine. The far most used transport
+machine to a process on the destination machine. The by far most used transport
 protocol is the \gls{tcp}, which provides reliable transport of data to
 applications. With reliable transport we mean that if data in transmission is
 lost or received in the wrong order, this is all handled by the transport
@@ -73,13 +73,13 @@ provides.  Examples of application layer protocols is \gls{http} and \gls{ftp}.
 \section{Web services}
 \label{web-services}
 %TO-DO lede inn smooth mot soa.
-Web services are client and server applications that communicate over a
-network and can be used to implement a service oriented architecture. Web
-services are critical in any data systems and are in widespread use in both
-civilian and military systems. It is a broad term and can be used to describe
-different types of services that are available over a network. The most common
-usage of the term refers to the \gls{w3c} definition of SOAP-based Web
-services, but could also refer to more simple HTTP-based \gls{rest} services.
+Web services are client and server applications that communicate over a network
+and can be used to realize a \gls{soa}. Web services are critical in any data
+systems and are in widespread use in both civilian and military systems. It is a
+broad term and can be used to describe different types of services that are
+available over a network. The most common usage of the term refers to the
+\gls{w3c} definition of SOAP-based Web services, but could also refer to more
+simple HTTP-based \gls{rest} services.
 
 In this thesis we investigate optimization techniques that should support both
 \gls{w3c} Web services and \gls{rest}ful web services.
@@ -101,11 +101,12 @@ In this thesis we investigate optimization techniques that should support both
 \paragraph{}
 
 This definition points out a set of standards that enables machine-to-machine
-interactions. All communication is based on sending XML-based SOAP messages.
-There exists many definitions of Web services where the core principles are the
-same, but the finer details may vary. The Web service technology is realization
-of the \gls{soa} principles, which provides loose coupling and ease integration
-between systems.
+interactions. Web service interfaces is described in documents called WSDL, and
+communication is based on sending XML-based SOAP messages. There exists many
+definitions of Web services where the core principles are the same, but the
+finer details may vary. \Cref{figure-w3c-web-services} illustrates these
+fundamental principles. Web service technology is a realization of the \gls{soa}
+principles, which provides loose coupling and eases integration between systems.
 
 \begin{figure}[h]
 \centering
@@ -117,7 +118,7 @@ between systems.
 These standards that together makes W3C Web services are presented in the
 following sections.
 
-\subsubsection{XML}
+\subsubsection{\glsentrylong{xml}}
 
 The \gls{xml}\cite{W3C-XML} is considered as the base standard for Web services.
 An XML document consist of data surrounded by tags and is designed to be both
@@ -126,7 +127,7 @@ standardized, which allows exchange and understanding of data in a standardized,
 machine-readable way.
 
 
-\subsubsection{Service descriptions: WSDL}
+\subsubsection{\glsentrylong{wsdl}}
 
 \gls{wsdl} is an XML-based interface definition language that describes
 functionality offered by a Web service\cite{w3c-wsdl}. The interface describes
@@ -146,7 +147,7 @@ information not directly related to the message such as routing information for
 the message and security information. The body contains the data being sent,
 known as the payload.
 
-It is transport protocol agnostic, which means it can be carried over various
+SOAP is transport protocol agnostic, which means it can be carried over various
 underlying protocols. The far most used transport protocol is HTTP over TCP, but
 other protocols such as UDP and SMTP can be used as well.
 
@@ -155,9 +156,9 @@ other protocols such as UDP and SMTP can be used as well.
 
 In the previous sections we looked into the standards and specifications that
 compose W3C Web services. However, there also exist other types of Web services
-which does not follow the these standards. In year 2000, the computer scientist
-Roy Fielding introduced \gls{rest} where he presented a model of how the Web
-\textit{should} work. This idealized model of interactions within a Web
+which does not follow the these standards. In 2000, the computer scientist Roy
+Fielding introduced \gls{rest} where he presented a model of how he thought the
+Web \textit{should} work. This idealized model of interactions within a Web
 application\cite{rest-fielding} is what we refer to as the REST architectural
 style. REST attempts to minimize latency and network communication while
 maximizing the independence and scalability of component implementations. This
@@ -188,10 +189,10 @@ component exposes a set of operations of the car resource.
 
  \gls{rest} is easy to understand and has gained a lot of traction in the civil
  industry in the latest years. Although NATO has chosen W3C Web services as the
- technology to do information-exchange, REST is identified as a technology of
+ technology to do information exchange, REST is identified as a technology of
  interest to certain groups in
  NATO\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}. One
- downside to NATO with REST is that it lack standardization, which may cause
+ downside to NATO with REST is that it lacks standardization, which may cause
  interoperability issues.
 
  In the next section we will look into \gls{http}, which is closely associated
@@ -200,7 +201,7 @@ component exposes a set of operations of the car resource.
 \section{\glsentrylong{http}}
 
 As we have seen in the previous sections, both RESTful and W3C Web services
-utilizes the \gls{http} as their way to communicate with other services. The
+utilize the \gls{http} as their way to communicate with other services. The
 usage of \gls{http} is very widespread and it is the foundation of data
 communication for the \glsentrylong{www} since the early 90's. It's protocol
 specification is coordinated by \gls{ietf} and the \gls{w3c}, and is defined
@@ -221,24 +222,24 @@ as\cite{rfc-2616}:
 \gls{http} started out as a simple protocol for raw data transfer across the
 Internet and has since been updated in HTTP/1.0, HTTP/1.1 and most recently a
 major update with HTTP/2.0. It is a request-reply protocol which means that all
-data exchanges is initiated with a client invoking a HTTP-request and then waits
-until a server responds with a HTTP response. A HTTP-request consist of the
-request method, URI, protocol version, client information, and a optional body.
-The server responds with a message containing a status line, protocol version, a
-code indicating the success or error of the request, and a optional body. Both
-HTTP requests and responses use a generic message format and can contain zero or
-more HTTP headers. Headers are used to provide information about the
-request/reply or about the message body, e.g information about the encoding and
-caching information.
+data exchanges are initiated with a client invoking a HTTP-request and then
+waits until a server responds with a HTTP response. A HTTP-request consist of
+the request method, \gls{uri}, protocol version, client information, and a optional
+body. The server responds with a message containing a status line, protocol
+version, a code indicating the success or error of the request, and a optional
+body. Both HTTP requests and responses use a generic message format and can
+contain zero or more HTTP headers. Headers are used to provide information about
+the request/reply or about the message body, e.g information about the encoding
+and caching information.
 
 HTTP, being an application level protocol, relies on a transport protocol to
 actually transfer data to an another machine. HTTP communication most often, but
 not necessarily, occurs over TCP/IP connections. The only requirement in the HTTP
 specification is that a reliable transport protocol is used.
 
-\subsubsection{HTTP methods}
+\subsection{HTTP methods}
 
- Associated with all HTTP requests are a request method, which indicates the
+ Associated with all HTTP requests is a request method, which indicates the
  desired action to be performed on a resource located on a Web server. The set
  of HTTP methods defined in HTTP/1.1 is listed in \cref{table-http-methods}.
 
@@ -266,18 +267,43 @@ specification is that a reliable transport protocol is used.
 \gls{tcp} is called the workhorse of the Internet because it is so critical for
 how the Internet works. It is the primary transport protocol of the Internet
 Protocol Suite\cite{rfc-1122} and provides reliable, in-sequence delivery of
-two-way traffic(full-duplex) data. HTTP most often uses TCP as its transport
-protocol. In this subsection we present the characteristics of TCP and some of
-the issues we may encounter working with it.
+two-way traffic(full-duplex) data.  \gls{tcp} was defined in RFC
+793\cite{rfc-793} back in September 1981 and has since been improved in various
+RFC's. The main motivation behind \gls{tcp} was to provide reliable end-to-end
+byte streams over unreliable networks.  HTTP most often uses TCP as its
+transport protocol. In this section we present the characteristics of TCP and
+some of the issues we may encounter working with it.
 
-\gls{tcp} was defined in RFC 793\cite{rfc-793} back in September 1981 and has
-since been improved in various RFC's. The main motivation behind \gls{tcp} was
-to provide reliable end-to-end byte streams over unreliable networks.
+ \subsection{The Protocol}
 
-\paragraph{Reliablility}
+ TCP is a connection-oriented protocol, which means that a connection between a
+ sender and the receiver must be established before any data can be transfered.
+ A connection is specified by a pair of sockets identifying its two sides.
+ Associated with each connection TCP initialize and maintains some status
+ information for each connection. This includes window size, socket information
+ and sequence numbers.
+
+Computers supporting TCP has a piece of software which manages TCP streams and
+interfaces to the IP layer. Most often this software is a part of the
+kernel\cite{computer-networks}. It accepts data streams from local processes,
+and breaks them up into pieces, before sending them to the IP layer. The pieces
+are called TCP segments, which consist of a fixed 20 byte header, followed by
+zero or more data byte. The TCP software decide how big the segment should be,
+but for performance reasons they should not exceed the \gls{mtu} of the link(the
+physical network). Each segment should be so small that they can be sent in a
+single, unfragmented package over the entire network. This usually limits the
+size of each segment to the \gls{mtu} of the Ethernet, which is 1500 bytes.
+
+When the TCP software receives data from applications, it is not necessarily
+sent immediately as it may be buffered before its sent. At the receiver, data is
+delivered to the TCP software, which reconstructs the original byte streams and
+deliver them to the target application.
+
+
+\subsection{TCP Reliability}
 
 When transferring data over the Internet, the data may pass through various
-networks, routers and physical networks. Some of the routers may be not working
+networks, routers and physical networks. Some of the routers may not work
 correctly, a bit may be flipped when transferring data wirelessly, or some other
 factor may come in to play. For those reasons, we have to accept that some of
 the data will be damaged, lost, duplicated or delivered out of order.
@@ -291,7 +317,7 @@ as eliminating duplicates. Furthermore, to detect damaged data, TCP applies
 checksums to each segment transmitted. At the receiver the checksum is then
 checked and damaged segments are discarded.
 
-\paragraph{Flow Control}
+\subsection{Flow Control}
 
 If a fast receiver sends data faster than a slow receiver is able to process,
 the receiver will be swamped with data and may experience serious performance
@@ -302,55 +328,63 @@ With every acknowledgement sent back to the sender, the window is specified.
 This allows the receiver to control which segments, and how fast, the sender
 can send.
 
-\paragraph{Connection}
+\subsection{Congestion Control}
 
-TCP is connection-oriented, which means that a connection between a sender and
-the receiver must be established before any data can be transfered. A connection
-is specified by a pair of sockets identifying its two sides. Associated with
-each connection TCP initialize and maintains some status information for each
-connection. This includes window size, socket information and sequence numbers.
+Congestion control is about controlling the data traffic entry into a network in
+order to avoid network congestion. On its way from the sender to the receiver,
+an IP packet may pass through different subnets with different capabilities.
+Network congestion may occur if a node in a network receives more data then it
+is able to pass forward. The consequence of this is that an increase in network
+traffic to this node, would only lead to a small increase, or even a decrease,
+of the network throughput\cite{Al-Bahadili2012}.
 
-\paragraph{Protocol}
+To avoid congestion TCP uses a number of mechanisms. These aims to control the
+rate of data packets entering into the networks to avoid congestion, but still
+get as high throughput as possible. One of these mechanisms is
+\textit{slow-start}, which general idea is to start transmitting with a low
+packet rate, then gradually increasing the packet rate. When TCP notice that a
+packet is eventually lost, it considers it as a sign of network congestion and
+reduces its packet rate.
 
-Computers supporting TCP has a piece of software, which manages TCP streams and
-interfaces to the IP layer. Most often this software is a part of the
-kernel\cite{computer-networks}. It accepts data streams from local processes,
-and breaks them up into pieces, before sending them to the IP layer. The pieces
-are called TCP segments, which consist of a fixed 20 byte header, followed by
-zero or more data byte. The TCP software decide how big the segment should be,
-but for performance reasons they should not exceed the \gls{mtu} of the
-link(the physical network). Each segment should be so small that they can be
-sent in a single, unfragmented package over the entire network. This usually
-limits the size of each segment to the \gls{mtu} of the Ethernet, which is 1500
-bytes.
+\section{Protocols for Tactical Networks}
 
-When the TCP software receives data from applications, it is not necessarily
-sent immediately as it may be buffered before its sent. At the receiver, data is
-delivered to the TCP software, which reconstructs the original byte streams and
-deliver them to the target application.
+DIL networks are characterized by their high delay, low data rate and relatively
+high error rate. Since TCP's congestion control interprets this as evidence of
+congestion, it will back off and use a lower data rate. This cause that TCP
+sends with a lower rate than the network actually can provide. Furthermore it
+could also ultimately lead to the TCP connection terminating due to those
+effects\cite{nato-disadvantaged-grids}.
 
+For those reasons we're in this thesis looking into alternative protocols and
+other optimization techniques. In networks with low data rate, protocols with
+low overhead per IP packet is beneficial. With frequents disconnects, protocols
+that are connection-less may be more suitable than connection-oriented. One
+important limitation is that NATO has chosen the "everything over IP", which
+means that all optimization must occur on the top of the network layer. Of this
+follows that we will evaluate protocols in the transport and application layer
+of the Internet Protocol Suite.
 
+In the following sections we will give a short
+introduction to the protocols we're investigating in this thesis. The protocols
+have been selected because of their prevalence in the civil and military world
+or their reported performance in the "Internet of Things". These protocols are
+from two different paradigms:
 
+\paragraph{Request-reply}
 
+Message pattern where a requester sends a request to a system. The system then
+process the request and responds with a response message.
 
-\section{Protocols of interest}
+\paragraph{Publish-subscribe}
 
+Message pattern where subscribers express their interest in a type of messages,
+often called topics or classes. A message publisher then creates messages of a
+certain class and publishes them without knowing who is actually subscribing to
+these types of messages.
 
-Since previous experiments have shown that employing Web services built on
-HTTP/TCP breaks down in networks with the DIL characteristics, we're in this
-thesis looking into alternative protocols. One important limitation however, is
-that NATO has chosen the "everything over IP", which means that all optimization
-must occur on the top of the network layer. Of this follows that we will
-evaluate protocols in the transport and application layer of the Internet
-Protocol Suite.
-
-In the following sections we will give a short introduction to the protocols
-we're investigating in this thesis. The protocols has been selected because of
-their prevalence in the civil and military world or their reported performance
-in the "Internet of things". We'll get started by discussing \gls{udp}, which
+\paragraph{}
+We'll get started by discussing \gls{udp}, which
 alongside \gls{tcp} is one of the core protocols of the Internet protocol suite.
-The remaining protocols discussed in the next section all use either \gls{tcp}
-or \gls{udp} as their transport protocol.
 
 
 \subsection{\glsentrylong{udp}}
@@ -375,14 +409,14 @@ done by the next protocol we're looking into.
 
 \subsection{\glsentrylong{coap}}
 
-\gls{coap} is a specialized Web transfer protocol standardized in June 2014
-designed for use with constrained nodes and  networks\cite{rfc-7252}. It is
-designed for machine-to-machine applications, typically in the Internet of
-Things. Furthermore it is designed with an similar interface as HTTP, in order
-to easily integrate with Web services. \gls{coap} is based on the REST model,
-where the server makes resources available  under a resource identifier(URI).
-Clients access these resources using the HTTP-verbs GET, PUT, POST and DELETE.
-CoAP main features includes:
+\gls{coap} is a specialized Web transfer protocol designed for use with
+constrained nodes and  networks\cite{rfc-7252}. It is designed for
+machine-to-machine applications, typically in the Internet of Things.
+Furthermore it is designed with an similar interface as HTTP, in order to easily
+integrate with Web services. \gls{coap} is based on the REST model, where the
+server makes resources available  under a resource identifier(URI). Clients
+access these resources using the HTTP-verbs GET, PUT, POST and DELETE. CoAP main
+features includes:
 
 \begin{itemize}
 

@@ -1,7 +1,8 @@
-set terminal pdf
-set output 'result.pdf'
+set terminal postscript eps enhanced color
+set output '|ps2pdf -dEPSCrop - result.pdf'
 
 set ylabel "Average Time(ms)"
+set key autotitle columnhead
 
 fontsize = 12
 set style histogram errorbars gap 2 lw 1
@@ -18,4 +19,4 @@ set style histogram clustered
 
 set autoscale
 
-plot for [COL=2:3] 'result.plot' using COL:xticlabels(1) title columnheader
+plot 'result.plot' using 2:xtic(1) title col, '' using 3:xtic(1)

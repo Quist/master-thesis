@@ -19,4 +19,4 @@ set style histogram clustered
 
 set autoscale
 
-plot 'result.plot' using 2:xtic(1) title col, '' using 3:xtic(1)
+plot filename using 2:xtic(1) title col, '' using 3:xtic(1)

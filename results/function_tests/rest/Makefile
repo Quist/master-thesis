@@ -1,2 +1,2 @@
 all:
-	python parse.py && gnuplot plot.script
+	gnuplot -e "filename='result.plot'" ../../plot.script

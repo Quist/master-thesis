@@ -67,3 +67,4 @@ def parse_result_set(path):
 parse_result_set("function_tests/rest/")
 parse_result_set("satellite/rest/")
 parse_result_set("satellite/nffi/")
+parse_result_set("los/rest/")

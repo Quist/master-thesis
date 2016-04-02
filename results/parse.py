@@ -65,3 +65,4 @@ def parse_result_set(path):
     write_latex_table(results, path)
 
 parse_result_set("function_tests/rest/")
+#parse_result_set("satellite/rest/")

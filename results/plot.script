@@ -1,4 +1,4 @@
-set terminal postscript eps enhanced color
+set terminal postscript eps enhanced color solid
 set output '|ps2pdf -dEPSCrop - result.pdf'
 
 set ylabel "Average Time(ms)"

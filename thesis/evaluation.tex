@@ -2,7 +2,7 @@
 
 In this chapter we present how the testing and evaluation of the proxy was
 performed and present the results we obtained.  The goal is to measure any
-possible improvements(or deterioration) of the performance of Web services when
+possible improvements (or deterioration) of the performance of Web services when
 the proxy developed as a part of this thesis is being used. Since the proxy was
 developed as a prototype for military usage, we wanted to use test scenarios
 that resembles actual military and civilian usage. For the purpose of testing,
@@ -33,10 +33,10 @@ get as realistic results as possible.
 \section{Types of DIL networks}
 
 Military communication can occur over a wide range of different technologies and
-environments. These include satellite link networks(SATCOM), line-of-sight(LOS),
-combat network radio(CNR) and WIFI. Wifi is divided into two types to illustrate
-both with good connection and one with less. Some communication technology, such
-as Satellite communication, is characterized by long communication delay while
+environments. These include \glsentryfull{satcom}, \glsentryfull{los},
+\glsentryfull{cnr} and WiFi. WiFi is divided into two types to illustrate both
+with good connection and one with less. Some communication technology, such as
+Satellite communication, is characterized by long communication delay while
 others may be by their low data rate. An overview of military communication
 technologies can be seen in \cref{figure-networks-overview}.
 
@@ -149,12 +149,17 @@ military radios. The machines used for testing is listed in
 \cref{table-machines}.
 
 \begin{table}[h]
-\begin{tabular}{| l | l | l |}
+\begin{tabular}{| l | l | l | l |}
 \hline
-  \textbf{Role} & \textbf{OS} & \textbf{Kernel version}\\ \hline
-  Client & Debian & x \\ \hline
-  Web service & Ubuntu & x  \\ \hline
-  Router & Ubuntu & x \\ \hline
+  \textbf{Machine} & \textbf{Client} & \textbf{Application server} & \textbf{Router}\\ \hline
+  Model & Asus UX 31A Notebook & HP EliteBook 6930p & HP Compaq Elite 8000 \\ \hline
+  OS & Debian 8.2 & Ubuntu 14.04 & Ubuntu 14.04\\ \hline
+  Kernel & 3.16.0-4-amd64 & 3.13.0-79-generic & 3.19.0-25-generic\\ \hline
+  CPU & Intel i7 @ 1.90GHz & Intel Duo T95550 & Intel Quad Q9500 @ 2.83GHz \\ \hline
+  Cores & 4 & 2 & 4\\ \hline
+  Memory & 4 GB & 4 GB & 12 GB\\ \hline
+  Network hardware & ASIX AX88772 USB 2.0 & 82567LM Gigabit & 82567LM-3 Gigabit\\ \hline
+  Network interface capacity & 100 Mbit/s & 1 Gbit/s & 1 Gbit/s \\ \hline
 \end{tabular}
 \caption{Machines involved in the testing}
 \label{table-machines}

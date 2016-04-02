@@ -1,0 +1,5 @@
+[INFO] carsystem.Simulator:start Finished running 100 tests
+[INFO] carsystem.Simulator:start 2016-04-02T17:43:11.016
+[INFO] carsystem.Simulator:start Mean: 2818.3
+[INFO] carsystem.Simulator:start Standard Deviation: 369.1972317875582
+[INFO] carsystem.Simulator:start Variance: 136306.595959596

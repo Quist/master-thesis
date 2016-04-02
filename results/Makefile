@@ -1,4 +1,7 @@
-all : parse function_test_rest los_test satellite_test
+all : parse function_test_rest los_test wifi_one satellite_test 
+
+wifi_one:
+	$(MAKE) -C wifi1/rest
 
 function_test_rest:
 	$(MAKE) -C function_tests/rest

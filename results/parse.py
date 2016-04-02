@@ -17,16 +17,24 @@ def write_latex_table(results, path):
     latex_file.write(latex_table)
 
 def parse_results(target, printName) :
+    print("Parsing file: %s " % target)
+
     result = Result()
 
     with open("%s.result" % target) as f:
         result.name = printName
 
         content = f.readlines()
-        result.n = re.findall("\d+", content[0])[0]
-        result.mean = int(round(float(re.findall("\d+\.\d+", content[2])[0])))
-        result.deviation = int(round(float(re.findall("\d+\.\d+", content[3])[0])))
-        result.variance = int(round(float(re.findall("\d+\.\d+", content[4])[0])))
+        if content[0] == 'timeout\n':
+            result.n = 1
+            result.mean = "Timeout"
+            result.deviation = "-"
+            result.variance = "-"
+        else :
+            result.n = re.findall("\d+", content[0])[0]
+            result.mean = int(round(float(re.findall("\d+\.\d+", content[2])[0])))
+            result.deviation = int(round(float(re.findall("\d+\.\d+", content[3])[0])))
+            result.variance = int(round(float(re.findall("\d+\.\d+", content[4])[0])))
 
     return result
 
@@ -57,7 +65,7 @@ def parse_result_set(path):
 
     result = parse_results(path + "coap/coap", "Proxy with CoAP")
     result_compressed = parse_results(path + "coap/coap_compression", "Proxy with CoAP & GZIP")
-    plotdata = "%-16s %-24d%-8d\n" %("\"CoAP Proxy\"", result.mean, result_compressed.mean)
+    plotdata = "%-16s %-24s%-8s\n" %("\"CoAP Proxy\"", result.mean, result_compressed.mean)
     plotfile.write(plotdata);
     results.append(result)
     results.append(result_compressed)
@@ -69,3 +77,5 @@ parse_result_set("satellite/rest/")
 parse_result_set("satellite/nffi/")
 parse_result_set("los/rest/")
 parse_result_set("wifi1/rest/")
+parse_result_set("wifi2/rest/")
+parse_result_set("wifi2/nffi/")

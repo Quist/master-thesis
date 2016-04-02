@@ -38,36 +38,15 @@
 \end{itemize}
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 5680 ms & 22 & 495 & 5 \\ \hline
-  Proxy with HTTP & 4688 ms & 191 & 36561 & 5 \\ \hline
-  Proxy with HTTP \& GZIP & 3622 ms & 44 & 1939 & 5 \\ \hline
-  Proxy with AMQP & 23697 ms & 13 & 162 & 2 \\ \hline
-  Proxy with AMQP \& GZIP & 24124 ms & 771 & 595140 & 2\\ \hline
-  Proxy with CoAP & 111651 ms & 25 & 648 & 2 \\ \hline
-  Proxy with CoAP \& GZIP & 12455 ms & 4 & 13 & 2 \\ \hline
-\end{tabular}
+\input{../results/satellite/nffi/result}
 \caption{NFFI Web service results}
 \end{table}
 
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 14651 ms & 32 & 2 & 20 \\ \hline
-  Proxy with HTTP & 13771 ms & 34 & 1 & 5 \\ \hline
-  Proxy with HTTP \& GZIP & 13849 ms & 21 & 0.4 & 5 \\ \hline
-  Proxy with AMQP & 105713 ms & 900 & 809 & 5 \\ \hline
-  Proxy with AMQP \& GZIP & 103230 ms & 0 & 0 & 1\\ \hline
-  Proxy with CoAP & 13720 ms & 38 & 1 & 20 \\ \hline
-  Proxy with CoAP \& GZIP & 13687 ms & 31 & 1 & 20 \\ \hline
-\end{tabular}
+\input{../results/satellite/rest/result}
 \caption{REST Web service results}
 \end{table}
-
 
 
 \section{Line-of-Sight tests}

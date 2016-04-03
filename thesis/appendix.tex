@@ -73,17 +73,7 @@
 
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 456 ms & 27 & 1 & 100 \\ \hline
-  Proxy with HTTP & 494 ms & 27 & 1 & 100 \\ \hline
-  Proxy with HTTP \& GZIP & 498 ms & 28 & 1 & 100 \\ \hline
-  Proxy with AMQP & 2786 ms & 111 & 12 & 100 \\ \hline
-  Proxy with AMQP \& GZIP & 2761 ms & 107 & 11 & 100\\ \hline
-  Proxy with CoAP & 464 ms & 28 & 1 & 100 \\ \hline
-  Proxy with CoAP \& GZIP & 262 ms & X & X & 100 \\ \hline
-\end{tabular}
+\input{../results/los/rest/result}
 \caption{REST Web service results}
 \end{table}
 
@@ -114,21 +104,9 @@
 
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 2987 ms & 86 & 7 & 10 \\ \hline
-  Proxy with HTTP & 3088 ms & 271 & 74 & 10 \\ \hline
-  Proxy with HTTP \& GZIP & 3160 ms & 308 & 95 & 10 \\ \hline
-  Proxy with AMQP & 19999 ms & 1529 & 2337 & 10 \\ \hline
-  Proxy with AMQP \& GZIP & 19600 ms & 774 & 600 & 10\\ \hline
-  Proxy with CoAP & 3774 ms & 1530 & 2342 & 50 \\ \hline
-  Proxy with CoAP \& GZIP & 3324 ms & 994 & 989 & 10 \\ \hline
-\end{tabular}
+\input{../results/wifi1/rest/result}
 \caption{REST Web service results}
 \end{table}
-
-
 
 
 \section{WiFI 2 tests}
@@ -139,33 +117,13 @@
 \end{itemize}
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 11276 ms & 10000 & X & 10 \\ \hline
-  Proxy with HTTP & 48004 ms & 269 & 72200 & 2 \\ \hline
-  Proxy with HTTP \& GZIP & 5425 ms & X & X & 10 \\ \hline
-  Proxy with AMQP & 39449 ms & X & X & 10 \\ \hline
-  Proxy with AMQP \& GZIP & 18258 ms & X & X & 10\\ \hline
-  Proxy with CoAP & Timeout & - & - & - \\ \hline
-  Proxy with CoAP \& GZIP & 17187 ms & X & X & 5 \\ \hline
-\end{tabular}
+\input{../results/wifi2/nffi/result}
 \caption{NFFI Web service results}
 \end{table}
 
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 10536 ms & 5205 & X & 10 \\ \hline
-  Proxy with HTTP & 7699 ms & X & X & 10 \\ \hline
-  Proxy with HTTP \& GZIP & 8464 ms & X & X & 10 \\ \hline
-  Proxy with AMQP & 80716 ms & X & X & 10 \\ \hline
-  Proxy with AMQP \& GZIP & 77206 ms & X & X & 10\\ \hline
-  Proxy with CoAP & 41314 ms & X & X & 5 \\ \hline
-  Proxy with CoAP \& GZIP & 28467 ms & X & X & 5 \\ \hline
-\end{tabular}
+\input{../results/wifi2/rest/result}
 \caption{REST Web service results}
 \end{table}
 

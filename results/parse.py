@@ -26,6 +26,7 @@ def parse_results(target, printName) :
 
         content = f.readlines()
         if content[0] == 'timeout\n':
+            print("Timeout")
             result.n = 1
             result.mean = "Timeout"
             result.deviation = "-"
@@ -58,7 +59,7 @@ def parse_result_set(path):
 
     result = parse_results(path + "amqp/amqp", "Proxy with AMQP")
     result_compressed = parse_results(path + "amqp/amqp_compression", "Proxy with AMQP & GZIP")
-    plotdata = "%-16s %-24d%-8d\n" %("\"AMQP Proxy\"", result.mean, result_compressed.mean)
+    plotdata = "%-16s %-24s%-8d\n" %("\"AMQP Proxy\"", result.mean, result_compressed.mean)
     plotfile.write(plotdata);
     results.append(result)
     results.append(result_compressed)
@@ -79,3 +80,5 @@ parse_result_set("los/rest/")
 parse_result_set("wifi1/rest/")
 parse_result_set("wifi2/rest/")
 parse_result_set("wifi2/nffi/")
+parse_result_set("cnr/rest/")
+parse_result_set("cnr/nffi/")

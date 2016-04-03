@@ -1,0 +1,13 @@
+\begin{tabular}{llllr}
+\hline
+ Test                   & Mean    & Std. Deviation   & Variance   &   Test runs \\
+\hline
+ Without proxy          & 44332   & 773              & 597167     &          10 \\
+ Proxy with HTTP        & 48434   & 3255             & 10595445   &          10 \\
+ Proxy with HTTP \& GZIP & 5696    & 522              & 272157     &          10 \\
+ Proxy with AMQP        & Timeout & -                & -          &           1 \\
+ Proxy with AMQP \& GZIP & 13241   & 1071             & 1147182    &          10 \\
+ Proxy with CoAP        & 48302   & 1046             & 1095139    &          10 \\
+ Proxy with CoAP \& GZIP & 3803    & 1218             & 1482324    &          10 \\
+\hline
+\end{tabular}

@@ -450,31 +450,57 @@ guarantee delivery, \gls{coap} provide mechanisms for optional reliability.
 \subsection{\glsentrylong{amqp}}
 
 \gls{amqp} is an application layer protocol for sending messages. It support
-both request/response and the publish/subscribe communication paradigms. The
-protocol is based on the concept of messaging queues, where information
-producers sends messages into message queues, while information consumers fetch
-information from queues. A overview of the architecture can be seen in
-\cref{figure-amqp}. Exchanges are the entities that accepts messages from a
-producer and inserts it into a suitable queue. The implementation of exchanges
-are known as \textit{brokers}, which runs as a separate decoupled application.
-AMQP uses TCP for reliable delivery.
+both request/response and the publish/subscribe communication paradigms. AMQP
+uses TCP for reliable delivery.
 
-\begin{figure}[h]
-\includegraphics[scale=0.35]{images/amqp.pdf}
-\caption{Overview of AMQP}
-\label{figure-amqp}
-\end{figure}
+ An important observation about AMQP is that it has two major versions which are
+ fundamentally different, version 0.9.1 and 1.0. The latter has been
+ standardized by \gls{oasis}\cite{oasis-amqp}, and is a  more narrow protocol as
+ it only defines the network wire-level protocol for the exchange of messages
+ between two endpoints. Wire-level protocols refers to the means for a
+ application running at one machine to communicate with an application running
+ at another machine using the Internet. Another difference between the versions
+ is that version 1.0 does not specify the details of broker implementation. We
+ investigate version 1.0 since it is the newest and has been standardized.
 
-An important observation about AMQP is that it has two major versions which are
-fundamentally different, version 0.9.1 and 1.0. The latter has been standardized
-by \gls{oasis}\cite{oasis-amqp}, and is a  more narrow protocol as it only defines the network
-wire-level protocol for the exchange of messages between two endpoints.
-Wire-level protocols refers to the means for a application running at one
-machine to communicate with an application running at another machine using the
-Internet. Another difference between the versions is that version 1.0 does not
-specify the details of broker implementation.
+An AMQP network consist of nodes connected via \textit{links}. Nodes can be
+producers, consumers and queues. Producers generate messages, consumers process
+messages, while queues store and forward them. These nodes lives inside
+\textit{containers}, which can be client applications and brokers. Each
+container can have multiple nodes. AMQP version 1.0 is does not specify the
+internal workings of those nodes, but defines the protocol for transferring
+messages between them. The basis data unit in AMQP is called a \textit{frame}
+and is used to initiate, control and tear down the transfer of a message between
+two nodes. The 9 different frames are listen in \cref{table-amqp-frames}.
 
-Next, we will look into another, more lightweight, publish/subscribe protocol.
+Prior to any communication, an AMQP connection must be established making AMQP a
+connection-oriented protocol. A connection is divided into independent
+unidirectional \textit{channels}. AMQP \textit{session} correlates two
+unidirectional channels to form a bidirectional, sequential conversation between
+two containers. To establish an connection the first operation is to
+establishing a TCP connection between the nodes. Then the protocol header are
+exchanged, allowing the nodes agree on a common protocol version. This is
+exchanged in plaintext (not in AMQP frame). The message itself is sent with the
+\textit{transfer} frame. Larger messages can be split into multiple frames.
+
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X |}
+\hline
+  \textbf{AMQP Frame} & \textbf{Purpose} \\ \hline
+  Open & Describes the capabilities and limits of the node. \\ \hline
+  Begin & Begin a session on a channel \\ \hline
+  Attach & Attach a link to a session \\ \hline
+  Flow & Update link state \\ \hline
+  Transfer & Transfer a message \\ \hline
+  Disposition & Inform remote peer of delivery state changes \\ \hline
+  Detach & Detach the link endpoint from the session \\ \hline
+  End & End the session\\ \hline
+  End & Signal a connection close\\ \hline
+\end{tabularx}
+\caption{AMQP Frames}
+\label{table-amqp-frames}
+\end{table}
 
 \subsection{MQTT}
 

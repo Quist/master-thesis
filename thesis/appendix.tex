@@ -136,40 +136,23 @@
 \end{itemize}
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 45625 ms & X & X & 2 \\ \hline
-  Proxy with HTTP & 48004 ms & X & X & 2 \\ \hline
-  Proxy with HTTP \& GZIP & 5285 ms & X & X & 10 \\ \hline
-  Proxy with AMQP & 54784 ms & X & X & 2 \\ \hline
-  Proxy with AMQP \& GZIP & 12751 ms & X & X & 2\\ \hline
-  Proxy with CoAP & 48168 ms & X & X & 2 \\ \hline
-  Proxy with CoAP \& GZIP & 3557 ms & X & X & 10 \\ \hline
-\end{tabular}
+\input{../results/cnr/nffi/result}
 \caption{NFFI Web service results}
 \end{table}
 
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
-\hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 3948 ms & X & X & 10 \\ \hline
-  Proxy with HTTP & 12856 ms & X & X & 10 \\ \hline
-  Proxy with HTTP \& GZIP & 10466 ms & X & X & 10 \\ \hline
-  Proxy with AMQP & 42198 ms & X & X & 1 \\ \hline
-  Proxy with AMQP \& GZIP & 38026 ms & X & X & 2\\ \hline
-  Proxy with CoAP & 6404 ms & X & X & 10 \\ \hline
-  Proxy with CoAP \& GZIP & 4119 ms & X & X & 10 \\ \hline
-\end{tabular}
+\input{../results/cnr/rest/result}
 \caption{REST Web service results}
 \end{table}
 
 
 \section{EDGE}
 
-To be done
+\begin{itemize}
+	\item Ping measured to \textasciitilde 400 ms.
+	\item Iperf3 measured data rate: 140/97 Kbits/sec.
+\end{itemize}
 
 
 

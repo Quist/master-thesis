@@ -91,7 +91,7 @@ FFI. The benefit of using actual equipment, is that we got as realistic tests as
 possible.
 
 
-\subsection{\glsentrylong{netem}}
+\subsection{Linux network traffic control}
 
 The Linux kernel offers a rich set of tools for managing and manipulating the
 transmission of packets. \textbf{tc}(traffic control) is a Linux program to
@@ -111,7 +111,15 @@ NetEm can emulate delays on packets on a specific link. In
 out of local Ethernet.
 
 \begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
-  tc qdisc add dev eth0 root netem delay 100ms
+  tc qdisc add dev eth0 parent 1:1 handle 10: \
+    netem delay 100ms
+\end{lstlisting}
+
+\subsubsection{Data rate}
+
+\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
+  tc qdisc add dev eth0 handle 1: \
+    root tbf rate 50kbit burst 15000 limit 15000
 \end{lstlisting}
 
 \subsubsection{Corrupt rate}
@@ -119,9 +127,11 @@ out of local Ethernet.
 The corrupt rate allows us to insert random data into a chosen percent of
 packets.
 
-\subsubsection{Data rate}
+\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
+  tc qdisc add dev eth0 parent 1:1 handle 10: \
+    netem delay 100ms corrupt 20%
+\end{lstlisting}
 
-NetEm can set the data rate by delaying packets based on their packet size.
 
 \subsection{Iperf 3}
 

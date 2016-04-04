@@ -1,0 +1,6 @@
+ping
+rtt min/avg/max/mdev = 400.770/400.964/401.194/0.766 ms
+
+
+[  4]   0.00-10.00  sec   171 KBytes   140 Kbits/sec    0             sender
+[  4]   0.00-10.00  sec   119 KBytes  97.3 Kbits/sec                  receiver

@@ -1,7 +1,10 @@
-all : parse function_test_rest los_test wifi_one wifi_two cnr_test satellite_test
+all : parse function_test_rest los_test wifi_one wifi_two cnr_test edge_test satellite_test
 
 wifi_one:
 	$(MAKE) -C wifi1/rest
+
+edge_test:
+	$(MAKE) -C edge/rest && $(MAKE) -C edge/nffi
 
 cnr_test:
 	$(MAKE) -C cnr/rest && $(MAKE) -C cnr/nffi

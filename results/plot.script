@@ -5,11 +5,11 @@ set ylabel "Average Time(ms)"
 set key autotitle columnhead
 
 fontsize = 12
-set style histogram errorbars gap 2 lw 1
+set style histogram gap 2
 # Select histogram data
 set style data histogram
-# Give the bars a plain fill pattern, and draw a solid line around them.
-set style fill solid 1.00 border 0
+
+set style fill solid border -1
 
 #Grid lines
 set grid ytics lt 0 lw 1

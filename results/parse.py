@@ -41,7 +41,7 @@ def parse_results(target, printName) :
 
 def parse_result_set(path):
     plotfile = open(path + "result.plot", 'w')
-    plotfile.write("Date\t\t\t\"Without Compression\"\t\"With Compression\"\n")
+    plotfile.write("Protocol\t\t\t\"Without Compression\"\t\"With Compression\"\n")
 
     results = []
 

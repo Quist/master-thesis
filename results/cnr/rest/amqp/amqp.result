@@ -2,7 +2,7 @@
 [INFO] carsystem.Simulator:start 2016-04-03T13:47:21.125
 [INFO] carsystem.Simulator:start Mean: 41254.9
 [INFO] carsystem.Simulator:start Standard Deviation: 3171.312677740875
-[INFO] carsystem.Simulator:start Variance: 1.0057224100000001E7
+[INFO] carsystem.Simulator:start Variance: 10057224.100000001
 [INFO] carsystem.Simulator:start Min: 32359.0
 [INFO] carsystem.Simulator:start Max: 43632.0
 [INFO] carsystem.Simulator:start Median: 42022.5

@@ -62,7 +62,7 @@ def parse_size_results(path) :
         plotdata = "%-16s %-12d %-16d%-8d\n" %(result.name, result.results[0].mean, result.results[1].mean, result.results[2].mean)
         plotfile.write(plotdata)
 
-    write_latex_table(results)
+    write_latex_table(results, path)
 
 
 parse_size_results("cnr/size/")

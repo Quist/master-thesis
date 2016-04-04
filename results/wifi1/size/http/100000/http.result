@@ -1,0 +1,9 @@
+INFO - Finished running 100 tests
+INFO - 2016-04-04T18:58:20.138
+INFO - Mean: 1372.0700000000002
+INFO - Standard Deviation: 411.3431867342977
+INFO - Variance: 169203.2172727273
+INFO - Min: 598.0
+INFO - Max: 2673.0
+INFO - Median: 1461.0
+INFO - Size request: 100000

@@ -29,14 +29,14 @@ into optimization techniques for the application and transport layer.
 \label{figure-network-layers}
 \end{table}
 
-\paragraph{Link layer}
+\subsubsection{Link layer}
 
 The lowest layer is the link layer, where link refers to the physical
 network component used to interconnect nodes in a network. Link layer protocols
 operate between adjacent network nodes. An example of a link layer protocol is
 Ethernet.
 
-\paragraph{Internet Layer}
+\subsubsection{Internet Layer}
 
  Where the link layer is only concerned of moving data over a wire to an
  adjacent node, the Internet layer is concerned of how to deliver data all the
@@ -48,7 +48,7 @@ Ethernet.
  The core protocol of the Internet layer is \gls{ip} and its routing function
  enables sending data over interconnected networks.
 
-\paragraph{Transport layer}
+\subsubsection{Transport layer}
 
 In the Internet protocol suite model, the transport layer provides end-to-end
 communication services for applications. It builds on top on the network layer,
@@ -60,7 +60,7 @@ lost or received in the wrong order, this is all handled by the transport
 protocol. This provides an important abstraction for applications so that they
 don't need to deal with the characteristics of the physical network itself.
 
-\paragraph{Application layer}
+\subsubsection{Application layer}
 
 The top layer is the application layer and is where applications real user use
 reside. The other layers provide transport services to applications found in
@@ -370,21 +370,34 @@ have been selected because of their prevalence in the civil and military world
 or their reported performance in the "Internet of Things". These protocols are
 from two different paradigms:
 
-\paragraph{Request-reply}
+\subsubsection{Request-reply}
 
-Message pattern where a requester sends a request to a system. The system then
-process the request and responds with a response message.
+Request-reply is a common message pattern where a requester sends a request to a
+system. The system then process the request and responds with a response
+message.
 
-\paragraph{Publish-subscribe}
+\subsubsection{Publish-subscribe}
 
-Message pattern where subscribers express their interest in a type of messages,
-often called topics or classes. A message publisher then creates messages of a
-certain class and publishes them without knowing who is actually subscribing to
-these types of messages.
+Publish-subscribe is a message pattern where subscribers express their interest
+in a type of messages, often called topics or classes. A message publisher then
+creates messages of a certain class and publishes them without knowing who is
+actually subscribing to these types of messages. Many publish-subscribe system
+employs a \textit{message broker} as seen in \cref{figure-message-brokers}. The
+message broker handles published messages from publishers and receives
+subscriptions from subscribers. The broker can perform various tasks, such as
+message filtering and prioritize queuing.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{images/pubsub.pdf}
+\caption{Message Brokers}
+\label{figure-message-brokers}
+\end{figure}
 
 \paragraph{}
-We'll get started by discussing \gls{udp}, which
-alongside \gls{tcp} is one of the core protocols of the Internet protocol suite.
+
+ We'll get started by discussing \gls{udp}, which alongside \gls{tcp} is one of
+ the core protocols of the Internet protocol suite.
 
 
 \subsection{\glsentrylong{udp}}

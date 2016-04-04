@@ -9,16 +9,17 @@
 \end{itemize}
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
+\begin{tabular}{llllr}
 \hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 122 ms & 29 & 869 & 300 \\ \hline
-  Proxy with HTTP & 163 ms & 25 & 601 & 300 \\ \hline
-  Proxy with HTTP \& GZIP & 99 ms & 19 & 346 & 300 \\ \hline
-  Proxy with AMQP & 529 ms & 60 & 3690 & 300 \\ \hline
-  Proxy with AMQP \& GZIP & 490 ms & 62 & 3847 & 300\\ \hline
-  Proxy with CoAP & 285 ms & 33 & 1122 & 300 \\ \hline
-  Proxy with CoAP \& GZIP & 122 ms & 33 & 1091 & 300 \\ \hline
+ Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+\hline
+  Without proxy & 122 ms & 29 & 869 & 300 \\
+  Proxy with HTTP & 163 ms & 25 & 601 & 300 \\
+  Proxy with HTTP \& GZIP & 99 ms & 19 & 346 & 300 \\
+  Proxy with AMQP & 529 ms & 60 & 3690 & 300 \\
+  Proxy with AMQP \& GZIP & 490 ms & 62 & 3847 & 300\\
+  Proxy with CoAP & 285 ms & 33 & 1122 & 300 \\
+  Proxy with CoAP \& GZIP & 122 ms & 33 & 1091 & 300 \\ 
 \end{tabular}
 \caption{NFFI Web service results}
 \end{table}
@@ -57,16 +58,17 @@
 \end{itemize}
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
+\begin{tabular}{llllr}
 \hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 242 ms & 26 & 663 & 100 \\ \hline
-  Proxy with HTTP & 299 ms & 40 & 1577 & 100 \\ \hline
-  Proxy with HTTP \& GZIP & 162 ms & 34 & 1177 & 100 \\ \hline
-  Proxy with AMQP & 821 ms & 60 & 3588 & 100 \\ \hline
-  Proxy with AMQP \& GZIP & 693 ms & 75 & 5632 & 100\\ \hline
-  Proxy with CoAP & 1359 ms & 45 & 1988 & 100 \\ \hline
-  Proxy with CoAP \& GZIP & 262 ms & 36 & 1314 & 100 \\ \hline
+ Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+\hline
+  Without proxy & 242 ms & 26 & 663 & 100 \\
+  Proxy with HTTP & 299 ms & 40 & 1577 & 100 \\
+  Proxy with HTTP \& GZIP & 162 ms & 34 & 1177 & 100 \\
+  Proxy with AMQP & 821 ms & 60 & 3588 & 100 \\
+  Proxy with AMQP \& GZIP & 693 ms & 75 & 5632 & 100\\
+  Proxy with CoAP & 1359 ms & 45 & 1988 & 100 \\
+  Proxy with CoAP \& GZIP & 262 ms & 36 & 1314 & 100 \\
 \end{tabular}
 \caption{NFFI Web service results}
 \end{table}
@@ -88,16 +90,18 @@
 \end{itemize}
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
+\begin{tabular}{llllr}
 \hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 1202 ms & 162 & 26326 & 100 \\ \hline
-  Proxy with HTTP & 1213 ms & 354 & 125628 & 100 \\ \hline
-  Proxy with HTTP \& GZIP & 820 ms & 154 & 23586 & 100 \\ \hline
-  Proxy with AMQP & 5026 ms & 460 & 211385 & 100 \\ \hline
-  Proxy with AMQP \& GZIP & 4964 ms & 637 & 405390 & 100\\ \hline
-  Proxy with CoAP & 25615 ms & 3185 & 10142866 & 10 \\ \hline
-  Proxy with CoAP \& GZIP & 2823 ms & 1425 & 2031770 & 100 \\ \hline
+\hline
+ Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+\hline
+  Without proxy & 1202 ms & 162 & 26326 & 100 \\
+  Proxy with HTTP & 1213 ms & 354 & 125628 & 100 \\
+  Proxy with HTTP \& GZIP & 820 ms & 154 & 23586 & 100 \\
+  Proxy with AMQP & 5026 ms & 460 & 211385 & 100 \\
+  Proxy with AMQP \& GZIP & 4964 ms & 637 & 405390 & 100\\
+  Proxy with CoAP & 25615 ms & 3185 & 10142866 & 10 \\
+  Proxy with CoAP \& GZIP & 2823 ms & 1425 & 2031770 & 100 \\
 \end{tabular}
 \caption{NFFI Web service results}
 \end{table}
@@ -154,7 +158,16 @@
 	\item Iperf3 measured data rate: 140/97 Kbits/sec.
 \end{itemize}
 
+\begin{table}[H]
+\input{../results/edge/nffi/result}
+\caption{NFFI Web service results}
+\end{table}
 
+
+\begin{table}[H]
+\input{../results/edge/rest/result}
+\caption{REST Web service results}
+\end{table}
 
 \section{Military radio tests}
 
@@ -164,32 +177,34 @@
 \end{itemize}
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
+\begin{tabular}{llllr}
 \hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 1379 ms & 230 & 52988 & 100 \\ \hline
-  Proxy with HTTP & 1313 ms & 139 & 19430 & 100 \\ \hline
-  Proxy with HTTP \& GZIP & 464 ms & 77 & 5874 & 100 \\ \hline
-  Proxy with AMQP & 2838 ms & 318 & 101162 & 100 \\ \hline
-  Proxy with AMQP \& GZIP & 1841 ms & 220 & 48240 & 100\\ \hline
-  Proxy with CoAP & 2720 ms & 120 & 14457 & 100 \\ \hline
-  Proxy with CoAP \& GZIP & 463 ms & 25 & 618 & 100 \\ \hline
+ Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+\hline
+  Without proxy & 1379 ms & 230 & 52988 & 100 \\
+  Proxy with HTTP & 1313 ms & 139 & 19430 & 100 \\
+  Proxy with HTTP \& GZIP & 464 ms & 77 & 5874 & 100 \\
+  Proxy with AMQP & 2838 ms & 318 & 101162 & 100 \\
+  Proxy with AMQP \& GZIP & 1841 ms & 220 & 48240 & 100\\
+  Proxy with CoAP & 2720 ms & 120 & 14457 & 100 \\
+  Proxy with CoAP \& GZIP & 463 ms & 25 & 618 & 100 \\
 \end{tabular}
 \caption{NFFI Web service results}
 \end{table}
 
 
 \begin{table}[H]
-\begin{tabular}{| l | r | r | r | r |}
+\begin{tabular}{llllr}
 \hline
-  \textbf{Test} & \textbf{Mean} & \textbf{Std. Deviation} & \textbf{Variance} & \textbf{Test runs}\\ \hline
-  Without proxy & 1061 ms & X & X & 100 \\ \hline
-  Proxy with HTTP & 1522 ms & X & X & 100 \\ \hline
-  Proxy with HTTP \& GZIP & 1404 ms & X & X & 100 \\ \hline
-  Proxy with AMQP & 7353 ms & X & X & 100 \\ \hline
-  Proxy with AMQP \& GZIP & 7241 ms & X & X & 100\\ \hline
-  Proxy with CoAP & 906 ms & X & X & 100 \\ \hline
-  Proxy with CoAP \& GZIP & 840 ms & X & X & 100 \\ \hline
+ Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+\hline
+  Without proxy & 1061 ms & X & X & 100 \\
+  Proxy with HTTP & 1522 ms & X & X & 100 \\
+  Proxy with HTTP \& GZIP & 1404 ms & X & X & 100 \\
+  Proxy with AMQP & 7353 ms & X & X & 100 \\
+  Proxy with AMQP \& GZIP & 7241 ms & X & X & 100\\
+  Proxy with CoAP & 906 ms & X & X & 100 \\
+  Proxy with CoAP \& GZIP & 840 ms & X & X & 100 \\
 \end{tabular}
 \caption{REST Web service results}
 \end{table}

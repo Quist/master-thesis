@@ -9,7 +9,7 @@ def write_latex_table(results, path):
     data = []
 
     for result in results:
-        data.append([result.name, result.mean, result.deviation, result.variance, result.n])
+        data.append([result.name, "%s ms" % result.mean, result.deviation, result.variance, result.n])
 
     latex_table = tabulate(data, headers=["Test","Mean", "Std. Deviation", "Variance", "Test runs"], tablefmt="latex")
 
@@ -28,7 +28,7 @@ def parse_results(target, printName) :
         if content[0] == 'timeout\n':
             print("Timeout")
             result.n = 1
-            result.mean = "Timeout"
+            result.mean = "0"
             result.deviation = "-"
             result.variance = "-"
         else :

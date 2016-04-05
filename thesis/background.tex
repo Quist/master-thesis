@@ -517,11 +517,47 @@ exchanged in plaintext (not in AMQP frame). The message itself is sent with the
 
 \subsection{MQTT}
 
-MQTT is also a publish/subscribe messaging transport protocol \cite{oasis-mqtt}.
-However, it is considered to be much more lightweight and is designed for use in
-networks where the bandwidth is limited. It is broker-based, where the broker is
-responsible for delivering messages to clients based on the topic of a message.
-MQTT run over the TCP/IP protocols.
+MQTT is like AMQP also a publish/subscribe messaging transport protocol 
+\cite{oasis-mqtt}.  It emerged in 1999 and recently became an \gls{oasis} standard
+in 2014. MQTT is considered to be light weight and simple to
+implement, making it suitable  for use in networks where the data rate is
+limited and/or a low code footprint is needed.  MQTT is broker-based and runs
+on top of the TCP/IP protocols.
+
+The protocol provide message sending services to applications by exchanging
+different MQTT control packets. The different packets are listed in 
+\cref{table-mqtt-packets} It offers different levels of \gls{qos}, specifying the
+delivery policies for a message. This is benificial in networks where messages
+may be lost while traveling through a network. The lowest level of \gls{qos} is \textit{at most
+once}, which specifies that a message should arrive at the receiver either
+once or not at all. Next, the policy \textit{At least once} ensures that the
+message arrives at the receiver at least once, but possible multiple times. The last and
+highest level of MQTT's \gls{qos}, \textit{exactly once}, guarantees one, and
+only one, delivery of the message. Only \textit{exactly once} requires the
+usage of the control packets PUBREC, PUBREL and PUBCOMP.
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X |}
+\hline
+  \textbf{MQTT Control Packet} & \textbf{Purpose} \\ \hline
+  CONNECT & Client request a connection with Server \\ \hline
+  CONNACK & Acknowledge connection request \\ \hline
+  PUBLISH & Publish a message \\ \hline
+  PUBACK & Publish acknowledgement \\ \hline
+  PUBREC &  Publish received \\ \hline
+  PUBREL & Response to a PUBREC Packet \\ \hline
+  PUBCOMP & Publish complete \\ \hline
+  SUBSCRIBE & Subscribe to topics \\ \hline
+  SUBACK & Subscribe acknowledgement\\ \hline
+  UNSUBSCRIBE & Unsubscribe from topics\\ \hline
+  UNSUBACK & Unsubscribe acknowledgement \\ \hline
+  PINGREQ & PING request \\ \hline
+  PINGRESP & PING response \\ \hline
+  DISCONNECT & Disconnect notification \\ \hline
+\end{tabularx}
+\caption{MQTT Control packets}
+\label{table-mqtt-packets}
+\end{table}
 
 
 \subsection{\glsentrylong{sctp}}

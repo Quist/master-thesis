@@ -12,6 +12,7 @@ def write_latex_table(results, path):
 
     latex_table = tabulate(data, headers=["Protocol","1 byte", "2500 bytes", "100 000 bytes"], tablefmt="latex")
 
+    print("Writing to file %s%s" %(path, "result.tex"))
     latex_file = open(path + "result.tex", 'w')
     latex_file.write(latex_table)
 

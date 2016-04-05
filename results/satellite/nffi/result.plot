@@ -1,4 +1,4 @@
-Date			"Without Compression"	"With Compression"
+Protocol			"Without Compression"	"With Compression"
 "Default"        4978                    0       
 "HTTP Proxy"     4511                    3530    
 "AMQP Proxy"     25709                   25780   

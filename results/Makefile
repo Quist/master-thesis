@@ -1,4 +1,4 @@
-all : parse function_test_rest los_test wifi_one wifi_two cnr_test edge_test satellite_test
+all : parse parse-size function_test_rest los_test wifi_one wifi_two cnr_test edge_test satellite_test
 
 wifi_one:
 	$(MAKE) -C wifi1/rest
@@ -20,6 +20,9 @@ los_test:
 
 satellite_test:
 	$(MAKE) -C satellite/rest && $(MAKE) -C satellite/nffi
+
+parse-size:
+	python parse_size.py
 
 parse:
 	python parse.py

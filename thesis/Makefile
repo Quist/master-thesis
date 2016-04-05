@@ -5,6 +5,6 @@ thesis:
 all: clean results thesis
 
 results:
-	$(MAKE) -C ../results/function_tests/rest
+	$(MAKE) -C ../results/ 
 clean:
 	rm -f *.aux *.bcf *.lof *.log *.lot *.run.xml *.toc *-blx.bib *.bbl *.blg *.glo

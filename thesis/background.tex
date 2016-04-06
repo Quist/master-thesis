@@ -347,7 +347,7 @@ packet is eventually lost, it considers it as a sign of network congestion and
 reduces its packet rate.
 
 \section{Protocols for Tactical Networks}
-
+\label{section:tcp-problems}
 DIL networks are characterized by their high delay, low data rate and relatively
 high error rate. Since TCP's congestion control interprets this as evidence of
 congestion, it will back off and use a lower data rate. This cause that TCP
@@ -517,24 +517,25 @@ exchanged in plaintext (not in AMQP frame). The message itself is sent with the
 
 \subsection{MQTT}
 
-MQTT is like AMQP also a publish/subscribe messaging transport protocol 
-\cite{oasis-mqtt}.  It emerged in 1999 and recently became an \gls{oasis} standard
-in 2014. MQTT is considered to be light weight and simple to
-implement, making it suitable  for use in networks where the data rate is
-limited and/or a low code footprint is needed.  MQTT is broker-based and runs
-on top of the TCP/IP protocols.
+MQTT is like AMQP also a publish/subscribe messaging transport protocol
+\cite{oasis-mqtt}.  It emerged in 1999 and recently became an \gls{oasis}
+standard in 2014. MQTT is considered to be light weight and simple to implement,
+making it suitable for use in networks where the data rate is limited and/or a
+low code footprint is needed. With the emerge of "The Internet of Things", these
+properties have caused regained interest in MQTT. The protocol is broker-based
+and runs on top of the TCP/IP protocols.
 
-The protocol provide message sending services to applications by exchanging
-different MQTT control packets. The different packets are listed in 
-\cref{table-mqtt-packets} It offers different levels of \gls{qos}, specifying the
-delivery policies for a message. This is benificial in networks where messages
-may be lost while traveling through a network. The lowest level of \gls{qos} is \textit{at most
-once}, which specifies that a message should arrive at the receiver either
-once or not at all. Next, the policy \textit{At least once} ensures that the
-message arrives at the receiver at least once, but possible multiple times. The last and
-highest level of MQTT's \gls{qos}, \textit{exactly once}, guarantees one, and
-only one, delivery of the message. Only \textit{exactly once} requires the
-usage of the control packets PUBREC, PUBREL and PUBCOMP.
+The protocol provide message sending services to applications and offers
+different levels of \gls{qos}, specifying the delivery policies for a message.
+This is beneficial in networks where messages may be lost while traveling
+through a network. The lowest level of \gls{qos} is \textit{at most once}, which
+specifies that a message should arrive at the receiver either once or not at
+all. Next, the policy \textit{at least once} ensures that the message arrives at
+the receiver at least once, but possible multiple times. The last and highest
+level of MQTT's \gls{qos}, \textit{exactly once}, guarantees one, and only one,
+delivery of the message. The protocol works by sending different MQTT control
+packets, listed in \cref{table:mqtt-packets}. Only \textit{exactly once}
+\gls{qos} requires the usage of the control packets PUBREC, PUBREL and PUBCOMP.
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X |}
@@ -556,7 +557,7 @@ usage of the control packets PUBREC, PUBREL and PUBCOMP.
   DISCONNECT & Disconnect notification \\ \hline
 \end{tabularx}
 \caption{MQTT Control packets}
-\label{table-mqtt-packets}
+\label{table:mqtt-packets}
 \end{table}
 
 
@@ -615,24 +616,26 @@ discussed the two most common type of Web services. Moreover, we have discussed
 the protocols that these Web services use in order to transmit messages over the
 Internet. We also introduced some new protocols designed to work in "Internet of
 things" networks, which have many of the same characteristics as DIL networks.
-Finally, we introduced the concept of performance testing and important network
-metrics when doing such testing.
-
-Many of the mentioned protocols has been previously researched for use in DIL
-networks. In the next chapter we will present relevant work in this area.
+The protocols are summarized in \cref{table:protocols:summary}. Finally, we
+introduced the concept of performance testing and important network metrics when
+doing such testing.
 
 %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| l | l | X |}
 \hline
   \textbf{Protocol} & \textbf{Network layer} & \textbf{Summary} \\ \hline
-  HTTP & Application. Uses TCP. &  Widely used. Breaks down in DIL environments.\\ \hline
-  TCP & Transport & The well-known transport protocol. \\ \hline
-  UDP & Transport & Lacks reliability, but frameworks exist that provides it. \\ \hline
+  TCP & Transport & Core transport protocol. \\ \hline
+  UDP & Transport & Low overhead, but lacks reliability. \\ \hline
+  SCTP & Transport & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
+  HTTP & Application. Uses TCP. &  Widely used and the foundation for World Wide Web\\ \hline
   CoAP & Application. Uses UDP. & Designed for use in the Internet of Things. \\ \hline
   AMQP & Application. Uses TCP. &  Messaging middleware with store-and-forward capabilities.\\ \hline
-  MQTT & Application. Uses TCP & Pub/sub designed for use in the Internet of Things\\ \hline
-  SCTP & Transport & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
+  MQTT & Application. Uses TCP & Light weight and simple pub/sub protocol. \\ \hline
 \end{tabularx}
 \caption{Summary of protocols}
+\label{table:protocols:summary}
 \end{table}
+
+Many of the mentioned protocols has been previously researched for use in DIL
+networks. In the next chapter we will present relevant work in this area.

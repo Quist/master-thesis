@@ -209,23 +209,18 @@ units is that in some cases they are required to enter radio silence in order
 to avoid being detected by the enemy. During such circumstances the soldiers
 may only receive data, but not send any.
 
-\section{Example scenario}
-
-Jeg tenkte her å introdusere et scenario som illustererer problemer og utfordringer
-med DIL nettverk.
-
-
 \section{A suggested solution}
 
 The Web service technology enables interoperability between systems, but also
 increase the information overhead, requiring higher data rate demands. Employing
 Web services developed for use in civilian networks directly into a \gls{dil}
 environment may not perform satisfactorily. To increase the performance we can
-apply different optimization techniques. The task-group IST-090\cite{ist-090}
-investigated which improvements that could be made in order to get SOA
-applicable at the tactical level. They did not find a magic bullet that would
-solve all problems, but identified factors that would offer measurable
-improvements. The most important findings were:
+apply different optimization techniques. The NATO research group  with
+the title "SOA Challenges for Real-Time and Disadvantaged Grids"\cite{ist-090} (IST-090)
+have previously investigated which improvements that could be made in order to
+get SOA applicable at the tactical level. They did not find a magic bullet that would solve all problems, but
+identified factors that would offer measurable improvements. The most important
+findings were:
 
 \begin{itemize}
     \item Foundation on open-standards.
@@ -243,7 +238,7 @@ services. Another possible solution is, by using proxies, applying the
 optimization in them without altering the Web services themselves. With this
 approach, the only thing required to do is to configure the applications to send
 and receive data through the proxies. The proxies will then handle the
-optimization for tactical networks. This approach is identified in IST-090 and
+optimization for tactical networks. This approach is identified by IST-090 and
 is explored in this thesis. \Cref{figure-proposed-proxy-solution} illustrates a
 setup like this, where the client invoke Web services through a proxy pair over
 a DIL network.

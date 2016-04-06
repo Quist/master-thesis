@@ -5,46 +5,43 @@ performance of Web services in \gls{dil} environments. Improving Web services
 is critical for both civil and military users as increasing the performance
 means that applications become faster and more reliable. For these reasons
 quite amount of research has been done in the area of optimizing network
-applications. Improving the performance of Web services in \gls{dil}
-environments has been explored, but mostly for SOAP- based Web services and
-not REST.
+applications, both for "regular" networks and DIL networks.
 
 In the following sections we identify results and recommendations that are
 applicable to this thesis. We get started by looking into the work of the NATO
-research group ``IST-090'' and ``IST-118'', which identified improvements in
-order to make \gls{soa} applications in DIL networks. Next, based on these
-recommendations, we will look into work done in the area of alternative
-transport protocols and existing proxy implementations.  Finally, we summarize
-the findings that are applicable to this thesis with regards to the scope and
-premises.
+research groups IST-090 and "SOA Recommendations for Disadvantaged Grids in
+the Tactical Domain" (IST-118). IST-118 is a ongoing follow-on to the work of
+IST-090, with the goal of creating a recommendation for a tactical profile for
+using SOA in disadvantaged grids(DIL). Next, based on these recommendations, we
+investigate work done in the area of alternative transport protocols and
+existing proxy implementations.  Finally, we summarize the findings that are
+applicable to this thesis with regards to the scope and premises.
 
 \section{Making SOA applicable at the tactical level}
 
-As a follow-on to the work of IST-090, the research group IST-118 was created
-with the goal to create a recommendation for using SOA in DIL networks. In the
-paper IST-118\cite{ist-118} they summarized the findings of IST-090. Although
-the paper only looked into W3C Web services, many of their recommendations
-are also applicable to RESTful Web services. They identified three key issues
-that needs to be addressed in order to apply Web services in tactical
-networks\cite{ist-090, ist-118}:
+IST-118 has published a report where they summarized the findings of IST-090.
+Although the paper only looked into W3C Web services, many of their
+recommendations are also applicable to RESTful Web services. They identified
+three key issues that need to be addressed in order to apply Web services in
+tactical networks\cite{ist-090, ist-118}:
 
 \label{section:DIL-problems}
 
 \subsubsection{1. End-to-end connections}
 
-Web services transport protocols depend on a direct, end-to-end connection
-between the client and the service. Attempting to establish and maintaining
-connections in DIL environments can lead to increased communication overhead and
-possible complete breakdown of communication. Most Web services use TCP as the
-transport protocol, which is requires an uninterrupted connection in order to
-function. In DIL environments with high error rates and high latencies, the
-congestion control of TCP can cause sub-optimal utilization of the network due
-to frequent connection timeouts. Similar, HTTP, which is the application layer
-protocol most often used together with TCP, struggles in such environments. HTTP
-is a synchronous protocol, which means that the HTTP connection is kept open
-until a response is received. Long response times cause timeouts. IST-090 points
-out the obvious solution to replace HTTP and TCP with other, more suitable
-protocols.
+Web services mostly use transport protocols that depend on a direct, end-to-end
+connection between the client and the service. Attempting to establish and
+maintaining connections in DIL environments can lead to increased communication
+overhead and possible complete breakdown of communication. Most Web services use
+TCP as their transport protocol, which requires an uninterrupted connection in
+order to function. In DIL environments with high error rates and high latencies,
+the congestion control of TCP can cause sub-optimal utilization of the network
+as previously discussed in \cref{section:tcp-problems}. Similar, HTTP, which is
+the application layer protocol most often used together with TCP, struggles in
+such environments. HTTP is a synchronous protocol, which means that the HTTP
+connection is kept open until a response is received. Long response times cause
+timeouts. IST-090 points out the possible solution of replacing HTTP and TCP with
+other, more suitable protocols.
 
 The IST-90 report mentions two approaches to replace HTTP/TCP. The clients and
 services themselves can be modified to support other protocols, or proxies
@@ -75,7 +72,7 @@ different ways to do this:
 
 \begin{enumerate}
     \item Employing caching near the client in order to reuse older messages.
-    \item Using publish/subscribe paradigm, which allows clients to subscribe to
+    \item Using the publish/subscribe paradigm, which allows clients to subscribe to
     information instead of requesting it. This allows the same message to be sent
     to multiple clients.
     \item Employing content filtering, which filters out unnecessary data.
@@ -104,7 +101,7 @@ to represents the same data in a more efficient way.
 overhead. A previous study evaluated different lossless compressions techniques
 for exchanging XML documents using W3C Web services\cite{johnsen-compression}.
 They evaluated both XML-specific and general purpose (payload agnostic)
-compression algorithms. There exist a great number of different compression
+compression techniques. There exist a great number of different compression
 techniques, so the authors focused on a few they saw as promising for use in
 tactical communication networks. The first one, \gls{efx}, encodes XML documents
 in a binary instead of textual format. The two other was the XML-specific XMLPPM
@@ -133,13 +130,13 @@ handshake procedure and in addition use heartbeat packets.
 When setting up an application server, several parameters which can affect the
 performance of Web services running on the application server can be configured.
 Wrong or bad configuration may cause inaccurate timeouts and congestion in the
-network. In a paper written by researchers at \gls{ntnu} and FFI, the authors
-investigated how such tuning affected the performance of Web services in
-different emulated tactical
-networks\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}. In
-their study they investigated how tuning server parameters affect the performs
-of both \gls{rest} and SOAP Web services. They identified a number of key HTTP
-and TCP tuning parameters:
+network. In a paper written by researchers at \gls{ntnu} and
+FFI\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}, they
+investigated how tuning the server parameters of the application server
+Glassfish affected the performance of both \gls{rest} and SOAP Web services.
+They identified a number of key HTTP and TCP tuning parameters:
+
+
 
 \paragraph{HTTP Timeout} Controls how long a HTTP connection can be deemed as
 idle and kept in the "keep-alive" state. Having a to low timeout on networks

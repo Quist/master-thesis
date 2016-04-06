@@ -1,56 +1,44 @@
 \chapter{Related Work}
 
-In this chapter we will discuss earlier relevant work in the area of improving
-the performance of Web services in \gls{dil} environments. Improving Web
-services is critical for both civil and military users as increasing the
-performance means that applications become faster, less money needs to be put
-into network capacity. From this comes that quite amount of research has been
-done in the area of optimizing network applications. Improving the performance
-of Web services in \gls{dil} environments has been explored, but mostly for
-SOAP-based Web services and not REST.
+In this chapter we discuss earlier relevant work in the area of improving the
+performance of Web services in \gls{dil} environments. Improving Web services
+is critical for both civil and military users as increasing the performance
+means that applications become faster and more reliable. For these reasons
+quite amount of research has been done in the area of optimizing network
+applications. Improving the performance of Web services in \gls{dil}
+environments has been explored, but mostly for SOAP- based Web services and
+not REST.
 
 In the following sections we identify results and recommendations that are
-applicable to this thesis. We get started by presenting compression, the obvious
-technique of reducing the size of data being sent over the network.
-
-
-\section{Compression}
-Quite an amount of research has been done in the area of compression. Data compression is the technique of encoding information using fewer bits than
-the original representation. The goal is to reduce data transmission time or the
-storage requirements. We divide compression lossy and lossless compression.
-Lossy compression is used to compress data such as images and movies where the
-consequence of loosing some of the data is not critical. Lossless compression
-utilize repeating patterns in the  data in order to represents the same data in
-a more efficient way.
-
-\gls{xml} is the data format used by Web services and has a significant
-overhead. Previous studies have evaluated different compressions algorithms for
-Web services. Previous experiments shows EFX has the best compression results with
-GZIP as the second best alternative\cite{johnsen-trude-compression-techniqes}.
-
+applicable to this thesis. We get started by looking into the work of the NATO
+research group ``IST-090'' and ``IST-118'', which identified improvements in
+order to make \gls{soa} applications in DIL networks. Next, based on these
+recommendations, we will look into work done in the area of alternative
+transport protocols and existing proxy implementations.  Finally, we summarize
+the findings that are applicable to this thesis with regards to the scope and
+premises.
 
 \section{Making SOA applicable at the tactical level}
 
-In the report IST-090, a task group investigated solutions for making \gls{soa}
-applicable at the tactical level. As a follow-on to IST-090, the research group
-IST-118 was created with the goal to create a recommendation for using SOA in
-DIL networks. In the paper IST-118\cite{ist-118} they summarized the findings of
-IST-090. Although the papers only looked into W3C Web services, many of their
-recommendations are also applicable to RESTful Web services. They identified
-three key issues that needs to be addressed in order to apply Web services in
-tactical networks\cite{ist-090, ist-118}:
+As a follow-on to the work of IST-090, the research group IST-118 was created
+with the goal to create a recommendation for using SOA in DIL networks. In the
+paper IST-118\cite{ist-118} they summarized the findings of IST-090. Although
+the paper only looked into W3C Web services, many of their recommendations
+are also applicable to RESTful Web services. They identified three key issues
+that needs to be addressed in order to apply Web services in tactical
+networks\cite{ist-090, ist-118}:
 
 \label{section:DIL-problems}
 
-\subsubsection{End-to-end connections}
+\subsubsection{1. End-to-end connections}
 
 Web services transport protocols depend on a direct, end-to-end connection
 between the client and the service. Attempting to establish and maintaining
 connections in DIL environments can lead to increased communication overhead and
 possible complete breakdown of communication. Most Web services use TCP as the
-transport protocol, which is a connection-oriented protocol designed for wired
-networks. In DIL environments with high error rates and high latencies, the
-congestion control of TCP will cause sub-optimal utilization of the network due
+transport protocol, which is requires an uninterrupted connection in order to
+function. In DIL environments with high error rates and high latencies, the
+congestion control of TCP can cause sub-optimal utilization of the network due
 to frequent connection timeouts. Similar, HTTP, which is the application layer
 protocol most often used together with TCP, struggles in such environments. HTTP
 is a synchronous protocol, which means that the HTTP connection is kept open
@@ -59,12 +47,13 @@ out the obvious solution to replace HTTP and TCP with other, more suitable
 protocols.
 
 The IST-90 report mentions two approaches to replace HTTP/TCP. The clients and
-services themselves can be modified to support other protocols, or proxies which
-support alternative protocols can be used\cite{ist-090}. With employing a proxy
-solution, standards compliance can be retained.
+services themselves can be modified to support other protocols, or proxies
+which support alternative protocols can be used\cite{ist-090}. Moreover, they
+pointed out that if using a proxy solution, standards compliance can be
+retained.
 
 
-\subsubsection{Network heterogeneity}
+\subsubsection{2. Network heterogeneity}
 
 Another issue is when heterogeneous networks are interconnected. Different
 performance in networks may lead to buildup of data in buffers, risking loss of
@@ -73,7 +62,7 @@ which can support that messages are not dropped, but stored and forwarded when
 possible.
 
 
-\subsubsection{Web service overhead}
+\subsubsection{3. Web service overhead}
 
 W3C Web services are associated with a considerable amount of overhead. Web
 Service technology is based on SOAP, which use XML-based messages. It is a
@@ -91,6 +80,42 @@ different ways to do this:
     to multiple clients.
     \item Employing content filtering, which filters out unnecessary data.
 \end{enumerate}
+
+The scope of this thesis is to optimize for request-reply type of clients
+and Web services. Furthermore, since we are investigating general-purpose
+optimization techniques without knowledge of the payload, these
+recommendations does not quite apply to us. However, to reduce Web service
+overhead we can apply the well known technique of compression.
+
+\subsubsection{Compression}
+
+Data compression is the technique of encoding information using fewer bits than
+the original representation. Reducing the amount of bits we need to transmit
+would greatly increase performance, especially in  a limited network. The
+reduction is often expressed in the term \textit{compression rate}, which
+express the ratio between the uncompressed size and compressed size of the
+payload.  Moreover, there exist two types of compression, \textit{lossy} and
+\textit{lossless compression}. Lossy compression is used to compress data such
+as images and movies where the consequence of loosing some of the data is not
+critical. Lossless compression utilize repeating patterns in the data in order
+to represents the same data in a more efficient way.
+
+\gls{xml} is the data format used by W3C Web services and has a significant
+overhead. A previous study evaluated different lossless compressions techniques
+for exchanging XML documents using W3C Web services\cite{johnsen-compression}.
+They evaluated both XML-specific and general purpose (payload agnostic)
+compression algorithms. There exist a great number of different compression
+techniques, so the authors focused on a few they saw as promising for use in
+tactical communication networks. The first one, \gls{efx}, encodes XML documents
+in a binary instead of textual format. The two other was the XML-specific XMLPPM
+and general-purpose GZIP.
+
+In their evaluation they saw that for all techniques, larger XML documents
+granted a higher compression ratio than smaller documents. As the average, EFX
+applied with a built in proprietary ZIP enabled, had the highest compression
+ratio, followed by GZIP. However, they concluded that all evaluated techniques
+provided a significant reduction of payload size, so the specific technique was
+of less importance.
 
 \section{Previous evaluations of alternative protocols}
 

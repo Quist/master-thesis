@@ -187,16 +187,40 @@ does not fulfill all the requirements we have for our proxy. Some of them does
 only support SOAP Web services and others are unusable due to security reasons.
 This section lists and discuss previous implementations of such proxies.
 
-\subsection{DSProxy}
+\subsection{\glsentrylong{dsproxy}}
 
-DSProxy is a proxy solution developed by \gls{ffi}, which transports SOAP
-messages over DIL networks\cite{ieee-dsproxy}. It reduces bandwidth needs by
-employing different optimization techniques such as compression. DSProxy also
-provides delay tolerance, which allows \gls{cots} clients to function in DIL
-networks.
+\gls{dsproxy} is a proxy solution developed by
+\gls{ffi}\cite{dsproxy-ffi}\cite{ieee-dsproxy}. Its goal was to enable the usage
+of unmodified standard W3C Web services (SOAP over HTTP/TCP) in DIL
+environments. The concept was to route all SOAP messages through the proxy. When
+the proxy received a message, it was stored locally before it was forwarded. If
+the forwarding failed, it could retry the request until it eventually succeeded.
+This ability, called \textit{store-and-forward}, was one of the fundamental core
+functionalities of \gls{dsproxy}. When a request eventually succeeded, the
+response was returned to the client on the original TCP connection initiated by
+the client. By doing this, Web service invocations was made possible over
+unreliable networks by hiding any network disruptions from the client.
 
-The downside with DSProxy is that it only support SOAP, which leaves RESTful Web
-services out of the picture.
+\begin{figure}[h]
+\includegraphics[scale=0.35]{images/dsproxy.pdf}
+\caption{DSProxy overlay network (from \cite{ieee-dsproxy} )}
+\label{figure:dsproxy}
+\end{figure}
+
+Another core functionality of DSProxy was mechanisms for organizing an overlay
+network consisting of multiple proxy instances as seen in \cref{figure:dsproxy}.
+This enabled the ability to traverse multiple and heterogeneous networks, but
+also added a lot of complexity to the proxy application. Apart from the
+mentioned core functionalities, DSProxy supported a set of pluggable
+functionalities such as GZIP compression and caching.
+
+After performing experiments using the DSProxy, the researcher identified the
+store-and-forward ability as very important in unreliable networks in order to
+avoid having to re-establish end-to-end connections each time the network
+connections was lost\cite{dsproxy-ffi}. The downsides with DSProxy was that it
+only supported W3C Web services, which leaved other types of Web services out of
+the picture. Moreover, it became very complex due to its mechanisms for building
+overlay networks and supporting different configurations and plugins.
 
 \subsection{AFRO}
 
@@ -209,8 +233,8 @@ the service requester.
 
  However, since the proxy modifies the data being sent, the digital signature of
  the data is also changed. In applications where we want to be sure that no one
- has tampered with the data before arriving, checksums are often used. Therefore
- this solution would not work for such applications.
+ has tampered with the data before arriving, checksums are often used.
+ Consequently this solution would not work for such applications.
 
 
 \subsection{Suri}

@@ -114,6 +114,7 @@ ratio, followed by GZIP. However, they concluded that all evaluated techniques
 provided a significant reduction of payload size, so the specific technique was
 of less importance.
 
+
 \section{Previous evaluations of alternative protocols}
 
 Previous studies have investigated potential gains from replacing HTTP/TCP with
@@ -124,6 +125,112 @@ had the highest success rate in military tactical communication. However, on the
 lower bandwidth links the protocols tends to generate more overhead than TCP.
 They pointed out that this was due to SCTP having a more complex connection
 handshake procedure and in addition use heartbeat packets.
+
+\section{Proxy optimization}
+
+One of the recommendations of IST-090 was the usage of proxies. This
+recommendation has been picked-up by other research group and a set of proxies
+for optimizing Web services in DIL networks already exist. However, many of them
+does not fulfill all the requirements we have for our proxy. Some of them does
+only support SOAP Web services and others are unusable due to security reasons.
+This section lists and discuss previous implementations of such proxies.
+
+\subsection{\glsentrylong{dsproxy}}
+
+\gls{dsproxy} is a proxy solution developed by
+\gls{ffi}\cite{dsproxy-ffi}\cite{ieee-dsproxy}. Its goal was to enable the usage
+of unmodified standard W3C Web services (SOAP over HTTP/TCP) in DIL
+environments. The concept was to route all SOAP messages through the proxy. When
+the proxy received a message, it was stored locally before it was forwarded. If
+the forwarding failed, it could retry the request until it eventually succeeded.
+This ability, called \textit{store-and-forward}, was one of the fundamental core
+functionalities of \gls{dsproxy}. When a request eventually succeeded, the
+response was returned to the client on the original TCP connection initiated by
+the client. By doing this, Web service invocations was made possible over
+unreliable networks by hiding any network disruptions from the client.
+
+\begin{figure}[h]
+\includegraphics[scale=0.35]{images/dsproxy.pdf}
+\caption{DSProxy overlay network (from \cite{ieee-dsproxy} )}
+\label{figure:dsproxy}
+\end{figure}
+
+Another core functionality of DSProxy was mechanisms for organizing an overlay
+network consisting of multiple proxy instances as seen in \cref{figure:dsproxy}.
+This enabled the ability to traverse multiple and heterogeneous networks, but
+also added a lot of complexity to the proxy application. Apart from the
+mentioned core functionalities, DSProxy supported a set of pluggable
+functionalities such as GZIP compression and caching.
+
+After performing experiments using the DSProxy, the researcher identified the
+store-and-forward ability as very important in unreliable networks in order to
+avoid having to re-establish end-to-end connections each time the network
+connections was lost\cite{dsproxy-ffi}. The downsides with DSProxy was that it
+only supported W3C Web services, which leaved other types of Web services out of
+the picture. Moreover, it became very complex due to its mechanisms for building
+overlay networks and supporting different configurations and plugins.
+
+\subsection{NetProxy}
+%https://www.researchgate.net/profile/Niranjan_Suri/publications
+
+NetProxy is an another network proxy solution aiming at enabling SOA
+applications for use in DIL environments\cite{suri-netproxy}. The proxy is a
+component of the \gls{acm}, a set of components that satisfy many of the
+communications requirements found in challenged networks. The work is being
+carried out by researchers at the Florida Institute for Human \& Machine
+Cognition.
+
+Like DSPRoxy, is NetProxy a transparent proxy providing integration between SOA
+systems without requiring modification of applications themselves. It works by
+first intercepting all network traffic from the applications and then analysis.
+Together with this information and information about available data rate,
+network delay etc, NetProxy decide which appropriate action to take. It can be
+configured to support protocol remapping by using other protocols than HTTP/TCP.
+Integrated with NetProxy is a the message-oriented transport protocol
+\gls{mockets}, which is designed to replace \gls{tcp} and \gls{udp} and is
+targeted for DIL networks\cite{suri-netproxy}. Mockets replaces the congestion
+control and reliable transmission algorithms of TCP with other alternate
+implementations designed for DIL networks. It is configurable for different
+types of networks and offers various \gls{qos} levels.
+
+Performance testing of W3C Web services showed that using NetProxy with Mockets as
+the transport protocol yielded a significant increase in the performance
+compared to plain TCP\cite{suri-netproxy}. The researcher attributed this to
+several factors:
+
+\begin{itemize}
+
+    \item Mockets handles packet loss much better than TCP, since TCP attributes
+    packet loss to congestion and triggers its congestion control.
+
+    \item NetProxy multiplexes all network traffic directed to a single node
+    onto the same connection and holds it open instead of closing it after a
+    finishing request. This allow reusing the connections across consecutive
+    requests from various applications.
+
+    \item Less overhead due to NetProxy buffers data until it fills an
+    entire packet before sending it over the network.
+
+    \item Enabling compression gave a very high gain in the measured network
+    throughput partly due to the messages subject for compression were XML
+    documents, which have a relatively high compression rate.
+
+\end{itemize}
+
+\subsection{AFRO}
+
+\gls{afro} is an edge proxy which offers different levels of \gls{qos} to Web
+services through performance monitoring and usage of the context-aware
+service provision paradigm\cite{ist-090}. It perform so called adaption actions, which
+modifies the SOAP XML messages by changing their encoding to more efficient data
+representation. It also cuts out information that is accepted to be removed by
+the service requester.
+
+However, since the proxy modifies the data being sent, the digital signature of
+the data is also changed. In applications where we want to be sure that no one
+has tampered with the data before arriving, checksums are often used.
+Consequently this solution would not work for such applications.
+
 
 \section{Tuning application server parameters}
 
@@ -176,71 +283,6 @@ actually had any significant impact on the performance of the Web Service.
 However, they identified HTTP Chunking configuration as having the most impact
 on the performance. It significantly improved the performance in different types
 of networks and for both SOAP and RESTful Web services.
-
-
-\section{Proxy optimization}
-
-One of the recommendations of IST-090 was the usage of proxies. This
-recommendation has been picked-up by other research group and a set of proxies
-for optimizing Web services in DIL networks already exist. However, many of them
-does not fulfill all the requirements we have for our proxy. Some of them does
-only support SOAP Web services and others are unusable due to security reasons.
-This section lists and discuss previous implementations of such proxies.
-
-\subsection{\glsentrylong{dsproxy}}
-
-\gls{dsproxy} is a proxy solution developed by
-\gls{ffi}\cite{dsproxy-ffi}\cite{ieee-dsproxy}. Its goal was to enable the usage
-of unmodified standard W3C Web services (SOAP over HTTP/TCP) in DIL
-environments. The concept was to route all SOAP messages through the proxy. When
-the proxy received a message, it was stored locally before it was forwarded. If
-the forwarding failed, it could retry the request until it eventually succeeded.
-This ability, called \textit{store-and-forward}, was one of the fundamental core
-functionalities of \gls{dsproxy}. When a request eventually succeeded, the
-response was returned to the client on the original TCP connection initiated by
-the client. By doing this, Web service invocations was made possible over
-unreliable networks by hiding any network disruptions from the client.
-
-\begin{figure}[h]
-\includegraphics[scale=0.35]{images/dsproxy.pdf}
-\caption{DSProxy overlay network (from \cite{ieee-dsproxy} )}
-\label{figure:dsproxy}
-\end{figure}
-
-Another core functionality of DSProxy was mechanisms for organizing an overlay
-network consisting of multiple proxy instances as seen in \cref{figure:dsproxy}.
-This enabled the ability to traverse multiple and heterogeneous networks, but
-also added a lot of complexity to the proxy application. Apart from the
-mentioned core functionalities, DSProxy supported a set of pluggable
-functionalities such as GZIP compression and caching.
-
-After performing experiments using the DSProxy, the researcher identified the
-store-and-forward ability as very important in unreliable networks in order to
-avoid having to re-establish end-to-end connections each time the network
-connections was lost\cite{dsproxy-ffi}. The downsides with DSProxy was that it
-only supported W3C Web services, which leaved other types of Web services out of
-the picture. Moreover, it became very complex due to its mechanisms for building
-overlay networks and supporting different configurations and plugins.
-
-\subsection{AFRO}
-
-\gls{afro} is an edge proxy which offers different levels of \gls{qos} to Web
-services through performance monitoring and application of the context-aware
-service provision paradigm\cite{ist-090}. It perform so called adaption actions, which
-modifies the SOAP XML messages by changing their encoding to more efficient data
-representation. It also cuts out information that is accepted to be removed by
-the service requester.
-
- However, since the proxy modifies the data being sent, the digital signature of
- the data is also changed. In applications where we want to be sure that no one
- has tampered with the data before arriving, checksums are often used.
- Consequently this solution would not work for such applications.
-
-
-\subsection{Suri}
-To be done.
-%https://www.researchgate.net/profile/Niranjan_Suri/publications
-
 
 
 \section{Summary}

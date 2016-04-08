@@ -117,7 +117,7 @@ out of local Ethernet.
 
 \subsubsection{Data rate}
 
-\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
+\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-data-rate]
   tc qdisc add dev eth0 handle 1: \
     root tbf rate 50kbit burst 15000 limit 15000
 \end{lstlisting}
@@ -127,7 +127,7 @@ out of local Ethernet.
 The corrupt rate allows us to insert random data into a chosen percent of
 packets.
 
-\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
+\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-error-rate]
   tc qdisc add dev eth0 parent 1:1 handle 10: \
     netem delay 100ms corrupt 20%
 \end{lstlisting}
@@ -159,7 +159,7 @@ military radios. The machines used for testing is listed in
 \cref{table-machines}.
 
 \begin{table}[h]
-\begin{tabular}{| l | l | l | l |}
+\begin{tabularx}{\textwidth}{| l | X | X | X |}
 \hline
   \textbf{Machine} & \textbf{Client} & \textbf{Application server} & \textbf{Router}\\ \hline
   Model & Asus UX 31A Notebook & HP EliteBook 6930p & HP Compaq Elite 8000 \\ \hline
@@ -170,7 +170,7 @@ military radios. The machines used for testing is listed in
   Memory & 4 GB & 4 GB & 12 GB\\ \hline
   Network hardware & ASIX AX88772 USB 2.0 & 82567LM Gigabit & 82567LM-3 Gigabit\\ \hline
   Network interface capacity & 100 Mbit/s & 1 Gbit/s & 1 Gbit/s \\ \hline
-\end{tabular}
+\end{tabularx}
 \caption{Machines involved in the testing}
 \label{table-machines}
 \end{table}
@@ -583,6 +583,12 @@ CoAP has the best performance.
 \center
 \includegraphics[scale=0.75]{../results/cnr/rest/result.pdf}
 \caption{REST results}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[scale=0.75]{../results/cnr/size/result.pdf}
+\caption{Size request results}
 \end{figure}
 
 

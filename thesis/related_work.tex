@@ -223,7 +223,7 @@ several factors:
 services through performance monitoring and usage of the context-aware
 service provision paradigm\cite{ist-090}. It perform so called adaption actions, which
 modifies the SOAP XML messages by changing their encoding to more efficient data
-representation. It also cuts out information that is accepted to be removed by
+representation. \gls{afro} also removes information that is acceptable to be removed by
 the service requester.
 
 However, since the proxy modifies the data being sent, the digital signature of
@@ -242,8 +242,6 @@ FFI\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}, they
 investigated how tuning the server parameters of the application server
 Glassfish affected the performance of both \gls{rest} and SOAP Web services.
 They identified a number of key HTTP and TCP tuning parameters:
-
-
 
 \paragraph{HTTP Timeout} Controls how long a HTTP connection can be deemed as
 idle and kept in the "keep-alive" state. Having a to low timeout on networks
@@ -288,29 +286,38 @@ of networks and for both SOAP and RESTful Web services.
 \section{Summary}
 
 In this chapter we looked into efforts previously undertaken in order to improve
-the performance of Web services in networks with the DIL characteristics. We
-identified compression with EFX as proven technique to reduce the size of
-messages sent over the network. Next, we looked into the paper IST-090 and the
-challenges that comes with DIL networks. We saw how IST-090 pointed to the usage
-of proxies. Furthermore, we investigated previous attempts with the usage of
-alternative transport protocols, before we looked into previous efforts in the
-area of tuning application server parameters. Finally, we discussed previously
-developed proxies for DIL networks and discovered that they do not fulfill all
-the requirements that we have. Proxies previously created are either limited to
-SOAP-based Web services or are inadequate to be used due to security reasons.
+the performance of Web services in networks with the DIL characteristics. The
+most important findings are summarized in \cref{table:related-work-summary}. We
+first looked into the work of the research groups IST-090 and IST-118, and saw
+how they identified end-to-end connections and Web service overhead as major
+issues for enabling Web services in DIL environments. To overcome this they
+recommended the usage of proxies and several techniques for reducing the
+overhead. We identified GZIP and EFX with zipping as important
+compression techniques to reduce the size of Web service messages sent over a
+network. Next, we looked into previously developed proxies for DIL networks.
+Although many of them showed promising results, some of their properties did not
+fulfill the premises for this thesis. They were either limited to SOAP-based Web
+services or are inadequate to be used due to security reasons.However, we
+identified some of their techniques that we carry on in the proxy developed in
+this thesis.
+
+Finally, we investigated previous attempts with the usage of alternative
+transport protocols, before we looked into previous efforts in the area of
+tuning application server parameters.
 
 %%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X |}
 \hline
-  \textbf{Protocol Stack} & \textbf{optimization possibilities} \\ \hline
-  The application & Optimize the application\\ \hline
-  Web service messaging: SOAP & Optimize SOAP, e.g XML compression \\ \hline
-  HTTP/TCP, UDP or other transport protocols & SOAP is transport agnostic. Other
-  protocols can be used. \\ \hline
-  IP & NATO NEC feasibility study states that all protocols should be over IP. \\
-  \hline
-  Lower layers & Not in the scope of this thesis. \\ \hline
+  \textbf{DIL Issue} & \textbf{Findings} \\ \hline
+
+  Reduce Web service overhead  & Use compression techniques like GZIP or EFX
+  with zip.\\ \hline
+
+  End-to-end connection dependency & Use proxies. \\ \hline
+
+  Alternate transport protocols & Summary here. \\ \hline
 \end{tabularx}
-\caption{Optimization possibilities.} \label{table:optimalization-overview}
+\caption{Related work summary.}
+\label{table:related-work-summary}
 \end{table}

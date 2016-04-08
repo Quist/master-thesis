@@ -1,27 +1,35 @@
 \chapter{Requirement Analysis}
 
-In this chapter we discuss the requirements for the proxy being developed as a
-part of this thesis. Those requirements build on the scope and premises
-discussed in the introduction. To recap, these defining premesis were:
+In this chapter we discuss the requirements for optimization techniques aiming
+at enabling Web services in DIL environments. These requirements build on the
+scope and premises discussed in the introduction. To recap, the defining
+premises were:
 
 \begin{enumerate}
-    \item Support both REST and Web service communication between machines connected in a DIL network.
-    \item Work on top of the IP-layer.
-    \item All optimization techniques must be placed in a proxy, and not in the Web service applications themselves.
+    \item Support RESTful and W3C Web services.
+    \item Work in \gls{dil} networks.
+    \item Interoperable with standardized solutions(COTS).
+    \item Work with security mechanisms.
 \end{enumerate}
+
+Based on previous research, in particular the work of the \gls{nato}
+research groups IST-090 and IST-118, we are in thesis building a proxy solution
+supporting these premises. In the following sections we discuss the specific requirements
+for this approach.
 
 \section{HTTP Proxy}
 
-The first requirement implies that our proxy must accept HTTP, as this is the
-far most used Web service protocol. Our proxy must be able to accept a HTTP
-requests from a Web service, forward it to the other proxy, which in turn
-delivers it to the intended receiver. The communication between the proxies are
-not required to be HTTP, but rather a protocol than deals with DIL networks in a
-better way. However, since ultimately a HTTP request should be delivered to the
-intended receiver, the HTTP properties must be retained. This means that the
-proxy must preserve the HTTP Method and HTTP headers. Also, since REST is
-payload agnostic, the proxy must be able to support different types of data
-being sent through it(XML, JSON etc.).
+The first premise implies that our proxy must accept HTTP, as this is the far
+most used Web service protocol. Furthermore, the third and forth premises have
+some important important implications for our proxy. Our proxy must be able to
+accept a HTTP requests from a Web service, forward it to the other proxy, which
+in turn delivers it to the intended receiver. The communication between the
+proxies are not required to be HTTP, but rather a protocol than deals with DIL
+networks in a better way. However, since ultimately a HTTP request should be
+delivered to the intended receiver, the HTTP properties must be retained. This
+means that the proxy must preserve the HTTP Method and HTTP headers. Also, since
+REST is payload agnostic, the proxy must be able to support different types of
+data being sent through it(XML, JSON etc.).
 
 Furthermore, the proxy must be able to handle the difficult network conditions
 of DIL. The specific requirements are outlined in the following sections.
@@ -64,7 +72,7 @@ It must handle very low data rates.
 
 In order to perform compression the proxy must be able to modify the payload of
 the message. Due to security mechanisms that detect changes to the
-payload(checksums), the payload must be restored back to its original form
+payload (digital signatures), the payload must be restored back to its original form
 before being forwarded to the final receiver.
 
 \subsection{Proxy protocol communication}
@@ -105,4 +113,4 @@ summarized here:
     \item Support usage of HTTP, AMQP and CoAP between proxies.
 \end{enumerate}
 
-Next we discuss the design and implementation of our proxy.
+Next, we discuss the design and implementation of our proxy.

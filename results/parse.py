@@ -46,7 +46,7 @@ def parse_result_set(path):
     results = []
 
     result = parse_results(path + "default/default", "Without proxy")
-    plotdata = "%-16s %-24d%-8d\n" %("\"Default\"", result.mean, 0)
+    plotdata = "%-16s %-24d%-8d\n" %("\"Without Proxy\"", result.mean, 0)
     plotfile.write(plotdata);
     results.append(result)
 

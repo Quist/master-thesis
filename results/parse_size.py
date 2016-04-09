@@ -24,7 +24,7 @@ def parse_result(path):
         content = f.readlines()
 
         if content[0] == 'timeout\n':
-            result.mean = 0
+            result.mean = "-"
             pass
         else :
             result.n = re.findall("\d+", content[0])[0]
@@ -51,19 +51,20 @@ def parse_protocol(path, printname, target):
     return result
 
 
-
 def parse_size_results(path) :
     print("Parsing path %s" % path)
     plotfile = open(path + "result.plot", 'w')
-    plotfile.write("Protocol\t\t\"1 byte\"\t\"2500 bytes\"\t \"100000 bytes\"\n")
+    plotfile.write("%-10s%-10s%-10s%-10s\n" % ("Bytes", "Default", "HTTP", "AMQP"))
 
     results = []
     results.append(parse_protocol(path + "default/", "Default", "default"))
     results.append(parse_protocol(path + "http/", "HTTP", "http"))
     results.append(parse_protocol(path + "amqp/", "AMQP", "amqp"))
 
-    for result in results:
-        plotdata = "%-16s %-12d %-16d%-8d\n" %(result.name, result.results[0].mean, result.results[1].mean, result.results[2].mean)
+    tests = ["1 Byte", "2500 Bytes", "100000 Bytes"]
+
+    for i in range(0,3):
+        plotdata = "%-16s %-12s %-16s%-8s\n" %( "\"%s\"" % tests[i], results[0].results[i].mean, results[1].results[i].mean, results[2].results[i].mean)
         plotfile.write(plotdata)
 
     write_latex_table(results, path)

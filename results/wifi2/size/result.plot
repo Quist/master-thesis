@@ -1,4 +1,4 @@
-Protocol		"1 byte"	"2500 bytes"	 "100000 bytes"
-Default          3426         4637            0       
-HTTP             441          1254            19515   
-AMQP             5490         5186            0       
+Bytes     Default   HTTP      AMQP      
+"1 Byte"         3426         441             5490    
+"2500 Bytes"     4637         1254            5186    
+"100000 Bytes"   -            19515           -       

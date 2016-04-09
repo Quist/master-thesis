@@ -65,7 +65,7 @@ are summarized in \cref{table-network-types}.
   \textbf{Network} & \textbf{Data Rate} & \textbf{Delay} & \textbf{PER} \\ \hline
   Satellite Communication & 250 kbps & 550 ms & 0 \% \\ \hline
   Line of Sight & 2 mbps & 5 ms & 0 \% \\ \hline
-  Wireless Fidelity (WiFi) 1 & 2 mbps & 100 ms & 1 \% \\ \hline
+  WiFi 1 & 2 mbps & 100 ms & 1 \% \\ \hline
   WiFi 2 & 2 mbps & 100 ms & 20 \% \\ \hline
   Combat Net Radio with Forward Error Correction & 9.6 kbps & 100 ms & 1 \% \\ \hline
   Edge & 50/200 kbps & 200 ms & 0 \% \\ \hline
@@ -217,12 +217,14 @@ network configuration, a bash script is run. This script configures the
 network interfaces in order to get the correct network behaviour. Both
 interfaces are configured so the network is symmetrical in both directions.
 
-\subsection{Military Radio Setup}
+\subsection{Tactical Broadband Setup}
 
 Although testing on regular machines with emulated network gives us a good
-indication, to get as realistic results as possible we also performed tests on
-military communication equipment. The setup is illustrated in
-\cref{figure-radio-testing-environment}.
+indication, to validate the results we also performed tests on military
+communication equipment. The setup is illustrated in
+\cref{figure-radio-testing-environment}. It is point-to-point setup with two
+radios, without any multi hop functionality. The radios have capacity to work as
+a multi hop \gls{manet}, but this was not tested in this thesis.
 
 \begin{figure}[h]
 \centering
@@ -345,7 +347,7 @@ without proxies has the best performance in this unlimited network.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/function_tests/nffi/out.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]
@@ -389,7 +391,7 @@ reestablished.
   Proxy with AMQP & Success \\ \hline
   Proxy with CoAP & Success \\ \hline
 \end{tabular}
-\caption{W3C Web service results}
+\caption{NFFI Web service results}
 \end{table}
 
 \begin{table}[h!]
@@ -471,7 +473,7 @@ similar performance to HTTP proxies.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/satellite/nffi/result.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]
@@ -497,7 +499,7 @@ CoAP performs better than default and HTTP with compressed messages.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/los/nffi/out.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]
@@ -524,7 +526,7 @@ REST tests.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/wifi1/nffi/out.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]
@@ -553,7 +555,7 @@ HTTP. HTTP proxies with compression yielded the best results.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/wifi2/nffi/result.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]
@@ -576,7 +578,7 @@ CoAP has the best performance.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/cnr/nffi/result.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]
@@ -601,7 +603,7 @@ About this type of network.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/edge/nffi/result.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]
@@ -622,7 +624,7 @@ For NFFI tests, compression yields a lot of increase in performance.
 \begin{figure}[H]
 \center
 \includegraphics[scale=0.75]{../results/kongsberg/nffi/out.pdf}
-\caption{W3C Web services results}
+\caption{NFFI Web service results}
 \end{figure}
 
 \begin{figure}[H]

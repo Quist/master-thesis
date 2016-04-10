@@ -566,8 +566,8 @@ HTTP. HTTP proxies with compression yielded the best results.
 
 \subsection{Combat Net Radio with Forward Error Correction}
 
-This type of network is characterized by very low data rate, moderate timeout
-and packet error rate on around 1 \%.
+\gls{cnr} is characterized by very low data rate, moderate timeout and packet
+error rate on around 1 \%.
 
 
 \subsubsection{Results and analysis}
@@ -646,3 +646,18 @@ to the discussion and conclusion in the next chapter.
 \item CoAP struggles with larger messages.
 \item CoAP has the best performance with smaller messages in networks with low data rate.
 \end{itemize}
+
+\begin{table}[h]
+\begin{tabular}{| l | l | l |}
+\hline
+  \textbf{Network} & \textbf{NFFI Web service recommendation} & \textbf{REST service recommendation}\\ \hline
+  \gls{satcom} & AMQP Proxy & 550 ms \\ \hline
+  \gls{los} & X & X\\ \hline
+  WiFi 1 & X & X \\ \hline
+  WiFi 2 & X & X \\ \hline
+  \gls{cnr} & X & X \\ \hline
+  Edge & X & X\\ \hline
+\end{tabular}
+\caption{Recommendations}
+\label{table-evaluation-summary}
+\end{table}

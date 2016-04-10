@@ -3,11 +3,11 @@
 Before diving into the design and implementation of the proxy developed in this
 thesis, in this chapter we present the technical background of the central
 concepts and protocols. We first give an introduction to computer networks in
-general and how they are organized. Next, we discuss common Web services used
-for exchanging data in military systems. Then we look into a number of protocols
-that we can replace HTTP/TCP with in order to increase the performance of Web
-services. Finally, we introduce the concept of performance testing and network
-metrics.
+general and how they are organized. Then we look into two very common
+communication patterns. Next, we discuss common Web services used for exchanging
+data in military systems. Then we look into a number of protocols that we can
+replace HTTP/TCP with in order to increase the performance of Web services.
+Finally, we introduce the concept of performance testing and network metrics.
 
 \section{Network layers}
 
@@ -68,6 +68,32 @@ this layer. When we talk about application layer protocols, we talk about
 protocols that applications use to communicate with other applications.
 Application layer protocols use the communication services the transport layer
 provides.  Examples of application layer protocols is \gls{http} and \gls{ftp}.
+
+\section{Communication patterns}
+
+\subsubsection{Request-reply}
+
+Request-reply is a common message pattern where a requester sends a request to a
+system. The system then process the request and responds with a response
+message.
+
+\subsubsection{Publish-subscribe}
+
+Publish-subscribe is a message pattern where subscribers express their interest
+in a type of messages, often called topics or classes. A message publisher then
+creates messages of a certain class and publishes them without knowing who is
+actually subscribing to these types of messages. Many publish-subscribe system
+employs a \textit{message broker} as seen in \cref{figure-message-brokers}. The
+message broker handles published messages from publishers and receives
+subscriptions from subscribers. The broker can perform various tasks, such as
+message filtering and prioritize queuing.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{images/pubsub.pdf}
+\caption{Message Brokers}
+\label{figure-message-brokers}
+\end{figure}
 
 %%%%%%% WEB SERVICES
 \section{Web services}
@@ -283,14 +309,14 @@ some of the issues we may encounter working with it.
  information for each connection. This includes window size, socket information
  and sequence numbers.
 
-Computers supporting TCP has a piece of software which manages TCP streams and
+Computers supporting TCP have a piece of software which manages TCP streams and
 interfaces to the IP layer. Most often this software is a part of the
 kernel\cite{computer-networks}. It accepts data streams from local processes,
 and breaks them up into pieces, before sending them to the IP layer. The pieces
 are called TCP segments, which consist of a fixed 20 byte header, followed by
-zero or more data byte. The TCP software decide how big the segment should be,
+zero or more data byte. The TCP software decides how big the segments should be,
 but for performance reasons they should not exceed the \gls{mtu} of the link(the
-physical network). Each segment should be so small that they can be sent in a
+physical network). Each segment should be so small that it can be sent in a
 single, unfragmented package over the entire network. This usually limits the
 size of each segment to the \gls{mtu} of the Ethernet, which is 1500 bytes.
 
@@ -309,7 +335,7 @@ factor may come in to play. For those reasons, we have to accept that some of
 the data will be damaged, lost, duplicated or delivered out of order.
 
 TCP recovers from such faults by assigning sequence number to each packet being
-sent. It then requires an positive acknowledgement from the receiver that the
+sent. It then requires a positive acknowledgement from the receiver that the
 data was actually received. If the acknowledgement is not received within a
 timeout interval, the data is transmitted again. For the receiver the sequence
 numbers are used to ensure that data is received in the correct order, as well
@@ -346,86 +372,70 @@ packet rate, then gradually increasing the packet rate. When TCP notice that a
 packet is eventually lost, it considers it as a sign of network congestion and
 reduces its packet rate.
 
-\section{Protocols for Tactical Networks}
+\subsection{Issues using TCP in DIL}
 \label{section:tcp-problems}
+
 DIL networks are characterized by their high delay, low data rate and relatively
 high error rate. Since TCP's congestion control interprets this as evidence of
 congestion, it will back off and use a lower data rate. This cause that TCP
-sends with a lower rate than the network actually can provide. Furthermore it
+sends with a lower rate than the network actually can provide. Moreover, it
 could also ultimately lead to the TCP connection terminating due to those
 effects\cite{nato-disadvantaged-grids}.
 
-For those reasons we're in this thesis looking into alternative protocols and
-other optimization techniques. In networks with low data rate, protocols with
-low overhead per IP packet is beneficial. With frequents disconnects, protocols
-that are connection-less may be more suitable than connection-oriented. One
-important limitation is that NATO has chosen the "everything over IP", which
-means that all optimization must occur on the top of the network layer. Of this
-follows that we will evaluate protocols in the transport and application layer
-of the Internet Protocol Suite.
 
-In the following sections we will give a short
-introduction to the protocols we're investigating in this thesis. The protocols
-have been selected because of their prevalence in the civil and military world
-or their reported performance in the "Internet of Things". These protocols are
-from two different paradigms:
+\section{Protocols of Interest}
 
-\subsubsection{Request-reply}
+Since \gls{tcp} may be sub-optimal or even break down entirely in DIL networks,
+we're in this thesis looking into alternative protocols and other optimization
+techniques. In networks with low data rate, protocols with low overhead per IP
+packet is beneficial. With frequents disconnects, protocols that are
+connection-less may be more suitable than connection-oriented. One important
+limitation is that NATO has chosen the "everything over IP", which means that
+all optimization must occur on the top of the network layer. Of this follows
+that we will evaluate protocols in the transport and application layer of the
+Internet Protocol Suite.
 
-Request-reply is a common message pattern where a requester sends a request to a
-system. The system then process the request and responds with a response
-message.
-
-\subsubsection{Publish-subscribe}
-
-Publish-subscribe is a message pattern where subscribers express their interest
-in a type of messages, often called topics or classes. A message publisher then
-creates messages of a certain class and publishes them without knowing who is
-actually subscribing to these types of messages. Many publish-subscribe system
-employs a \textit{message broker} as seen in \cref{figure-message-brokers}. The
-message broker handles published messages from publishers and receives
-subscriptions from subscribers. The broker can perform various tasks, such as
-message filtering and prioritize queuing.
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.6]{images/pubsub.pdf}
-\caption{Message Brokers}
-\label{figure-message-brokers}
-\end{figure}
-
-\paragraph{}
-
- We'll get started by discussing \gls{udp}, which alongside \gls{tcp} is one of
- the core protocols of the Internet protocol suite.
+In the following sections we will give a short introduction to the protocols
+we're investigating in this thesis. The protocols have been selected because of
+their prevalence in the civil and military world or their reported performance
+in the "Internet of Things". We'll get started by discussing \gls{udp}, which
+alongside \gls{tcp} is one of the core protocols of the Internet protocol suite.
 
 
 \subsection{\glsentrylong{udp}}
 
-The Internet has two main protocols in transport layer, \gls{udp} and \gls{tcp}.
-They have fundamentally different characteristics and use cases, which we go
-through in this section. \gls{udp} was formally defined in 1980 in RFC
-768\cite{rfc-udp} and is a more simpler protocol than \gls{tcp}. It sends
+The Internet has two main protocols in the transport layer, namely \gls{udp} and
+\gls{tcp}. They have fundamentally different characteristics and use cases,
+which we go through in this section. \gls{udp} was formally defined in 1980 in
+RFC 768\cite{rfc-udp} and is a more simpler protocol than \gls{tcp}. It sends
 messages, called datagrams, to nodes over the \gls{ip} network. While \gls{tcp}
 provides reliable transmission along with flow control and congestion control,
-does UDP only support the sending of IP datagrams. Furthermore it is a connectionless
-protocol, which means that the protocol can send messages \textit{without} first
-establishing a connection. Since \gls{udp} does not provide guaranteed delivery
-or in-order delivery of messages, it should only be used by applications that
-does not require this.
+does UDP only support the sending of IP datagrams. Furthermore it is a
+connectionless protocol, which means that the protocol can send messages
+\textit{without} first establishing a connection. Since \gls{udp} does not
+provide guaranteed delivery or in-order delivery of messages, it should only be
+used by applications that does not require this.
 
 To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller
-headers and less overhead, which makes it a faster protocol. The downside is that
-is does not provide any mechanisms for reliability. However, it is worth to note
-that applications can build their own reliability on top of \gls{udp}. This is
-done by the next protocol we're looking into.
+headers and less overhead, which makes it a faster protocol. The downside is
+that it does not provide any mechanisms for congestion control or reliability.
+UDPs lack of end-to-end congestion control may result in drastic unfairness if
+an \gls{udp} stream are competing with a \gls{tcp}
+stream\cite{floyd-congestion}. While a TCP stream will detect congestion and
+back-down its traffic, an UDP stream will greedly send at full-throttle, thus
+causing an unfair share of the available network. UDP is therefore often
+referred to as not \textit{TCP-Friendly}.
+
+ It is worth noting that UDPs lack of reliability may by handled on a higher
+ level in the application stack on top of \gls{udp}. This is done by the next
+ protocol we're looking into.
 
 \subsection{\glsentrylong{coap}}
 
 \gls{coap} is a specialized Web transfer protocol designed for use with
 constrained nodes and  networks\cite{rfc-7252}. It is designed for
 machine-to-machine applications, typically in the Internet of Things.
-Furthermore it is designed with an similar interface as HTTP, in order to easily
+Furthermore it is designed with a similar interface as HTTP, in order to easily
 integrate with Web services. \gls{coap} is based on the REST model, where the
 server makes resources available  under a resource identifier(URI). Clients
 access these resources using the HTTP-verbs GET, PUT, POST and DELETE. CoAP main
@@ -462,19 +472,20 @@ guarantee delivery, \gls{coap} provide mechanisms for optional reliability.
 
 \subsection{\glsentrylong{amqp}}
 
-\gls{amqp} is an application layer protocol for sending messages. It support
-both request/response and the publish/subscribe communication paradigms. AMQP
-uses TCP for reliable delivery.
+The \glsentrylong{amqp} is an application layer protocol for sending messages.
+It support both request/response and the publish/subscribe communication
+paradigms. AMQP uses \gls{tcp} as its underlying reliable transport layer
+protocol.
 
  An important observation about AMQP is that it has two major versions which are
  fundamentally different, version 0.9.1 and 1.0. The latter has been
  standardized by \gls{oasis}\cite{oasis-amqp}, and is a  more narrow protocol as
  it only defines the network wire-level protocol for the exchange of messages
- between two endpoints. Wire-level protocols refers to the means for a
- application running at one machine to communicate with an application running
- at another machine using the Internet. Another difference between the versions
- is that version 1.0 does not specify the details of broker implementation. We
- investigate version 1.0 since it is the newest and has been standardized.
+ between two endpoints. Wire-level protocols refers to the description of the
+ format of data sent over a network in form of bytes. Another difference between
+ the versions is that version 1.0 does not specify the details of broker
+ implementation. We investigate version 1.0 since it is the newest and has been
+ standardized.
 
 An AMQP network consist of nodes connected via \textit{links}. Nodes can be
 producers, consumers and queues. Producers generate messages, consumers process
@@ -491,9 +502,9 @@ connection-oriented protocol. A connection is divided into independent
 unidirectional \textit{channels}. AMQP \textit{session} correlates two
 unidirectional channels to form a bidirectional, sequential conversation between
 two containers. To establish an connection the first operation is to
-establishing a TCP connection between the nodes. Then the protocol header are
+establishing a TCP connection between the nodes. Then the protocol header is
 exchanged, allowing the nodes agree on a common protocol version. This is
-exchanged in plaintext (not in AMQP frame). The message itself is sent with the
+exchanged in plaintext (not in a AMQP frame). The message itself is sent with the
 \textit{transfer} frame. Larger messages can be split into multiple frames.
 
 
@@ -563,11 +574,11 @@ packets, listed in \cref{table:mqtt-packets}. Only \textit{exactly once}
 
 \subsection{\glsentrylong{sctp}}
 
-\gls{sctp} is transport-layer protocol, which offers functionality from both
-\gls{udp} and \gls{tcp}\cite{rfc-sctp}. The motivation behind the protocol was
-that many developers found TCP too limiting, but still required more reliability
-that UDP could provide. \gls{sctp} tries to solve these issues. It is
-message-oriented like UDP, but ensure reliable, in sequence transport of
+The \glsentrylong{sctp} is transport-layer protocol, which offers functionality
+from both \gls{udp} and \gls{tcp}\cite{rfc-sctp}. The motivation behind the
+protocol was that many developers found TCP too limiting, but still required
+more reliability that UDP could provide. \gls{sctp} tries to solve these issues.
+It is message-oriented like UDP, but ensure reliable, in sequence transport of
 messages with congestion control like TCP. \gls{sctp} is a connection-oriented
 protocol and provide features like multi-homing and multi-streaming.
 Multi-homing is the possibility to use more than one network path between two

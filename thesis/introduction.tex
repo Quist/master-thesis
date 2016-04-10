@@ -168,7 +168,8 @@ environments, which is the term we use in this thesis.
 
 To improve the performance of Web services in limited military networks, it is
 important to understand the limitations we're dealing with. The \gls{dil}
-concept refers to three characteristics of a limited network: \textit{Disconnected, Intermittent} and \textit{Limited}.
+concept refers to three characteristics of a limited network:
+\textit{Disconnected, Intermittent} and \textit{Limited}.
 
 \begin{description}
 \item[Disconnected]
@@ -184,16 +185,19 @@ disconnected for a long time, possibly for multiple hours and even days.
 Nodes in a \gls{dil} environment may lose connection temporarily before
 reconnecting again. The duration can range from milliseconds to seconds. As an
 example, consider a military vehicle driving on a countryside road. It may
-temporary loose connection due to the signal being obstructed by trees beside
+temporary lose connection due to the signal being obstructed by trees beside
 the road, driving into tunnels or simply having a bad radio signal.
 
-\item[Limited] Limited refers to various way a network can be limited. The Data
+\item[Limited] Limited refers to various ways a network can be limited. The Data
 rate may be low, the network delay may be high and the \gls{per} may be high.
 The term data rate refers to the amount of data that can be transmitted over a
 network per unit of time. Delay refers to the time it takes for a bit of data to
 travel across the network from machine to machine. \gls{per} means the number of
 incorrectly received packets divided by the total number of received packets. A
 packet is considered as incorrect if at least one bit is transmitted erroneous.
+
+In addition to network limitations, other factors may also restrict the
+communication for military units. These are discussed in the next section.
 
 
 \end{description}
@@ -280,28 +284,31 @@ communicate as normal, while all network traffic is tunneled through a proxy.
 The Web service itself does not need to pay attention to the bad connectivity,
 the proxy will choose the appropriate protocol and configuration.
 
-\section{Premises of thesis}
+\section{Premises of the Thesis}
 
 In this section we define the premises for the thesis and the proxy being
-developed as a part of this thesis. As we have previously discussed, W3C Web
-services are in widespread in use NATO, and the REST architectural style
-has identified as a technology of interest to NATO. The first and second
-premise is therefor that the proxies must support both REST and Web service
-communication between machines connected in a DIL network. Next, in order to
-optimize Web services in DIL environments, the applications themselves should
-not be required to be customized, all optimization should be placed in proxies.
-This retains the interoperability with standardized solutions(COTS). The forth
-and final premise is that the proxy must work with standard security mechanisms.
-In our case this means that any messages sent through the proxies, must be
-exactly the same at the receiver as it would have been without the proxies. This
-is due to both the header fields and the body of the message can be part of
-security mechanisms, such as checksums and the presence of authentication header
-fields.
+developed as a part of it. As we have previously discussed, W3C Web
+services are in widespread use in NATO. Also the REST architectural style has
+been identified as a technology of interest to NATO. As we discuss later in
+\cref{web-services}, \gls{http} is the by far most common transport protocol
+used by these type of services. The first and second premise is therefore that
+the proxy must be able to support both \gls{http} REST and Web service communication
+between machines connected in a DIL network.
+
+Next, in order to optimize Web services in DIL environments, the applications
+themselves should not be required to be customized, all optimization should be
+placed in proxies. This retains the interoperability with standardized solutions
+(COTS). The forth and final premise is that the proxy must work with standard
+security mechanisms. In our case this means that any messages sent through the
+proxies, must be exactly the same at the receiver as it would have been without
+the proxies. This is due to both the header fields and the body of the message
+can be part of security mechanisms, such as digital signatures and the presence
+of authentication header fields.
 
 To summarize, the premises of this thesis are listed here:
 
 \begin{enumerate}
-    \item Support RESTful and W3C Web services.
+    \item Support HTTP RESTful and W3C Web services.
     \item Work in DIL networks.
     \item Interoperable with standardized solutions(COTS).
     \item Work with security mechanisms.
@@ -312,27 +319,24 @@ To summarize, the premises of this thesis are listed here:
 The goal of this thesis is to investigate optimization techniques for Web
 services in \gls{dil} environments. We limit it to techniques that can be
 applied at the application or the transport layer of the Internet protocol
-suite(see \cref{figure-network-layers}). The reason for this is that NATO has
+suite (see \cref{figure-network-layers}). The reason for this is that NATO has
 previously decided "everything over IP", a statement describing that all data
 communication in NATO should occur with IP packets\cite{nnec-study}. We
 therefore limit our optimization possibilities to the mentioned layers.
 
-Since we focus on performance of Web services in this thesis, security is not
-addressed. However, applications that are to be used in military
-networks need to be approved by security authorities. If the application is too
-complex, e.g. it has a very large code base or use a lot of external frameworks,
-the approvement process can be very lengthy. It is therefore a important
-consideration to make the proxy as relatively simple as possible.
-
-Finally, the proxy implemented as a part of this thesis, only accepts \gls{http}
-as input from the Web services. As we discuss later in \cref{web-services}, this
-is a fair limitation since most Web services use \gls{http} to communicate with
-other applications.
+Since we focus on performance of Web services, security is not the main focus in
+this thesis. However, any optimization techniques applied should be possible to
+use together with common security mechanisms. Another aspect is that
+applications that are to be used in military networks, need to be approved by
+security authorities. If the application is too complex, e.g. it has a very
+large code base or use a lot of external frameworks, the approvement process can
+be very lengthy. It is therefore a important consideration to make the proxy as
+relatively simple as possible.
 
 
 \section{Research Methodology}
-Denning.
 
+Research is the systematic investigation of how to find answers to a specific problem.
 
 \section{Contribution}
 

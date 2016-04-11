@@ -1,4 +1,36 @@
 \begin{appendices}
+
+\chapter{Network emulating}
+
+\label{appendix-netem-scripts}
+
+This appendix lists the different scripts that was used to emulate the different
+types of networks.
+
+\section{\gls{satcom}}
+
+\begin{lstlisting}[frame=single, caption="Emulating SATCOM", label=listing-netem-delay]
+  tc qdisc add dev eth0 parent 1:1 handle 10: \
+    netem delay XX ms
+\end{lstlisting}
+
+\section{\gls{los}}
+Placeholder
+
+\section{WiFi 1}
+Placeholder
+
+\section{WiFi 2}
+Placeholder
+
+\section{\gls{cnr}}
+Placeholder
+
+\section{\gls{edge}}
+Placeholder
+
+
+
 \chapter{Results}
 
 \section{Function tests}

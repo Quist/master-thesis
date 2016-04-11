@@ -214,6 +214,7 @@ to avoid being detected by the enemy. During such circumstances the soldiers
 may only receive data, but not send any.
 
 \section{A suggested solution}
+\label{section:hypothesis}
 
 The Web service technology enables interoperability between systems, but also
 increase the information overhead, requiring higher data rate demands. Employing
@@ -263,6 +264,8 @@ overcome network disruptions.
 
 
 \section{Problem Statement}
+\label{section:problem-statement}
+
 Most of the Web service solutions used today are aimed for civilian use and do
 not necessarily perform well in military environments. In contrast to civilian
 networks where the date rate is abundant, mobile tactical networks may suffer
@@ -336,7 +339,68 @@ relatively simple as possible.
 
 \section{Research Methodology}
 
-Research is the systematic investigation of how to find answers to a specific problem.
+Research is the systematic investigation of how to find answers to a specific
+problem. It is broadly classified into \textit{Basic Research} and
+\textit{Applied Research}\cite{rajasekar2006research}. Basic research, also
+called fundamental or pure research, is research on basic principles and reasons
+for occurrence of a particular event or process or phenomenon. It does not
+necessarily have any practical use. Applied research on the other hand is
+concerned about solving problems employing well known and accepted theories and
+principles. In this thesis we set out to solve an actual real-world problem of
+optimizing Web services, thus we performed applied science. To solve this
+problem we needed a systematic approach of how to perform the research. This is
+referred  to as \textit{research methodology} and says something about how the
+research is to be carried out.
+
+In this thesis we're performing research in the area of Computer Science, which
+has been defined as\cite{denning}: \\
+
+\textit{The systematic study of algorithmic processes that
+describe and transform information: their theory, analysis, design, efficiency,
+implementation, and application}.
+
+\paragraph{}
+
+ \citeauthor{denning} have identified three main processes for the computer science
+ discipline, \textit{theory, abstraction} and \textit{design}\cite{denning}.
+ \textit{Theory} derives from mathematics discipline and applies to the areas of
+ computer science that rely on underlying mathematics. Examples of this are
+ the computer science areas of algorithms and data structures that involves
+ complexity and graph theory. The next process, \textit{abstraction}, deals with
+ modeling potential implementations. \textit{Design} is about the process of
+ specifying a problem, transforming the problem statement into a design
+ specification, and repeatedly inventing and investigating alternative solutions
+ until a reliable, maintainable, documented, and tested design is achieved.
+
+The research methodology used in this thesis is based on the design process. The four steps and the efforts undertaken in them are summarized here:
+
+\begin{description}
+
+    \item[Specify problem] The main focus of this thesis was how to improve the
+    performance of Web services in DIL networks. In order to do this it was
+    important to get a deep understanding of what the problem was really about,
+    and formulate a hypothesis. We formulated a problem statement in
+    \cref{section:problem-statement} and proposed a solution in
+    \cref{section:hypothesis}.
+
+    \item[Derive a design specification based on the requirements] Based on the
+    problem at hand and with the premises and scope of this thesis, we derived a
+    set of requirements and specifications in \cref{chapter:requirements}.
+
+    \item[Design and implement the system] When we had identified the
+    requirements for the optimization techniques, we designed and implemented
+    them. This step is elaborated in \cref{chapter:design}.
+
+    \item[Evaluate the system] When the optimization techniques were implemented
+    as a part of a prototype proxy, it was tested through a series of tests. The
+    purpose of this was to evaluate if we in fact were able to solve the problem
+    we set out to solve. This testing and evaluation is covered in
+    \cref{chapter:evaluation} and a conclusion is drawn in
+    \cref{chapter:conclusion}.
+
+\end{description}
+
+
 
 \section{Contribution}
 

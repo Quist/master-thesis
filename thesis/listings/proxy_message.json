@@ -1,0 +1,13 @@
+{
+	"path" : "http://myservce.com:8080/",
+	"method" : "POST",
+	"query" : "?wsdl",
+	"headers" : {
+		"Accept" : "Accept",
+		"User-Agent" : "myuseragent",
+		"Authorization" : "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=="
+	},
+	"body" : {
+		"<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+	}
+}

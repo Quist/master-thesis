@@ -182,6 +182,9 @@ We also performed an analysis of the network utilization using Wireshark. This w
 	\item Iperf3 measured data rate: 1.72/1.67 Mbits/sec.
 \end{itemize}
 
+
+\subsection{NFFI Web Service}
+
 \begin{table}[H]
 \begin{tabular}{llllr}
 \hline
@@ -198,12 +201,20 @@ We also performed an analysis of the network utilization using Wireshark. This w
 \caption{Mean response times of NFFI Web Service - WiFi 1 test}
 \end{table}
 
+\subsection{RESTful Car System}
 
 \begin{table}[H]
 \input{../results/wifi1/rest/result}
 \caption{Mean response times of RESTful Car System - WiFi 1 test}
 \end{table}
 
+\begin{table}[H]
+\input{../results/wifi1/rest/wireshark}
+\caption{Wireshark analysis of RESTful Car System - WiFi 1 test}
+\end{table}
+
+
+\subsection{Request Message}
 \begin{table}[H]
 \input{../results/wifi1/size/result}
 \caption{Mean response times of Request Message - WiFi 1 test}

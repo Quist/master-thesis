@@ -11,7 +11,7 @@ def write_latex_table(results, path):
     for result in results:
         data.append([result.name, "%s ms" % result.mean, result.deviation, result.variance, result.n])
 
-    latex_table = tabulate(data, headers=["Test","Mean", "Std. Deviation", "Variance", "Test runs"], tablefmt="latex")
+    latex_table = tabulate(data, headers=["Test","Mean", "STD", "Variance", "Test runs"], tablefmt="latex")
 
     latex_file = open(path + "result.tex", 'w')
     latex_file.write(latex_table)

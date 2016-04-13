@@ -8,7 +8,7 @@ def write_latex_table(results, path):
     data = []
 
     for result in results:
-        data.append([result.name, result.results[0].mean, result.results[1].mean, result.results[2].mean])
+        data.append([result.name, "%s ms" % result.results[0].mean, "%s ms" % result.results[1].mean, "%s ms" % result.results[2].mean])
 
     latex_table = tabulate(data, headers=["Protocol","1 byte", "2500 bytes", "100 000 bytes"], tablefmt="latex")
 

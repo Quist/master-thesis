@@ -10,7 +10,7 @@ def write_latex_table(results, path):
     for result in results:
         data.append([result.name, "%s ms" % result.results[0].mean, "%s ms" % result.results[1].mean, "%s ms" % result.results[2].mean])
 
-    latex_table = tabulate(data, headers=["Protocol","1 byte", "2500 bytes", "100 000 bytes"], tablefmt="latex")
+    latex_table = tabulate(data, headers=["Test","1 byte", "2 500 bytes", "100 000 bytes"], tablefmt="latex")
 
     print("Writing to file %s%s" %(path, "result.tex"))
     latex_file = open(path + "result.tex", 'w')
@@ -57,7 +57,7 @@ def parse_size_results(path) :
     plotfile.write("%-10s%-10s%-10s%-10s\n" % ("Bytes", "Default", "HTTP", "AMQP"))
 
     results = []
-    results.append(parse_protocol(path + "default/", "Default", "default"))
+    results.append(parse_protocol(path + "default/", "Without proxy", "default"))
     results.append(parse_protocol(path + "http/", "HTTP", "http"))
     results.append(parse_protocol(path + "amqp/", "AMQP", "amqp"))
 

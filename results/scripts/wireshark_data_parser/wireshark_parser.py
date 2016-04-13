@@ -1,7 +1,9 @@
 import argparse
+import os
 
 def write_header(outfile) :
-    with open("./table_header.tex") as f:
+    fn = os.path.join(os.path.dirname(__file__), 'table_header.tex')
+    with open(fn) as f:
          out = f.readlines()
          "".join(out)
          outfile.write("".join(out))

@@ -120,7 +120,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/satellite/rest/wireshark}
-\caption{Wireshark analysis of RESTful Car System - Satellite Test}
+\caption{Wireshark analysis of RESTful Car System - Satellite test}
 \end{table}
 
 \subsection{Request Message}
@@ -131,12 +131,14 @@ We also performed an analysis of the network utilization using Wireshark. This w
 \end{table}
 
 
-\section{Line-of-Sight tests}
+\section{Line-of-Sight Tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 11 ms.
 	\item Iperf3 measured data rate: 2.34/2.15 Mbits/sec.
 \end{itemize}
+
+\subsection{NFFI Web Service}
 
 \begin{table}[H]
 \begin{tabular}{llllr}
@@ -151,18 +153,25 @@ We also performed an analysis of the network utilization using Wireshark. This w
   Proxy with CoAP & 1359 ms & 45 & 1988 & 100 \\
   Proxy with CoAP \& GZIP & 262 ms & 36 & 1314 & 100 \\
 \end{tabular}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - LOS test}
 \end{table}
 
+\subsection{RESTful Car System}
 
 \begin{table}[H]
 \input{../results/los/rest/result}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - LOS test}
 \end{table}
 
 \begin{table}[H]
+\input{../results/los/rest/wireshark}
+\caption{Wireshark analysis of RESTful Car System - LOS test}
+\end{table}
+
+\subsection{Request Message}
+\begin{table}[H]
 \input{../results/los/size/result}
-\caption{Request message results}
+\caption{Mean response times of Request Message - LOS Test}
 \end{table}
 
 
@@ -186,18 +195,18 @@ We also performed an analysis of the network utilization using Wireshark. This w
   Proxy with CoAP & 25615 ms & 3185 & 10142866 & 10 \\
   Proxy with CoAP \& GZIP & 2823 ms & 1425 & 2031770 & 100 \\
 \end{tabular}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - WiFi 1 test}
 \end{table}
 
 
 \begin{table}[H]
 \input{../results/wifi1/rest/result}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - WiFi 1 test}
 \end{table}
 
 \begin{table}[H]
 \input{../results/wifi1/size/result}
-\caption{Request message results}
+\caption{Mean response times of Request Message - WiFi 1 test}
 \end{table}
 
 

@@ -98,7 +98,7 @@ FFI. The benefit of using actual equipment, is that we got as realistic tests as
 possible.
 
 
-\subsection{Linux network traffic control}
+\subsection{Linux Network Traffic Control}
 
 The Linux kernel offers a rich set of tools for managing and manipulating the
 transmission of packets. \textbf{tc}(traffic control) is a Linux program to
@@ -282,7 +282,7 @@ the size of the messages being sent. We therefore also developed a test
 application that allowed the client to request a number of bytes from the
 server. This allowed us to see how CoAP performed with different message sizes.
 
-\subsection{NFFI W3C Web service}
+\subsection{NFFI W3C Web Service}
 
 For the purpose of testing W3C Web service applications we created a mock system
 which allows a client to request a service to report positions of friendly
@@ -300,10 +300,22 @@ large number of positions in the NFFI format.
 \label{figure-nffi-flow}
 \end{figure}
 
+\begin{table}[h]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Request URI} & \textbf{HTTP Method} & \textbf{Bytes sent} & \textbf{Bytes received} \\ \hline
+?wsdl                & GET                  & 192                 & 3527           \\ \hline
+?wsdl=1              & GET                  & 194                 & 4331           \\ \hline
+/                    & POST                 & 829                 & 40631          \\ \hline
+\textbf{Total:}       & \textbf{3}                     & \textbf{1215}                & \textbf{48489}          \\ \hline
+\end{tabular}
+\caption{NFFI Web service HTTP requests}
+\end{table}
 
-\subsection{RESTful car Web service}
 
-The RESTful Web service is an example service keeping order of cars in a ``car
+\subsection{RESTful Car Service}
+
+The RESTful Car service is an example service keeping order of cars in a ``car
 system''. The service exposes an \gls{api} which offers different operations to
 manage the car system. Clients can invoke these operations by using HTTP
 requests and utilizing the associated HTTP method to indicate what to do with an
@@ -321,10 +333,33 @@ system is illustrated in \cref{figure-rest-flow}.
 \label{figure-rest-flow}
 \end{figure}
 
+\begin{table}[h]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Request URI} & \textbf{HTTP Method} & \textbf{Bytes sent} & \textbf{Bytes received} \\ \hline
+/cars                   & DELETE                  & 233                 & 243           \\ \hline
+/cars                   & POST                  & 293                 & 353           \\ \hline
+/cars                    & POST                 & 298                 & 358           \\ \hline
+/cars                    & POST                 & 294                 & 354           \\ \hline
+/cars                    & POST                 & 299                 & 359           \\ \hline
+/cars                    & POST                 & 296                 & 356           \\ \hline
+/cars                    & GET                 & 198                 & 538           \\ \hline
+/cars/{id}                    & GET                 & 209                 & 348           \\ \hline
+/cars/{id}                    & PUT                 & 309                 & 243           \\ \hline
+/cars/{id}                   & GET                 & 209                 & 354           \\ \hline
+/cars/{id}                   & DELETE                 & 244                 & 243           \\ \hline
+/cars/                   & GET                 & 198                 & 495           \\ \hline
+\textbf{Total:}       & \textbf{12}               & \textbf{3080}                & \textbf{4244}          \\ \hline
+\end{tabular}
+\caption{RESTful Car Service HTTP requests}
+\end{table}
 
-\subsection{Request size application}
+
+\subsection{Request Size Application}
 
 This application allowed us to test with different message sizes.
+
+
 
 \subsection{Test parameters}
 
@@ -335,6 +370,8 @@ The tests was performed with the following parameters.
 	\item Without and with proxies.
     \item Transport protocol used.
 \end{itemize}
+
+\subsection{Test Applications summary}
 
 
 \section{Function tests}

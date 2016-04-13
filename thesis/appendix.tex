@@ -33,17 +33,37 @@ Placeholder
 
 \chapter{Results}
 
-\section{Function tests}
+In this appendix the data material from the evaluations is presented. Each test
+case was run a number of times, ranging from 10 to 100 runs. Then the mean,
+\gls{std} and variance was calculated by using the Apache Commons
+Mathematics Library\cite{apache-math-homepage}. An example of how this was done
+running NFFI Web service tests can be seen in \cref{listing:statistics}.
+
+\lstinputlisting[frame=single, language=java, firstnumber=1, caption="Calculating statistic values", label=listing:statistics]{listings/stats.java}
+
+
+We also performed an analysis of the network utilization using Wireshark. This was done by starting a packet capture, running one test run and inspecting the packet capture. The calculation of bytes sent and received was done by:
+
+\begin{enumerate}
+    \item Starting Wireshark on the same machine as the client.
+    \item Filtering traffic to only show traffic between the IP addresses of the client and Web service.
+    \item Using the TCP/UDP conversation view of Wireshark.
+\end{enumerate}
+
+\section{Function Tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 1 ms.
 	\item Iperf3 measured data rate: 7.76 Mbits/sec.
 \end{itemize}
 
+
+\subsection{NFFI Web Service}
+
 \begin{table}[H]
 \begin{tabular}{llllr}
 \hline
- Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+ Test                   &   Mean &   \gls{std} &   Variance &   Test runs \\
 \hline
   Without proxy & 122 ms & 29 & 869 & 300 \\
   Proxy with HTTP & 163 ms & 25 & 601 & 300 \\
@@ -53,37 +73,57 @@ Placeholder
   Proxy with CoAP & 285 ms & 33 & 1122 & 300 \\
   Proxy with CoAP \& GZIP & 122 ms & 33 & 1091 & 300 \\
 \end{tabular}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - Function Test}
 \end{table}
 
-
+\subsection{RESTful Car System}
 \begin{table}[H]
 \input{../results/function_tests/rest/result}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - Function Test}
 \end{table}
+
+\begin{table}[H]
+\input{../results/function_tests/rest/wireshark}
+\caption{Wireshark analysis of RESTful Car System - Function Test}
+
+\end{table}
+
+
+\subsection{Request Message}
 
 \begin{table}[H]
 \input{../results/function_tests/size/result}
-\caption{Request message results}
+\caption{Mean response times of Request Message - Function Test}
 \end{table}
 
-\section{Satellite tests}
+
+\section{Satellite Tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 1100 ms.
 	\item Iperf3 measured data rate: 402/291 Kbits/sec.
 \end{itemize}
 
+\subsection{NFFI Web Service}
+
 \begin{table}[H]
 \input{../results/satellite/nffi/result}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - Satellite test}
 \end{table}
 
+\subsection{RESTful Car System}
 
 \begin{table}[H]
 \input{../results/satellite/rest/result}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - Satellite test}
 \end{table}
+
+\begin{table}[H]
+\input{../results/satellite/rest/wireshark}
+\caption{Wireshark analysis of RESTful Car System - Satellite Test}
+\end{table}
+
+\subsection{Request Message}
 
 \begin{table}[H]
 \input{../results/satellite/size/result}
@@ -101,7 +141,7 @@ Placeholder
 \begin{table}[H]
 \begin{tabular}{llllr}
 \hline
- Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+ Test                   &   Mean &   STD &   Variance &   Test runs \\
 \hline
   Without proxy & 242 ms & 26 & 663 & 100 \\
   Proxy with HTTP & 299 ms & 40 & 1577 & 100 \\
@@ -126,7 +166,7 @@ Placeholder
 \end{table}
 
 
-\section{WiFI 1 tests}
+\section{WiFi 1 tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 200 ms.
@@ -136,8 +176,7 @@ Placeholder
 \begin{table}[H]
 \begin{tabular}{llllr}
 \hline
-\hline
- Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+ Test                   &   Mean &   STD &   Variance &   Test runs \\
 \hline
   Without proxy & 1202 ms & 162 & 26326 & 100 \\
   Proxy with HTTP & 1213 ms & 354 & 125628 & 100 \\
@@ -169,15 +208,37 @@ Placeholder
 	\item Iperf3 measured data rate: 125/99.6 Kbits/sec.
 \end{itemize}
 
+\subsection{NFFI Web service}
+
 \begin{table}[H]
 \input{../results/wifi2/nffi/result}
 \caption{NFFI Web service results}
 \end{table}
 
+\subsection{RESTful Car System}
 
 \begin{table}[H]
 \input{../results/wifi2/rest/result}
 \caption{REST Web service results}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{lrrrr}
+\hline
+\multicolumn{1}{l}{}                  & \multicolumn{2}{c}{Client -> Web service}                           & \multicolumn{2}{c}{Web service -> Client}                           \\
+\multicolumn{1}{l}{Protocol} & \multicolumn{1}{l}{IP Packets sent} & \multicolumn{1}{l}{Bytes sent} & \multicolumn{1}{l}{IP Packets sent} & \multicolumn{1}{l}{Bytes sent} \\ \hline
+Without proxy                           & 32                                            & 6 136                                    & 39                                            & 11 065                                   \\
+Proxy with HTTP                         & 37                                            & 12 434                                   & 30                                            & 16 596                                   \\
+Proxy with HTTP \& GZIP                 & 31                                            & 9 575                                    & 28                                            & 13 901 \\
+Proxy with AMQP                         & 332                                            & 49 793                                    & 317                                            & 65 154 \\
+Proxy with AMQP \& GZIP                 & 231                                            & 34 501                                    & 243                                            & 54 626 \\
+Proxy with CoAP                         & 18                                            & 6 895                                    & 15                                            & 10 640 \\
+Proxy with CoAP \& GZIP                 & 24                                            & 7 730                                    & 17                                            & 8 566
+
+\end{tabular}
+
+\caption{RESTful Car System Wireshark analysis}
+
 \end{table}
 
 
@@ -243,7 +304,7 @@ Placeholder
 \begin{table}[H]
 \begin{tabular}{llllr}
 \hline
- Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+ Test                   &   Mean &   STD &   Variance &   Test runs \\
 \hline
   Without proxy & 1379 ms & 230 & 52988 & 100 \\
   Proxy with HTTP & 1313 ms & 139 & 19430 & 100 \\
@@ -260,7 +321,7 @@ Placeholder
 \begin{table}[H]
 \begin{tabular}{llllr}
 \hline
- Test                   &   Mean &   Std. Deviation &   Variance &   Test runs \\
+ Test                   &   Mean &   STD  &   Variance &   Test runs \\
 \hline
   Without proxy & 1061 ms & X & X & 100 \\
   Proxy with HTTP & 1522 ms & X & X & 100 \\

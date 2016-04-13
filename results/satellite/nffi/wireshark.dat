@@ -1,0 +1,7 @@
+"Without Proxy"	            1202	               0
+"Proxy with HTTP"	        1213	               820
+"Proxy with HTTP & GZIP"	5026	                4964
+"Proxy with AMQP"	         25615                   2823
+"Proxy with AMQP & GZIP"	  25615                   2823
+"Proxy with CoAP"
+"Proxy with CoAP & GZIP"

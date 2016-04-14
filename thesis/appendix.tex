@@ -272,7 +272,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 \begin{tabular}{lrrrr}
 \hline
 \multicolumn{1}{l}{}                  & \multicolumn{2}{c}{Client -> Web service}                           & \multicolumn{2}{c}{Web service -> Client}                           \\
-\multicolumn{1}{l}{Protocol} & \multicolumn{1}{l}{IP Packets sent} & \multicolumn{1}{l}{Bytes sent} & \multicolumn{1}{l}{IP Packets sent} & \multicolumn{1}{l}{Bytes sent} \\ \hline
+\multicolumn{1}{l}{Protocol} & \multicolumn{1}{l}{Packets sent} & \multicolumn{1}{l}{Bytes sent} & \multicolumn{1}{l}{Packets sent} & \multicolumn{1}{l}{Bytes sent} \\ \hline
 Without proxy                           & 32                                            & 6 136                                    & 39                                            & 11 065                                   \\
 Proxy with HTTP                         & 37                                            & 12 434                                   & 30                                            & 16 596                                   \\
 Proxy with HTTP \& GZIP                 & 31                                            & 9 575                                    & 28                                            & 13 901 \\
@@ -282,7 +282,6 @@ Proxy with CoAP                         & 18                                    
 Proxy with CoAP \& GZIP                 & 24                                            & 7 730                                    & 17                                            & 8 566
 
 \end{tabular}
-
 \caption{RESTful Car System Wireshark analysis}
 
 \end{table}
@@ -305,11 +304,18 @@ Proxy with CoAP \& GZIP                 & 24                                    
 \caption{NFFI Web service results}
 \end{table}
 
+\begin{table}[H]
+\input{../results/cnr/nffi/wireshark}
+\caption{Wireshark analysis of NFFI Web Service - CNR test}
+\end{table}
+
 
 \begin{table}[H]
 \input{../results/cnr/rest/result}
 \caption{REST Web service results}
 \end{table}
+
+
 
 
 \begin{table}[H]

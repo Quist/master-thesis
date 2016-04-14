@@ -242,18 +242,18 @@ We also performed an analysis of the network utilization using Wireshark. This w
 \end{table}
 
 
-\section{WiFI 2 tests}
+\section{WiFI 2 Tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 200 ms.
 	\item Iperf3 measured data rate: 125/99.6 Kbits/sec.
 \end{itemize}
 
-\subsection{NFFI Web service}
+\subsection{NFFI Web Service}
 
 \begin{table}[H]
 \input{../results/wifi2/nffi/result}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - WiFi 2 test}
 \end{table}
 
 \begin{table}[H]
@@ -265,7 +265,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/wifi2/rest/result}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - WiFi 2 test}
 \end{table}
 
 \begin{table}[H]
@@ -282,7 +282,7 @@ Proxy with CoAP                         & 18                                    
 Proxy with CoAP \& GZIP                 & 24                                            & 7 730                                    & 17                                            & 8 566
 
 \end{tabular}
-\caption{RESTful Car System Wireshark analysis}
+\caption{Wireshark analysis of RESTful Car System - WiFi 2 test}
 
 \end{table}
 
@@ -292,16 +292,19 @@ Proxy with CoAP \& GZIP                 & 24                                    
 \caption{Request message results}
 \end{table}
 
-\section{Combat Net Radio tests}
+\section{Combat Net Radio Tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 200 ms.
 	\item Iperf3 measured data rate: 41/36 Kbits/sec.
 \end{itemize}
 
+
+\subsection{NFFI Web service}
+
 \begin{table}[H]
 \input{../results/cnr/nffi/result}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - CNR test}
 \end{table}
 
 \begin{table}[H]
@@ -310,12 +313,12 @@ Proxy with CoAP \& GZIP                 & 24                                    
 \end{table}
 
 
+\subsection{RESTful Car System}
+
 \begin{table}[H]
 \input{../results/cnr/rest/result}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - CNR test}
 \end{table}
-
-
 
 
 \begin{table}[H]
@@ -323,7 +326,7 @@ Proxy with CoAP \& GZIP                 & 24                                    
 \caption{Request message results}
 \end{table}
 
-\section{EDGE}
+\section{EDGE Tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 400 ms.
@@ -332,13 +335,14 @@ Proxy with CoAP \& GZIP                 & 24                                    
 
 \begin{table}[H]
 \input{../results/edge/nffi/result}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - EDGE test}
 \end{table}
 
+\subsection{RESTful Car System}
 
 \begin{table}[H]
 \input{../results/edge/rest/result}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - EDGE test}
 \end{table}
 
 \begin{table}[H]
@@ -346,12 +350,14 @@ Proxy with CoAP \& GZIP                 & 24                                    
 \caption{Request message results}
 \end{table}
 
-\section{Military radio tests}
+\section{Tactical Broadband Tests}
 
 \begin{itemize}
 	\item Ping measured to \textasciitilde 23 ms.
 	\item Iperf3 measured data rate: 99/82 Kbits/sec.
 \end{itemize}
+
+\subsection{NFFI Web service}
 
 \begin{table}[H]
 \begin{tabular}{llllr}
@@ -366,9 +372,10 @@ Proxy with CoAP \& GZIP                 & 24                                    
   Proxy with CoAP & 2720 ms & 120 & 14457 & 100 \\
   Proxy with CoAP \& GZIP & 463 ms & 25 & 618 & 100 \\
 \end{tabular}
-\caption{NFFI Web service results}
+\caption{Mean response times of NFFI Web Service - Tactical Broadband test}
 \end{table}
 
+\subsection{RESTful Car System}
 
 \begin{table}[H]
 \begin{tabular}{llllr}
@@ -383,7 +390,7 @@ Proxy with CoAP \& GZIP                 & 24                                    
   Proxy with CoAP & 906 ms & X & X & 100 \\
   Proxy with CoAP \& GZIP & 840 ms & X & X & 100 \\
 \end{tabular}
-\caption{REST Web service results}
+\caption{Mean response times of RESTful Car System - Tactical Broadband test}
 \end{table}
 
 

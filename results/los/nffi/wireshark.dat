@@ -1,0 +1,8 @@
+"Test"                      "Packets Sent"   "Bytes sent"    "Packets sent"   "Bytes sent"
+"Without Proxy"             46  4267    43  51343
+"Proxy with HTTP"           43  5260    44  55489
+"Proxy with HTTP & GZIP"    14  2847    13  7103
+"Proxy with AMQP"           68  9950    91  64274
+"Proxy with AMQP & GZIP"    54  8529    59  15044
+"Proxy with CoAP"           101 7565    101 56582
+"Proxy with CoAP & GZIP"    11  1647    11  5466

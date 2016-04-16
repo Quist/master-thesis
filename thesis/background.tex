@@ -1,5 +1,9 @@
 \chapter{Technical Background}
 
+\label{chapter:background}
+
+
+
 Before diving into the design and implementation of the proxy developed in this
 thesis, in this chapter we present the technical background of the central
 concepts and protocols. We first give an introduction to computer networks in
@@ -9,7 +13,7 @@ data in military systems. Then we look into a number of protocols that we can
 replace HTTP/TCP with in order to increase the performance of Web services.
 Finally, we introduce the concept of performance testing and network metrics.
 
-\section{Network layers}
+\section{Network Layers}
 
 To reduce design complexity, networks are organized into layers, each one built
 upon the one below it. In the Internet Protocol Suite\cite{rfc-1122}, networks
@@ -29,7 +33,7 @@ into optimization techniques for the application and transport layer.
 \label{figure-network-layers}
 \end{table}
 
-\subsubsection{Link layer}
+\subsubsection{Link Layer}
 
 The lowest layer is the link layer, where link refers to the physical
 network component used to interconnect nodes in a network. Link layer protocols
@@ -48,7 +52,7 @@ Ethernet.
  The core protocol of the Internet layer is \gls{ip} and its routing function
  enables sending data over interconnected networks.
 
-\subsubsection{Transport layer}
+\subsubsection{Transport Layer}
 
 In the Internet protocol suite model, the transport layer provides end-to-end
 communication services for applications. It builds on top on the network layer,
@@ -60,7 +64,7 @@ lost or received in the wrong order, this is all handled by the transport
 protocol. This provides an important abstraction for applications so that they
 don't need to deal with the characteristics of the physical network itself.
 
-\subsubsection{Application layer}
+\subsubsection{Application Layer}
 
 The top layer is the application layer and is where applications real user use
 reside. The other layers provide transport services to applications found in
@@ -69,19 +73,24 @@ protocols that applications use to communicate with other applications.
 Application layer protocols use the communication services the transport layer
 provides.  Examples of application layer protocols is \gls{http} and \gls{ftp}.
 
-\section{Communication patterns}
+\section{Messaging Patterns}
 
-\subsubsection{Request-reply}
+A message pattern describes how applications communicate data with each other.
+This data is referred to as \textit{messages}. There exist multiple messaging
+patterns and in this chapter we look into protocols using two very common
+approaches:
 
-Request-reply is a common message pattern where a requester sends a request to a
+\subsubsection{Request-Response}
+
+Request-response is a message pattern where a requester sends a request to a
 system. The system then process the request and responds with a response
 message.
 
-\subsubsection{Publish-subscribe}
+\subsubsection{Publish-Subscribe}
 
 Publish-subscribe is a message pattern where subscribers express their interest
 in a type of messages, often called topics or classes. A message publisher then
-creates messages of a certain class and publishes them without knowing who is
+creates messages of a certain class and publish them without needing to know who are
 actually subscribing to these types of messages. Many publish-subscribe system
 employs a \textit{message broker} as seen in \cref{figure-message-brokers}. The
 message broker handles published messages from publishers and receives
@@ -98,14 +107,14 @@ message filtering and prioritize queuing.
 %%%%%%% WEB SERVICES
 \section{Web services}
 \label{web-services}
-%TO-DO lede inn smooth mot soa.
-Web services are client and server applications that communicate over a network
-and can be used to realize a \gls{soa}. Web services are critical in any data
-systems and are in widespread use in both civilian and military systems. It is a
-broad term and can be used to describe different types of services that are
-available over a network. The most common usage of the term refers to the
-\gls{w3c} definition of SOAP-based Web services, but could also refer to more
-simple HTTP-based \gls{rest} services.
+
+Web services are client and server applications that communicate over a network.
+They can be used to realize the \gls{soa} priniciples, and are in widespread use
+in both civilian and military systems. It is worth noting that term \textit{Web
+services} is a broad term and can be used to describe different types of
+services available over a network. The most common usage of the term refers to
+the \gls{w3c} definition of SOAP-based Web services, but could also refer to
+more simple HTTP-based \gls{rest} services.
 
 In this thesis we investigate optimization techniques that should support both
 \gls{w3c} Web services and \gls{rest}ful web services.
@@ -190,15 +199,16 @@ style. REST attempts to minimize latency and network communication while
 maximizing the independence and scalability of component implementations. This
 is done by placing constraints on connector semantics rather than on component
 semantics like W3C Web services.  REST is based on a client-server model where a
-client requests data from a server when needed. While W3C Web services is
-service oriented, we can look at REST as being more data oriented.
+client requests data from a server when needed.
 
 Web services that adhere to the REST style is called RESTful Web services. They
 are closely associated with HTTP and use HTTP verbs(e.g GET, POST, DELETE) to
 operate on information located on a server. RESTful Web services typically
-expose some sort of information, called resources in REST. Resources are
-identified by a resource identifier. \Cref{table-rest} illustrates how a
-component exposes a set of operations of the car resource.
+expose some sort of information, called resources in REST. \Cref{table-rest}
+illustrates how a component exposes a set of operations of an example car
+resource. Resources are identified by a resource identifier. While W3C Web
+services is service oriented, we can look at REST as being more resource
+oriented.
 
  %%%%%%%%%%%% REST eksempel %%%%%%%%%%%%%%%%%%%
  \begin{table}[h]
@@ -218,11 +228,12 @@ component exposes a set of operations of the car resource.
  technology to do information exchange, REST is identified as a technology of
  interest to certain groups in
  NATO\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}. One
- downside to NATO with REST is that it lacks standardization, which may cause
- interoperability issues.
+ potential downside to NATO with REST however, is that RESTful Web services lack
+ standardization, which may cause interoperability issues.
 
- In the next section we will look into \gls{http}, which is closely associated
- with REST and is the most used transport protocol for W3C Web services.
+Closely associated with REST and the most used transport protocol for W3C Web
+services are \gls{http}, which we present in detail in the next section.
+
 
 \section{\glsentrylong{http}}
 
@@ -391,14 +402,14 @@ techniques. In networks with low data rate, protocols with low overhead per IP
 packet is beneficial. With frequents disconnects, protocols that are
 connection-less may be more suitable than connection-oriented. One important
 limitation is that NATO has chosen the "everything over IP", which means that
-all optimization must occur on the top of the network layer. Of this follows
-that we will evaluate protocols in the transport and application layer of the
-Internet Protocol Suite.
+all optimization must occur on the top of the network layer. Because of this we
+evaluate protocols in the transport and application layer of the Internet
+Protocol Suite.
 
-In the following sections we will give a short introduction to the protocols
+In the following sections we give a short introduction to the protocols
 we're investigating in this thesis. The protocols have been selected because of
 their prevalence in the civil and military world or their reported performance
-in the "Internet of Things". We'll get started by discussing \gls{udp}, which
+in the "Internet of Things". We get started by discussing \gls{udp}, which
 alongside \gls{tcp} is one of the core protocols of the Internet protocol suite.
 
 
@@ -435,7 +446,7 @@ referred to as not \textit{TCP-Friendly}.
 \gls{coap} is a specialized Web transfer protocol designed for use with
 constrained nodes and  networks\cite{rfc-7252}. It is designed for
 machine-to-machine applications, typically in the Internet of Things.
-Furthermore it is designed with a similar interface as HTTP, in order to easily
+Furthermore, it is designed with a similar interface as HTTP, in order to easily
 integrate with Web services. \gls{coap} is based on the REST model, where the
 server makes resources available  under a resource identifier(URI). Clients
 access these resources using the HTTP-verbs GET, PUT, POST and DELETE. CoAP main
@@ -460,8 +471,13 @@ features includes:
 interaction model. \gls{coap} requests is sent from a client to request an
 action on a resource located on a server. The server then responds with a
 response code and a possible response body. Unlike HTTP which uses TCP as its
-transport protocol, \gls{coap} uses \gls{udp}. Since \gls{udp} does not
-guarantee delivery, \gls{coap} provide mechanisms for optional reliability.
+transport protocol, \gls{coap} uses \gls{udp}. Since \gls{udp} itself does not
+guarantee reliable delivery, \gls{coap} provide mechanisms for optional
+reliability. CoAP does this by sending messages marked as \textit{Confirmable},
+and retransmitting using a default timeout and exponential back-off until an
+\textit{Acknowledgement message} is received. This mechanism also provide basic
+congestion control. Moreover, CoAP attempt to avoid congestion by strictly
+limiting the number of allowed outstanding requests from a client to a server.
 
 \begin{figure}[h]
 \centering

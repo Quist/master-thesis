@@ -132,22 +132,32 @@ and Limited Environments}
 
 \chapter*{Abstract}
 
-The goal of this thesis is to investigate different optimization techniques that
-can be applied in order to improve Web service performance in \gls{dil}
-networks. In order for the clients and services to remain interoperable the
-optimization techniques will be placed in proxies. The Web services will
-communicate as normal, while all network traffic is tunneled through a proxy.
-The Web service itself does not need to pay attention to the bad connectivity,
-the proxy will choose the appropriate protocol and configuration.
+Using \gls{cots} software over networks that are \gls{dil} may not perform
+satisfactory, or can even break down entirerly. Such networks are characterized
+by seing frequent disruptions for both shorter and longer periodes, as well as
+high delays, low data rates and high packet error rates. In this thesis, we design
+and implement a HTTP proxy to improve the performance of Web services in DIL
+environments. The main idea of our design is to deploy a pair of proxies to
+facilitate HTTP communication. To evaluate the performance of different
+transport protocols in these networks, the proxy is designed to support
+\gls{http}, \gls{amqp} and \gls{coap} for \textit{inter-proxy commmunication}.
+By introducing a proxy pair, we was able to break the end-to-end dependency
+between two services communicating over a DIL network, thus acheiving higher
+reliability. Furthermore, experimental results reveal that when the message size
+is low, \gls{coap} has a lower overhead than the other protocols.
+
+
 
 \chapter*{Preface}
 
-This master thesis was written at the Department of Informatics at the Faculty of Mathematics and Natural Sciences, University at the University of Oslo in 2015/2016. It was written in cooperation with \gls{ffi}, which provided the thesis topic and supervison.
+This master thesis was written at the Department of Informatics at the Faculty
+of Mathematics and Natural Sciences, University at the University of Oslo in
+2015/2016. It was written in cooperation with \gls{ffi}, which provided the
+thesis topic and supervison.
 
 
 \tableofcontents
 \listoftables
-\listoffigures
 
 \pagebreak
 

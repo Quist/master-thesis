@@ -13,7 +13,15 @@ data in military systems. Then we look into a number of protocols that we can
 replace HTTP/TCP with in order to increase the performance of Web services.
 Finally, we introduce the concept of performance testing and network metrics.
 
-\section{Network Layers}
+\section{Computer Networks}
+
+A computer network allows computers to exchange data. The most common is the
+Internet, which allows computers all over the world to communicate. In this
+section we give an introduction to protocol suite of the Internet, discuss some
+common messaging pattern, before we define discuss performance testing in
+general.
+
+\subsection{Network Layers}
 
 To reduce design complexity, networks are organized into layers, each one built
 upon the one below it. In the Internet Protocol Suite\cite{rfc-1122}, networks
@@ -73,7 +81,7 @@ protocols that applications use to communicate with other applications.
 Application layer protocols use the communication services the transport layer
 provides.  Examples of application layer protocols is \gls{http} and \gls{ftp}.
 
-\section{Messaging Patterns}
+\subsection{Messaging Patterns}
 
 A message pattern describes how applications communicate data with each other.
 This data is referred to as \textit{messages}. There exist multiple messaging
@@ -104,8 +112,37 @@ message filtering and prioritize queuing.
 \label{figure-message-brokers}
 \end{figure}
 
-%%%%%%% WEB SERVICES
-\section{Web services}
+
+\subsection{Performance Testing}
+
+To determine which optimization techniques that have a positive effect on the
+performance of Web services in DIL environments, we do performance testing.
+
+\subsection{Network Metrics}
+
+Network metrics are used to describe various aspects of data transfer from a
+point to another.
+
+\begin{description}
+
+\item[Data throughput] The data throughput is influenced by how large distance
+there is between the nodes communicating.
+
+\item[Reliability] How much of the arriving data that is correct. This is
+called \textit{bit error rate} or \textit{packet error rate}. With high error
+rates, more data to be transmitted again due to the data arriving being
+incorrect. This contributes to longer transmission time. In a military setting,
+an enemy may deliberate sabotage the network with jamming, causing higher error
+rates.
+
+\item[Latency] The communication technology in use influences how fast data
+transmission can be done. Long delay may cause that the application sending data
+times out.
+
+\end{description}
+
+
+\section{Web Services}
 \label{web-services}
 
 Web services are client and server applications that communicate over a network.
@@ -119,7 +156,7 @@ more simple HTTP-based \gls{rest} services.
 In this thesis we investigate optimization techniques that should support both
 \gls{w3c} Web services and \gls{rest}ful web services.
 
-\subsection{W3C Web services}
+\subsection{W3C Web Services}
 
 \gls{w3c} has defined Web services as \cite{wrc-web-service}:
 
@@ -274,7 +311,7 @@ actually transfer data to an another machine. HTTP communication most often, but
 not necessarily, occurs over TCP/IP connections. The only requirement in the HTTP
 specification is that a reliable transport protocol is used.
 
-\subsection{HTTP methods}
+\subsection{HTTP Methods}
 
  Associated with all HTTP requests is a request method, which indicates the
  desired action to be performed on a resource located on a Web server. The set
@@ -383,7 +420,7 @@ packet rate, then gradually increasing the packet rate. When TCP notice that a
 packet is eventually lost, it considers it as a sign of network congestion and
 reduces its packet rate.
 
-\subsection{Issues using TCP in DIL}
+\subsection{Issues Using TCP in DIL}
 \label{section:tcp-problems}
 
 DIL networks are characterized by their high delay, low data rate and relatively
@@ -608,33 +645,7 @@ time, for example sending an image at the same time as a HTML Web page.
 \caption{Overview of SCTP}
 \end{figure}
 
-\section{Performance testing}
 
-To determine which optimization techniques that have a positive effect on the
-performance of Web services in DIL environments, we do performance testing.
-
-\subsection{Network metrics}
-
-Network metrics are used to describe various aspects of data transfer from a
-point to another.
-
-\begin{description}
-
-\item[Data throughput] The data throughput is influenced by how large distance
-there is between the nodes communicating.
-
-\item[Reliability] How much of the arriving data that is correct. This is
-called \textit{bit error rate} or \textit{packet error rate}. With high error
-rates, more data to be transmitted again due to the data arriving being
-incorrect. This contributes to longer transmission time. In a military setting,
-an enemy may deliberate sabotage the network with jamming, causing higher error
-rates.
-
-\item[Latency] The communication technology in use influences how fast data
-transmission can be done. Long delay may cause that the application sending data
-times out.
-
-\end{description}
 
 \section{Summary}
 

@@ -14,22 +14,22 @@ applicable to this thesis. We get started by looking into the work of the NATO
 research groups IST-090 and "SOA Recommendations for Disadvantaged Grids in
 the Tactical Domain" (IST-118). IST-118 is a ongoing follow-on to the work of
 IST-090, with the goal of creating a recommendation for a tactical profile for
-using SOA in disadvantaged grids(DIL). Next, based on these recommendations, we
+using SOA in disadvantaged grids. Next, based on these recommendations, we
 investigate work done in the area of alternative transport protocols and
 existing proxy implementations.  Finally, we summarize the findings that are
 applicable to this thesis with regards to the scope and premises.
 
-\section{Making SOA applicable at the tactical level}
+\section{Making SOA Applicable at the Tactical Level}
 
-IST-118 has published a report where they summarized the findings of IST-090.
-Although the paper only looked into W3C Web services, many of their
+IST-118 has published a paper\cite{ist-118} where they summarized the findings
+of IST-090. Although the paper only looked into W3C Web services, many of their
 recommendations are also applicable to RESTful Web services. They identified
 three key issues that need to be addressed in order to apply Web services in
-tactical networks\cite{ist-090, ist-118}:
+tactical networks:
 
 \label{section:DIL-problems}
 
-\subsubsection{1. End-to-end connections}
+\subsubsection{1. End-to-end Connections}
 
 Web services mostly use transport protocols that depend on a direct, end-to-end
 connection between the client and the service. Attempting to establish and
@@ -52,7 +52,7 @@ pointed out that if using a proxy solution, standards compliance can be
 retained.
 
 
-\subsubsection{2. Network heterogeneity}
+\subsubsection{2. Network Heterogeneity}
 
 Another issue is when heterogeneous networks are interconnected. Different
 performance in networks may lead to buildup of data in buffers, risking loss of
@@ -61,7 +61,7 @@ which can support that messages are not dropped, but stored and forwarded when
 possible.
 
 
-\subsubsection{3. Web service overhead}
+\subsubsection{3. Web Service Overhead}
 
 W3C Web services are associated with a considerable amount of overhead. Web
 Service technology is based on SOAP, which use XML-based messages. It is a
@@ -89,15 +89,15 @@ overhead we can apply the well known technique of compression.
 \subsubsection{Compression}
 
 Data compression is the technique of encoding information using fewer bits than
-the original representation. Reducing the amount of bits we need to transmit
-would greatly increase performance, especially in  a limited network. The
-reduction is often expressed in the term \textit{compression rate}, which
-express the ratio between the uncompressed size and compressed size of the
-payload.  Moreover, there exist two types of compression, \textit{lossy} and
-\textit{lossless compression}. Lossy compression is used to compress data such
-as images and movies where the consequence of loosing some of the data is not
-critical. Lossless compression utilize repeating patterns in the data in order
-to represents the same data in a more efficient way.
+the original representation. In a network with limited data rate, the reduction
+would significantly reduce time used to send the data. The reduction of data is
+often expressed in the term \textit{compression rate}, which express the ratio
+between the uncompressed size and compressed size of the payload.  Moreover,
+there exist two types of compression, \textit{lossy} and \textit{lossless
+compression}. Lossy compression is used to compress data such as images and
+movies where the consequence of loosing some of the data is not critical.
+Lossless compression utilize repeating patterns in the data in order to
+represents the same data in a more efficient way.
 
 \gls{xml} is the data format used by W3C Web services and has a significant
 overhead. A previous study evaluated different lossless compressions techniques
@@ -117,18 +117,18 @@ provided a significant reduction of payload size, so the specific technique was
 of less importance.
 
 
-\section{Previous evaluations of alternative protocols}
+\section{Previous Evaluations of Alternative Protocols}
 
 Previous studies have investigated potential gains from replacing HTTP/TCP with
 alternative protocols \cite{evaluation-transport-protocols-web-services}. They
 looked into TCP, UDP, SCTP and AMQP for conveying Web services traffic under
 typical military networking conditions. The researchers found that \gls{sctp}
-had the highest success rate in military tactical communication. However, on the
-lower bandwidth links the protocols tends to generate more overhead than TCP.
-They pointed out that this was due to SCTP having a more complex connection
-handshake procedure and in addition use heartbeat packets.
+had the highest success rate in military tactical communication. However, on
+links with the lowest data rate the protocols tend to generate more overhead
+than TCP. They pointed out that this was due to SCTP having a more complex
+connection handshake procedure and in addition use heartbeat packets.
 
-\section{Proxy optimization}
+\section{Proxy Optimization}
 
 One of the recommendations of IST-090 was the usage of proxies. This
 recommendation has been picked-up by other research group and a set of proxies
@@ -234,16 +234,19 @@ has tampered with the data before arriving, checksums are often used.
 Consequently this solution would not work for such applications.
 
 
-\section{Tuning application server parameters}
+\section{Tuning Application Server Parameters}
 
-When setting up an application server, several parameters which can affect the
-performance of Web services running on the application server can be configured.
-Wrong or bad configuration may cause inaccurate timeouts and congestion in the
-network. In a paper written by researchers at \gls{ntnu} and
-FFI\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}, they
-investigated how tuning the server parameters of the application server
-Glassfish affected the performance of both \gls{rest} and SOAP Web services.
-They identified a number of key HTTP and TCP tuning parameters:
+ Another approach to improve the performance of Web services, is to configure
+ the way they are deployed. Web services can be deployed in applications
+ servers, which is a software framework that provide an environment where the
+ Web services can run. When setting up an application server, several parameters
+ which can affect the performance of running applications can be
+ configured. Wrong or bad configuration may cause inaccurate timeouts and
+ congestion in the network. In a paper written by researchers at \gls{ntnu} and
+ FFI\cite{johnsen-bloebaum-recommendations-web-services-tactical-domain}, they
+ investigated how tuning the server parameters of the application server
+ Glassfish affected the performance of both \gls{rest} and SOAP Web services.
+ They identified a number of key HTTP and TCP tuning parameters:
 
 \paragraph{HTTP Timeout} Controls how long a HTTP connection can be deemed as
 idle and kept in the "keep-alive" state. Having a to low timeout on networks
@@ -292,16 +295,15 @@ the performance of Web services in networks with the DIL characteristics. The
 most important findings are summarized in \cref{table:related-work-summary}. We
 first looked into the work of the research groups IST-090 and IST-118, and saw
 how they identified end-to-end connections and Web service overhead as major
-issues for enabling Web services in DIL environments. To overcome this they
-recommended the usage of proxies and several techniques for reducing the
-overhead. We identified GZIP and EFX with zipping as important
-compression techniques to reduce the size of Web service messages sent over a
-network. Next, we looked into previously developed proxies for DIL networks.
-Although many of them showed promising results, some of their properties did not
-fulfill the premises for this thesis. They were either limited to SOAP-based Web
-services or are inadequate to be used due to security reasons.However, we
-identified some of their techniques that we carry on in the proxy developed in
-this thesis.
+issues for enabling Web services in DIL environments. To overcome this issues,
+they recommended the usage of proxies and several techniques for reducing the
+overhead. We identified GZIP and EFX with zipping as important compression
+techniques to reduce the size of Web service messages sent over a network. Next,
+we looked into previously developed proxies for DIL networks. Although many of
+them showed promising results, some of their properties did not fulfill the
+premises for this thesis. They were either limited to SOAP-based Web services or
+are inadequate to be used due to security reasons. However, we identified some
+of their techniques that we carry on in the proxy developed in this thesis.
 
 Finally, we investigated previous attempts with the usage of alternative
 transport protocols, before we looked into previous efforts in the area of

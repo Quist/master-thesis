@@ -4,35 +4,36 @@
 
 In this chapter we present how the testing and evaluation of the proxy was
 performed and present the results we obtained.  The goal is to measure any
-possible improvements (or deterioration) of the performance of Web services when
-the proxy developed as a part of this thesis is being used. Since the proxy was
-developed as a prototype for military usage, we wanted to use test scenarios
-that resemble actual military and civilian usage. For the purpose of testing,
-we therefore originally developed two sets of applications, one W3C Web service
-and one RESTful Web service. These applications were then put to test in
-networks with different characteristics. During testing, we discovered that some
-of the protocols were very sensitive to the size of the messages being sent. We
-therefore also developed a complementary test service which allowed us to test
-sending messages of different sizes.
+possible improvements (or deterioration) of the performance of Web services
+using the developed proxies. Then, based on these measurements, we give a
+recommendation about which adaptations to make in different types of DIL
+networks. Since the proxy was developed as a prototype for military usage, we
+wanted to use test scenarios that resemble actual military and civilian usage.
+For the purpose of testing, we therefore developed two sets of applications, one
+W3C Web service and one RESTful Web service. These applications were then put to
+test in networks with different characteristics. In addition, we also performed
+some experiments where we researched how the size of a single request affected
+the performance of CoAP.
 
-We'll get started by discussing the test and evaluation tools used, before we
-introduce the different test applications, test cases and the different types
-of networks used for testing. Then we present the test results for each of the
-three aspects of DIL, \textit{disconnected, intermittent} and
-\textit{limited.} The aspects were tested separately. We started with the
-disconnected and intermittent tests, where we investigated the behaviour when
-connection was lost. For the limited tests, we saw how different types of
-networks influenced the performance of Web services. The base case was to
-test without any intentional limitations to the network and without the actual
-usage of the proxy. Then we introduced usage of the proxy and evaluated it in
-different types of limited networks.
 
-Furthermore we performed the tests with two different setups. First with an
+We get started by discussing the test and evaluation tools used, before we
+introduce the different test applications, test cases and the different types of
+networks used for testing. Then we present the test results for each of the
+three aspects of DIL, \textit{disconnected, intermittent} and \textit{limited.}
+The aspects were tested separately. We started with the disconnected and
+intermittent tests, where we investigated the behaviour when connection was
+lost. For the limited tests, we saw how different types of networks influenced
+the performance of Web services. The base case was to test without any
+intentional limitations to the network and without the actual usage of the
+proxy. Then, we introduced usage of the proxy and evaluated it in different types
+of limited networks.
+
+Furthermore, we performed the tests with two different setups. First with an
 emulator that emulates DIL networks, then we supplemented with testing over
 actual military communication equipment. The usage of actual military equipment
-allowed us to validate the results testing from the emulation testing.
+allowed us to validate the results from the emulation testing.
 
-\section{Types of DIL networks}
+\section{Types of DIL Networks}
 
 Military communication can occur over a wide range of different technologies and
 environments. These include \gls{satcom}, \gls{los},
@@ -101,42 +102,59 @@ possible.
 \subsection{Linux Network Traffic Control}
 
 The Linux kernel offers a rich set of tools for managing and manipulating the
-transmission of packets. \textbf{tc}(traffic control) is a Linux program to
-configure and control the Linux kernels Network scheduler. The \gls{netem} is an
-enhancement of the traffic control facilities that allows us to control delay,
-packet loss and other characteristics to packets outgoing from a selected
-network interface\cite{man-netem}. These tools allow us to emulate different
-network characteristics, which we use to emulate the networks listed in
-\cref{table-network-types}.
+transmission of packets. \textbf{tc} (traffic control) is a Linux program to
+configure and control the Linux kernels network scheduler. The central concept
+in traffic controlling is the concept of queues, which collects entering packets
+and dequeues them as fast as the network hardware can accept them. The
+\gls{netem} is an enhancement of the traffic control facilities that allows us
+to control delay, packet loss and other characteristics to packets outgoing from
+a selected network interface\cite{man-netem}. These tools allow us to emulate
+different network characteristics, for which we use to emulate the networks listed
+in \cref{table-network-types}. For reference, the
+appendix, \cref{appendix-netem-scripts} lists the NetEm scripts used.
 
-How we configure \gls{netem} and the linux traffic control to do this is
+How we configure \gls{netem} and the Linux traffic control tools to do this is
 outlined in the following paragraphs.
 
-%Siter man-page om tc-netem
-%Siter tldp -> Traffic Control HOWTO
 
-\subsubsection{Emulating network delays}
+\subsubsection{Emulating Network Delays}
 
 NetEm can emulate delays on packets on a specific link. In
-\cref{listing-netem-delay} we add a fixed delay on 100 ms to all packets going
-out of local Ethernet.
+\cref{listing-netem-delay} we show an example configuration where a fixed delay
+on 100 ms to all packets going out of local Ethernet connection.
 
 \begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
   tc qdisc add dev eth0 parent 1:1 handle 10: \
     netem delay 100ms
 \end{lstlisting}
 
-\subsubsection{Emulating the data rate}
+\subsubsection{Emulating the Data Rate}
+
+To emulate different data rates we use a part of the Linux traffic control tool
+called \gls{tbf}. TBF can be used to shape network traffic and ensures that the
+configured rate is not exceeded. It shapes traffic based on the concept of
+\textit{tokens} and \textit{buckets}. Tokens are generated at a desired data
+rate and are collected into buckets, which has a maximum number of tokens they
+can store. When TBF receives a packet, it checks if it has sufficient number of
+tokens in order to send the packet. If not, it is deferred, thus causing an
+artificial delay for the packet.
+
+\Cref{listing-netem-data-rate} shows an example configuration where we configure
+the maximum data rate of 50 kilo bits per second. The burst value is the size of
+the bucket in bytes and describes the maximum amount of bytes that tokens can be
+available for instantaneously. Limit is the number of bytes that can be queued
+waiting for tokens to be available.
 
 \begin{lstlisting}[frame=single, caption="Emulating data rate", label=listing-netem-data-rate]
   tc qdisc add dev eth0 handle 1: \
     root tbf rate 50kbit burst 15000 limit 15000
 \end{lstlisting}
 
-\subsubsection{Emulating the corruption rate}
+\subsubsection{Emulating the Corruption Rate}
 
 The corrupt rate allows us to insert random data into a chosen percent of
-packets.
+packets. In \cref{listing-netem-error-rate} we show how the corruption rate can
+be set to 20 percent.
 
 \begin{lstlisting}[frame=single, caption="Emulating corruption rate", label=listing-netem-error-rate]
   tc qdisc add dev eth0 parent 1:1 handle 10: \
@@ -152,9 +170,10 @@ different DIL networks, it is critical that the emulation is as correct and
 realistic as possible. Misconfiguration or wrongful emulation could in the worst
 case lead to us drawing invalid conclusions. To confirm and validate our network
 emulations, we therefore used iPerf 3 alongside the Linux tool \textit{ping} to
-confirm that the \gls{netem} scripts worked as expected. For reference, we
-included the bash scripts we used to configure NetEm in the appendix,
-\cref{appendix-netem-scripts}.
+confirm that the \gls{netem} scripts worked as expected. The measurements was
+performed between the machine hosting the client and the machine hosting the Web
+service. They were performed before starting the test cases so that the network
+traffic it generates, would not interfere.
 
 Cite at iPerf 3 har blitt evaluert til beste måleverktøy. Vurdere å ta med graf som viser de ulike målingene med iPerf.
 
@@ -164,7 +183,7 @@ Wireshark is a packet analyzer and allows for performing network
 analysis\cite{wireshark-homepage}. As an example, this tools allows a user to
 see all IP packets sent from a machine over the Ethernet interface.
 
-When performing the testing we used Wireshark to monitor the network traffic on
+When performing the testing, we used Wireshark to monitor the network traffic on
 the machine hosting the client and the local proxy. This allowed us to
 investigate the behaviour of the evaluated protocols in the different types of
 networks. In particular we used it to see how many packets that were sent, as
@@ -211,15 +230,15 @@ router machine to forward IP packets back and forth between the client and
 server, IP forwarding was enabled on the kernel.
 
 \begin{figure}[h]
-\includegraphics[scale=0.6]{images/testing_environment.pdf}
-\caption{Testing environment}
+\includegraphics[scale=0.73]{images/testing_environment.pdf}
+\caption{Test setup network}
 \label{figure-testing-environment}
 \end{figure}
 
 The server and client are assigned an IP address in two different subnets.
 This is done by the Linux network interface administration program
 \textit{ifconfig}. In \cref{listing-ifconfig-client} the client machine is
-assigned the IP address 192.168.2.44.
+assigned the IP address 192.168.11.44.
 
 \begin{lstlisting}[frame=single, caption="Configuring a network interface of the router", label=listing-ifconfig-client]
 ifconfig eth0 192.168.2.1 up
@@ -228,14 +247,14 @@ ifconfig eth0 192.168.2.1 up
 After setting up the IP addresses we need to configure the routing so that the
 kernel knows where to route the network traffic. In this case we want all
 traffic to go through the routing machine. In \cref{listing-routing} we
-configure all IP traffic bound for the subnet 192.168.1.X to be routed through
-the router machine with IP 192.168.2.1.
+configure all IP traffic bound for the subnet 192.168.10 to be routed through
+the router machine with IP 192.168.11.1.
 
 \begin{lstlisting}[frame=single, caption="Configuring routing rules for the client", label=listing-routing]
-ip route add unicast 192.168.1.0/24 via 192.168.2.1
+ip route add unicast 192.168.10.0/24 via 192.168.11.1
 \end{lstlisting}
 
-\subsubsection{Emulating different types of networks}
+\subsubsection{Emulating Different Types of Networks}
 
 Since all network traffic passes through the routing machine, we can control the
 flow of IP packets here. As previously discussed, we use NetEm.  For each
@@ -262,7 +281,7 @@ Skrive kort om kongsberg radioen.
 \label{figure-radio-testing-environment}
 \end{figure}
 
-\subsection{Proxy setup}
+\subsection{Proxy Setup}
 
 For all test cases, the proxies ran on the same machine as their intended users.
 The client and its proxy ran on one machine, while the Web service and its proxy
@@ -278,9 +297,9 @@ broker, used by test cases involving AMQP.
  uncompressed.
 
 During testing we discovered that especially \gls{coap} was very sensitive to
-the size of the messages being sent. We therefore also developed a test
-application that allowed the client to request a number of bytes from the
-server. This allowed us to see how CoAP performed with different message sizes.
+the size of the messages being sent. We therefore also performed some
+experiments by running tests where we investigated how it behaved with messages
+of different sizes.
 
 \subsection{NFFI W3C Web Service}
 
@@ -315,16 +334,17 @@ large number of positions in the NFFI format.
 
 \subsection{RESTful Car Service}
 
-The RESTful Car service is an example service keeping order of cars in a ``car
-system''. The service exposes an \gls{api} which offers different operations to
-manage the car system. Clients can invoke these operations by using HTTP
-requests and utilizing the associated HTTP method to indicate what to do with an
-resource. Since RESTful services are payload agnostic, we chose JSON to
-represent the data being sent between the server and the client. JSON is a
-lightweight data-format. Each test run consist of a client sequentially invoking
-the server with different API requests. The most common HTTP-methods GET, PUT,
-POST, and DELETE are all part of the testing. An example of usage of the Car
-system is illustrated in \cref{figure-rest-flow}.
+We originally wanted to use a service resembling a military scenario like the
+NFFI service. However, no such applications were easily available for testing at
+the time of writing the thesis. For the purpose of testing RESTful services, we
+therefore chose to develop a small example service ourself.   The RESTful Car
+service is a service keeping order of cars in a ``car system''. The service
+exposes an \gls{api} which offers different operations to manage the car system.
+Clients can invoke these operations by using HTTP requests and utilizing the
+associated HTTP method to indicate what to do with an resource. Since RESTful
+services are payload agnostic, we chose \gls{json} to represent the data being
+sent between the server and the client. An example of usage of the Car system is
+illustrated in \cref{figure-rest-flow}.
 
 \begin{figure}[h]
 \centering
@@ -332,6 +352,13 @@ system is illustrated in \cref{figure-rest-flow}.
 \caption{RESTful car service}
 \label{figure-rest-flow}
 \end{figure}
+
+ Each test run of the Car system consist of a client sequentially invoking the
+ server with different API requests, listed in \cref{table:car-requests}. The
+ most common HTTP-methods GET, PUT, POST, and DELETE are all part of the
+ testing.
+
+
 
 \begin{table}[h]
 \begin{tabular}{|l|l|l|l|}
@@ -352,18 +379,27 @@ system is illustrated in \cref{figure-rest-flow}.
 \textbf{Total:}       & \textbf{12}               & \textbf{3080}                & \textbf{4244}          \\ \hline
 \end{tabular}
 \caption{RESTful Car Service HTTP requests}
+\label{table:car-requests}
 \end{table}
 
 
-\subsection{Request Size Application}
+\subsection{CoAP Experiments}
 
-This application allowed us to test with different message sizes.
+During the test execution of the NFFI and Car System service, we discovered that
+CoAP was very sensitive to size of the message it was supposed to send. In
+addition to the two test applications, to learn more we also experimented
+by sending messages of different sizes with CoAP.
 
+To do this, we used the simple http-server\cite{http-server-homepage}, which
+runs on the node runtime. The HTTP-server was configured to serve three files of
+different sizes. First, a byte file with  1, 2 500 bytes and 100 000 bytes. The
+values was chosen to trigger fragmentation at different network layers. Ethernet
+has a \gls{mtu} on around 1 500 bytes and IP on 65 535 bytes. Furthermore, we
+created a basic Java client to request these files.
 
+\subsection{Test Execution}
 
-\subsection{Test parameters}
-
-The tests was performed with the following parameters.
+The tests was performed with the following parameters:
 
 \begin{itemize}
 	\item GZIP compression on/off.
@@ -371,8 +407,32 @@ The tests was performed with the following parameters.
     \item Transport protocol used.
 \end{itemize}
 
-\subsection{Test Applications summary}
+Each test execution was initiated from a Java client running on the "client"
+machine. We then measured how long it took to complete all requests, thus
+allowing us to measure the Route Trip Time (RTT). All tests were performed
+multiple times in order to calculate the mean, standard deviation and variance.
+The results used to create the graphs presented in the next sections, are
+included in the appendix, \cref{appendix-results}. For all networks, we also
+tested without using the proxy. In those cases, requests were sent uncompressed
+from the client to the Web service.
 
+
+\subsection{Test Applications Summary}
+
+A test run for the NFFI service and the RESTful Car service consist of
+sequentially sending HTTP requests to their respective Web service. However,
+they have some fundamental differences:
+
+\begin{itemize}
+
+     \item The Car system test involves running 12 HTTP requests, while the NFFI
+     request only invokes three.
+
+    \item The payload of each request response is generally is much smaller for
+    the Car system tests. Moreover, the response message of the third request of the NFFI
+    service is significantly larger than any other request or response.
+
+\end{itemize}
 
 \section{Function tests}
 
@@ -407,30 +467,39 @@ without proxies has the best performance in this unlimited network.
 \end{figure}
 
 
-\section{DIL Tests - Disconnected}
+\section{DIL Tests - Intermittent and Disconnected}
 
-In this scenario we evaluate  the performance with the DIL characteristic
-\textit{disconnected}, which refers to the network suddenly going down when the
-application is sending data. The objective of this testing is to evaluate how
-the proxy manages disconnects over longer periods of time. We define the success
-criteria for this test to be that the client is able to eventually process his
-request after the connection is reestablished. The client HTTP request should
-not be interrupted in any way, other than it taking longer time to process the
-request.
+\textit{Intermittent} and \textit{disconnected} refers to the network connection
+being lost for some periode of time, but then regained again. Disconnected
+refers to loss of connection over a longer period, while intermittent is a
+special case of disconnected and refers to shorter disruptions. In our testing
+we focused on loss of connections for longer periodes of time. The objective of
+this testing is to evaluate how the proxy manages loss of connections over
+periodes of time. We define the success criteria for this test to be that the
+client is able to eventually process his request after the connection is
+reestablished. The clients HTTP request should not be interrupted in any way,
+other than it taking longer time to process the request.
 
 \subsection{Execution}
 
- The tests are performed on an unlimited network. During testing the Ethernet
- cable between the client machine and the router was removed for about 60
- seconds. It was then reconnected.
+ The tests were performed on an unlimited network and were performed for
+ both the NFFI and Car system service. They were executed by starting the test
+ applications and then immediately removing the Ethernet cable between the
+ client machine and the router machine. We then waited around 60 seconds,
+ allowing requests to trigger timeouts and thus invoking the proxies redelivery
+ mechanisms. Finally, we connected the cable again and observed if the test
+ application were able to finish its requests successfully.
+
 
 \subsection{Results and Analysis}
 
 For both the REST and W3C Web service test scenarios the results were identical.
 Without using proxies, the connection timed out and the applications were unable
-to continue. With proxies the connection did not time out, and the protocols
-retransmission mechanism were able to continue transmission when connection was
-reestablished.
+to continue as shown in \cref{table:disconnected-nffi} and
+\cref{table:disconnected-rest}. With proxies, the connection did not time out
+and the protocols retransmission mechanism were able to continue transmission
+when connection was reestablished.
+
 
 \begin{table}[h!]
 \begin{tabular}{| l | l |}
@@ -442,6 +511,7 @@ reestablished.
   Proxy with CoAP & Success \\ \hline
 \end{tabular}
 \caption{NFFI Web service results}
+\label{table:disconnected-nffi}
 \end{table}
 
 \begin{table}[h!]
@@ -454,46 +524,9 @@ reestablished.
   Proxy with CoAP & Success \\ \hline
 \end{tabular}
 \caption{RESTful Web service results}
+\label{table:disconnected-rest}
 \end{table}
 
-
-
-\section{DIL Tests - Intermittent}
-
-\textit{Intermittent} refers to the network connection being lost, but then
-regained again. The objective of this testing is to evaluate how the proxy
-manages frequent temporary loss of connections. The success criteria is the same
-as for disconnected, the client should not notice any disruption of service.
-
-\subsection{Execution}
-
-Not done yet. Similar to disconnect.
-
-\subsection{Results}
-
-\begin{table}[H]
-\begin{tabular}{| l | l |}
-\hline
-  \textbf{Test} & \textbf{Result} \\ \hline
-  Without proxy & X \\ \hline
-  Proxy with HTTP & X \\ \hline
-  Proxy with AMQP & X \\ \hline
-  Proxy with CoAP & X \\ \hline
-\end{tabular}
-\caption{W3C Web service results}
-\end{table}
-
-\begin{table}[H]
-\begin{tabular}{| l | l |}
-\hline
-  \textbf{Test} & \textbf{Result} \\ \hline
-  Without proxy & X \\ \hline
-  Proxy with HTTP & X \\ \hline
-  Proxy with AMQP & X \\ \hline
-  Proxy with CoAP & X \\ \hline
-\end{tabular}
-\caption{RESTful Web service results}
-\end{table}
 
 \section{DIL Tests - Limited}
 
@@ -637,12 +670,6 @@ CoAP has the best performance.
 \caption{CNR tests - REST}
 \end{figure}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/cnr/size/result.pdf}
-\caption{Size request results}
-\end{figure}
-
 
 \subsection{EDGE}
 
@@ -683,7 +710,11 @@ For NFFI tests, compression yields a lot of increase in performance.
 \caption{Tactical Broadband - REST}
 \end{figure}
 
+\section{Discussion}
 
+Diskutere resultater. Ta opp at CoAP er veldig bra på små meldinger, men sliter
+på store. Det er et kjent problem, og det er arbeid som gjøres for å spesifiere
+mekansimer for gjøre dette anderledes.
 
 \section{Summary}
 
@@ -701,7 +732,7 @@ to the discussion and conclusion in the next chapter.
 \begin{tabular}{| l | l | l |}
 \hline
   \textbf{Network} & \textbf{NFFI Web service recommendation} & \textbf{REST recommendation}\\ \hline
-  \gls{satcom} & AMQP Proxy & 550 ms \\ \hline
+  \gls{satcom} & X & X \\ \hline
   \gls{los} & X & X\\ \hline
   WiFi 1 & X & X \\ \hline
   WiFi 2 & X & X \\ \hline

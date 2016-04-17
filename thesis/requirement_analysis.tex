@@ -13,68 +13,84 @@ premises were:
     \item Work with security mechanisms.
 \end{enumerate}
 
-Based on previous research, in particular the work of the \gls{nato}
-research groups IST-090 and IST-118, we are in thesis building a proxy solution
-supporting these premises. In the following sections we discuss the specific requirements
-for this approach.
+Based on previous research, in particular the work of the \gls{nato} research
+groups IST-090 and IST-118, we are in thesis developing a proxy solution
+supporting these premises. In the following sections we discuss the specific
+requirements for this approach.
 
 \section{HTTP Proxy}
 
-The first premise implies that our proxy must accept \gls{http}, as this is the far
-most used Web service protocol. Furthermore, the third and forth premises have
-some important important implications for our proxy. Our proxy must be able to
-accept a HTTP requests from a Web service, forward it to the other proxy, which
-in turn delivers it to the intended receiver. The communication between the
-proxies are not required to be with HTTP, but rather a protocol that deals with DIL
-networks in a better way. However, since ultimately a HTTP request should be
-delivered to the intended receiver, the HTTP properties must be retained. This
-means that the proxy must preserve the HTTP method and headers. Also, since
-REST is payload agnostic, the proxy must be able to support different types of
-data being sent through it (XML, JSON etc.).
+The first premise implies that our proxy must accept \gls{http}, as this is the
+far most used Web service protocol. Furthermore, the third and forth premises
+have some important important implications for our proxy. Our proxy must be able
+to accept a HTTP requests from a Web service, forward it to the other proxy,
+which in turn delivers it to the intended receiver. The communication between
+the proxies are not required to be with HTTP, but rather a protocol that deals
+with DIL networks in a better way. However, since ultimately a HTTP request
+should be delivered to the intended receiver, the HTTP properties must be
+retained. This means that the proxy must preserve the HTTP method and headers.
+Also, since REST is payload agnostic, the proxy must be able to support
+different types of data being sent through it (XML, JSON etc.).
 
 Furthermore, the proxy must be able to handle the difficult network conditions
 of DIL. The specific requirements are outlined in the following sections.
 
-\section{Cope with DIL networks}
+\section{Cope with DIL Networks}
 
 The \gls{dil} term refers to three aspects of a network, \textit{disconnected,
-intermittent} and \textit{limited}. Any optimization techniques must be able to
-handle the implications of these aspects. In the following sections we discuss
-the requirements each aspect enforces.
+intermittent} and \textit{limited}. Any optimization techniques should be able to
+overcome the implications of these aspects. In the following sections we discuss
+the requirements each aspect implies.
 
 \subsection{Disconnected}
 
 The Disconnected aspect of DIL refers to disconnects for a longer period of
-time. As we saw in the previous chapter, earlier work has identified the removal
-of end-to-end dependencies as important to handle this aspect. By employing
-proxies, the end-to-end dependency is instead moved from between a client and a
-Web service, and to between the client and the locally deployed proxy.
-Followingly, the connection between the proxies over a DIL network can still be
-lost, while still maintaining the connection between the client and local proxy.
-This means that the proxy must maintain the connection with the local
-application, while managing loss of connection with the other proxy. When the
-connection are reestablished, the proxy should continue sending the data and
-finally delivering a response back to the client.
+time. As we saw in the previous chapter, earlier work have identified the removal
+of end-to-end dependencies as important to overcome this aspect. Without
+proxies, a disconnect for a longer period of time would cause a timeout
+exception at the Web service, leaving it up to Web service itself to deal with
+the exception. By employing a proxy pair, the end-to-end dependency is instead
+moved from between a client and a Web service, and to between the client and the
+locally deployed proxy. As a result, the connection between the proxies over a
+DIL network can be lost, while still maintaining the connection between the
+client and local proxy. When the connection is reestablished, the proxy must be
+able to continue transmission of messages on behalf of clients.
 
-This requires the proxy to have some sort of redeliver mechanism, which after a
-configurable amount of time tries to retransmit the data. If still unsuccessful,
-the proxy waits an amount of time before attempting again. This can be done a
-configurable amount of times, or indefinitely until the connection is
-reestablished. One consideration about this is the risk of overflowing the
-receiver. It is therefore common to use an exponential back off. This mechanisms
-grants that the proxy tries frequently immediately after loss of connection, but
-then gradually tries more and more seldom. Different use cases may require
-different parameters, so back-off and redeliver delay should be able to alter
-via proxy configuration.
+This requires the proxy to have some sort of redelivery mechanism. When a proxy
+detects that it unable to transmit messages to the other proxy, it should
+ideally wait until the connection is reestablished before trying to send more
+messages. However, the only way to know if the connection is reestablished is to
+try and send more messages and see if they succeed. The first, and maybe naive
+approach, could be to just retransmit the message again and again. But by doing
+this, we could risk overflowing a slow receiver, as well as causing congestion
+in a possible overloaded network. Different types of networks and different use
+cases for the applications involved may require different redelivery mechanisms.
+At deployment, the proxy should therefore support a  set of configurable
+redelivery mechanism properties:
+
+\begin{description}
+
+    \item[Redelivery Delay] The proxy should support retrying sending messages
+    with a fixed delay between each attempt.
+
+    \item[Exponential Backoff] If exponential backoff is configured, the proxy
+    should gradually try resending more and more seldom.
+
+    \item[Maximum Redeliveries] The proxy should support user configuration of
+    how many times a retransmission should attempted before giving up.
+
+\end{description}
+
 
 \subsection{Intermittent}
 
-The proxy should handle brief, temporary disconnects that can ocour in a DIL
+The proxy should handle brief, temporary disconnects that can occur in a DIL
 network. It is comparable to the disconnect aspect, as intermittent refers to a
 shorter disconnect. A "long" intermittent disconnect triggers a timeout at the
 application layer and should be dealt with by the proxy retransmission
 mechanisms. With shorter intermittent disconnects, the transport protocol should
-be able to deal with it. This requires using a reliable transport protocol.
+be able to deal with it. This requires using a reliable transport protocol, or
+by handling it on the application layer.
 
 \subsection{Limited}
 
@@ -85,10 +101,15 @@ amount of bytes that need to be sent over a limited network is important.
 Moreover, the proxy may run on machines with restricted resources (battery
 capacity), which means that a low CPU overhead is desired.
 
-\section{Support optimization techniques}
+\section{Support Optimization Techniques}
 
 To improve the performance of Web services in DIL environments, the proxy should
-support a set of optimization techniques.
+support a set of optimization techniques. As we discussed in the related works
+chapter, there exist many approaches to optimizing Web services. Reducing Web
+service overhead by using compression was identified as technique that yields a
+significant improvement. Another approach was the usage of alternative transport
+protocols. In this thesis we focus on compression and the usage of alternative
+protocols as the means of optimizing Web services.
 
 \subsection{Compression}
 
@@ -101,15 +122,16 @@ both RESTful and W3C Web services. RESTful services does not put any
 restrictions on the data format of a message. Thus, we cannot use XML-specific
 compression, but rather we need to use general-purpose techniques.
 
-Based on previous work we identified GZIP as the best approach for compression.
+Based on previous work we identified GZIP as the best approach for general
+purpose compression.
 
-\subsection{Proxy protocol communication}
+\subsection{Proxy Protocol Communication}
 
-One of the optimization techniques we have identified is the usage of
-alternative transport protocols between the proxy pair. We introduced a set of
-protocols in the technical background chapter and discussed previous evaluations
-using them in DIL networks in last chapter. In the following paragraphs we
-analyse them for usage in the context of proxy communication in a DIL network.
+One of the optimization techniques we identified is the usage of alternative
+transport protocols between the proxy pair. We introduced a set of protocols in
+the technical background chapter and discussed previous evaluations using them
+in DIL networks in last chapter. In the following paragraphs we analyse them for
+usage in the context of proxy communication in a DIL network.
 
 \begin{description}
 
@@ -117,28 +139,31 @@ analyse them for usage in the context of proxy communication in a DIL network.
     over TCP. TCP is an old and proven protocol and was originally designed to
     provide reliable end-top-end communication over unreliable networks. The
     less intrusive optimization technique would therefore be that the proxies
-    simply forwards HTTP-requests without using an alternative protocol. Since
-    HTTP is in extensive use in many different type of networks. We therefore
-    recommend HTTP as a possible proxy pair communication method.
+    simply forwards HTTP-requests without using an alternative protocol.
+    Although proxing Web service requests through proxies cause some overhead from
+    processing time and custom proxy headers, we still get the benefit of
+    breaking the end-to-end dependency and the possibility of using compression.
+    Furthermore, using HTTP allows us to compare the "standard" protocol against
+    other protocols. We therefore recommend HTTP as a possible proxy pair
+    communication method.
 
-    \item[\gls{udp}] UDP is a fast protocol with less overhead than TCP, but
-    lack mechanisms for reliability and congestion control. The lack of
-    reliability could be done at the application level instead, but would
-    require a library on top of it. Furthermore it is not TCP-friendly. For
-    these reasons we conclude that UDP is unfit for proxy communication as part
-    of this thesis.
+    \item[\gls{udp}] UDP has less overhead than TCP, but lacks mechanisms for
+    reliability and congestion control. The lack of reliability could be handled
+    at the application level instead, but would require a library on top of it.
+    Furthermore it is not TCP-friendly. For these reasons we conclude that UDP
+    is unfit for proxy communication as part of this thesis.
 
-    \item[\gls{coap}] CoAP is a relatively new protocol designed for use in the
+    \item[\gls{coap}] CoAP is a relatively new protocol intended for use in the
     Internet of Things. It is designed to have low overhead, low code footprint
     and be easily mapped to and from HTTP. These properties makes the protocol
     very interesting as the means of communication between a proxy pair.
 
     \item[\gls{amqp}] AMQP is in widespread use, and offers reliable message
-    transmission. It support both the request-reply and publish-subscribe message paradigms. We therefore recommend AMQP as a possible proxy pair communication method.
+    transmission. It support both the request-response and publish-subscribe message paradigms. We therefore recommend AMQP as a possible proxy pair communication method.
 
     \item[MQTT] MQTT is a publish-subscribe messaging protocol and is considered
-    as light weigh and simple to implement. However, due to the inter-proxy
-    communication requires an request-reply type of messaging, MQTT does not
+    as lightweight and simple to implement. However, due to the inter-proxy
+    communication requires an request-response type of messaging, MQTT does not
     facilitate this type of communication. With that said, it is possible to
     have a request-response paradigm on top of publish-subscribe by organizing
     queues and by using some application logic. However, since MQTT does not
@@ -146,7 +171,7 @@ analyse them for usage in the context of proxy communication in a DIL network.
     proxy pair communication.
 
     \item[\gls{sctp}] SCTP offers functionality from both UDP and TCP. It is
-    reliable and has been identified in previous related work as a interesting
+    reliable and has been identified in previous related work as an interesting
     protocol for DIL networks. We therefore recommend it as a possible proxy
     communication method.
 
@@ -183,12 +208,13 @@ summarized here:
     \item Receive and forward HTTP requests
     \item Retain HTTP request and response headers.
     \item Support GZIP compression of payload.
-    \item Handle frequent disconnects.
+    \item Handle frequent network disruptions.
     \item Handle disconnects over longer periodes of time.
-    \item Handle very low data rate.
+    \item Handle low data rates, high delays and high packet error rates.
     \item Allow for configuration of redelivery delay and maximal number of retransmissions.
     \item Support usage of different transport protocols between the proxies.
     \item Easy configuration of which protocol to use.
+    \item Be easily extendable to include other protocols and other optimization techniques.
 \end{enumerate}
 
 Next, we discuss the design and implementation of our proxy supporting these

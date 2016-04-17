@@ -92,6 +92,7 @@
 \newacronym{ietf}{IETF}{Internet Engineering Task Force}
 \newacronym{iot}{IoT}{Internet of Things}
 \newacronym{ip}{IP}{Internet Protocol}
+\newacronym{json}{JSON}{JavaScript Object Notation}
 \newacronym{jvm}{JVM}{Java Virtual Machine}
 \newacronym{los}{LOS}{Line of Sight}
 \newacronym{lte}{LTE}{Long-Term Evolution}
@@ -114,6 +115,7 @@ Information Standards}
 \newacronym{soa}{SOA}{Service Oriented Architecture}
 \newacronym{soap}{SOAP}{SOAP}
 \newacronym{std}{STD}{Standard Deviation}
+\newacronym{tbf}{TBF}{Token Bucket Filter}
 \newacronym{tcp}{TCP}{Transmission Control Protocol}
 \newacronym{udp}{UDP}{User Datagram Protocol}
 \newacronym{uri}{URI}{Uniform Resource Identifier}
@@ -133,18 +135,22 @@ and Limited Environments}
 \chapter*{Abstract}
 
 Using \gls{cots} software over networks that are \gls{dil} may not perform
-satisfactory, or can even break down entirerly. Such networks are characterized
-by seing frequent disruptions for both shorter and longer periodes, as well as
-high delays, low data rates and high packet error rates. In this thesis, we design
-and implement a HTTP proxy to improve the performance of Web services in DIL
-environments. The main idea of our design is to deploy a pair of proxies to
-facilitate HTTP communication. To evaluate the performance of different
-transport protocols in these networks, the proxy is designed to support
-\gls{http}, \gls{amqp} and \gls{coap} for \textit{inter-proxy commmunication}.
-By introducing a proxy pair, we was able to break the end-to-end dependency
-between two services communicating over a DIL network, thus acheiving higher
-reliability. Furthermore, experimental results reveal that when the message size
-is low, \gls{coap} has a lower overhead than the other protocols.
+satisfactory, or can even break down entirely. Such networks are characterized
+by seeing frequent disruptions for both shorter and longer periodes, as well as
+high delays, low data rates and high packet error rates. In this thesis, we
+design and implement a HTTP proxy to improve the performance of Web services in
+DIL environments. The main idea of our design is to deploy a pair of proxies to
+facilitate HTTP communication between entities. As an optimization technique, we
+evaluate the usage of alternative transport protocols to carry information
+across these type of networks.
+
+The implemented proxy is designed to support \gls{http}, \gls{amqp} and
+\gls{coap} for \textit{inter-proxy communication}. By introducing a proxy pair,
+we was able to break the end-to-end dependency between two services
+communicating over a DIL network, thus achieving higher reliability.
+Furthermore, experimental results reveal that when the message size is low,
+\gls{coap} has a lower overhead than the other protocols. MER OM RESULTER
+SENERE.
 
 
 

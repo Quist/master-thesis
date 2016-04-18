@@ -1,3 +1,4 @@
+
 \chapter{Introduction}
 
 Military units operate under conditions where the reliability of the network
@@ -77,12 +78,11 @@ service available to others and implementing the service according to the
 service description. Services are made available to service consumers through a
 form of \textit{service discovery}. This can be a static configuration, or more
 dynamic with a central \textit{service registry}, where service providers
-publish service descriptions. Service consumers fin
-d the services they need by
+publish service descriptions. Service consumers find the services they need by
 contacting the service registry. The communication between services occur
 through the exchange of standardized messages.
 
-Following the \gls{soa} principles dictates a very loose coupling between
+Following the \gls{soa} principles dictate a very loose coupling between
 services and the consumers of those. This allows software systems to be more
 flexible, as new components can be integrated with minimal impact on the
 existing system. Another aspect of loose coupling is with regard to time, which
@@ -94,7 +94,7 @@ through the usage of runtime service discovery, which is dynamic retrieval of
 the new location of the service.
 
 Furthermore \gls{soa} enables service implementation neutrality. The
-implementation of service is completely separated from the service
+implementation of a service is completely separated from the service
 description. This allows re-implementation and alteration of a service without
 affecting the service consumers. Thus this can attribute to keep development
 costs low and avoiding proprietary solutions and vendor lock-in. Another
@@ -102,7 +102,7 @@ benefit with \gls{soa} is re-usability by dividing common business processes
 into services, which may help cost reduction and avoids duplication.
 
 \gls{soa} is only a pattern and the concepts can be realized by a range of
-technologies. The most common used approach is the Web service family of
+technologies. The most common approach used is the Web service family of
 standards, using the SOAP messaging protocol. To achieve interoperability
 between systems from different nations and vendors, NATO has chosen this
 technology in order to realize the \gls{soa} principles\cite{soa-baseline}. This
@@ -194,7 +194,7 @@ The term data rate refers to the amount of data that can be transmitted over a
 network per unit of time. Delay refers to the time it takes for a bit of data to
 travel across the network from machine to machine. \gls{per} means the number of
 incorrectly received packets divided by the total number of received packets. A
-packet is considered as incorrect if at least one bit is transmitted erroneous.
+packet is considered as incorrect if at least one bit error occurs.
 
 In addition to network limitations, other factors may also restrict
 communication for military units. As an example, consider a military foot patrol
@@ -369,7 +369,8 @@ implementation, and application}.
  specification, and repeatedly inventing and investigating alternative solutions
  until a reliable, maintainable, documented, and tested design is achieved.
 
-The research methodology used in this thesis is based on the design process. The four steps and the efforts undertaken in them are summarized here:
+The research methodology used in this thesis is based on the design process. The
+four steps and the efforts undertaken in them are summarized here:
 
 \begin{description}
 

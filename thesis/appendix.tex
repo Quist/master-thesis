@@ -1,5 +1,26 @@
 \begin{appendices}
 
+\chapter{Configuration of Proxy}
+\label{appendix-config}
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{|l|X|l|l|}
+    \hline
+    \textbf{Field}         & \textbf{Purpose}                                                   & \textbf{Required} & \textbf{Type} \\ \hline
+    useCompression         & Turn GZIP compression on/off                                       & Yes               & boolean       \\ \hline
+    protocol               & Inter-proxy communication protocol                                 & Yes               & String        \\ \hline
+    hostname               & Hostname to listen on                                              & Yes               & String        \\ \hline
+    port                   & Which port the proxy should listen for messages                    & Yes               & Integer       \\ \hline
+    targetProxyHostname    & The hostname and the port of the opposite proxy                    & Yes               & String        \\ \hline
+    timeout                & The timeout value of a request between proxies                     & No                & Integer       \\ \hline
+    useExponentialBackoff  & Turn on/off exponentiall backoff of retransmission                 & No                & Integer       \\ \hline
+    redeliveryDelay        & Number of milliseconds to wait before trying redelivery            & No                & Integer       \\ \hline
+    maximumRetransmissions & Maximum number of attempted retransmissions. -1 indicates infinity & No                & Integer       \\ \hline
+\end{tabularx}
+\caption{My caption}
+\label{my-label}
+\end{table}
+
 \chapter{Network emulating}
 
 \label{appendix-netem-scripts}

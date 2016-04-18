@@ -53,6 +53,9 @@ configured by the user of the proxy.
 \label{figure:proxy-communication}
 \end{figure}
 
+\subsection{Message Broker}
+Placeholder
+
 \section{Choosing a Framework}
 
 Requirement one implies creating a HTTP proxy which accepts HTTP requests,
@@ -89,8 +92,6 @@ received, Camel can invoke a new set of processors on the message, before it is
 finally returned to the origin. An overview of this can be seen in
 \cref{figure:camel-route}.
 
-Describe Camel Components.
-
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.7]{images/camel_routes.pdf}
@@ -98,9 +99,16 @@ Describe Camel Components.
 \label{figure:camel-route}
 \end{figure}
 
+To consume and produce messages from different protocols, databases and other
+sources of messages, Camel offers a set of \textit{components}. These
+can be considered as factories for endpoint instances. For example, the AMQP
+component allows Camel to route messages using the AMQP protocol. Camel includes
+numerous components, and is designed to support user written components as well.
+
+
 \section{Implementation}
 
-The proxy was implemented as a Java 1.8 application using the Apache Camel
+The proxy is implemented as a Java 1.8 application using the Apache Camel
 framework. A large part of the implementation is concerned about reading user
 configuration and setting up \textit{routing rules} for Apache camel. The stages
 of the program are as follows:
@@ -114,7 +122,8 @@ of the program are as follows:
 
 \subsection{Parsing Configuration}
 
-The first stage involves reading a user provided configuration file. Details about the configuration is explained in section X.
+The first stage involves reading a user provided configuration file. Details
+about the configuration is explained in \cref{section:proxy-config}.
 
 \subsection{Initializing Components}
 
@@ -123,41 +132,52 @@ communication, at startup the respective Camel component is initiated  and added
 to the Camel context.
 
 Due to the time available, we did not implement support for all of the
-recommendation protocols from the last chapter. The currently supported protocols
+recommended protocols from the last chapter. The currently supported protocols
 are HTTP, AMQP and CoAP. However, the proxy is designed to by easily extended to
 include additional protocols.
 
 \subsubsection{HTTP Component}
 
 We made use of the Camel component Jetty in order to consume and produce HTTP
-requests. The component is based on the Jetty Web server\cite{jetty-homepage}.
-It was used for two purposes: to consume \gls{http} requests from applications
-and if HTTP was configured,as the selected protocol, to consume/produce HTTP
-messages as part of the inter-proxy communication.
+requests. The component is based on the Jetty Web server\cite{jetty-homepage}
+and is used for two purposes. First, to consume \gls{http} requests from
+applications. Secondly, if HTTP was configured as the selected protocol, to
+consume and produce HTTP messages as part of the inter-proxy communication.
 
 \subsubsection{AMQP Component}
 
-Describe AMQP component.
+Apache Camels AMQP component supports the AMQP 1.0 protocol using the JMS Client
+API of the Qpid project. JMS is a Java Message Oriented Middleware for sending
+messages between two or more clients. In the proxy component initialization
+phase, the AMQP component is initialized to connect to the configured broker. In
+addition, the request timeout value of an AMQP request is set either to the
+default value of 20 seconds, or to the configured value.
 
 \subsubsection{CoAP Component}
 
-Describe CoAP component
+At the time of writing this thesis, there was no available Camel component for
+the CoAP protocol. We therefore implemented our own custom component, supporting
+the transport of CoAP messages. The component utilizes Californium, which is a
+Java framework supporting the CoAP protocol \cite{californium-homepage}.
+Californium is open source and is part of the \gls{iot} ecosystem of Eclipse.
+The component is initialized with the port the CoAP server should listen for
+requests. In addition, a optional timeout value for a CoAP request can be added.
 
 \subsection{Routes}
 
 A running proxy listens on two \textit{routes}. It can either receive messages
 from an application, or it can receive a message from the other proxy. This
 setup can be seen in \cref{figure:dil-routes}. The routing logic is different
-for these two cases. We define a request origination from an outside application
+for these two cases. We define a request originating from an outside application
 as the \textit{application route}, and a request origination from another proxy
-as a \textit{proxy route}. We discuss these routes, but first we need to
+as the \textit{proxy route}. We discuss these routes shortly, but first we need to
 introduce what we have chose to call the \textit{proxy message format}.
 Requirement 2 says that we need to retain all the original HTTP headers from the
 original request. Consider if the proxy receives a HTTP request and forwards it
 to the other protocol using AMQP. The message itself will arrive correctly, but
 the original HTTP headers and method would be lost. Our approach to this was to
-introduce a custom \textit{proxy message format}, which is discussed in the next
-section.
+introduce a custom \textit{proxy message format}, which is discussed in
+\cref{section:proxy-header-format}.
 
 \begin{figure}[h]
 \centering
@@ -166,7 +186,10 @@ section.
 \label{figure:dil-routes}
 \end{figure}
 
+
+
 \subsection{Proxy Message Format}
+\label{section:proxy-header-format}
 
 The proxy message format was developed to retain HTTP headers and other
 necessary information about the request. Our solution was to wrap all messages
@@ -208,7 +231,7 @@ body           & Response body of the HTTP request. & No            \\ \hline
 
 An example proxy request message is included in \cref{listing:proxy-request}.
 The listing illustrates a HTTP request originating from an outside application.
-It was a POST to the intended destination http://myservice.com, with a XML
+It is a HTTP POST to the intended destination http://myservice.com, with a XML
 message as payload.
 
 \lstinputlisting[frame=single, language=json, firstnumber=1, caption="Example proxy request", label=listing:proxy-request]{listings/proxy_message.json}
@@ -217,10 +240,12 @@ message as payload.
 
 \subsection{Application Route}
 
-The purpose of the application route is to consume HTTP requests from an
-outside HTTP request, transform it to a proxy request message and deliver it
-to the other proxy. When a response is received, return it to the application.
-The route consist of the following steps:
+The purpose of the application route is to consume HTTP requests from an outside
+HTTP request, transform it to a proxy request message and deliver it to the
+other proxy using the configured protocol. The semantics of the protocol
+specific routes are explained in \cref{section:protocol-routes}. When a response
+from the other proxy is received, it is returned to the application which made
+the request. The route consist of the following steps:
 
 \begin{enumerate}
 	\item Defining a HTTP endpoint to consume HTTP requests from. This is read from the configuration which specifies which hostname and port to listen on.
@@ -253,23 +278,104 @@ proxy. The route consist of the following steps:
 	\item Return the response to the other application.
 \end{enumerate}
 
+\subsection{Protocol Specific Routes}
+\label{section:protocol-routes}
+
+Depending on which protocol the user has configured for inter-proxy
+communication, the endpoint defining the interface between the proxies is
+defined. \Cref{table:example-endpoints} lists example endpoints of a deployed
+proxy. In the example the other proxy is located at the IP address
+192.168.10.10. We discuss the protocol specific semantics in the following
+paragraphs.
+
+\begin{table}[h]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Component} & \textbf{Consume endpoint} & \textbf{Produce endpoint}       \\ \hline
+HTTP               & http://0.0.0.0:3001/proxy & http://192.168.10.10:4001/proxy \\ \hline
+AMQP               & amqp:queue:uniquename1    & amqp:queue:uniquename2          \\ \hline
+CoAP               & coap://0.0.0.0:3001/proxy & coap://192.168.10.10:4001/proxy \\ \hline
+\end{tabular}
+\caption{Example endpoints for a deployed proxy.}
+\label{table:example-endpoints}
+\end{table}
+
+
+\subsubsection{HTTP Route}
+
+If HTTP is configured as the inter-proxy communication protocol, two HTTP
+endpoints are defined. The first is used to consume from, while the second is
+used to produce to. From the user provided configuration the \textit{hostname}
+and \textit{port} is retrieved, and the proxy starts listening on this endpoint.
+Note that the HTTP component is also used to listen on requests from other
+applications. Therefore only requests with an \gls{uri} starting with a
+\textit{proxy} prefix will be treated as an incoming proxy message.
+
+In the same way, the produce endpoint is defined. The target hostname of the
+other proxy is retrieved from the configuration and the \textit{proxy} prefix
+is appended.
+
+\subsubsection{AMQP Route}
+
+AMQP messaging is based on the concept of queues. For the routing of messages
+between the proxies, we define two queues. One for incoming messages to one of
+the proxies, and one for incoming messages to the other. A proxy then consumes
+messages from its incoming messages queue and produces to the queue for incoming
+messages of the other.
+
+\subsubsection{CoAP Route}
+
+The CoAP route is similar to the HTTP route. It listens on the provided hostname
+and port, and produces messages to the configured hostname of the other proxy.
+
+
 \subsection{Dealing with Errors}
 
-Discuss retransmission mechanisms
+If an error occurs during the routing of a message, for example a timeout
+exception, the default Camel error handling is to propagate the error back to
+the requester. One of our requirements is that the proxy should be able to deal
+with disconnects. We therefore need to handle exceptions that occur during
+routing in a more elegant way. Note that this applies to the routing between the
+proxies, the \textit{proxy route}.
+
+We implement this by using the \textit{DeadLetterChannel} error handler rater
+than the default error handler. The DeadLetterChannel allows us to configure the
+redelivery policy according to the configuration of the proxy. This can either
+be with an exponential delay or with a fixed delay. Finally, the maximum number
+of redelivery attempts is set. This number can be set to infinity.
 
 \subsection{Runtime}
 
 In the running stage, the proxy listens on the defined routes and forward them
-according to the previously configured routes. All requests are logged.
+according to the previously configured routes. All requests passing through the
+proxy are logged to the console.
 
 
 \section{Functionality}
 
-The prototype is packaged as an JAR an can be started from the command line. A
-path to a valid configuration file must be passed as a command line argument.
+The proxy prototype is packaged as a JAR file and can be started from the command
+line as seen in \cref{listing:proxy-start}. The path to a valid configuration
+file must be passed as a command line argument.
 
+\lstinputlisting[frame=single, language=json, caption="How to start the proxy", label=listing:proxy-start]{listings/proxy_start.sh}
 
-\subsection{Configuration}
+\subsection{Configuration of Proxy}
+\label{section:proxy-config}
+
+The configuration of a proxy is done by passing configuration files as argument
+to the proxy at startup. In the configuration, the user can specify settings
+such as which protocol to use for inter-proxy communication and compression
+settings. We use the typesafe\cite{typesafe-homepage} configuration library to
+parse configuration files. The supported configuration options of the proxy are
+listed in \cref{appendix-config} in the appendix.
+
+\Cref{listing:proxy-config} lists an example configuration of a proxy. The proxy
+is configured to listen on port 3001 for messages from applications and forward
+them using the AMQP protocol. Messages sent to the other proxy is configured to
+be sent uncompressed. At initialization the proxy connects to the broker at the
+given location. It will consume messages on the given \textit{consumeQueue} and
+produce messages to the \textit{produceQueue}.
+
 
 \lstinputlisting[frame=single, language=json, firstnumber=1, caption="Example proxy configuration file", label=listing:proxy-config]{listings/amqp.conf}
 
@@ -277,14 +383,14 @@ path to a valid configuration file must be passed as a command line argument.
 \subsection{Proxy Setup}
 
 In order to enable the applications to tunnel all their HTTP traffic through our
-proxy, we needed a way to setup a proxy without altering the applications
-themselves. Fortunately, Java provide mechanisms to deal with
-proxies\cite{oracle-proxy}. We configured the \gls{jvm} to get the applications
-to tunnel all HTTP traffic through our proxy. This is done by setting properties
-to the \gls{jvm}:
+proxy, we need a way to set a proxy without altering the applications
+themselves. Fortunately, Java provide mechanisms to deal with proxies
+\cite{oracle-proxy}. We configured the \gls{jvm} to get the applications to
+tunnel all HTTP traffic through our proxy. This is done by setting properties to
+the \gls{jvm}:
 
 
-\begin{lstlisting}[frame=single, caption="Setting a proxy on the \gls{jvm}", label=test]
+\begin{lstlisting}[frame=single, language=json, caption="Setting a proxy on the \gls{jvm}", label=test]
 java -Dhttp.proxyHost=localhost \
 -Dhttp.proxyPort=3001 \
 -Dhttp.nonProxyHosts= \
@@ -295,6 +401,27 @@ In \cref{test} the application \textbf{client.jar} is started and all HTTP
 traffic will go through the proxy server at localhost on port 3001.
 
 
+\section{Software Used}
+
+The proxy is implemented in Java using the Apache Camel framework.
+\Cref{table:implementation-versions} lists the software versions used in the
+implementation.
+
+\begin{table}[h]
+\begin{tabular}{|l|l|}
+    \hline
+\textbf{Software} & \textbf{Version} \\ \hline
+Java            & 1.8           \\ \hline
+Apache Camel     & 2.16.1           \\ \hline
+camel-amqp      & 2.16.1            \\ \hline
+camel-jetty      & 2.16.1            \\ \hline
+javax.jms-api      & 2.0            \\ \hline
+Californium      & 1.0.0            \\ \hline
+typesafe      & 1.3.0            \\ \hline
+\end{tabular}
+\caption{Software used in the proxy implementation}
+\label{table:implementation-versions}
+\end{table}
 
 \section{Summary}
 

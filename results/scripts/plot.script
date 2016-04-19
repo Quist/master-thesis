@@ -1,7 +1,7 @@
 set terminal postscript eps enhanced color solid
 set output '|ps2pdf -dEPSCrop - result.pdf'
 
-set ylabel "Average Time(ms)"
+set ylabel "Average RTT (ms)"
 set key autotitle columnhead
 
 fontsize = 12
@@ -13,10 +13,10 @@ set style fill solid border -1
 
 #Grid lines
 set grid ytics lt 0 lw 1
+set ytics 200
 
 set style histogram clustered
 
-
-set autoscale
+set yrange [0:2000]
 
 plot filename using 2:xtic(1) title col, '' using 3:xtic(1)

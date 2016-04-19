@@ -25,7 +25,7 @@ general.
 
 To reduce design complexity, networks are organized into layers, each one built
 upon the one below it. In the Internet Protocol Suite\cite{rfc-1122}, networks
-is divided into 4 layers. As stated in the scope of this thesis, we only look
+are divided into 4 layers. As stated in the scope of this thesis, we only look
 into optimization techniques for the application and transport layer.
 
 %%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
@@ -57,14 +57,14 @@ Ethernet.
  way to the destination. Guaranteed delivery is usually handled on the higher
  levels of the Internet Protocol Suite.
 
- The core protocol of the Internet layer is \gls{ip} and its routing function
+ The core protocol of the Internet layer is the \gls{ip} and its routing function
  enables sending data over interconnected networks.
 
 \subsubsection{Transport Layer}
 
 In the Internet protocol suite model, the transport layer provides end-to-end
-communication services for applications. It builds on top on the network layer,
-and takes responsibility of sending data all the way from a process on a source
+communication services for applications. It builds on top of the network layer,
+and takes responsibility for sending data all the way from a process on a source
 machine to a process on the destination machine. The by far most used transport
 protocol is the \gls{tcp}, which provides reliable transport of data to
 applications. With reliable transport we mean that if data in transmission is
@@ -74,12 +74,13 @@ don't need to deal with the characteristics of the physical network itself.
 
 \subsubsection{Application Layer}
 
-The top layer is the application layer and is where applications real user use
-reside. The other layers provide transport services to applications found in
-this layer. When we talk about application layer protocols, we talk about
-protocols that applications use to communicate with other applications.
-Application layer protocols use the communication services the transport layer
-provides.  Examples of application layer protocols is \gls{http} and \gls{ftp}.
+The top layer of the Internet Protcol Suite is the application layer. Its role
+is to serve communication services to applications. When we talk about
+application layer protocols, we usually talk about protocols that applications
+use to communicate with other applications. Application layer protocols use the
+communication services the transport layer provides. Examples of application
+layer protocols are \gls{http} and the \gls{ftp}, which both rely on \gls{tcp}
+as the underlying transport protocol.
 
 \subsection{Messaging Patterns}
 
@@ -98,12 +99,12 @@ message.
 
 Publish-subscribe is a message pattern where subscribers express their interest
 in a type of messages, often called topics or classes. A message publisher then
-creates messages of a certain class and publish them without needing to know who are
-actually subscribing to these types of messages. Many publish-subscribe system
-employs a \textit{message broker} as seen in \cref{figure-message-brokers}. The
-message broker handles published messages from publishers and receives
-subscriptions from subscribers. The broker can perform various tasks, such as
-message filtering and prioritize queuing.
+creates messages of a certain class and publish them without needing to know who
+are actually subscribing to these types of messages. Many publish-subscribe
+system employ a \textit{message broker} as seen in
+\cref{figure-message-brokers}. The message broker handles published messages
+from publishers and receives subscriptions from subscribers. The broker can
+perform various tasks, such as message filtering and prioritize queuing.
 
 \begin{figure}[h]
 \centering
@@ -147,7 +148,7 @@ times out.
 
 Web services are client and server applications that communicate over a network.
 They can be used to realize the \gls{soa} priniciples, and are in widespread use
-in both civilian and military systems. It is worth noting that term \textit{Web
+in both civilian and military systems. It is worth noting that the term \textit{Web
 services} is a broad term and can be used to describe different types of
 services available over a network. The most common usage of the term refers to
 the \gls{w3c} definition of SOAP-based Web services, but could also refer to
@@ -172,7 +173,7 @@ In this thesis we investigate optimization techniques that should support both
 
 \paragraph{}
 
-This definition points out a set of standards that enables machine-to-machine
+This definition points out a set of standards that enable machine-to-machine
 interactions. Web service interfaces is described in documents called WSDL, and
 communication is based on sending XML-based SOAP messages. There exists many
 definitions of Web services where the core principles are the same, but the
@@ -187,7 +188,7 @@ principles, which provides loose coupling and eases integration between systems.
 \label{figure-w3c-web-services}
 \end{figure}
 
-These standards that together makes W3C Web services are presented in the
+These standards that together make W3C Web services are presented in the
 following sections.
 
 \subsubsection{\glsentrylong{xml}}
@@ -202,7 +203,7 @@ machine-readable way.
 \subsubsection{\glsentrylong{wsdl}}
 
 \gls{wsdl} is an XML-based interface definition language that describes
-functionality offered by a Web service\cite{w3c-wsdl}. The interface describes
+functionality offered by a Web service \cite{w3c-wsdl}. The interface describes
 available functions, data types for message requests and responses, binding
 information about the transport protocol, as well as address information for
 locating the service. This enables a formal, machine-readable description of Web
@@ -228,23 +229,23 @@ other protocols such as UDP and SMTP can be used as well.
 
 In the previous sections we looked into the standards and specifications that
 compose W3C Web services. However, there also exist other types of Web services
-which does not follow the these standards. In 2000, the computer scientist Roy
+which do not follow the these standards. In 2000, the computer scientist Roy
 Fielding introduced \gls{rest} where he presented a model of how he thought the
 Web \textit{should} work. This idealized model of interactions within a Web
-application\cite{rest-fielding} is what we refer to as the REST architectural
-style. REST attempts to minimize latency and network communication while
-maximizing the independence and scalability of component implementations. This
-is done by placing constraints on connector semantics rather than on component
-semantics like W3C Web services.  REST is based on a client-server model where a
-client requests data from a server when needed.
+application is what we refer to as the REST architectural style
+\cite{rest-fielding}. REST attempts to minimize latency and network
+communication while maximizing the independence and scalability of component
+implementations. This is done by placing constraints on connector semantics
+rather than on component semantics like W3C Web services.  REST is based on a
+client-server model where a client requests data from a server when needed.
 
-Web services that adhere to the REST style is called RESTful Web services. They
+Web services that adhere to the REST style are called RESTful Web services. They
 are closely associated with HTTP and use HTTP verbs(e.g GET, POST, DELETE) to
 operate on information located on a server. RESTful Web services typically
 expose some sort of information, called resources in REST. \Cref{table-rest}
 illustrates how a component exposes a set of operations of an example car
 resource. Resources are identified by a resource identifier. While W3C Web
-services is service oriented, we can look at REST as being more resource
+services are service oriented, we can look at REST as being more resource
 oriented.
 
  %%%%%%%%%%%% REST eksempel %%%%%%%%%%%%%%%%%%%
@@ -279,7 +280,7 @@ utilize the \gls{http} as their way to communicate with other services. The
 usage of \gls{http} is very widespread and it is the foundation of data
 communication for the \glsentrylong{www} since the early 90's. It's protocol
 specification is coordinated by \gls{ietf} and the \gls{w3c}, and is defined
-as\cite{rfc-2616}:
+as \cite{rfc-2616}:
 
 \paragraph{}
 \textit{
@@ -295,7 +296,7 @@ as\cite{rfc-2616}:
 
 \gls{http} started out as a simple protocol for raw data transfer across the
 Internet and has since been updated in HTTP/1.0, HTTP/1.1 and most recently a
-major update with HTTP/2.0. It is a request-reply protocol which means that all
+major update with HTTP/2.0. It is a request-response protocol which means that all
 data exchanges are initiated with a client invoking a HTTP-request and then
 waits until a server responds with a HTTP response. A HTTP-request consist of
 the request method, \gls{uri}, protocol version, client information, and a optional
@@ -359,7 +360,7 @@ some of the issues we may encounter working with it.
 
 Computers supporting TCP have a piece of software which manages TCP streams and
 interfaces to the IP layer. Most often this software is a part of the
-kernel\cite{computer-networks}. It accepts data streams from local processes,
+kernel \cite{computer-networks}. It accepts data streams from local processes,
 and breaks them up into pieces, before sending them to the IP layer. The pieces
 are called TCP segments, which consist of a fixed 20 byte header, followed by
 zero or more data byte. The TCP software decides how big the segments should be,
@@ -410,9 +411,9 @@ an IP packet may pass through different subnets with different capabilities.
 Network congestion may occur if a node in a network receives more data then it
 is able to pass forward. The consequence of this is that an increase in network
 traffic to this node, would only lead to a small increase, or even a decrease,
-of the network throughput\cite{Al-Bahadili2012}.
+of the network throughput \cite{Al-Bahadili2012}.
 
-To avoid congestion TCP uses a number of mechanisms. These aims to control the
+To avoid congestion TCP uses a number of mechanisms. These aim to control the
 rate of data packets entering into the networks to avoid congestion, but still
 get as high throughput as possible. One of these mechanisms is
 \textit{slow-start}, which general idea is to start transmitting with a low
@@ -425,10 +426,10 @@ reduces its packet rate.
 
 DIL networks are characterized by their high delay, low data rate and relatively
 high error rate. Since TCP's congestion control interprets this as evidence of
-congestion, it will back off and use a lower data rate. This cause that TCP
-sends with a lower rate than the network actually can provide. Moreover, it
-could also ultimately lead to the TCP connection terminating due to those
-effects\cite{nato-disadvantaged-grids}.
+congestion, it will back off and use a lower data rate. This causes TCP to send
+with a lower rate than the network actually can provide. Moreover, it could also
+ultimately lead to the TCP connection terminating due to those
+effects \cite{nato-disadvantaged-grids}.
 
 
 \section{Protocols of Interest}
@@ -436,7 +437,7 @@ effects\cite{nato-disadvantaged-grids}.
 Since \gls{tcp} may be sub-optimal or even break down entirely in DIL networks,
 we're in this thesis looking into alternative protocols and other optimization
 techniques. In networks with low data rate, protocols with low overhead per IP
-packet is beneficial. With frequents disconnects, protocols that are
+packet is beneficial. With frequent disconnects, protocols that are
 connection-less may be more suitable than connection-oriented. One important
 limitation is that NATO has chosen the "everything over IP", which means that
 all optimization must occur on the top of the network layer. Because of this we
@@ -455,22 +456,22 @@ alongside \gls{tcp} is one of the core protocols of the Internet protocol suite.
 The Internet has two main protocols in the transport layer, namely \gls{udp} and
 \gls{tcp}. They have fundamentally different characteristics and use cases,
 which we go through in this section. \gls{udp} was formally defined in 1980 in
-RFC 768\cite{rfc-udp} and is a more simpler protocol than \gls{tcp}. It sends
+RFC 768\cite{rfc-udp} and is a simpler protocol than \gls{tcp}. It sends
 messages, called datagrams, to nodes over the \gls{ip} network. While \gls{tcp}
 provides reliable transmission along with flow control and congestion control,
-does UDP only support the sending of IP datagrams. Furthermore it is a
+do UDP only support the sending of IP datagrams. Furthermore it is a
 connectionless protocol, which means that the protocol can send messages
-\textit{without} first establishing a connection. Since \gls{udp} does not
+\textit{without} establishing a connection first. Since \gls{udp} does not
 provide guaranteed delivery or in-order delivery of messages, it should only be
-used by applications that does not require this.
+used by applications that do not require this.
 
 To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller
 headers and less overhead, which makes it a faster protocol. The downside is
 that it does not provide any mechanisms for congestion control or reliability.
 UDPs lack of end-to-end congestion control may result in drastic unfairness if
 an \gls{udp} stream are competing with a \gls{tcp}
-stream\cite{floyd-congestion}. While a TCP stream will detect congestion and
-back-down its traffic, an UDP stream will greedly send at full-throttle, thus
+stream \cite{floyd-congestion}. While a TCP stream will detect congestion and
+back-down its traffic, an UDP stream will greedily send at full-throttle, thus
 causing an unfair share of the available network. UDP is therefore often
 referred to as not \textit{TCP-Friendly}.
 
@@ -481,13 +482,13 @@ referred to as not \textit{TCP-Friendly}.
 \subsection{\glsentrylong{coap}}
 
 \gls{coap} is a specialized Web transfer protocol designed for use with
-constrained nodes and  networks\cite{rfc-7252}. It is designed for
+constrained nodes and  networks \cite{rfc-7252}. It is designed for
 machine-to-machine applications, typically in the Internet of Things.
 Furthermore, it is designed with a similar interface as HTTP, in order to easily
 integrate with Web services. \gls{coap} is based on the REST model, where the
 server makes resources available  under a resource identifier(URI). Clients
-access these resources using the HTTP-verbs GET, PUT, POST and DELETE. CoAP main
-features includes:
+interact with these resources using a subset of the HTTP-verbs: GET, PUT, POST and
+DELETE. CoAP main features includes:
 
 \begin{itemize}
 

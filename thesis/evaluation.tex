@@ -21,7 +21,7 @@ introduce the different test applications, test cases and the different types of
 networks used for testing. Then we present the test results for each of the
 three aspects of DIL, \textit{disconnected, intermittent} and \textit{limited.}
 The aspects were tested separately. We started with the disconnected and
-intermittent tests, where we investigated the behaviour when connection was
+intermittent tests, where we investigated the behavior when connection was
 lost. For the limited tests, we saw how different types of networks influenced
 the performance of Web services. The base case was to test without any
 intentional limitations to the network and without the actual usage of the
@@ -49,14 +49,14 @@ communication technologies can be seen in \cref{figure-networks-overview}.
 \label{figure-networks-overview}
 \end{figure}
 
-An infinite number of possible network combinations exists, so we have chosen to
+An infinite number of possible network combinations exist, so we have chosen to
 focus on five different network types identified by the task group IST-118 for
 DIL-testing. The networks were identified because they represent typical
 networks typically found in military communication. We also investigated
 \gls{lte}, commonly known as 4G, a network technology which has become in
 widespread use in the latest years. The reason for including LTE in addition to
 the ones from IST-118, is that the Norwegian Defense is looking into the
-possibility of using LTE. Thus making it interesting for us to investigate the
+possibility of using LTE. This makes it interesting for us to investigate the
 performance under this type of network as well. However, we eventually found out
 that LTE has gotten so fast and reliable, that it is not really relevant from a
 DIL perspective. We therefore instead looked into \gls{edge}, which is used as a
@@ -88,14 +88,14 @@ The different networks and their properties are summarized in
 In order to evaluate how our solution impacts the performance of Web services in
 DIL environments, we needed some way of simulating such environments. Obviously,
 we would have got the most realistic test environment by testing "out in the
-field" ourself. However, this would require of a considerable amount of effort
+field" ourselves. However, this would require of a considerable amount of effort
 and it would be difficult to reproduce the exact same environment and test
 results. We therefore choose to emulate DIL networks instead. For testing we used
 two approaches, the first one connecting two machines through a third machine.
 The third machine used a component in the Linux kernel to control the flow
 of the network traffic flowing through it, allowing us to simulate DIL networks.
 The second approach involved using actual military equipment in a laboratory at
-FFI. The benefit of using actual equipment, is that we got as realistic tests as
+FFI. The benefit of using actual equipment is that we got as realistic tests as
 possible.
 
 
@@ -108,10 +108,10 @@ in traffic controlling is the concept of queues, which collects entering packets
 and dequeues them as fast as the network hardware can accept them. The
 \gls{netem} is an enhancement of the traffic control facilities that allows us
 to control delay, packet loss and other characteristics to packets outgoing from
-a selected network interface\cite{man-netem}. These tools allow us to emulate
-different network characteristics, for which we use to emulate the networks listed
-in \cref{table-network-types}. For reference, the
-appendix, \cref{appendix-netem-scripts} lists the NetEm scripts used.
+a selected network interface \cite{man-netem}. These tools allow us to emulate
+different network characteristics, for which we use to emulate the networks
+listed in \cref{table-network-types}. For reference,
+\cref{appendix-netem-scripts} of the appendix lists the NetEm scripts used.
 
 How we configure \gls{netem} and the Linux traffic control tools to do this is
 outlined in the following paragraphs.
@@ -140,7 +140,7 @@ tokens in order to send the packet. If not, it is deferred, thus causing an
 artificial delay for the packet.
 
 \Cref{listing-netem-data-rate} shows an example configuration where we configure
-the maximum data rate of 50 kilo bits per second. The burst value is the size of
+the maximum data rate of 50 kilobits per second. The burst value is the size of
 the bucket in bytes and describes the maximum amount of bytes that tokens can be
 available for instantaneously. Limit is the number of bytes that can be queued
 waiting for tokens to be available.
@@ -165,32 +165,32 @@ be set to 20 percent.
 \subsection{iPerf 3}
 
 iPerf 3 is a tool for measurement of maximum achievable date rate on a
-network\cite{iperf3-homepage}. Since we in this thesis are \textit{emulating}
+network \cite{iperf3-homepage}. Since we in this thesis are \textit{emulating}
 different DIL networks, it is critical that the emulation is as correct and
 realistic as possible. Misconfiguration or wrongful emulation could in the worst
 case lead to us drawing invalid conclusions. To confirm and validate our network
 emulations, we therefore used iPerf 3 alongside the Linux tool \textit{ping} to
-confirm that the \gls{netem} scripts worked as expected. The measurements was
+confirm that the \gls{netem} scripts worked as expected. The measurements were
 performed between the machine hosting the client and the machine hosting the Web
 service. They were performed before starting the test cases so that the network
-traffic it generates, would not interfere.
+traffic it generated would not interfere.
 
 Cite at iPerf 3 har blitt evaluert til beste måleverktøy. Vurdere å ta med graf som viser de ulike målingene med iPerf.
 
 \subsection{Wireshark}
 
 Wireshark is a packet analyzer and allows for performing network
-analysis\cite{wireshark-homepage}. As an example, this tools allows a user to
+analysis \cite{wireshark-homepage}. As an example, this tool allows a user to
 see all IP packets sent from a machine over the Ethernet interface.
 
 When performing the testing, we used Wireshark to monitor the network traffic on
 the machine hosting the client and the local proxy. This allowed us to
-investigate the behaviour of the evaluated protocols in the different types of
+investigate the behavior of the evaluated protocols in the different types of
 networks. In particular we used it to see how many packets that were sent, as
 well as total number of bytes that were sent over the network. Moreover, we used
 it to see how long a HTTP request from a client was processed by the proxy
 before it was forwarded. This enabled us to calculate how much processing time the
-proxy used on a request, thus saying something about the CPU overhead of the proxy
+proxy used on a request, thus saying something about the CPU overhead of the proxy.
 
 \section{Test Setup}
 \label{testing-environment}
@@ -198,7 +198,7 @@ proxy used on a request, thus saying something about the CPU overhead of the pro
 The majority of testing was performed at the FFI-lab at Kjeller. All the test
 applications consisted of one client and one Web service, where the client would
 request the service for some sort of data. The client where hosted on one
-computer and the service on an another computer. The majority of testing was
+computer and the service on another computer. The majority of testing was
 done using NetEm to emulate DIL networks, and some testing was done using actual
 military radios. The machines used for testing are listed in
 \cref{table-machines}.
@@ -259,20 +259,33 @@ ip route add unicast 192.168.10.0/24 via 192.168.11.1
 Since all network traffic passes through the routing machine, we can control the
 flow of IP packets here. As previously discussed, we use NetEm.  For each
 network configuration, a bash script is run. This script configures the network
-interfaces in order to get the correct network behaviour. Both interfaces are
+interfaces in order to get the correct network behavior. Both interfaces are
 configured so the network is symmetrical in both directions, with the exception
 of EDGE which has asymmetrical data rates.
 
 \subsection{Tactical Broadband Setup}
 
-The majority of testing was performed over emulated networks. To validate these
-results we also performed tests on military communication equipment. The setup
-is illustrated in \cref{figure-radio-testing-environment}. It is point-to-point
-setup with two radios, without any multi hop functionality. The radios have
-capacity to work as a multi hop \gls{manet}, but this was not tested in this
-thesis.
+The majority of testing was performed over emulated networks. In addition, to
+validate these results we performed tests on military communication equipment.
+We used WM600 radios developed by \gls{kda}, intended for users "on-the-move".
+WM600 can be used as IP radios through the Ethernet interface and support data
+rates up to 2500 kbit/s \cite{kongsberg-wm600}. A picture of the radio can be
+seen in \cref{figure-kdawm600}.
 
-Skrive kort om kongsberg radioen.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.2]{images/kda_wm600.jpg}
+\caption{The KDA WM600 radio (from \cite{kongsberg-wm600})}
+\label{figure-kdawm600}
+\end{figure}
+
+We performed the testing at a communication laboratory at \gls{ffi} with the
+setup illustrated in \cref{figure-radio-testing-environment}. It is a
+point-to-point setup with two radios, without any multi hop functionality. The
+radios have capacity to work as a multi hop \gls{manet}, but this was not tested
+in this thesis.
+
 
 \begin{figure}[h]
 \centering
@@ -297,7 +310,7 @@ broker, used by test cases involving AMQP.
  uncompressed.
 
 During testing we discovered that especially \gls{coap} was very sensitive to
-the size of the messages being sent. We therefore also performed some
+the size of the messages being sent. We therefore also conducted some
 experiments by running tests where we investigated how it behaved with messages
 of different sizes.
 
@@ -305,7 +318,7 @@ of different sizes.
 
 For the purpose of testing W3C Web service applications we created a mock system
 which allows a client to request a service to report positions of friendly
-forces. The position reports uses the \gls{nffi} format, which has an associated
+forces. The position report uses the \gls{nffi} format, which has an associated
 XML schema with it. One test run is illustrated in \cref{figure-nffi-flow} and
 consists of the client making a HTTP POST request to the Web service. Associated
 with the request is an XML payload which tells the Web service which operation
@@ -337,11 +350,11 @@ large number of positions in the NFFI format.
 We originally wanted to use a service resembling a military scenario like the
 NFFI service. However, no such applications were easily available for testing at
 the time of writing the thesis. For the purpose of testing RESTful services, we
-therefore chose to develop a small example service ourself.   The RESTful Car
+therefore chose to develop a small example service ourselves. The RESTful Car
 service is a service keeping order of cars in a ``car system''. The service
 exposes an \gls{api} which offers different operations to manage the car system.
 Clients can invoke these operations by using HTTP requests and utilizing the
-associated HTTP method to indicate what to do with an resource. Since RESTful
+associated HTTP method to indicate what to do with a resource. Since RESTful
 services are payload agnostic, we chose \gls{json} to represent the data being
 sent between the server and the client. An example of usage of the Car system is
 illustrated in \cref{figure-rest-flow}.
@@ -390,12 +403,12 @@ CoAP was very sensitive to size of the message it was supposed to send. In
 addition to the two test applications, to learn more we also experimented
 by sending messages of different sizes with CoAP.
 
-To do this, we used the simple http-server\cite{http-server-homepage}, which
-runs on the node runtime. The HTTP-server was configured to serve three files of
-different sizes. First, a byte file with  1, 2 500 bytes and 100 000 bytes. The
-values was chosen to trigger fragmentation at different network layers. Ethernet
-has a \gls{mtu} on around 1 500 bytes and IP on 65 535 bytes. Furthermore, we
-created a basic Java client to request these files.
+To do this, we used the simple http-server\cite{http-server-homepage},
+which runs on the node runtime. The HTTP-server was configured to serve
+ three files of different sizes, 1, 2 500 bytes and 100 000 bytes.
+ The values were chosen to trigger fragmentation at different network layers.
+ Ethernet has a \gls{mtu} on around 1 500 bytes and IP on 65 535 bytes.
+ Furthermore, we created a basic Java client to request these files.
 
 \subsection{Test Execution}
 
@@ -450,32 +463,44 @@ turned on.
 
 Enabling compression yields an improvement in the performance, especially for
 W3C Web services which had much larger messages. We also notice that HTTP and
-CoAP has a almost identical performance, while AMQP has significant longer
+CoAP has an almost identical performance, while AMQP has significant longer
 average response time. Furthermore we can observe that the default solution
 without proxies has the best performance in this unlimited network.
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/function_tests/nffi/result.pdf}
-\caption{Function tests - NFFI Web service}
-\end{figure}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
+    }{\caption{Function tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/function_tests/rest/result.pdf}
-\caption{Function tests - REST}
-\end{figure}
+
+\begin{table}[H]
+\input{../results/function_tests/nffi/output/wireshark_packets}
+\caption{NFFI Function test - IP Packets sent and received by the client application.}
+\end{table}
+
+\begin{table}[H]
+\input{../results/function_tests/rest/output/wireshark_packets}
+\caption{REST Function test - IP Packets sent and received by the client application.}
+\end{table}
 
 
 \section{DIL Tests - Intermittent and Disconnected}
 
 \textit{Intermittent} and \textit{disconnected} refers to the network connection
-being lost for some periode of time, but then regained again. Disconnected
+being lost for some period of time, but then regained again. Disconnected
 refers to loss of connection over a longer period, while intermittent is a
 special case of disconnected and refers to shorter disruptions. In our testing
-we focused on loss of connections for longer periodes of time. The objective of
+we focused on loss of connections for longer periods of time. The objective of
 this testing is to evaluate how the proxy manages loss of connections over
-periodes of time. We define the success criteria for this test to be that the
+periods of time. We define the success criteria for this test to be that the
 client is able to eventually process his request after the connection is
 reestablished. The clients HTTP request should not be interrupted in any way,
 other than it taking longer time to process the request.
@@ -486,7 +511,7 @@ other than it taking longer time to process the request.
  both the NFFI and Car system service. They were executed by starting the test
  applications and then immediately removing the Ethernet cable between the
  client machine and the router machine. We then waited around 60 seconds,
- allowing requests to trigger timeouts and thus invoking the proxies redelivery
+ allowing requests to trigger timeouts and thus invoking the proxy’s redelivery
  mechanisms. Finally, we connected the cable again and observed if the test
  application were able to finish its requests successfully.
 
@@ -497,7 +522,7 @@ For both the REST and W3C Web service test scenarios the results were identical.
 Without using proxies, the connection timed out and the applications were unable
 to continue as shown in \cref{table:disconnected-nffi} and
 \cref{table:disconnected-rest}. With proxies, the connection did not time out
-and the protocols retransmission mechanism were able to continue transmission
+and the protocols retransmission mechanisms were able to continue transmission
 when connection was reestablished.
 
 
@@ -540,7 +565,7 @@ types of networks identified in \cref{table-network-types}.
 \subsection{Satellite communication}
 
 In this test scenario we emulate \gls{satcom}. With satellite communication
-all data is relayed through an communication satellite in orbit around
+all data is relayed through a communication satellite in orbit around
 the earth. This type of communication is characterized by its low data rate
 and high delay.
 
@@ -553,23 +578,38 @@ small improvement of performance, compared to the default. We can also notice
 that for the RESTful service, CoAP has better performance than default, and
 similar performance to HTTP proxies.
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/satellite/nffi/result.pdf}
-\caption{Satellite tests - NFFI Web service}
-\end{figure}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/satellite/nffi/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/satellite/rest/result.pdf}}
+    }{\caption{SATCOM tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/satellite/rest/result.pdf}
-\caption{Satellite tests - REST}
-\end{figure}
+
+\begin{table}[h]
+\input{../results/satellite/nffi/output/wireshark_packets}
+\caption{NFFI SATCOM test - IP Packets sent and received by the client application.}
+\end{table}
+
+\begin{table}[h]
+\input{../results/satellite/rest/output/wireshark_packets}
+\caption{REST SATCOM test - IP Packets sent and received by the client application.}
+\end{table}
+
+
+
 
 \subsection{Line-of-Sight}
 
 In this test scenario we emulate so-called \gls{los} networks, which are
 characterized by being a radio-based type of network with no physical obstacles
-between the nodes in the network. High data rate, low delay and zero error.
+between the nodes in the network. LOS has high data rate, low delay and zero error.
 
 \subsubsection{Results and analysis}
 
@@ -579,17 +619,29 @@ when the message is compressed CoAP has roughly equal performance as the
 default. When we look on the RESTful test application results, we see that
 CoAP performs better than default and HTTP with compressed messages.
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/los/nffi/out.pdf}
-\caption{LOS tests - NFFI Web service}
-\end{figure}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/los/nffi/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/los/rest/result.pdf}}
+    }{\caption{LOS tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/los/rest/result.pdf}
-\caption{LOS tests - REST}
-\end{figure}
+\begin{table}[h]
+\input{../results/los/nffi/output/wireshark_packets}
+\caption{NFFI LOS test - IP Packets sent and received by the client application.}
+\end{table}
+
+\begin{table}[h]
+\input{../results/los/rest/output/wireshark_packets}
+\caption{REST LOS test - IP Packets sent and received by the client application.}
+\end{table}
+
 
 
 
@@ -606,48 +658,71 @@ worse performance than the HTTP proxies, but roughly equal for the compressed
 REST tests.
 
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/wifi1/nffi/out.pdf}
-\caption{WiFi 1 tests - NFFI Web service}
-\end{figure}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/wifi1/nffi/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/wifi1/rest/result.pdf}}
+    }{\caption{WiFi 1 tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/wifi1/rest/result.pdf}
-\caption{WiFi 1 tests - REST}
-\end{figure}
+\begin{table}[h]
+\input{../results/wifi1/nffi/output/wireshark_packets}
+\caption{NFFI WiFi 1 test - IP Packets sent and received by the client application.}
+\end{table}
+
+\begin{table}[h]
+\input{../results/wifi1/rest/output/wireshark_packets}
+\caption{REST WiFi 1 test - IP Packets sent and received by the client application.}
+\end{table}
 
 
 \subsection{WiFi 2}
 
 This type of network also emulate wireless communication, but instead in the
 ``outer'' areas of the wireless range. It has good data rate, moderate delay
-and very high packet error rate(20 \%).
+and very high packet error rate (20 \%).
 
 
 \subsubsection{Results and analysis}
 
-Compared to WiFi 1, we see that all response times has increased
+Compared to WiFi 1, we see that all response times have increased
 significantly. The importance of compression has increased, the tests with
 compression turned on yields a large performance increase. In the uncompressed
 NFFI test scenario, CoAP reached it's time out, and were unable to finish. In
 the scenarios where CoAP did finish it still performed worse than default and
 HTTP. HTTP proxies with compression yielded the best results.
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/wifi2/nffi/result.pdf}
-\caption{WiFi 2 - NFFI Web service}
-\end{figure}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/wifi2/rest/result.pdf}
-\caption{WiFi 2 - REST}
-\end{figure}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/wifi2/nffi/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/wifi2/rest/result.pdf}}
+    }{\caption{WiFi 2 tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
-\subsection{Combat Net Radio with Forward Error Correction}
+\begin{table}[h]
+\input{../results/wifi2/nffi/output/wireshark_packets}
+\caption{NFFI WiFi 2 test - IP Packets sent and received by the client application.}
+\end{table}
+
+\begin{table}[h]
+\input{../results/wifi2/rest/output/wireshark_packets}
+\caption{REST WiFi 2 test - IP Packets sent and received by the client application.}
+\end{table}
+
+\subsection{Combat Net Radio}
 
 \gls{cnr} is characterized by very low data rate, moderate timeout and packet
 error rate of around 1 \%.
@@ -658,57 +733,80 @@ error rate of around 1 \%.
 Again we can observe the importance of compression in this type of networks.
 CoAP has the best performance.
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/cnr/nffi/result.pdf}
-\caption{CNR tests - NFFI Web service}
-\end{figure}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/cnr/nffi/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/cnr/rest/result.pdf}}
+    }{\caption{CNR tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/cnr/rest/result.pdf}
-\caption{CNR tests - REST}
-\end{figure}
+\begin{table}[h]
+\input{../results/cnr/nffi/output/wireshark_packets}
+\caption{NFFI CNR test - IP Packets sent and received by the client application.}
+\end{table}
+
+\begin{table}[h]
+\input{../results/cnr/rest/output/wireshark_packets}
+\caption{REST CNR test - IP Packets sent and received by the client application.}
+\end{table}
 
 
 \subsection{EDGE}
 
-About this type of network.
+EDGE is characterized by a low upload data rate, and a moderately low download
+rate. Furthermore, we emulate EDGE with a moderate delay and zero packet loss.
 
-\subsubsection{Results and analysis}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/edge/nffi/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/edge/rest/result.pdf}}
+    }{\caption{EDGE tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/edge/nffi/result.pdf}
-\caption{EDGE tests - NFFI Web service}
-\end{figure}
+\begin{table}[h]
+\input{../results/edge/nffi/output/wireshark_packets}
+\caption{NFFI CNR test - IP Packets sent and received by the client application.}
+\end{table}
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/edge/rest/result.pdf}
-\caption{EDGE  tests - REST}
-\end{figure}
+\begin{table}[h]
+\input{../results/edge/rest/output/wireshark_packets}
+\caption{REST EDGE test - IP Packets sent and received by the client application.}
+\end{table}
 
-\subsection{Kongsberg Radio}
+\subsection{Tactical Broadband}
 
-Two KDA WM 600.
+In addition to the software emulated networks, we performed tests with KDA WM600
+radios.
 
 
 \subsubsection{Results and analysis}
 
 For NFFI tests, compression yields a lot of increase in performance.
 
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/kongsberg/nffi/out.pdf}
-\caption{Tactical Broadband - NFFI Web service}
-\end{figure}
-
-\begin{figure}[H]
-\center
-\includegraphics[scale=0.75]{../results/kongsberg/rest/out.pdf}
-\caption{Tactical Broadband - REST}
-\end{figure}
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/kongsberg/nffi/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/kongsberg/rest/result.pdf}}
+    }{\caption{Tactical Broadband tests - Average RTT Time for the client application.}}
+    \end{floatrow}
+    \end{figure}
+\end{landscape}
 
 \section{Discussion}
 

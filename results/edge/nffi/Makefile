@@ -1,2 +1,2 @@
 all:
-	gnuplot -e "filename='result.plot'" ../../plot.script
+	gnuplot -e "filename='result.plot'" ../../scripts/plot.script

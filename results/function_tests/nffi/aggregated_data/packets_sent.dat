@@ -1,0 +1,5 @@
+Date	           "Without Compression"   "With Compression"
+"Without proxy"	   51	              0
+"HTTP Proxy"	   45	              13
+"AMQP Proxy"	   73               57
+"CoAP Proxy"	   101               11

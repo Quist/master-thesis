@@ -1,4 +1,4 @@
-"Test"                      "Packets Sent"   "Bytes sent"    "Packets sent"   "Bytes sent"
+"Test"                      "Sent"   "Bytes Sent"    "Received"   "Bytes Sent"
 "Without Proxy"             51  4609    46  51706
 "Proxy with HTTP"           45  5392    44  55489
 "Proxy with HTTP & GZIP"    13  2781    13 2585

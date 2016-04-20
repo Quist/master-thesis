@@ -369,7 +369,7 @@ illustrated in \cref{figure-rest-flow}.
  Each test run of the Car system consist of a client sequentially invoking the
  server with different API requests, listed in \cref{table:car-requests}. The
  most common HTTP-methods GET, PUT, POST, and DELETE are all part of the
- testing.
+ tests.
 
 
 
@@ -447,25 +447,140 @@ they have some fundamental differences:
 
 \end{itemize}
 
-\section{Function tests}
+\section{Function Tests}
 
-The first phase of the testing was performed without any actual intended
-limitations to the network. The objective of this testing is to validate that
-the proxy is working correctly and have a benchmark to compare other results
-with. This phase was again divided into two phases, one without the usage of
-proxy and one with. Doing this allowed us to investigate any potential
-overhead associated with the usage of the proxy. We used the NetEm setup with
-a third machine acting as a router, although without any NetEm limitations
-turned on.
+The first phase of the testing is performed without any actual intended
+limitations to the network. The objective of the function tests is to validate
+that the proxy fulfill the functional requirements we set:
 
+\begin{itemize}
+    \item Receive and forward HTTP requests.
+    \item Retain HTTP request and response headers.
+    \item Support GZIP compression of payload.
+    \item Support usage of different transport protocols between the proxies.
+\end{itemize}
+
+ In addition, the results from the function tests can be used to benchmark
+ against other tests. The functional testing is divided into two phases, one
+ without the usage of proxy and one with. Doing this allow us to investigate any
+ potential overhead associated with the usage of the proxy. We used the NetEm
+ setup with a third machine acting as a router, although without any intended
+ limitations on the network. The tests are performed for both test applications
+ and repeated multiple times to get the average \gls{rtt}.
 
 \subsection{Results and Analysis}
 
-Enabling compression yields an improvement in the performance, especially for
-W3C Web services which had much larger messages. We also notice that HTTP and
-CoAP has an almost identical performance, while AMQP has significant longer
-average response time. Furthermore we can observe that the default solution
-without proxies has the best performance in this unlimited network.
+Without using the proxy, \cref{figure:results-function-testsx} shows that for
+both the NFFI and Car system test run, they both finish successfully within the
+average time of 200 ms. When we introduce the proxies, all test cases still
+complete successfully. The HTTP requests and responses are successfully
+forwarded through the proxies, and the custom HTTP header set by the Car system is
+retained. In the test cases without enabling compression, the usage of proxies
+results in a longer RTT. This can be attributed to the overhead involved when
+the proxy processes the requests and converts the message into the proxy message
+format.
+
+When compression is enabled and a HTTP proxy is used, we see a decrease in the RTT
+for the NFFI test case. Inspecting the network traffic with Wireshark reveals
+the probable cause for this. Compressing the relatively large XML documents sent
+in NFFI test case yield a very high compression rates, while the compression rates
+of the rather small JSON documents in the Car System test case are relatively
+small. Furthermore, we observe that the transport protocol used by the proxies
+has significant impact on the RTT and packets sent over the network.
+\Cref{table:function-test-packets-nffi} and
+\cref{table:function-test-packets-rest} list the IP packets sent over the
+networks of one sample test run of the two test cases. In the following
+paragraphs we discuss the behavior of the different protocols in use by the
+proxies.
+
+\subsubsection{HTTP Proxy}
+
+For the NFFI test case with compression enabled, the HTTP proxy is marginally
+faster than without the proxy. The reduction of data sent and received is
+reflected by that the number of IP packets sent over the network are
+significantly reduced, as seen in \cref{table:function-test-packets-nffi}.
+Without compression, and for the Car system test case, the RTT is marginally
+longer. The reason for this can be the overhead associated with the proxy. Using
+Wireshark we analyzed one sample run of the Car system test and found the
+following:
+
+\begin{itemize}
+
+	\item The first thing that happens when a test run is started, is that a TCP
+	connection between the client application and the proxy is established. Then,
+	the first HTTP DELETE request of the Car system test is sent from the
+	application to the proxy. The request has no message body. Next, to be able to
+	forward the request using HTTP, the proxy establishes a TCP connection with the
+	other proxy.
+
+	\item Then, a HTTP request is sent from the proxy to the other proxy. The
+	DELETE request has now been converted to a POST request and the message
+	body contains the proxy message. Since the request now has a message body,
+	two HTTP headers has been appended: Content-Type and Content-Length. In
+	addition, the HTTP-header breadcrumbID has been added. This is a header used
+	by Camel. Including the proxy message, the size of the original HTTP request
+	has now grown from 243 to 635 bytes.
+
+	\item Next, the HTTP response is returned from the proxy. It consists of two
+	reassembled TCP segments with the total size of 974  bytes. Comparing with the
+	response from when not using a proxy, tell us a few things. Without the proxy,
+	the response to the DELETE request is without a message body, while otherwise
+	the custom proxy message is sent in the HTTP body. In addition, the response
+	has additional HTTP headers than the original request. For this response, using
+	the proxy had a message overhead of 756 bytes.
+
+    \item In the consecutive HTTP requests the proxy did not need to establish a
+    TCP connection since it was already open.
+
+  \end{itemize}
+
+As outlined above, using HTTP as the inter-proxy communication method caused an
+overhead by including all of the HTTP request information in the proxy message.
+
+\subsubsection{AMQP Proxy}
+
+AMQP had the worst average RTT of the evaluated proxy protocols, especially for
+the Car system test case. As seen in \cref{table:function-test-packets-nffi} and
+\cref{table:function-test-packets-rest}, AMQP sends a lot more IP packets through
+the network than HTTP. Since AMQP is broker based, communication occurs through a
+message broker and not directly between the proxies. Using Wireshark, we dived
+down into the details:
+
+\begin{itemize}
+
+	\item As with HTTP, a TCP connection between the test client and the
+	proxy is first established. Then the proxy establish a TCP connection with the
+	message broker.
+
+	 \item Next, in order to forward the first HTTP request, the proxy initiates
+	 an AMQP connection. This consists of numerous AMQP frames being sent between
+	 the proxy and message broker. This includes exchanging the AMQP protocol
+	 header and sending the AMQP frames Open, Begin, Attach and Flow.  First after
+	 sending these frames, the first \textit{transfer} frame carrying the
+	 message is sent.
+
+     \item Finally, when a response is returned, both the AMQP and TCP connection
+     are closed.
+
+     \item When the next HTTP request is forwarded, these steps are repeated.
+
+\end{itemize}
+
+AMQP causes a significant overhead due to its complex connection procedures. For
+every request that is forwarded through the proxy, a new AMQP and TCP connection
+is established.
+
+\subsubsection{CoAP Proxy}
+
+Using CoAP as the inter-proxy communication protocol had roughly the same
+average RTT as the HTTP proxy, with one exception. In the uncompressed NFFI test
+case it had a longer RTT and sent a significant higher number of packets. We
+believe this is due to some of the messages being so large, that a message has
+to be split into multiple IP packets. This is called IP fragmentation. We
+discuss CoAP and how it handles larger messages in section X.
+
+For the test cases not involving large messages, CoAP sent significantly
+\textit{fewer} IP packets than the other proxy protocols.
 
 \begin{landscape}
     \begin{figure}
@@ -475,20 +590,27 @@ without proxies has the best performance in this unlimited network.
     {
     \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
     \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
-    }{\caption{Function tests - Average RTT Time for the client application.}}
+    }
+    {
+    \caption{Function tests - Average RTT Time for the client application.}
+    \label{figure:results-function-testsx}
+    }
     \end{floatrow}
+
     \end{figure}
 \end{landscape}
 
 
-\begin{table}[H]
+\begin{table}[h]
 \input{../results/function_tests/nffi/output/wireshark_packets}
 \caption{NFFI Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-nffi}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[h]
 \input{../results/function_tests/rest/output/wireshark_packets}
 \caption{REST Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-rest}
 \end{table}
 
 
@@ -562,21 +684,38 @@ types of networks identified in \cref{table-network-types}.
 
 
 
-\subsection{Satellite communication}
+\subsection{Satellite Communication}
 
 In this test scenario we emulate \gls{satcom}. With satellite communication
 all data is relayed through a communication satellite in orbit around
 the earth. This type of communication is characterized by its low data rate
 and high delay.
 
-\subsubsection{Results and analysis}
+\subsubsection{Results and Analysis}
 
-AMQP has a very long response time for both test scenarios, while also CoAP
-struggles with large uncompressed XML messages of the NFFI service. For both
-with and without compression, we observe that employing HTTP proxies yields a
-small improvement of performance, compared to the default. We can also notice
-that for the RESTful service, CoAP has better performance than default, and
-similar performance to HTTP proxies.
+From the SATCOM testing results presented in \cref{figure:results-satcom},
+\cref{table:satcom-test-packets-nffi} and \cref{table:satcom-test-packets-rest},
+we observe the following:
+
+\begin{itemize}
+
+    \item Compression can be of less importance in networks where the high delay
+    is the limiting factor.
+
+    \item With one exception, AMQP has significantly higher RTT than the other
+    protocols. For the Car system tests with many HTTP requests, we see that
+    AMQP triggers the sending of many IP packets. In a sample test run the
+    Wireshark capture revealed that AMQP sends twenty times the amount of IP packets
+    compared to CoAP.
+
+    \item CoAP struggles with the large messages of NFFI test case. In the Car
+    system test case however, a Wireshark capture reveals that it sends few number of IP
+    packets.
+
+    \item The HTTP proxy with compression enabled has the overall best RTT. For
+    the Car system test, CoAP has almost equal average RTT as the HTTP proxy.
+
+\end{itemize}
 
 \begin{landscape}
     \begin{figure}
@@ -586,7 +725,9 @@ similar performance to HTTP proxies.
     {
     \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/satellite/nffi/result.pdf}}
     \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/satellite/rest/result.pdf}}
-    }{\caption{SATCOM tests - Average RTT Time for the client application.}}
+    }{\caption{SATCOM tests - Average RTT Time for the client application.}
+    \label{figure:results-satcom}
+    }
     \end{floatrow}
     \end{figure}
 \end{landscape}
@@ -595,11 +736,13 @@ similar performance to HTTP proxies.
 \begin{table}[h]
 \input{../results/satellite/nffi/output/wireshark_packets}
 \caption{NFFI SATCOM test - IP Packets sent and received by the client application.}
+\label{table:satcom-test-packets-nffi}
 \end{table}
 
 \begin{table}[h]
 \input{../results/satellite/rest/output/wireshark_packets}
 \caption{REST SATCOM test - IP Packets sent and received by the client application.}
+\label{table:satcom-test-packets-rest}
 \end{table}
 
 
@@ -607,17 +750,34 @@ similar performance to HTTP proxies.
 
 \subsection{Line-of-Sight}
 
-In this test scenario we emulate so-called \gls{los} networks, which are
-characterized by being a radio-based type of network with no physical obstacles
-between the nodes in the network. LOS has high data rate, low delay and zero error.
+In this test scenario we emulate \gls{los} networks, which are characterized by
+being a radio-based type of network with no physical obstacles between the nodes
+in the network. LOS has high data rate, low delay and zero error rate.
 
-\subsubsection{Results and analysis}
+\subsubsection{Results and Analysis}
 
-Again we notice CoAP really struggling with uncompressed XML messages, as well
-as AMQP performing significantly poorer than the other protocols. However,
-when the message is compressed CoAP has roughly equal performance as the
-default. When we look on the RESTful test application results, we see that
-CoAP performs better than default and HTTP with compressed messages.
+The average RTT of the LOS tests are shown in \cref{los:results-satcom}. IP
+packets sent and received in a sample run of the NFFI and Car system test cases
+are listed in \cref{table:los-test-packets-nffi} and
+\cref{table:los-test-packets-rest}. The important findings are summarized here:
+
+\begin{itemize}
+
+    \item We observe the same trends regarding CoAP and AMQP as in the previous
+    tested networks.
+
+    \item Proxy with HTTP has the best RTT in the NFFI test case. In the Car
+    system test, not using a proxy yields the best RTT.
+
+    \item In the Car system test case, the CoAP proxy is marginally faster than a
+    proxy with HTTP.
+
+    \item The LOS type of network is a relatively unlimited network. The results
+    has the same trends as the results from the function tests.
+
+\end{itemize}
+
+
 
 \begin{landscape}
     \begin{figure}
@@ -627,7 +787,9 @@ CoAP performs better than default and HTTP with compressed messages.
     {
     \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/los/nffi/result.pdf}}
     \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/los/rest/result.pdf}}
-    }{\caption{LOS tests - Average RTT Time for the client application.}}
+    }{\caption{LOS tests - Average RTT Time for the client application.}
+        \label{los:results-satcom}
+    }
     \end{floatrow}
     \end{figure}
 \end{landscape}
@@ -635,11 +797,13 @@ CoAP performs better than default and HTTP with compressed messages.
 \begin{table}[h]
 \input{../results/los/nffi/output/wireshark_packets}
 \caption{NFFI LOS test - IP Packets sent and received by the client application.}
+\label{table:los-test-packets-nffi}
 \end{table}
 
 \begin{table}[h]
 \input{../results/los/rest/output/wireshark_packets}
 \caption{REST LOS test - IP Packets sent and received by the client application.}
+\label{table:los-test-packets-rest}
 \end{table}
 
 
@@ -649,13 +813,26 @@ CoAP performs better than default and HTTP with compressed messages.
 
 With this type of network we emulate communication over WiFi where the
 conditions are relatively good. The data rate is high, the delay is moderate
-and the packet error rate is around 1 \%.
+and the packet error rate is 1 \%.
 
-\subsubsection{Results and analysis}
+\subsubsection{Results and Analysis}
 
-HTTP proxies with compression enabled yields the best performance. CoAP has
-worse performance than the HTTP proxies, but roughly equal for the compressed
-REST tests.
+The results from the test in this type of network are presented in
+\cref{figure:wifi1-results}, \cref{table:wifi1-test-packets-nffi} and
+\cref{table:wifi1-test-packets-rest}. We see the following:
+
+\begin{itemize}
+
+    \item Again we observe the same trends from previous tests. AMQP has the
+    longest RTT, while CoAP struggle with large messages.
+
+    \item For the NFFI test, HTTP with compression enabled yields the lowest
+    average RTT.
+
+    \item For the Car system tests, running without using proxies have the
+    lowest average RTT.
+
+\end{itemize}
 
 
 \begin{landscape}
@@ -666,7 +843,9 @@ REST tests.
     {
     \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/wifi1/nffi/result.pdf}}
     \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/wifi1/rest/result.pdf}}
-    }{\caption{WiFi 1 tests - Average RTT Time for the client application.}}
+    }{\caption{WiFi 1 tests - Average RTT Time for the client application.}
+\label{figure:wifi1-results}
+    }
     \end{floatrow}
     \end{figure}
 \end{landscape}
@@ -674,11 +853,13 @@ REST tests.
 \begin{table}[h]
 \input{../results/wifi1/nffi/output/wireshark_packets}
 \caption{NFFI WiFi 1 test - IP Packets sent and received by the client application.}
+\label{table:wifi1-test-packets-nffi}
 \end{table}
 
 \begin{table}[h]
 \input{../results/wifi1/rest/output/wireshark_packets}
 \caption{REST WiFi 1 test - IP Packets sent and received by the client application.}
+\label{table:wifi1-test-packets-rest}
 \end{table}
 
 
@@ -689,14 +870,37 @@ This type of network also emulate wireless communication, but instead in the
 and very high packet error rate (20 \%).
 
 
-\subsubsection{Results and analysis}
+\subsubsection{Results and Analysis}
 
-Compared to WiFi 1, we see that all response times have increased
-significantly. The importance of compression has increased, the tests with
-compression turned on yields a large performance increase. In the uncompressed
-NFFI test scenario, CoAP reached it's time out, and were unable to finish. In
-the scenarios where CoAP did finish it still performed worse than default and
-HTTP. HTTP proxies with compression yielded the best results.
+\Cref{figure:wifi2-results} shows the average response times of the WiFi 2 test
+cases. \Cref{table:wifi2-test-packets-nffi} and
+\cref{table:wifi2-test-packets-rest} list the packets sent and received from the
+test applications in a sample test run. For the tests ran in an emulated WiFi 2
+network, we see the following:
+
+\begin{itemize}
+
+    \item We observe a significantly longer average RTT for all test cases. The
+    variance of the test results have increased compared to the other test
+    networks. This can be attributed to the high probability of packet error,
+    since some test runs may experience few errors, while other more.
+
+    \item In the NFFI test case with CoAP without compression, the proxy was not
+    able to forward the request. The reason for this is that the CoAP request
+    between the proxies timed out. The retransmission mechanism of the proxy
+    were invoked, but the consecutive attempts were unsuccessfully as well.
+    Furthermore, we observe that even with compression did CoAP has a longer
+    average RTT than the other protocols.
+
+    \item We also see that for the NFFI test cases, compressing the messages
+    yields a large performance increase with regards to the average RTT. This is
+    probably due to since less IP packets need to be sent over the network, it
+    is a less chance for packet errors.
+
+    \item The HTTP proxy with compression enabled had the overall best average
+    RTT.
+
+\end{itemize}
 
 
 \begin{landscape}
@@ -707,7 +911,9 @@ HTTP. HTTP proxies with compression yielded the best results.
     {
     \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/wifi2/nffi/result.pdf}}
     \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/wifi2/rest/result.pdf}}
-    }{\caption{WiFi 2 tests - Average RTT Time for the client application.}}
+    }{\caption{WiFi 2 tests - Average RTT Time for the client application.}
+\label{figure:wifi2-results}
+    }
     \end{floatrow}
     \end{figure}
 \end{landscape}
@@ -715,11 +921,13 @@ HTTP. HTTP proxies with compression yielded the best results.
 \begin{table}[h]
 \input{../results/wifi2/nffi/output/wireshark_packets}
 \caption{NFFI WiFi 2 test - IP Packets sent and received by the client application.}
+\label{table:wifi2-test-packets-nffi}
 \end{table}
 
 \begin{table}[h]
 \input{../results/wifi2/rest/output/wireshark_packets}
 \caption{REST WiFi 2 test - IP Packets sent and received by the client application.}
+\label{table:wifi2-test-packets-rest}
 \end{table}
 
 \subsection{Combat Net Radio}
@@ -728,7 +936,7 @@ HTTP. HTTP proxies with compression yielded the best results.
 error rate of around 1 \%.
 
 
-\subsubsection{Results and analysis}
+\subsubsection{Results and Analysis}
 
 Again we can observe the importance of compression in this type of networks.
 CoAP has the best performance.

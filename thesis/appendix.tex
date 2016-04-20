@@ -1,7 +1,14 @@
 \begin{appendices}
 
-\chapter{Configuration of Proxy}
+\chapter{Configuration}
 \label{appendix-config}
+
+\section{Proxy Configuration}
+
+The configuration fields of the proxy is listed in \cref{appendix-table-config}.
+In addition, some protocols require additional configurations. The AMQP protocol
+uses a broker, which must be configured. See table x.
+
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{|l|X|l|l|}
@@ -13,12 +20,12 @@
     port                   & Which port the proxy should listen for messages                    & Yes               & Integer       \\ \hline
     targetProxyHostname    & The hostname and the port of the opposite proxy                    & Yes               & String        \\ \hline
     timeout                & The timeout value of a request between proxies                     & No                & Integer       \\ \hline
-    useExponentialBackoff  & Turn on/off exponentiall backoff of retransmission                 & No                & Integer       \\ \hline
+    useExponentialBackoff  & Turn on/off exponential backoff of retransmission                 & No                & Integer       \\ \hline
     redeliveryDelay        & Number of milliseconds to wait before trying redelivery            & No                & Integer       \\ \hline
     maximumRetransmissions & Maximum number of attempted retransmissions. -1 indicates infinity & No                & Integer       \\ \hline
 \end{tabularx}
-\caption{My caption}
-\label{my-label}
+\caption{Configuration fields of the Proxy}
+\label{appendix-table-config}
 \end{table}
 
 \chapter{Network emulating}

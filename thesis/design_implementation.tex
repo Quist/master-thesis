@@ -54,7 +54,8 @@ configured by the user of the proxy.
 \end{figure}
 
 \subsection{Message Broker}
-Placeholder
+
+ActiveMQ 5-13.2
 
 \section{Choosing a Framework}
 
@@ -68,9 +69,9 @@ forward them, and finally return a HTTP response. We identified some approaches:
 
 Building a HTTP proxy ourselves would allow us to customize our solutions as we
 wanted, but would require a lot of implementation. We therefore concluded that
-best use of our resources was to use an existing configurable proxy. 
-Building on existing solutions allows us to focus on the optimization techniques, 
-rather than on the specific low-level details of HTTP. 
+best use of our resources was to use an existing configurable proxy.
+Building on existing solutions allows us to focus on the optimization techniques,
+rather than on the specific low-level details of HTTP.
 There are numerous HTTP proxies available for use, for an example Nginx and Squid.
 
 Another one is Apache Camel, which is an open source Java framework developed by
@@ -316,9 +317,9 @@ is appended.
 \subsubsection{AMQP Route}
 
 AMQP messaging is based on the concept of queues. For the routing of messages
- between the proxies, we define two queues. 
- One queue for incoming messages to one of the proxy, 
- and one queue for incoming messages to the other proxy. 
+ between the proxies, we define two queues.
+ One queue for incoming messages to one of the proxy,
+ and one queue for incoming messages to the other proxy.
  A proxy then consumes messages from its incoming messages queue
  and produces to the queue for incoming messages of the other.
 

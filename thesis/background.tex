@@ -527,38 +527,38 @@ limiting the number of allowed outstanding requests from a client to a server.
 \subsection{\glsentrylong{amqp}}
 
 The \gls{amqp} is an application layer protocol for sending messages.
-It support both request/response and the publish/subscribe communication
+It supports both the request/response and the publish/subscribe communication
 paradigms. \gls{amqp} uses \gls{tcp} as its underlying reliable transport layer
 protocol.
 
- An important observation about AMQP is that it has two major versions which are
- fundamentally different, version 0.9.1 and 1.0. The latter has been
- standardized by \gls{oasis}\cite{oasis-amqp}, and is a  more narrow protocol as
- it only defines the network wire-level protocol for the exchange of messages
- between two endpoints. Wire-level protocols refers to the description of the
- format of data sent over a network in form of bytes. Another difference between
- the versions is that version 1.0 does not specify the details of broker
- implementation. We investigate version 1.0 since it is the newest and has been
- standardized.
+An important observation about AMQP is that it has two major versions which are
+fundamentally different, version 0.9.1 and 1.0. The latter has been standardized
+by \gls{oasis}, and is a  more narrow protocol as it only defines the network
+wire-level protocol for the exchange of messages between two endpoints
+\cite{oasis-amqp}. The concept wire-level protocol refers to the description of the format
+of data sent over a network in form of bytes. Another difference between the
+versions is that version 1.0 does not specify the details of broker
+implementation. We investigate version 1.0 since it is the newest and has been
+standardized.
 
 An AMQP network consist of nodes connected via \textit{links}. Nodes can be
 producers, consumers and queues. Producers generate messages, consumers process
-messages, while queues store and forward them. These nodes lives inside
+messages, while queues store and forward them. These nodes live inside
 \textit{containers}, which can be client applications and brokers. Each
 container can have multiple nodes. AMQP version 1.0 is does not specify the
 internal workings of those nodes, but defines the protocol for transferring
-messages between them. The basis data unit in AMQP is called a \textit{frame}
+messages between them. The basic data unit in AMQP is called a \textit{frame}
 and is used to initiate, control and tear down the transfer of a message between
-two nodes. The 9 different frames are listen in \cref{table-amqp-frames}.
+two nodes. The 9 different frames are listed in \cref{table-amqp-frames}.
 
 Prior to any communication, an AMQP connection must be established making AMQP a
 connection-oriented protocol. A connection is divided into independent
-unidirectional \textit{channels}. AMQP \textit{session} correlates two
+unidirectional \textit{channels}. An AMQP \textit{session} correlates two
 unidirectional channels to form a bidirectional, sequential conversation between
-two containers. To establish an connection the first operation is to
-establishing a TCP connection between the nodes. Then the protocol header is
-exchanged, allowing the nodes agree on a common protocol version. This is
-exchanged in plaintext (not in a AMQP frame). The message itself is sent with the
+two containers. To establish a connection the first operation is to establish a
+TCP connection between the nodes. Then the protocol header is exchanged,
+allowing the nodes to agree on a common protocol version. This is exchanged in
+plaintext (not in an AMQP frame). The message itself is sent with the
 \textit{transfer} frame. Larger messages can be split into multiple frames.
 
 
@@ -582,15 +582,15 @@ exchanged in plaintext (not in a AMQP frame). The message itself is sent with th
 
 \subsection{MQTT}
 
-MQTT is like AMQP also a publish/subscribe messaging transport protocol
-\cite{oasis-mqtt}.  It emerged in 1999 and recently became an \gls{oasis}
-standard in 2014. MQTT is considered to be light weight and simple to implement,
-making it suitable for use in networks where the data rate is limited and/or a
-low code footprint is needed. With the emerge of "The Internet of Things", these
-properties have caused regained interest in MQTT. The protocol is broker-based
-and runs on top of the TCP/IP protocols.
+MQTT is a publish/subscribe messaging transport protocol \cite{oasis-mqtt}.  It
+emerged in 1999 and recently became an \gls{oasis} standard in 2014. MQTT is
+considered to be light weight and simple to implement, making it suitable for
+use in networks where the data rate is limited and/or a low code footprint is
+needed. With the emerge of "The Internet of Things", these properties have
+caused regained interest in MQTT. The protocol is broker-based and runs on top
+of the TCP/IP protocols.
 
-The protocol provide message sending services to applications and offers
+The protocol provides message sending services to applications and offers
 different levels of \gls{qos}, specifying the delivery policies for a message.
 This is beneficial in networks where messages may be lost while traveling
 through a network. The lowest level of \gls{qos} is \textit{at most once}, which
@@ -606,7 +606,7 @@ packets, listed in \cref{table:mqtt-packets}. Only \textit{exactly once}
 \begin{tabularx}{\textwidth}{| X | X |}
 \hline
   \textbf{MQTT Control Packet} & \textbf{Purpose} \\ \hline
-  CONNECT & Client request a connection with Server \\ \hline
+  CONNECT & Client requests a connection to the Server \\ \hline
   CONNACK & Acknowledge connection request \\ \hline
   PUBLISH & Publish a message \\ \hline
   PUBACK & Publish acknowledgement \\ \hline
@@ -632,7 +632,7 @@ The \glsentrylong{sctp} is a transport-layer protocol, which offers
 functionality from both \gls{udp} and \gls{tcp}\cite{rfc-sctp}. The motivation
 behind the protocol was that many developers found TCP too limiting, but still
 required more reliability that UDP could provide. \gls{sctp} tries to solve
-these issues. It is message-oriented like UDP, but ensure reliable, in sequence
+these issues. It is message-oriented like UDP, but ensures reliable, in sequence
 transport of messages with congestion control like TCP. \gls{sctp} is a
 connection-oriented protocol and provide features like multi-homing and
 multi-streaming. Multi-homing is the possibility to use more than one network
@@ -651,7 +651,7 @@ time, for example sending an image at the same time as a HTML Web page.
 \section{Summary}
 
 In this chapter we have presented computer networks in general, before we
-discussed the two most common type of Web services. Moreover, we have discussed
+discussed the two most common types of Web services. Moreover, we have discussed
 the protocols that these Web services use in order to transmit messages over the
 Internet. We also introduced some new protocols designed to work in "Internet of
 things" networks, which have many of the same characteristics as DIL networks.

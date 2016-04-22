@@ -93,16 +93,16 @@ results. We therefore chose to emulate DIL networks instead. The setup used
 consisted of connecting two machines through a third machine. The third machine
 used a component in the Linux kernel to control the flow of the network traffic
 going through it, allowing us to simulate DIL networks. This setup is
-illustrated in \cref{figure-testing-environment}.
+illustrated in \cref{figure-testing-environment-simple}.
 
 Additionally we performed experiments using actual military communication
 equipment. The purpose was to confirm the results from the emulated network
 tests.
 
 \begin{figure}[h]
-\includegraphics[scale=0.73]{images/testing_environment.pdf}
-\caption{Test setup network}
-\label{figure-testing-environment}
+\includegraphics[scale=0.73]{images/testing_environment_simple.pdf}
+\caption{Test setup}
+\label{figure-testing-environment-simple}
 \end{figure}
 
 \subsection{Linux Network Traffic Control}
@@ -116,7 +116,7 @@ and dequeues them as fast as the network hardware can accept them. The
 to control delay, packet loss and other characteristics of packets outgoing from
 a selected network interface \cite{man-netem}. These tools allow us to emulate
 the networks listed in \cref{table-network-types}. For reference
-\cref{appendix-netem-scripts} of the appendix lists the NetEm scripts used.
+\cref{appendix-netem-scripts} of the appendix lists the scripts used.
 
 How we configured \gls{netem} and the Linux traffic control tools is outlined in
 the following paragraphs.
@@ -180,7 +180,9 @@ performed between the machine hosting the client and the machine hosting the Web
 service. They were performed before starting the test cases so that the network
 traffic it generated would not interfere.
 
-Cite at iPerf 3 har blitt evaluert til beste måleverktøy. Vurdere å ta med graf som viser de ulike målingene med iPerf.
+Cite at iPerf 3 har blitt evaluert til beste måleverktøy. Få med at det var det
+beste til å måle der lave båndbredder er evaluert. Vurdere å ta med graf som viser de ulike
+målingene med iPerf.
 
 \subsection{Wireshark}
 
@@ -233,6 +235,12 @@ network cards and networked together the other machines by Ethernet cables. The
 setup can been seen in \cref{figure-testing-environment}. In order for the
 router machine to forward IP packets back and forth between the client and
 server, IP forwarding was enabled on the kernel.
+
+\begin{figure}[h]
+\includegraphics[scale=0.73]{images/testing_environment.pdf}
+\caption{Test setup}
+\label{figure-testing-environment}
+\end{figure}
 
 The server and client are assigned an IP address in two different subnets.
 This is done by the Linux network interface administration program
@@ -741,17 +749,22 @@ are listed in \cref{table:los-test-packets-nffi} and
 
 \begin{itemize}
 
-    \item We observe the same trends regarding CoAP and AMQP as in the previous
-    tested networks.
+    \item We observe the same trends regarding CoAP and AMQP as in the function
+    testing.
 
-    \item Proxy with HTTP has the best RTT in the NFFI test case. In the Car
-    system test, not using a proxy yields the best RTT.
+    \item HTTP proxy has the lowest average RTT in the NFFI test case, while not
+    using a proxy yielded the best RTT in the Car system test.
 
-    \item In the Car system test case, the CoAP proxy is marginally faster than a
-    proxy with HTTP.
+    \item In the Car system tests the CoAP proxy is marginally faster than a
+    HTTP proxy.
+
+    \item For the Car system test we that enabling compression yields a slightly
+    longer average RTT. The resason for this can be the time used to compress
+    the payload is larger than the time we save by reducing the size of the
+    message.
 
     \item The LOS type of network is a relatively unlimited network. The results
-    has the same trends as the results from the function tests.
+    has the same characteristics as the results from the function tests.
 
 \end{itemize}
 
@@ -1053,6 +1066,8 @@ performed with tactical broadband. We notice the following:
 
 \begin{itemize}
 
+    \item For the average RTT we see the trends as in the software emulated
+
     \item Compression yields a significantly lower RTT for the NFFI tests and a
     small increase for the Car system tests.
 
@@ -1078,14 +1093,20 @@ performed with tactical broadband. We notice the following:
 
 \section{Discussion}
 
+
+
 Diskutere resultater. Ta opp at CoAP er veldig bra på små meldinger, men sliter
 på store. Det er et kjent problem, og det er arbeid som gjøres for å spesifiere
 mekansimer for gjøre dette anderledes.
 
+Hvordan løse det med CoAP. En konfigurasjon per proxy
+
 \section{Summary}
 
-In this section the results from the tests are presented. These results lead up
-to the discussion and conclusion in the next chapter.
+In chapter we evaluted
+
+Since the HTTP proxy works with messages of all sizes, we recommend using the
+HTTP proxy. If it is known beforehand that messages will fit
 
 \begin{itemize}
 \item AMQP has the worst performance in almost every test scenario.
@@ -1098,7 +1119,7 @@ to the discussion and conclusion in the next chapter.
 \begin{tabular}{| l | l | l |}
 \hline
   \textbf{Network} & \textbf{NFFI Web service recommendation} & \textbf{REST recommendation}\\ \hline
-  \gls{satcom} & HTTP proxy with compression & HTTP proxy with compression \\ \hline
+  \gls{satcom} & HTTP proxy with GZIP & HTTP proxy with compression \\ \hline
   \gls{los} & HTTP proxy with compression  & HTTP proxy with compression \\ \hline
   WiFi 1 & HTTP proxy with compression & HTTP proxy with compression \\ \hline
   WiFi 2 & HTTP proxy with compression & HTTP proxy with compression \\ \hline

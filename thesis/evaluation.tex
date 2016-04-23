@@ -2,35 +2,31 @@
 
 \label{chapter:evaluation}
 
-In this chapter we present how the testing and evaluation of the proxy was
-performed and present the results we obtained.  The goal was to measure any
-possible improvements (or deterioration) of the performance of Web services
-using the developed proxies. Based on these measurements, we give a
-recommendation about which adaptations to make in different types of DIL
-networks. Since the proxy was developed as a prototype for military usage, we
-wanted to use test scenarios that resemble actual military and civilian usage.
-For the purpose of testing, we therefore developed two sets of applications, one
-W3C Web service and one RESTful Web service. These applications were then put to
-test in networks with different characteristics. In addition, we also performed
-some experiments where we researched how the size of a single request affected
-the performance of CoAP.
+In this chapter we outline how the testing and evaluation of the proxy was
+performed and present the results obtained. The goal is to measure any possible
+improvements (or deteriorations) of the performance of Web services using the
+developed proxy. Based on the measurements we then give a recommendation about
+which adaptations to make in different types of DIL networks. Since the proxy is
+being developed as a prototype for military usage, we use test scenarios that
+resemble actual military and civilian usage. For the purpose of testing we
+therefore develop two sets of test applications, one W3C Web service and one
+RESTful Web service. These applications is then used to test the proxy in
+networks with different DIL characteristics.
 
+We start this chapter by introducing different types of DIL networks. Then we
+present how such networks can be emulated using the Linux network traffic tools,
+before we introduce evaluation tools and the two test applications. Next, we put
+the proxy to the test in an unlimited network to verify that it behaves nicely.
+We call this the function test. Then we start introducing the DIL
+characteristics into the tests and measure if we can improve the performance by
+using proxies. We introduce the \textit{disconnected} and \textit{intermittent}
+aspects first, before we test the proxy in six different \textit{limited}
+networks. We also test in a setup using actual military communication equipment.
+This was done to validate the results from the software emulated networks.
 
-Initially the test and evaluation tools used are presented before we introduce
-the different test applications, test cases and the different types of networks
-used for testing. Then we present the test results for each of the three aspects
-of DIL, \textit{disconnected, intermittent} and \textit{limited.} The aspects
-were tested separately. We started with the disconnected and intermittent tests,
-where we investigated the behavior when connection was lost. For the limited
-tests, we saw how different types of networks influenced the performance of Web
-services. The base case was to test without any intentional limitations to the
-network and without the actual usage of the proxy. Then, we introduced usage of
-the proxy and evaluated it in different types of limited networks.
-
-Furthermore, we performed the tests with two different setups. First with an
-emulator to emulate DIL networks, then we supplemented with testing over
-actual military communication equipment. The usage of actual military equipment
-allowed us to validate the results from the emulation testing.
+Finally, we discuss the results, their underlying causes, and which implications
+they have. Ultimately, we give a recommendation about the usage of proxies in
+DIL networks.
 
 \section{Types of DIL Networks}
 
@@ -50,18 +46,18 @@ technologies can be seen in \cref{figure-networks-overview}.
 
 An infinite number of possible network combinations exist, so we have chosen to
 focus on five different network types identified by the task group IST-118 for
-DIL-testing. The networks were identified because they represent typical
-networks typically found in military communication. We also investigated
-\gls{lte}, commonly known as 4G, a network technology which has become in
-widespread use in the latest years. The reason for including LTE in addition to
-the ones from IST-118, is that the Norwegian Defense is looking into the
-possibility of using LTE. This makes it interesting for us to investigate the
-performance under this type of network as well. However, LTE has gotten so fast
-and reliable, it is not really relevant from a DIL perspective. We therefore
-instead looked into \gls{edge}, which is used as a fallback in geographical
-areas where \gls{lte} and 3G is not available. Of the networks we evaluate for,
-EDGE is the only one with asymmetrical down- and upload speed: 50 kbps up and 200
-kbps down.
+DIL-testing \cite{johnsen-recommendations}. The networks were identified because
+they represent typical networks typically found in military communication. We
+also investigated \gls{lte}, commonly known as 4G, a network technology which
+has become in widespread use in the latest years. The reason for including LTE
+in addition to the ones from IST-118, is that the Norwegian Defense is looking
+into the possibility of using LTE. This makes it interesting for us to
+investigate the performance under this type of network as well. However, LTE has
+gotten so fast and reliable, it is not really relevant from a DIL perspective.
+We therefore instead looked into \gls{edge}, which is used as a fallback in
+geographical areas where \gls{lte} and 3G is not available. Of the networks we
+evaluate for, EDGE is the only one with asymmetrical down- and upload speed: 50
+kbps up and 200 kbps down \cite{evaluation-transport-protocols-web-services}.
 
 The different networks and their properties are summarized in
 \cref{table-network-types}.
@@ -84,20 +80,22 @@ The different networks and their properties are summarized in
 
 \section{Testing and Evaluation Tools}
 
-In order to evaluate how our solution impacts the performance of Web services in
-DIL environments, we needed some way of simulating such environments. Obviously,
-we would have got the most realistic test environment by testing "out in the
-field" ourselves. However, this would require a considerable amount of effort
-and it would be difficult to reproduce the exact same environment and test
-results. We therefore chose to emulate DIL networks instead. The setup used
-consisted of connecting two machines through a third machine. The third machine
-used a component in the Linux kernel to control the flow of the network traffic
-going through it, allowing us to simulate DIL networks. This setup is
-illustrated in \cref{figure-testing-environment-simple}.
+In order to evaluate how using the proxies impacts the performance of Web
+services in DIL environments, we needed some way of emulating limited and
+constrained networks. Obviously, we would have got the most realistic test
+environment by testing "out in the field" ourselves. However, this would require
+a considerable amount of effort and it would be difficult to reproduce the exact
+same environment and test results. We therefore chose to emulate DIL networks by
+using a setup consisting of interconnecting two machines through a third
+machine. The third machine is used as a link emulator and controls the network
+traffic passing between the two other machines. This setup is illustrated in
+\cref{figure-testing-environment-simple}. To emulate DIL networks, the link
+emulator uses components in the Linux kernel to control the flow of the network
+traffic going through it.
 
 Additionally we performed experiments using actual military communication
 equipment. The purpose was to confirm the results from the emulated network
-tests.
+tests. These experiments are presented in \cref{section:evaluation-kongsberg}.
 
 \begin{figure}[h]
 \includegraphics[scale=0.73]{images/testing_environment_simple.pdf}
@@ -108,27 +106,28 @@ tests.
 \subsection{Linux Network Traffic Control}
 
 The Linux kernel offers a rich set of tools for managing and manipulating the
-transmission of packets. \textbf{tc} (traffic control) is a Linux program to
-configure and control the Linux kernels network scheduler. The central concept
-in traffic controlling is the concept of queues, which collects entering packets
-and dequeues them as fast as the network hardware can accept them. The
-\gls{netem} is an enhancement of the traffic control facilities that allows us
-to control delay, packet loss and other characteristics of packets outgoing from
-a selected network interface \cite{man-netem}. These tools allow us to emulate
-the networks listed in \cref{table-network-types}. For reference
-\cref{appendix-netem-scripts} of the appendix lists the scripts used.
+transmission of packets, referred to as network traffic control. The central
+concept in traffic controlling is the concept of queues, which collects entering
+packets and dequeues them as fast as the network hardware can accept them.
+\textbf{tc} (traffic control) is a Linux program to configure and control the
+Linux kernels network scheduler. The \gls{netem} is an enhancement of the
+traffic control facilities that allows us to control delay, packet loss and
+other characteristics of packets outgoing from a selected network interface
+\cite{man-netem}. These tools together allow us to emulate the networks listed in
+\cref{table-network-types}.
 
-How we configured \gls{netem} and the Linux traffic control tools is outlined in
-the following paragraphs.
+How to configure \gls{netem} and the Linux traffic control tools is outlined in
+the following paragraphs. The bash scripts we used to emulate the DIL networks
+are included in \cref{appendix-netem-scripts} of the appendix.
 
 
 \subsubsection{Emulating Network Delays}
 
-NetEm can emulate delays on packets on a specific link. In
+With NetEm we can emulate delays on outgoing packets on a specific link. In
 \cref{listing-netem-delay} we show an example configuration where a fixed delay
 of 100 ms to all packets going out of local Ethernet connection.
 
-\begin{lstlisting}[frame=single, caption="Emulating delay", label=listing-netem-delay]
+\begin{lstlisting}[frame=single, language=json, caption="Emulating the delay of outgoing packets", label=listing-netem-delay]
   tc qdisc add dev eth0 parent 1:1 handle 10: \
     netem delay 100ms
 \end{lstlisting}
@@ -150,7 +149,7 @@ the bucket in bytes and describes the maximum amount of bytes that tokens can be
 available for instantaneously. The limit is the number of bytes that can be queued
 waiting for tokens to be available.
 
-\begin{lstlisting}[frame=single, caption="Emulating data rate", label=listing-netem-data-rate]
+\begin{lstlisting}[frame=single, language=json, caption="Emulating the data rate", label=listing-netem-data-rate]
   tc qdisc add dev eth0 handle 1: \
     root tbf rate 50kbit burst 15000 limit 15000
 \end{lstlisting}
@@ -161,7 +160,7 @@ The corruption rate allows us to insert random data into a chosen percent of
 packets. In \cref{listing-netem-error-rate} we show how the corruption rate can
 be set to 20 percent.
 
-\begin{lstlisting}[frame=single, caption="Emulating corruption rate", label=listing-netem-error-rate]
+\begin{lstlisting}[frame=single, language=json, caption="Emulating the corruption rate", label=listing-netem-error-rate]
   tc qdisc add dev eth0 parent 1:1 handle 10: \
     netem delay 100ms corrupt 20%
 \end{lstlisting}
@@ -169,35 +168,32 @@ be set to 20 percent.
 
 \subsection{iPerf 3}
 
-iPerf 3 is a tool for measurement of maximum achievable date rate on a
-network \cite{iperf3-homepage}. Since we in this thesis are \textit{emulating}
-different DIL networks, it is critical that the emulation is as correct and
-realistic as possible. Misconfiguration or wrongful emulation could in the worst
-case lead to us draw invalid conclusions. To confirm and validate our network
-emulations, we therefore used iPerf 3 alongside the Linux tool \textit{ping} to
-confirm that the \gls{netem} scripts worked as expected. The measurements were
-performed between the machine hosting the client and the machine hosting the Web
-service. They were performed before starting the test cases so that the network
-traffic it generated would not interfere.
+iPerf 3 is a tool for measurement of maximum achievable date rate on a network
+\cite{iperf3-homepage}. Since we in this thesis are \textit{emulating} different
+DIL networks, it is critical that the emulation is as correct and realistic as
+possible. Misconfiguration or wrongful emulation could cause us to draw invalid
+conclusions. IPerf was one of the recommended tools in a previous study which
+explored different network monitoring tools for use in limited capacity
+networks.
 
-Cite at iPerf 3 har blitt evaluert til beste måleverktøy. Få med at det var det
-beste til å måle der lave båndbredder er evaluert. Vurdere å ta med graf som viser de ulike
-målingene med iPerf.
+To confirm and validate our network emulations we therefore used iPerf 3
+alongside the Linux tool \textit{ping}. The measurements were performed between
+the machine hosting the client and the machine hosting the Web service. They
+were performed before starting the test cases so that the network traffic it
+generated would not interfere.
+
 
 \subsection{Wireshark}
 
-Wireshark is a packet analyzer and allows for performing network
-analysis \cite{wireshark-homepage}. As an example, this tool allows a user to
-see all IP packets sent from a machine over the Ethernet interface.
+Wireshark is a packet analyzer and allows for performing network usage analysis
+\cite{wireshark-homepage}. As an example, this tool allows a user to see all IP
+packets sent from a machine over the Ethernet interface.
 
 When performing the testing, we used Wireshark to monitor the network traffic on
-the machine hosting the client and the local proxy. This allowed us to
-investigate the behavior of the evaluated protocols in the different types of
-networks. In particular we used it to see how many packets that were sent, as
-well as the total number of bytes that were sent over the network. Moreover, we used
-it to see how long a HTTP request from a client was processed by the proxy
-before it was forwarded. This enabled us to calculate how much processing time the
-proxy used on a request, thus saying something about the CPU overhead of the proxy.
+the machine hosting the client and its proxy. This allowed us to investigate the
+behavior of the evaluated protocols in the different types of networks. In
+particular we used it to see how many packets that were sent, as well as the
+total number of bytes that were sent over the network. 
 
 \section{Test Setup}
 \label{testing-environment}
@@ -1031,6 +1027,8 @@ test applications in a sample test run. We observe the following:
 \end{table}
 
 \section{Experiments with Tactical Broadband}
+\label{section:evaluation-kongsberg}
+
 
 The majority of the testing were performed over software emulated networks. To
 validate these results, we performed experiments with military communication

@@ -117,9 +117,7 @@ other characteristics of packets outgoing from a selected network interface
 \cref{table-network-types}.
 
 How to configure \gls{netem} and the Linux traffic control tools is outlined in
-the following paragraphs. The bash scripts we used to emulate the DIL networks
-are included in \cref{appendix-netem-scripts} of the appendix.
-
+the following paragraphs.
 
 \subsubsection{Emulating Network Delays}
 
@@ -193,108 +191,27 @@ When performing the testing, we used Wireshark to monitor the network traffic on
 the machine hosting the client and its proxy. This allowed us to investigate the
 behavior of the evaluated protocols in the different types of networks. In
 particular we used it to see how many packets that were sent, as well as the
-total number of bytes that were sent over the network. 
-
-\section{Test Setup}
-\label{testing-environment}
-
-The majority of testing was performed at the FFI-lab at Kjeller. All the test
-applications consisted of one client and one Web service, where the client would
-request the service for some sort of action. The client was hosted on one
-computer and the service on another computer. The majority of testing was done
-using software emulated DIL networks and some testing was done using actual
-military radios. The machines we used in the testing are listed in
-\cref{table-machines}.
-
-\begin{table}[h]
-\begin{tabularx}{\textwidth}{| l | X | X | X |}
-\hline
-  \textbf{Machine} & \textbf{Client} & \textbf{Application server} & \textbf{Router}\\ \hline
-  Model & Asus UX 31A Notebook & HP EliteBook 6930p & HP Compaq Elite 8000 \\ \hline
-  OS & Debian 8.2 & Ubuntu 14.04 & Ubuntu 14.04\\ \hline
-  Kernel & 3.16.0-4-amd64 & 3.13.0-79-generic & 3.19.0-25-generic\\ \hline
-  CPU & Intel i7 @ 1.90GHz & Intel Duo T95550 & Intel Quad Q9500 @ 2.83GHz \\ \hline
-  Cores & 4 & 2 & 4\\ \hline
-  Memory & 4 GB & 4 GB & 12 GB\\ \hline
-  Network hardware & ASIX AX88772 USB 2.0 & 82567LM Gigabit & 82567LM-3 Gigabit\\ \hline
-  Network interface capacity & 100 Mbit/s & 1 Gbit/s & 1 Gbit/s \\ \hline
-\end{tabularx}
-\caption{Machines involved in the testing}
-\label{table-machines}
-\end{table}
-
-\subsection{NetEm Setup}
-
-In this setup, the client and Web service machines were connected to each other
-through a third computer, acting as a router. This router machine had two
-network cards and networked together the other machines by Ethernet cables. The
-setup can been seen in \cref{figure-testing-environment}. In order for the
-router machine to forward IP packets back and forth between the client and
-server, IP forwarding was enabled on the kernel.
-
-\begin{figure}[h]
-\includegraphics[scale=0.73]{images/testing_environment.pdf}
-\caption{Test setup}
-\label{figure-testing-environment}
-\end{figure}
-
-The server and client are assigned an IP address in two different subnets.
-This is done by the Linux network interface administration program
-\textit{ifconfig}. In \cref{listing-ifconfig-client} the client machine is
-assigned the IP address 192.168.11.44.
-
-\begin{lstlisting}[frame=single, caption="Configuring a network interface of the router", label=listing-ifconfig-client]
-ifconfig eth0 192.168.2.1 up
-\end{lstlisting}
-
-After setting up the IP addresses we need to configure the routing so that the
-kernel knows where to route the network traffic. In this case we want all
-traffic to go through the routing machine. In \cref{listing-routing} we
-configure all IP traffic bound for the subnet 192.168.10 to be routed through
-the router machine with IP 192.168.11.1.
-
-\begin{lstlisting}[frame=single, caption="Configuring routing rules for the client", label=listing-routing]
-ip route add unicast 192.168.10.0/24 via 192.168.11.1
-\end{lstlisting}
-
-\subsubsection{Emulating Different Types of Networks}
-
-Since all network traffic passes through the routing machine, we can control the
-flow of IP packets here. As we previously discussed, we make use of the network
-traffic control tools of Linux. For each network configuration, a bash script
-is run. This script configures the network interfaces in order to get the
-correct network behavior. Both interfaces are configured so the network is
-symmetrical in both directions, with the exception of EDGE which has
-asymmetrical data rates.
+total number of bytes that were sent over the network.
 
 
-\subsection{Proxy Setup}
+\section{Test Sets}
 
-For all test cases, the proxies ran on the same machine as their intended users.
-The client and its proxy ran on one machine, while the Web service and its proxy
-ran on another machine. Running on the Web service machine was also the message
-broker, used by test cases involving AMQP.
+For each test network, we perform tests with both a W3C Web service test case
+and a RESTful Web service test case. Each test set consist of a Java client and
+a Web service. Information about the source code of the test applications is
+included in \cref{appendix-source-code} of the appendix.
 
-\section{Test Execution}
-
- Each test scenario was performed with both a W3C Web service application and a
- RESTful Web service application. Each service is deployed in Glassfish 4, while
- the client is executed either from the command line or directly from the
- Netbeans IDE. Data being sent between the client and server is by default sent
- uncompressed.
-
-During testing we discovered that especially \gls{coap} was very sensitive to
-the size of the messages being sent. We therefore also conducted some
-experiments by running tests where we investigated how it behaved with messages
-of different sizes.
-
-As performance indicators we use the average \gls{rtt} as perceived by the
-client application and how the test utilizes the network. The latter is done by
-capturing packets during a sample test run with Wireshark. It is worth noting
-that this was only performed on one test case for each test, thus any variance
-in use of the network may not have detected. This is especially true for the
-networks with an chance of packet errors. However, it gives us an idea of the
-network traffic during that test.
+In this thesis we look into ways of improving the performance of Web services.
+The purpose of the test sets is to imitate network traffic generated by real Web
+service. From evaluating the performance increase or decrease of the test
+services when using the proxies, we can deduce that this applies to applications
+in actual use as well. As performance indicators we use the average \gls{rtt} as
+perceived by the client application and how network is utilized. The latter is
+done by capturing packets during a sample test run with Wireshark. It is worth
+noting that this was only performed on one test case for each test, thus any
+variance in use of the network may not have detected. This is especially true
+for the networks with an chance of packet errors. However, it gives us an idea
+of the network traffic during that test.
 
 \subsection{NFFI W3C Web Service}
 
@@ -386,60 +303,131 @@ custom header is present.
 \end{table}
 
 
-\subsection{CoAP Experiments}
+\subsection{Test Applications Summary}
 
-During the test execution of the NFFI and Car System service, we discovered that
-CoAP was very sensitive to size of the message it was supposed to send. In
-addition to the two test applications, to learn more we also experimented
-by sending messages of different sizes with CoAP.
+A test run of both the NFFI test case and the Car system test case consists of
+sequentially sending HTTP requests to their respective Web service. However,
+they have some fundamental differences. The Car system test involves running 12
+HTTP requests, while the NFFI request only invokes three. Also, the payload of
+each request and response is generally much smaller for the Car system tests.
+Moreover, the response message of the third request of the NFFI service is
+significantly larger than any other request or response.
 
-To do this, we used the simple http-server\cite{http-server-homepage},
-which runs on the node runtime. The HTTP-server was configured to serve
- three files of different sizes, 1, 2 500 bytes and 100 000 bytes.
- The values were chosen to trigger fragmentation at different network layers.
- Ethernet has a \gls{mtu} on around 1 500 bytes and IP on 65 535 bytes.
- Furthermore, we created a basic Java client to request these files.
+
+\section{Test Setup}
+\label{testing-environment}
+
+Both test sets consist of one client and one Web service, where the client would
+request the service for some sort of action. The client is ran on one computer,
+while the Web service is deployed in the Glassfish 4 application server on
+another computer. The specifications of the machines used in the testing are listed in
+\cref{table-machines}.
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| X | X | X | X |}
+\hline
+  \textbf{Machine} & \textbf{Client machine} & \textbf{Web service machine} & \textbf{Link emulator}\\ \hline
+  Model & Asus UX 31A Notebook & HP EliteBook 6930p & HP Compaq Elite 8000 \\ \hline
+  OS & Debian 8.2 & Ubuntu 14.04 & Ubuntu 14.04\\ \hline
+  Kernel & 3.16.0-4-amd64 & 3.13.0-79-generic & 3.19.0-25-generic\\ \hline
+  CPU & Intel i7 @ 1.90GHz & Intel Duo T95550 & Intel Quad Q9500 @ 2.83GHz \\ \hline
+  Cores & 4 & 2 & 4\\ \hline
+  Memory & 4 GB & 4 GB & 12 GB\\ \hline
+  Network hardware & ASIX AX88772 USB 2.0 & 82567LM Gigabit & 82567LM-3 Gigabit\\ \hline
+  Network interface capacity & 100 Mbit/s & 1 Gbit/s & 1 Gbit/s \\ \hline
+\end{tabularx}
+\caption{Machines involved in the testing}
+\label{table-machines}
+\end{table}
+
+\subsection{Network Setup}
+
+The client and Web service machines are connected to each other through a third
+computer acting as a link emulator. The link emulator machine have two Ethernet
+network cards and interconnects the two other machines. This setup can be seen
+in \cref{figure-testing-environment}. In order for the link emulator to forward
+IP packets back and forth between the client and server, IP forwarding is
+enabled in the kernel.
+
+\begin{figure}[h]
+\includegraphics[scale=0.73]{images/testing_environment.pdf}
+\caption{Test setup}
+\label{figure-testing-environment}
+\end{figure}
+
+The client and Web service machine are assigned an IP address in two different
+subnets. This is done by the Linux network interface administration program
+\textit{ifconfig}. In \cref{listing-ifconfig-client} the client machine is
+assigned the IP address 192.168.11.44.
+
+\begin{lstlisting}[frame=single, language=json, caption="Setting the IP address a network interface", label=listing-ifconfig-client]
+ifconfig eth0 192.168.2.1 up
+\end{lstlisting}
+
+After setting up the IP addresses, we configure the routing so that the kernel
+knows where to route the network traffic. In this case we want all traffic to go
+through the link emulator. In \cref{listing-routing} we configure all IP traffic
+bound for the subnet 192.168.10.0/24 to be routed through the link emulator with
+the IP 192.168.11.1.
+
+\begin{lstlisting}[frame=single, language=json, caption="Configuring routing rules", label=listing-routing]
+ip route add unicast 192.168.10.0/24 via 192.168.11.1
+\end{lstlisting}
+
+After configuring the IP address and setting up IP routing on both the client
+and Web service machine, we start emulating different DIL networks.
+
+\subsubsection{Emulating Different Types of Networks}
+
+Since all network traffic passes through the routing machine, we can control the
+flow of IP packets here. As we previously discussed, we make use of the network
+traffic control tools of Linux. For each network configuration a bash script is
+run. This script configures the network interfaces in order to get the correct
+network behavior. Both interfaces are configured so the network is symmetrical
+in both directions, with the exception of EDGE which has asymmetrical data
+rates. The bash scripts used to emulate the DIL networks are included in
+\cref{appendix-netem-scripts} of the appendix.
+
 
 \subsection{Test Execution}
 
-The tests was performed with the following parameters:
+The client is run at one machine together with a proxy, while the other proxy
+and the Web service is run at the Web service machine. Both Web services are deployed
+in a Glassfish 4 application server. To facilitate AMQP communication, a message
+broker is run at the Web service machine. This setup is illustrated in
+\cref{figure-testing-setup}.
 
-\begin{itemize}
-	\item GZIP compression on/off.
-	\item Without and with proxies.
-    \item Transport protocol used.
-\end{itemize}
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{images/testing_setup.pdf}
+\caption{Test setup}
+\label{figure-testing-setup}
+\end{figure}
 
-Each test execution was initiated from a Java client running on the "client"
-machine. We then measured how long it took to complete all requests, thus
-allowing us to measure the Route Trip Time (RTT). All tests were performed
-multiple times in order to calculate the mean, standard deviation and variance.
-The results used to create the graphs presented in the next sections, are
-included in the appendix, \cref{appendix-results}. For all networks, we also
-tested without using the proxy. In those cases, requests were sent uncompressed
-from the client to the Web service.
-
-
-\subsection{Test Applications Summary}
-
-A test run for the NFFI service and the RESTful Car service consist of
-sequentially sending HTTP requests to their respective Web service. However,
-they have some fundamental differences:
+The tests are performed with the following parameters:
 
 \begin{itemize}
 
-     \item The Car system test involves running 12 HTTP requests, while the NFFI
-     request only invokes three.
+    \item Without and with proxies.
 
-    \item The payload of each request response is generally is much smaller for
-    the Car system tests. Moreover, the response message of the third request of the NFFI
-    service is significantly larger than any other request or response.
+    \item GZIP compression on/off. When testing without proxies, the messages
+    are \textit{not} compressed.
+
+    \item The protocol used to communicate between the proxies. We refer to
+    proxies using HTTP as the inter-proxy communication protocol as a HTTP
+    proxy, using AMQP as an AMQP proxy and so on.
 
 \end{itemize}
+
+Each test execution is initiated from a Java client. We then measure how long it
+takes to complete all requests, thus allowing us to measure the Route Trip Time
+(RTT). All tests are performed multiple times in order to calculate the mean,
+standard deviation and variance. The results used to create the graphs presented
+in the coming sections, are included in the appendix, \cref{appendix-results}.
+
 
 \section{Function Tests}
 
-The first phase of the testing is performed without any actual intended
+The first part of the testing is performed without any actual intended
 limitations to the network. The objective of the function tests is to validate
 that the proxy fulfill the functional requirements we set:
 
@@ -451,18 +439,18 @@ that the proxy fulfill the functional requirements we set:
 \end{itemize}
 
  In addition, the results from the function tests can be used to benchmark
- against other tests. The functional testing is divided into two phases, one
- without the usage of proxy and one with. Doing this allow us to investigate any
- potential overhead associated with the usage of the proxy. We used the NetEm
- setup with a third machine acting as a router, although without any intended
- limitations on the network. The tests are performed for both test applications
- and repeated multiple times to get the average \gls{rtt}.
+ against other tests. Before we introduce the usage of proxies, we first run the
+ test sets without. This allow us to investigate the overhead associated with
+ the usage of proxies. We use the test setup described in the last section,
+ although without any intended limitations of the network. The tests are
+ performed for both test applications and repeated multiple times to get the
+ average \gls{rtt}.
 
 \subsection{Results and Analysis}
 
 Without using the proxy, \cref{figure:results-function-testsx} shows that for
-both the NFFI and Car system test run, they both finish successfully within the
-average time of 200 ms. When we introduce the proxies, all test cases still
+both the NFFI and Car system test case, they finish successfully within the
+average time of 200 ms. When we introduce usage of proxies, all test cases still
 complete successfully. The HTTP requests and responses are successfully
 forwarded through the proxies, and the custom HTTP header set by the Car system is
 retained. In the test cases without enabling compression, the usage of proxies
@@ -470,18 +458,49 @@ results in a longer RTT. This can be attributed to the overhead involved when
 the proxy processes the requests and converts the message into the proxy message
 format.
 
-When compression is enabled and a HTTP proxy is used, we see a decrease in the RTT
-for the NFFI test case. Inspecting the network traffic with Wireshark reveals
-the probable cause for this. Compressing the relatively large XML documents sent
-in NFFI test case yield a very high compression rates, while the compression rates
-of the rather small JSON documents in the Car System test case are relatively
-small. Furthermore, we observe that the transport protocol used by the proxies
-has significant impact on the RTT and packets sent over the network.
-\Cref{table:function-test-packets-nffi} and
+When compression is enabled and a HTTP proxy is used, we see a decrease in the
+RTT for the NFFI test case. Inspecting the network traffic with Wireshark
+reveals the probable cause for this. Compressing the relatively large XML
+documents sent in NFFI test case yield a very high compression rate. The
+compression rates of the rather small JSON documents in the Car System test case
+are relatively small. Furthermore, we observe that the transport protocol used
+by the proxies has significant impact on the RTT and packets sent over the
+network. \Cref{table:function-test-packets-nffi} and
 \cref{table:function-test-packets-rest} list the IP packets sent over the
-networks of one sample test run of the two test cases. In the following
+networks of one sample run of the two test cases. In the following
 paragraphs we discuss the behavior of the different protocols in use by the
 proxies.
+
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
+    }
+    {
+    \caption{Function tests - Average RTT Time for the client application.}
+    \label{figure:results-function-testsx}
+    }
+    \end{floatrow}
+
+    \end{figure}
+\end{landscape}
+
+
+\begin{table}[h]
+\input{../results/function_tests/nffi/output/wireshark_packets}
+\caption{NFFI Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-nffi}
+\end{table}
+
+\begin{table}[h]
+\input{../results/function_tests/rest/output/wireshark_packets}
+\caption{REST Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-rest}
+\end{table}
 
 \subsubsection{HTTP Proxy}
 
@@ -489,7 +508,7 @@ For the NFFI test case with compression enabled, the HTTP proxy is marginally
 faster than without the proxy. The reduction of data sent and received is
 reflected by that the number of IP packets sent over the network are
 significantly reduced, as seen in \cref{table:function-test-packets-nffi}.
-Without compression, and for the Car system test case, the RTT is marginally
+Without compression and for the Car system test case, the RTT is marginally
 longer. The reason for this can be the overhead associated with the proxy. Using
 Wireshark we analyzed one sample run of the Car system test and found the
 following:
@@ -513,7 +532,7 @@ following:
 
 	\item Next, the HTTP response is returned from the proxy. It consists of two
 	reassembled TCP segments with the total size of 974  bytes. Comparing with the
-	response from when not using a proxy, tell us a few things. Without the proxy,
+	response from when not using a proxy, tells us a few things. Without the proxy,
 	the response to the DELETE request is without a message body, while otherwise
 	the custom proxy message is sent in the HTTP body. In addition, the response
 	has additional HTTP headers than the original request. For this response, using
@@ -570,36 +589,7 @@ discuss the possible reasons for this in detail in
 messages, CoAP sent significantly \textit{fewer} IP packets than the other proxy
 protocols.
 
-\begin{landscape}
-    \begin{figure}
-    \centering
-    \begin{floatrow}
-        \ffigbox[\FBwidth]
-    {
-    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
-    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
-    }
-    {
-    \caption{Function tests - Average RTT Time for the client application.}
-    \label{figure:results-function-testsx}
-    }
-    \end{floatrow}
 
-    \end{figure}
-\end{landscape}
-
-
-\begin{table}[h]
-\input{../results/function_tests/nffi/output/wireshark_packets}
-\caption{NFFI Function test - IP Packets sent and received by the client application.}
-\label{table:function-test-packets-nffi}
-\end{table}
-
-\begin{table}[h]
-\input{../results/function_tests/rest/output/wireshark_packets}
-\caption{REST Function test - IP Packets sent and received by the client application.}
-\label{table:function-test-packets-rest}
-\end{table}
 
 
 \section{DIL Tests - Intermittent and Disconnected}
@@ -617,13 +607,20 @@ other than it taking longer time to process the request.
 
 \subsection{Execution}
 
- The tests were performed on an unlimited network and were performed for
- both the NFFI and Car system service. They were executed by starting the test
+ The tests were performed on an unlimited network and were performed for both
+ the NFFI and Car system service. They were executed by starting the test
  applications and then immediately removing the Ethernet cable between the
- client machine and the router machine. We then waited around 60 seconds,
- allowing requests to trigger timeouts and thus invoking the proxy’s redelivery
+ client machine and the link emulator as illustrated in
+ \cref{figure-testing-disconncted}. We then waited around 60 seconds, allowing
+ requests to trigger timeouts and thus invoking the proxy’s redelivery
  mechanisms. Finally, we connected the cable again and observed if the test
  application were able to finish its requests successfully.
+
+ \begin{figure}[h]
+ \includegraphics[width=\textwidth]{images/testing_disconnected.pdf}
+ \caption{Emulating a disconnect}
+ \label{figure-testing-disconncted}
+ \end{figure}
 
 
 \subsection{Results and Analysis}

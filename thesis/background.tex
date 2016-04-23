@@ -482,47 +482,50 @@ referred to as not \textit{TCP-Friendly}.
 \subsection{\glsentrylong{coap}}
 
 \gls{coap} is a specialized Web transfer protocol designed for use with
-constrained nodes and  networks \cite{rfc-7252}. It is designed for
-machine-to-machine applications, typically in the Internet of Things.
-Furthermore, it is designed with a similar interface as HTTP, in order to easily
-integrate with Web services. \gls{coap} is based on the REST model, where the
-server makes resources available  under a resource identifier(URI). Clients
-interact with these resources using a subset of the HTTP-verbs: GET, PUT, POST and
-DELETE. CoAP main features includes:
+constrained nodes and  networks \cite{rfc-7252}. It is intended for
+machine-to-machine applications typically found in the Internet of Things.
+Furthermore, it is designed with a similar interface as HTTP in order to easily
+integrate with Web services. \gls{coap} and HTTP work similar in the way that
+they both use a client-server interaction model. \Gls{coap} is based on the REST
+style where a server makes resources available under a \gls{uri}. Clients can
+then interact with these resources using a subset of the HTTP-verbs: GET, PUT,
+POST and DELETE.
 
-\begin{itemize}
+CoAP messaging is based on asynchronously exchanging CoAP messages over UDP
+between two endpoints. The current specification defines four types of CoAP
+messages, where each message uses a 4 byte fixed-length binary header.
+\Cref{table:coap-messages} lists the four types of CoAP messages. A CoAP header
+may be followed by \textit{options} and a payload. \Gls{coap} provide mechanisms
+for optional reliability since \gls{udp} itself does not guarantee reliable
+delivery. This is done by sending messages marked as \textit{Confirmable}, and
+retransmitting using a default timeout and exponential back-off until an
+\textit{Acknowledgement message} is eventually received. Basic congestion
+control is done by strictly limiting the number of allowed outstanding requests
+between a client and a server. The back-off mechanism also provides basic
+congestion control.
 
-    \item UDP transport with optional reliability supporting unicast and
-    multicast requests.
-
-    \item Asynchronous message exchanges.
-
-    \item A stateless HTTP mapping, allowing proxies to be built providing
-    access to CoAP resources via HTTP in a uniform way or for HTTP simple
-    interfaces to be realized alternatively over CoAP.
-
-     \item Low header overhead and parsing complexity.
-
-\end{itemize}
-
-\gls{coap} works similar to HTTP in the way that they use a client-server
-interaction model. \gls{coap} requests is sent from a client to request an
-action on a resource located on a server. The server then responds with a
-response code and a possible response body. Unlike HTTP which uses TCP as its
-transport protocol, \gls{coap} uses \gls{udp}. Since \gls{udp} itself does not
-guarantee reliable delivery, \gls{coap} provide mechanisms for optional
-reliability. CoAP does this by sending messages marked as \textit{Confirmable},
-and retransmitting using a default timeout and exponential back-off until an
-\textit{Acknowledgement message} is received. This mechanism also provide basic
-congestion control. Moreover, CoAP attempt to avoid congestion by strictly
-limiting the number of allowed outstanding requests from a client to a server.
-
-\begin{figure}[h]
+\begin{table}[h]
 \centering
-\includegraphics[scale=0.6]{images/coap.pdf}
-\caption{Overview of CoAP}
-\end{figure}
+\begin{tabularx}{\textwidth}{|X|X|}
+\hline
+\textbf{CoAP message}   & \textbf{Purpose}                                                                                                  \\ \hline
+Confirmable Message     & CoAP message that  requires an acknowledgement. Used to provide reliable transport.                               \\ \hline
+Non-confirmable Message & Used when no acknowledgement is wanted.                                                                           \\ \hline
+Acknowledgement Message & Acknowledges that a specific Confirmable Message has arrived.                                                     \\ \hline
+Reset Message           & Indicates that a Confirmable Message or a Non-confirmable Message was received, but not understood by the client. \\ \hline
+\end{tabularx}
 
+\caption{CoAP messages}
+\label{table:coap-messages}
+\end{table}
+
+Typical CoAP messages may be small payloads from Internet of Things devices such
+as temperature sensors, light switches etc. The CoAP specification states that a
+CoAP message \textit{should} fit within a single IP packet to avoid IP
+fragmentation. However, occasionally larger messages are needed. Therefore a
+blockwise transfer technique has been proposed as an extension to CoAP in an
+Internet Draft \cite{draft-coap-blockwise}. The block option allows for sending
+larger messages in a block-wise fashion.
 
 \subsection{\glsentrylong{amqp}}
 
@@ -668,7 +671,7 @@ doing such testing.
   UDP & Transport & Low overhead, but lacks reliability. \\ \hline
   SCTP & Transport & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
   HTTP & Application. Uses TCP. &  Widely used and the foundation for World Wide Web\\ \hline
-  CoAP & Application. Uses UDP. & Designed for use in the Internet of Things. \\ \hline
+  CoAP & Application. Uses UDP. & Low header overhead with optional reliability \\ \hline
   AMQP & Application. Uses TCP. &  Messaging middleware with store-and-forward capabilities.\\ \hline
   MQTT & Application. Uses TCP & Light weight and simple pub/sub protocol. \\ \hline
 \end{tabularx}

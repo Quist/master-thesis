@@ -292,6 +292,14 @@ the size of the messages being sent. We therefore also conducted some
 experiments by running tests where we investigated how it behaved with messages
 of different sizes.
 
+As performance indicators we use the average \gls{rtt} as perceived by the
+client application and how the test utilizes the network. The latter is done by
+capturing packets during a sample test run with Wireshark. It is worth noting
+that this was only performed on one test case for each test, thus any variance
+in use of the network may not have detected. This is especially true for the
+networks with an chance of packet errors. However, it gives us an idea of the
+network traffic during that test.
+
 \subsection{NFFI W3C Web Service}
 
 For the purpose of testing W3C Web service applications we created a mock system
@@ -561,12 +569,10 @@ is established.
 Using CoAP as the inter-proxy communication protocol had roughly the same
 average RTT as the HTTP proxy, with one exception. In the uncompressed NFFI test
 case it had a longer RTT and sent a significant higher number of packets. We
-believe this is due to some of the messages being so large, that a message has
-to be split into multiple IP packets. This is called IP fragmentation. We
-discuss CoAP and how it handles larger messages in section X.
-
-For the test cases not involving large messages, CoAP sent significantly
-\textit{fewer} IP packets than the other proxy protocols.
+discuss the possible reasons for this in detail in
+\cref{section:evaluation-discussion}. For the test cases not involving large
+messages, CoAP sent significantly \textit{fewer} IP packets than the other proxy
+protocols.
 
 \begin{landscape}
     \begin{figure}
@@ -1061,18 +1067,18 @@ was around 90 kbit/s and with a ping response time of 23 ms.
 
 \subsubsection{Results and analysis}
 
-\Cref{figure:kongsberg-results} shows the average RTT of the experiments
-performed with tactical broadband. We notice the following:
+\Cref{figure:kongsberg-results} shows the average RTT of the test cases
+performed over tactical broadband. We make the following observations:
 
 \begin{itemize}
 
-    \item For the average RTT we see the trends as in the software emulated
+    \item We see the same trends as in the software emulated networks.
 
     \item Compression yields a significantly lower RTT for the NFFI tests and a
     small increase for the Car system tests.
 
-    \item CoAP struggles with large messages, but otherwise has the overall best
-    RTT
+    \item The CoAP proxy struggles with large messages, but otherwise has the
+    overall best RTT.
 
 \end{itemize}
 
@@ -1092,39 +1098,98 @@ performed with tactical broadband. We notice the following:
 \end{landscape}
 
 \section{Discussion}
+\label{section:evaluation-discussion}
 
+In all emulated networks we saw some consistent trends. Compressing the messages
+between the proxies generally lowered the RTT, especially for the large messages
+in the NFFI test case. In some of the "better" DIL networks, the time taken to
+compress and decompress a message, would take longer time than the time saved by
+sending a message of reduced size.
 
+In all tests the AMQP proxy had a large overhead for each HTTP request the proxy
+forwarded. We attribute this to the laborious connection initialization. This
+was especially noticeable to the many HTTP requests of the Car system test. We
+saw that for each HTTP request a new AMQP connection had to be established,
+which generated a lot of network traffic. It is possible to avoid this by
+reusing connections over multiple requests, often referred to as
+\textit{connection pooling}. However, the Camel AMQP component did not offer
+this functionality at the time of the implementation of this proxy. Regardless
+of this, compared against HTTP/TCP and CoAP, is AMQP a more network "noisy"
+protocol.
 
-Diskutere resultater. Ta opp at CoAP er veldig bra på små meldinger, men sliter
-på store. Det er et kjent problem, og det er arbeid som gjøres for å spesifiere
-mekansimer for gjøre dette anderledes.
+Another consistent trend was that the CoAP proxy struggled with the large
+messages of the NFFI test case. A Wireshark capture reveals that the CoAP
+proxy's utilization of the Ethernet link could be sub-optimal. The maximum size
+of an IP packet sent over Ethernet is 1500 bytes \cite{rfc-894}, while the
+packet capture shows that CoAP splits larger messages into blocks of 512 bytes.
+Sending "half-full" packets over the network comes with some overhead:
 
-Hvordan løse det med CoAP. En konfigurasjon per proxy
+\begin{itemize}
+
+    \item The minimum size of an IP packet header is 20 bytes. For each
+    unnecessary packet sent, at least 20 more bytes is therefore sent over the
+    network. Furthermore, since each message is acknowledged, \textit{an
+    additional} packet is sent over the network.
+
+    \item The more IP packets sent, the greater is the chance of packet loss.
+    This especially apply to networks with high error rate.
+
+    \item The messages have to be splitted at the sender and then reassembled at
+    the receiver, consuming CPU power.
+
+\end{itemize}
+
+The maximum size of an IP packet is 65535 bytes \cite{rfc-791}, while the underlying
+transmission links usually have a much lower maximum size on its packets. Thus if
+an IP packet larger than 1500 bytes is sent over Ethernet it has to be
+\textit{fragmented} into smaller fragments before they are sent. The maximum
+size of a packet that can be sent over a network without causing fragmentation
+is called the Path MTU. We generally want to avoid causing IP fragmentation due
+to the overhead associated with it \cite{genkov2006avoiding}.
+
+In order to avoid IP fragmentation and to support sending messages larger than
+65535 bytes, the CoAP supports the block-wise feature splitting larger messages
+into smaller \textit{blocks}. At the receiving end the blocks are reassembled
+before they are delivered to the higher layers. The implementation we used for
+CoAP, Californium, supports the block-wise transfer feature. According to the
+specification of the feature, the byte size of each block must be of a
+power-of-two \cite{draft-coap-blockwise}. When we dig into the source code of
+Californium we see that the default size of a block is 512 bytes. This may be
+reasonable in some cases where the path \gls{mtu} is not known or simply is low.
+However, in our case with a path MTU of 1500 bytes, the block size could have
+been set to 1024 to reduce the number of packets sent by the CoAP proxy.
+
+Regardless of this, the CoAP proxy still performed equal to, or even better,
+than the HTTP proxy in some of the emulated networks. This can be attributed to
+CoAPs low overhead by having a small binary header and a simple messaging model.
+
 
 \section{Summary}
 
-In chapter we evaluted
-
-Since the HTTP proxy works with messages of all sizes, we recommend using the
-HTTP proxy. If it is known beforehand that messages will fit
-
-\begin{itemize}
-\item AMQP has the worst performance in almost every test scenario.
-\item Compression almost always yields an performance increase.
-\item CoAP struggles with larger messages.
-\item CoAP has the best performance with smaller messages in networks with low data rate.
-\end{itemize}
+In this chapter we introduced six types of DIL networks and presented two test
+cases. We performed a function test of the proxy and saw that the premises and
+requirements were fulfilled. Then we showed how disconnects would cause clients
+not using a proxy to fail, while the ones using a proxy were eventually
+successful. Finally, we evaluated the proxy solution with regards to the average
+RTT perceived by a client and network usage. Overall, we saw that the HTTP proxy
+or not using a proxy yielded the lowest average RTT in the limited networks.
+However, not using a proxy is vulnerable to disconnects which the HTTP proxy
+handles better. As the general recommendation, we therefore recommend using a
+HTTP proxy in limited networks. In some special cases however, the CoAP proxy
+may be a viable option. When the data rate of a network is low and the message
+size is low, the CoAP proxy proved itself with a lower average RTT and less
+network usage than the HTTP proxy.
 
 \begin{table}[h]
 \begin{tabular}{| l | l | l |}
 \hline
   \textbf{Network} & \textbf{NFFI Web service recommendation} & \textbf{REST recommendation}\\ \hline
-  \gls{satcom} & HTTP proxy with GZIP & HTTP proxy with compression \\ \hline
-  \gls{los} & HTTP proxy with compression  & HTTP proxy with compression \\ \hline
-  WiFi 1 & HTTP proxy with compression & HTTP proxy with compression \\ \hline
-  WiFi 2 & HTTP proxy with compression & HTTP proxy with compression \\ \hline
-  \gls{cnr} & CoAP proxy with compression & CoAP proxy with compression \\ \hline
-  Edge & HTTP proxy with compression & HTTP proxy with compression \\ \hline
+  \gls{satcom} & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
+  \gls{los} & HTTP proxy with GZIP  & HTTP proxy with GZIP \\ \hline
+  WiFi 1 & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
+  WiFi 2 & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
+  \gls{cnr} & CoAP proxy with GZIP & CoAP proxy with GZIP \\ \hline
+  Edge & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
 \end{tabular}
 \caption{Recommendations}
 \label{table-evaluation-summary}

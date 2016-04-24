@@ -1095,36 +1095,37 @@ performed over tactical broadband. We make the following observations:
 \section{Discussion}
 \label{section:evaluation-discussion}
 
-In all emulated networks we saw some consistent trends. Compressing the messages
-between the proxies generally lowered the RTT, especially for the large messages
-in the NFFI test case. In some of the "better" DIL networks, the time taken to
-compress and decompress a message, would take longer time than the time saved by
-sending a message of reduced size.
+In all emulated networks we see some consistent trends across all tests.
+Compressing the messages between the proxies generally lowered the RTT,
+especially for large messages in the NFFI test case. The exception is in some of
+the DIL networks with relatively high data rates, the time spent to compress
+and decompress a message can be longer than the time saved by sending a
+compressed message.
 
-In all tests the AMQP proxy had a large overhead for each HTTP request the proxy
-forwarded. We attribute this to the laborious connection initialization. This
-was especially noticeable to the many HTTP requests of the Car system test. We
-saw that for each HTTP request a new AMQP connection had to be established,
-which generated a lot of network traffic. It is possible to avoid this by
-reusing connections over multiple requests, often referred to as
+In all test cases the AMQP proxy has a large overhead for each HTTP request forwarded
+by the proxy. We believe this is due to the laborious connection initialization
+of the AMQP protocol. This is especially noticeable to the many HTTP requests of
+the Car system test. We see that for each HTTP request a new AMQP connection is
+established, which generates a lot of network traffic. It is possible to avoid
+this by reusing connections over multiple requests, often referred to as
 \textit{connection pooling}. However, the Camel AMQP component did not offer
 this functionality at the time of the implementation of this proxy. Regardless
-of this, compared against HTTP/TCP and CoAP, is AMQP a more network "noisy"
-protocol.
+of this, compared against HTTP/TCP and CoAP, AMQP generates more network
+traffic.
 
-Another consistent trend was that the CoAP proxy struggled with the large
-messages of the NFFI test case. A Wireshark capture reveals that the CoAP
-proxy's utilization of the Ethernet link could be sub-optimal. The maximum size
-of an IP packet sent over Ethernet is 1500 bytes \cite{rfc-894}, while the
-packet capture shows that CoAP splits larger messages into blocks of 512 bytes.
-Sending "half-full" packets over the network comes with some overhead:
+Another consistent trend is that the CoAP proxy struggle with large messages in
+the NFFI test case. A Wireshark capture reveals that the CoAP proxy's could
+utilize the Ethernet link in a better way. The maximum size of an IP packet sent
+over Ethernet is 1500 bytes \cite{rfc-894}, while the packet capture shows that
+CoAP splits larger messages into CoAP messages of only 512 bytes. Sending more
+than necessary packets over the network introduces some overhead:
 
 \begin{itemize}
 
     \item The minimum size of an IP packet header is 20 bytes. For each
     unnecessary packet sent, at least 20 more bytes is therefore sent over the
-    network. Furthermore, since each message is acknowledged, \textit{an
-    additional} packet is sent over the network.
+    network. Furthermore, since each message is acknowledged by the receiver, an
+    \textit{additional} packet is sent over the network.
 
     \item The more IP packets sent, the greater is the chance of packet loss.
     This especially apply to networks with high error rate.
@@ -1142,9 +1143,9 @@ size of a packet that can be sent over a network without causing fragmentation
 is called the Path MTU. We generally want to avoid causing IP fragmentation due
 to the overhead associated with it \cite{genkov2006avoiding}.
 
-In order to avoid IP fragmentation and to support sending messages larger than
-65535 bytes, the CoAP supports the block-wise feature splitting larger messages
-into smaller \textit{blocks}. At the receiving end the blocks are reassembled
+In order to avoid IP fragmentation, and to support sending messages larger than
+65 535 bytes, CoAP supports the block-wise feature splitting larger messages
+into smaller \textit{blocks}. At the receiving end these blocks are reassembled
 before they are delivered to the higher layers. The implementation we used for
 CoAP, Californium, supports the block-wise transfer feature. According to the
 specification of the feature, the byte size of each block must be of a
@@ -1154,9 +1155,9 @@ reasonable in some cases where the path \gls{mtu} is not known or simply is low.
 However, in our case with a path MTU of 1500 bytes, the block size could have
 been set to 1024 to reduce the number of packets sent by the CoAP proxy.
 
-Regardless of this, the CoAP proxy still performed equal to, or even better,
-than the HTTP proxy in some of the emulated networks. This can be attributed to
-CoAPs low overhead by having a small binary header and a simple messaging model.
+Regardless of this, the CoAP proxy still performed equal to, or even better
+than, the HTTP proxy in some of the emulated networks. This can be due to CoAP's
+low overhead by having a small binary header and a simple messaging model.
 
 
 \section{Summary}

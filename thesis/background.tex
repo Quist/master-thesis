@@ -303,7 +303,7 @@ body. The server responds with a message containing a status line, protocol
 version, a code indicating the success or error of the request, and a optional
 body. Both HTTP requests and responses use a generic message format and can
 contain zero or more HTTP headers. Headers are used to provide information about
-the request/reply or about the message body, e.g information about the encoding
+the request/response or about the message body, e.g information about the encoding
 and caching information.
 
 HTTP, being an application level protocol, relies on a transport protocol to
@@ -666,9 +666,9 @@ doing such testing.
 \begin{tabularx}{\textwidth}{| l | l | X |}
 \hline
   \textbf{Protocol} & \textbf{Network layer} & \textbf{Summary} \\ \hline
-  TCP & Transport & Core transport protocol. \\ \hline
-  UDP & Transport & Low overhead, but lacks reliability. \\ \hline
-  SCTP & Transport & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
+  TCP & Transport. & Stream-oriented transport protocol. Reliable and with congestion control. \\ \hline
+  UDP & Transport. & Message oriented. Low overhead, but lacks reliability and TCP-friendliness. \\ \hline
+  SCTP & Transport. & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
   HTTP & Application. Uses TCP. &  Widely used and the foundation for World Wide Web\\ \hline
   CoAP & Application. Uses UDP. & Low header overhead with optional reliability \\ \hline
   AMQP & Application. Uses TCP. &  Messaging middleware with store-and-forward capabilities.\\ \hline

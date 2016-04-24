@@ -1,22 +1,23 @@
 \chapter{Design and Implementation}
 \label{chapter:design}
 
-Based on the requirements identified in the previous chapter, we're in this chapter introducing the design and implementation details of the of our proposed proxy solution. We get started by discussing the overall design, before we dive into the implementations details.
-
-
+Based on the premises and requirements identified in the previous chapter, we
+are in this chapter introducing the design and implementation details of our
+proposed proxy solution. We get started by discussing the overall design, before
+we dive into the implementations details.
 
 \section{Design of Solution}
 
 In previous chapters we have argued that all optimization techniques should be
 placed in proxies in order to retain interoperability for COTS applications, as
-well as to break the end-to-end dependency. Our design therefore involves deploying a
-proxy pair to facilitate Web communication. The idea is to deploy the proxy pair
-in two different locations separated by a DIL network. Through the locally
-deployed proxy, Web applications can proxy all their data communication. The
-proxy will then apply different optimization techniques and over a DIL
-network forward the request to the other proxy, and finally return a response.
-Ideally should a proxy be deployed as close to its intended user applications as
-possible, preferable at the same machine.
+well as to break the end-to-end dependency. Our design therefore involves
+deploying a proxy pair to facilitate Web communication. The idea is to deploy
+the proxy pair in two different locations separated by a DIL network. Through
+the locally deployed proxy, Web applications can proxy all their data
+communication. The proxy will then apply different optimization techniques and
+over a DIL network forward the request to the other proxy, and finally return a
+response. Ideally should a proxy be deployed as close to its intended user
+applications as possible, preferably on the same machine.
 
 
 It is worth noting that since the proxies is designed to accept \textit{all} HTTP
@@ -24,13 +25,13 @@ requests, they can support any applications that utilize HTTP, including request
 response and publish-subscribe applications.
 
 
-\subsection{Design of HTTP proxy}
+\subsection{Design of Proxy}
 
-A deployed proxy is designed to accept arbitrary HTTP requests, possible originating from
-multiple clients, and forward them to the other proxy as seen in
-\cref{figure:proxy_design}. Ideally the proxy should be deployed as close to its
-intended users as possible, as the communication between an application and its
-proxy is not subject to any optimization for DIL environments.
+A deployed proxy is designed to accept arbitrary HTTP requests, possibly
+originating from multiple clients, and forward them to the other proxy as seen
+in \cref{figure:proxy_design}. Ideally the proxy should be deployed as close to
+its intended users as possible, as the communication between an application and
+its proxy is not subject to any optimization for DIL environments.
 
 \begin{figure}[h]
 \includegraphics[scale=0.55]{images/proxy_design.pdf}
@@ -45,7 +46,7 @@ protocols as the inter-proxy communication, as illustrated in
 \cref{figure:proxy-communication}. The purpose of this is to evaluate the
 performance of the transport protocols in DIL networks. Which protocol to use as
 the means of inter-proxy communication is therefore designed to be easily
-configured by the user of the proxy.
+configurable by the users of the proxy.
 
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/proxy_communcation.pdf}
@@ -60,7 +61,8 @@ ActiveMQ 5-13.2
 \section{Choosing a Framework}
 
 Requirement one implies creating a HTTP proxy which accepts HTTP requests,
-forward them, and finally return a HTTP response. We identified some approaches:
+forwards them, and finally returns a HTTP response. We identified some
+approaches:
 
 \begin{enumerate}
     \item Build a HTTP proxy from scratch ourselves.
@@ -69,20 +71,24 @@ forward them, and finally return a HTTP response. We identified some approaches:
 
 Building a HTTP proxy ourselves would allow us to customize our solutions as we
 wanted, but would require a lot of implementation. We therefore concluded that
-best use of our resources was to use an existing configurable proxy.
-Building on existing solutions allows us to focus on the optimization techniques,
-rather than on the specific low-level details of HTTP.
-There are numerous HTTP proxies available for use, for an example Nginx and Squid.
-
-Another one is Apache Camel, which is an open source Java framework developed by
-the Apache Software Foundation for rule-based routing and
-mediation \cite{camel-homepage}. It has a wide range of use-cases and focuses on
-making integration between different enterprise communication systems easier. It
-support a large set of different communication transports (transport protocols).
-We chose to use Apache Camel as our HTTP proxy due to its simplicity and support
-for different transport protocols.
+best use of our resources was to use an existing configurable proxy. Using an
+existing solutions allows us to focus on the optimization techniques, rather
+than on the specific low-level details of HTTP. There are numerous HTTP proxies
+available for use, for example Nginx\cite{nginx-homepage} and
+Squid\cite{squid-homepage}. Requirement 8 states that the solution must support
+different communication protocols between proxies. We therefore looked for
+software that could easily map a HTTP message to other protocols, and based on
+recommendations from the community at FFI we found the Apache Camel framework.
 
 \subsection{Apache Camel}
+
+Apache Camel is an open source Java framework developed by the Apache Software
+Foundation for rule-based routing and mediation \cite{camel-homepage}. It has a
+wide range of use-cases and focuses on making integration between different
+enterprise communication systems easier. It supports a large set of different
+communication transports (transport protocols). We chose to use Apache Camel as
+our HTTP proxy due to its simplicity and support for different transport
+protocols.
 
 Routing is a central concept in Apache Camel and consists of defining a
 \textit{from route}. This is an endpoint from which Camel consumes messages. It
@@ -111,14 +117,18 @@ numerous components, and is designed to support user written components as well.
 
 The proxy is implemented as a Java 1.8 application using the Apache Camel
 framework. A large part of the implementation is concerned about reading user
-configuration and setting up \textit{routing rules} for Apache camel. The stages
-of the program are as follows:
+configuration and setting up \textit{routing rules} for Camel. Information about
+the source code of the proxy is listed in \cref{appendix-source-code} of the
+appendix and \cref{table:implementation-versions} lists the software used as
+part of the implementation.
+
+We can divide the implementation into four areas:
 
 \begin{enumerate}
     \item Reading and parsing user configuration.
     \item Initializing Camel components.
     \item Setting up routes.
-    \item Running.
+    \item Runtime.
 \end{enumerate}
 
 \subsection{Parsing Configuration}
@@ -140,12 +150,12 @@ include additional protocols.
 We made use of the Camel component Jetty in order to consume and produce HTTP
 requests. The component is based on the Jetty Web server\cite{jetty-homepage}
 and is used for two purposes. One of them is to consume \gls{http} requests from
- applications. The other is to, if HTTP was configured as the selected protocol,
- to consume and produce HTTP messages as part of the inter-proxy communication.
+applications. The other is to, if HTTP was configured as the selected protocol,
+consume and produce HTTP messages as part of the inter-proxy communication.
 
 \subsubsection{AMQP Component}
 
-Apache Camels AMQP component supports the AMQP 1.0 protocol using the JMS Client
+Apache Camel's AMQP component supports the AMQP 1.0 protocol using the JMS Client
 API of the Qpid project. JMS is a Java Message Oriented Middleware for sending
 messages between two or more clients. In the proxy component initialization
 phase, the AMQP component is initialized to connect to the configured broker. In
@@ -283,9 +293,10 @@ proxy. The route consists of the following steps:
 Depending on which protocol the user has configured for inter-proxy
 communication, the endpoint defining the interface between the proxies is
 defined. \Cref{table:example-endpoints} lists example endpoints of a deployed
-proxy. In the example the other proxy is located at the IP address
-192.168.10.10. We discuss the protocol specific semantics in the following
-paragraphs.
+proxy located at the IP address 192.168.10.10. The address 0.0.0.0 means that
+the proxy binds to all known network interfaces.
+
+ We discuss the protocol specific routing in the following paragraphs.
 
 \begin{table}[h]
 \begin{tabular}{|l|l|l|}
@@ -384,7 +395,7 @@ produce messages to the \textit{produceQueue}.
 
 In order to enable the applications to tunnel all their HTTP traffic through our
 proxy, we need a way to set a proxy without altering the applications
-themselves. Fortunately, Java provide mechanisms to deal with proxies
+themselves. Fortunately, Java provides mechanisms to deal with proxies
 \cite{oracle-proxy}. We configured the \gls{jvm} to get the applications to
 tunnel all HTTP traffic through our proxy. This is done by setting properties to
 the \gls{jvm}:

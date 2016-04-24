@@ -90,7 +90,7 @@ shorter disconnect. A "long" intermittent disconnect triggers a timeout at the
 application layer and should be dealt with by the proxy retransmission
 mechanisms. With shorter intermittent disconnects, the transport protocol should
 be able to deal with it. This requires using a reliable transport protocol, or
-by handling it in the application layer.
+handling it in the application layer.
 
 \subsection{Limited}
 
@@ -106,10 +106,10 @@ capacity), which means that a low CPU overhead is desired.
 To improve the performance of Web services in DIL environments, the proxy should
 support a set of optimization techniques. As we discussed in the related works
 chapter, there exist many approaches to optimizing Web services. Reducing Web
-service overhead by using compression was identified as technique that yields a
-significant improvement. Another approach was the usage of alternative transport
-protocols. In this thesis we focus on compression and the usage of alternative
-protocols as the means of optimizing Web services.
+service overhead by using compression was identified as a technique that yields
+a significant improvement. Another approach was the usage of alternative
+transport protocols. In this thesis we focus on compression and the usage of
+alternative protocols as the means of optimizing Web services.
 
 \subsection{Compression}
 
@@ -137,7 +137,7 @@ usage in the context of proxy communication in a DIL network.
 
     \item[\gls{http}] The by far most used protocol for Web services is HTTP
     over TCP. TCP is an old and proven protocol and was originally designed to
-    provide reliable end-top-end communication over unreliable networks. The
+    provide reliable end-to-end communication over unreliable networks. The
     less intrusive optimization technique would therefore be that the proxies
     simply forward HTTP-requests without using an alternative protocol.
     Although proxing Web service requests through proxies would cause some overhead from
@@ -159,12 +159,13 @@ usage in the context of proxy communication in a DIL network.
 	very interesting as the means of communication between a proxy pair.
 
 	\item[\gls{amqp}] AMQP is in widespread use and offers reliable message
-	transmission. It support both the request-response and publish-subscribe message paradigms.
-	We therefore recommend AMQP as a possible proxy pair communication method.
+	transmission. It supports both the request-response and publish-subscribe
+	message paradigms. We therefore recommend AMQP as a possible proxy pair
+	communication method.
 
 	\item[MQTT] MQTT is a publish-subscribe messaging protocol and is considered
 	as lightweight and simple to implement. However, the inter-proxy
-	communication requires an request-response type of messaging. MQTT does not
+	communication requires a request-response type of messaging. MQTT does not
 	facilitate this type of communication. With that said, it is possible to
 	have a request-response paradigm on top of publish-subscribe by organizing
 	queues and by using some application logic. However, since MQTT does not
@@ -202,8 +203,8 @@ easily configured of which protocol to use.
 
 \section{Summary}
 
-In this chapter we have discussed the requirements for our proxy, which are
-summarized here:
+In this chapter we have discussed the requirements for our proxy, which we
+summarize here:
 
 \begin{enumerate}
     \item Receive and forward HTTP requests.
@@ -218,5 +219,5 @@ summarized here:
     \item Be easily extendable to include other protocols and other optimization techniques.
 \end{enumerate}
 
-Next, we discuss the design and implementation of our proxy supporting these
-requirements.
+Next, we discuss the design and implementation of our proxy supporting the
+premises and identified requirements.

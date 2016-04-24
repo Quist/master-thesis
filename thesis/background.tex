@@ -15,18 +15,18 @@ Finally, we introduce the concept of performance testing and network metrics.
 
 \section{Computer Networks}
 
-A computer network allows computers to exchange data. The most common is the
-Internet, which allows computers all over the world to communicate. In this
-section we give an introduction to protocol suite of the Internet, discuss some
-common messaging pattern, before we define discuss performance testing in
-general.
+One computer in a network is often referred to as a \textit{node}. These nodes
+can be interconnected and form large computer networks. The most well-known
+network is the Internet, which is a large network of networks facilitating
+communication between nodes all over the world. Internet is linked together by
+nodes using a set of protocols called the Internet Protocol Suite
+\cite{rfc-1122}. The functionality of the protocol suite is organized into four
+abstraction layers.
 
 \subsection{Network Layers}
 
-To reduce design complexity, networks are organized into layers, each one built
-upon the one below it. In the Internet Protocol Suite\cite{rfc-1122}, networks
-are divided into 4 layers. As stated in the scope of this thesis, we only look
-into optimization techniques for the application and transport layer.
+The Internet Protocol Suite are organized into four layers, each one built upon
+the one below it as shown in \cref{figure-network-layers}.
 
 %%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
@@ -43,10 +43,9 @@ into optimization techniques for the application and transport layer.
 
 \subsubsection{Link Layer}
 
-The lowest layer is the link layer, where link refers to the physical
-network component used to interconnect nodes in a network. Link layer protocols
-operate between adjacent network nodes. An example of a link layer protocol is
-Ethernet.
+The lowest layer of the protocol suite is the link layer, where the link is the
+physical component used to interconnect two adjacent nodes in a network. An
+example of a link layer protocol is Ethernet.
 
 \subsubsection{Internet Layer}
 
@@ -54,23 +53,31 @@ Ethernet.
  adjacent node, the Internet layer is concerned of how to deliver data all the
  way from a source to a destination, possible passing through multiple nodes on
  its way. It does not guarantee delivery of data, since data can be lost on the
- way to the destination. Guaranteed delivery is usually handled on the higher
- levels of the Internet Protocol Suite.
+ way to the destination, but provide a best-effort. Guaranteed delivery is
+ usually handled by the higher network layers of the Internet Protocol Suite.
+ The \gls{ip} is the protocol that enables the transfer of messages between two
+ nodes in a network. Messages between two nodes are sent as IP packets and are
+ routed through possibly multiple other nodes before it reaches its destination.
+ This routing function is the fundamentation of the Internet, as it allows nodes
+ to communicate without knowing the exact network path to each other.
 
- The core protocol of the Internet layer is the \gls{ip} and its routing function
- enables sending data over interconnected networks.
+To provide a
+common transport mechanism for all types of transmissions links, NATO has
+decided that data communication in NATO systems should be based on IP packets
+\cite{nnec-study}.
 
-\subsubsection{Transport Layer}
+
+ \subsubsection{Transport Layer}
 
 In the Internet protocol suite model, the transport layer provides end-to-end
 communication services for applications. It builds on top of the network layer,
 and takes responsibility for sending data all the way from a process on a source
-machine to a process on the destination machine. The by far most used transport
-protocol is the \gls{tcp}, which provides reliable transport of data to
-applications. With reliable transport we mean that if data in transmission is
-lost or received in the wrong order, this is all handled by the transport
-protocol. This provides an important abstraction for applications so that they
-don't need to deal with the characteristics of the physical network itself.
+computer to a process on the destination computer. The by far most used
+transport protocol is the \gls{tcp}, which provides reliable transport of data
+to applications. With reliable transport we mean that if data in transmission is
+lost or received in the wrong order, this is handled by the transport protocol.
+This provides an important abstraction for applications so that they do not need
+to deal with the characteristics of the physical network themselves.
 
 \subsubsection{Application Layer}
 
@@ -84,10 +91,10 @@ as the underlying transport protocol.
 
 \subsection{Messaging Patterns}
 
-A message pattern describes how applications communicate data with each other.
-This data is referred to as \textit{messages}. There exist multiple messaging
-patterns and in this chapter we look into protocols using two very common
-approaches:
+A message pattern describes how applications communicate with each other. This
+communication is referred to as \textit{messages}. There exist multiple
+messaging patterns and in this chapter we look into protocols using two very
+common approaches:
 
 \subsubsection{Request-Response}
 
@@ -114,31 +121,24 @@ perform various tasks, such as message filtering and prioritize queuing.
 \end{figure}
 
 
-\subsection{Performance Testing}
-
-To determine which optimization techniques that have a positive effect on the
-performance of Web services in DIL environments, we do performance testing.
-
 \subsection{Network Metrics}
 
-Network metrics are used to describe various aspects of data transfer from a
-point to another.
+When transferring data over a network the transfer is subject to many factors
+that may affect the transmission. A message sent over the Internet pass through
+communication infrastructure and equipment of different quality and properties.
+Network metrics are used to describe various aspects of the data transfer from a
+node to another. In this thesis we use the following metrics:
 
 \begin{description}
 
-\item[Data throughput] The data throughput is influenced by how large distance
-there is between the nodes communicating.
+\item[Data Rate] The data rate describe the speed that data can be transfered
+between two nodes.
 
-\item[Reliability] How much of the arriving data that is correct. This is
-called \textit{bit error rate} or \textit{packet error rate}. With high error
-rates, more data to be transmitted again due to the data arriving being
-incorrect. This contributes to longer transmission time. In a military setting,
-an enemy may deliberate sabotage the network with jamming, causing higher error
-rates.
+\item[Latency] Latency is the time from a node sends a packet to the destination
+node receives it.
 
-\item[Latency] The communication technology in use influences how fast data
-transmission can be done. Long delay may cause that the application sending data
-times out.
+\item[Packet Errors] The number of packets in a transmission that have been
+altered due to noise or interference.
 
 \end{description}
 

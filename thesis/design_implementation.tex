@@ -19,7 +19,6 @@ over a DIL network forward the request to the other proxy, and finally return a
 response. Ideally should a proxy be deployed as close to its intended user
 applications as possible, preferably on the same machine.
 
-
 It is worth noting that since the proxies is designed to accept \textit{all} HTTP
 requests, they can support any applications that utilize HTTP, including request-
 response and publish-subscribe applications.
@@ -35,7 +34,7 @@ its proxy is not subject to any optimization for DIL environments.
 
 \begin{figure}[h]
 \includegraphics[scale=0.55]{images/proxy_design.pdf}
-\caption{Design of Solution}
+\caption{Solution concept}
 \label{figure:proxy_design}
 \end{figure}
 
@@ -62,7 +61,7 @@ ActiveMQ 5-13.2
 
 Requirement one implies creating a HTTP proxy which accepts HTTP requests,
 forwards them, and finally returns a HTTP response. We identified some
-approaches:
+approaches to do this:
 
 \begin{enumerate}
     \item Build a HTTP proxy from scratch ourselves.
@@ -218,8 +217,8 @@ defined in \cref{table-proxy-request}, and the response format in
 path           & The original request URL from the application. Specifies the intended final destination of the original HTTP request. & Yes               \\ \hline
 method         & HTTP method of the request.                                                                                           & Yes               \\ \hline
 query          & Query string associated with the original HTTP request.                                                               & No                \\ \hline
-headers        & JSON object containing all the original HTTP headers of the request                                                   & Yes               \\ \hline
-body           & The original payload of the message                                                                                   & No                \\ \hline
+headers        & JSON object containing all the original HTTP headers of the request.                                                   & Yes               \\ \hline
+body           & The original payload of the message.                                                                                   & No                \\ \hline
 \end{tabularx}
 \caption{Proxy message request fields}
 \label{table-proxy-request}
@@ -276,7 +275,7 @@ received, transform it into a Proxy Response Message and return it to the other
 proxy. The route consists of the following steps:
 
 \begin{enumerate}
-	\item Defining an endpoint depending on which the configured protocol.
+	\item Defining an endpoint depending on the configured protocol.
 	\item Consume requests from the other proxy.
 	\item If compression is enabled, de-compress the message.
 	\item Transform the message into the original HTTP request.
@@ -284,7 +283,7 @@ proxy. The route consists of the following steps:
 	\item Receive a HTTP response from the intended destination.
 	\item Transform it into a Proxy Response Message.
 	\item If compression is enabled, compress the message.
-	\item Return the response to the other application.
+	\item Return the response to the other proxy.
 \end{enumerate}
 
 \subsection{Protocol Specific Routes}

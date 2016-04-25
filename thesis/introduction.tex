@@ -1,33 +1,35 @@
 
 \chapter{Introduction}
 
-Today the Internet interconnects millions of users all over the world. It plays
-an important role for both businesses and in our everyday personal life by
-providing means for Web applications to exchange information over a network. For
-most users the network speed is fast and the connection is stable. However, this
-is not the case for all use-cases of the Internet. Consider for example a nature
-disaster which damages the communication infrastructure. The data rate and
-connection may be limited, but information exchange is still critical for public
-health and security services. Another consideration is the development of the
-\gls{iot}, where more and more devices are becoming connected to the Internet.
-Typical IoT devices are sensors powered by batteries and connected wirelessly to
-the Internet. The wireless networks may be characterized by high packet loss
-rates, low data rates and instability. Such networks are called  Low-Power and
-Lossy Networks (LLNs). In this thesis we look into improving the performance of
-Web services in these conditions, with a focus on military application.
+Today the Internet connects millions of persons from all over the world. It
+plays an important role for both businesses and persons in their everyday life
+by enabling the possibility to access exchange information. The communication
+infrastructure provides fast and stable access to the Internet. This
+infrastructure might not be present in all use-cases requiring the exchange of
+information over the Internet. Consider for example a nature disaster damaging
+the communication infrastructure, which limits the quality of connections and
+available data rate. In such a scenario the exchange of information are critical
+for public health and security services. Another consideration is the
+development of the \gls{iot}, where more and more devices are becoming connected
+to the Internet. Typical IoT devices are sensors with limited energy and
+wirelessly connected to the Internet. The wireless networks may be characterized
+by high packet loss rates, low data rates and instability. Such networks are
+called Low-Power and Lossy Networks (LLNs). In this thesis we look into
+improving the performance of Web services operating in these types of
+conditions, with a focus on military application.
 
 
 Military units operate under conditions where the reliability of the network
 connection may be low. They can operate far from existing communication
 infrastructure and rely only on wireless communication. Such networks are often
 characterized by unreliable connections with low data rate and high error rates
-making data communication difficult. In a military scenario it is necessary for
-units at all levels to seamlessly exchange information across different types of
-communication systems. This ranges from remote combat units at tactical level,
-to commanding officers at operational level in a static headquarters packed with
-computer support. To the \gls{nato}, this concept is referred to as \gls{nec}.
-In a feasibility study, \gls{nato} identified the \gls{soa} paradigm and the Web
-Service technology as key enablers for information exchange in
+making communication difficult. In a military scenario it is necessary for units
+at all levels to seamlessly exchange information across different types of
+communication systems. This ranges from remote combat units at the tactical
+level, to commanding officers at the operational level in a static headquarters
+packed with computer support. To the \gls{nato}, this concept is referred to as
+\gls{nec}. In a feasibility study, \gls{nato} identified the \gls{soa} paradigm
+and the Web Service technology as key enablers for information exchange in
 \gls{nato} \cite{nnec-study}.
 
 Web service technology is well tested and in widespread use in civil
@@ -121,15 +123,15 @@ into services, which may help cost reduction and avoids duplication.
 technologies. The most common approach used is the \gls{w3c} Web service family
 of standards, which use the SOAP messaging protocol. To achieve interoperability
 between systems from different nations and vendors, NATO has chosen this
-technology in order to realize the \gls{soa} principles\cite{soa-baseline}. This
+technology in order to realize the \gls{soa} principles \cite{soa-baseline}. This
 allows member nations to implement their own technology as long as they adhere
 to the standards. The Web service technology is discussed in detail in
 \cref{web-services}. Another approach to realize the \gls{soa} principles is
 \gls{rest}, an architecture style which has gained a lot of traction in the
-civil industry and is discussed further in section \cref{rest}.
+civil industry and is discussed further in \cref{rest}.
 
 The mentioned Web service technologies, both REST and W3C Web services, are in
-widespread use, both in the civil and military world. However, employing Web
+widespread use both in the civil and military world. However, employing Web
 service solutions directly into military use may not be so straight forward.
 These technologies were not specifically designed to handle conditions found in
 certain military networks. In the following sections we present an overview of
@@ -143,8 +145,8 @@ network technologies. We can group them into layers, which have different
 characteristics as can been seen in \cref{figure:military-networks}. At the
 highest level, there is fixed infrastructure and relatively static users,
 meaning that they seldom move around or disconnect. At the lower levels, there
-are fewer units, but they are much more dynamic. The lower level is called
-tactical networks, which is discussed in the next paragraph.
+are fewer units, but they are much more dynamic. The lower levels are called
+tactical networks, which are discussed in the next paragraph.
 
 \begin{figure}[h]
 \includegraphics[scale=0.4, left]{images/network_complexity.png}
@@ -157,16 +159,16 @@ tactical networks, which is discussed in the next paragraph.
 Tactical networks are characterized by that the units are deployed to operate on
 a battlefield. We distinguish between deployed and mobile tactical networks,
 where deployed may use existing communication infrastructure. Mobile tactical
-networks have no existing communication infrastructure and therefor have the
-largest communication challenges.
+networks have no existing communication infrastructure and therefore experience
+the largest communication challenges.
 
- In tactical networks in general the users use tactical communication equipment,
- which includes technologies like VHF, UHF, HF, tactical broadband and
- satellites \cite{ist-090}. Examples of such units are mobile units like
- vehicles, foot soldiers and field headquarters. These types of networks are
- unpredictable and may have very low data rate, possibly high delay, high error
- rates and frequent disconnections.  NATO studies\cite{nato-disadvantaged-grids}
- have identified such networks to have the following characteristics: \\
+ In tactical networks military units use tactical communication equipment, which
+ includes technologies like VHF, UHF, HF, tactical broadband and satellites
+ \cite{ist-090}. Examples of such units are mobile units like vehicles, foot
+ soldiers and field headquarters. Tactical networks are unpredictable and may
+ have very low data rate, possibly high delay, high error rates and frequent
+ disconnections. NATO studies\cite{nato-disadvantaged-grids} have identified
+ such networks to have the following characteristics: \\
 
 \textit{
 Disadvantaged grids are characterized by low bandwidth, variable throughput,
@@ -182,10 +184,10 @@ environments, which is the term we use in this thesis.
 \subsection{\glsentrylong{dil} Networks}
 \label{dil}
 
-To improve the performance of Web services in limited military networks, it is
-important to understand the limitations we're dealing with. The \gls{dil}
-concept refers to three characteristics of a limited network:
-\textit{Disconnected, Intermittent} and \textit{Limited}.
+To improve the performance of Web services in tactical networks, it is important
+to understand the limitations we are dealing with. The \gls{dil} concept refers
+to three characteristics of a limited network: \textit{Disconnected,
+Intermittent} and \textit{Limited}.
 
 \begin{description}
 \item[Disconnected]
@@ -194,17 +196,17 @@ Military units that participate in a tactical network may be highly mobile and
 may disconnect from a network either voluntarily or not. Unplanned loss of
 connectivity can be due to various reasons, such as loss of signal or equipment
 malfunction.  The disconnected term refers to that nodes in the network may be
-disconnected for a long time, possibly for multiple hours and even days.
+disconnected for a long time, possibly for multiple hours or even days.
 
 \item[Intermittent]
 
-Nodes in a \gls{dil} environment may lose connection temporarily before
+Units operating in a \gls{dil} environment may lose connection temporarily before
 reconnecting again. The duration can range from milliseconds to seconds. As an
 example, consider a military vehicle driving on a countryside road. It may
 temporary lose connection due to the signal being obstructed by trees beside
-the road, driving into tunnels or simply having a bad radio signal.
+the road, driving into tunnels or by having a bad radio signal.
 
-\item[Limited] Limited refers to various ways a network can be limited. The Data
+\item[Limited] Limited refers to various ways a network can be limited. The data
 rate may be low, the network delay may be high and the \gls{per} may be high.
 The term data rate refers to the amount of data that can be transmitted over a
 network per unit of time. Delay refers to the time it takes for a bit of data to
@@ -212,14 +214,14 @@ travel across the network from machine to machine. \gls{per} means the number of
 incorrectly received packets divided by the total number of received packets. A
 packet is considered as incorrect if at least one bit error occurs.
 
-In addition to network limitations, other factors may also restrict
+In addition to network limitations, other factors may also limit the
 communication for military units. As an example, consider a military foot patrol
 operating out in the field. To communicate critical information with other units
 they use radios. The radio communication equipment is powered by batteries,
 which the soldiers would have to carry with them. Running applications and the
-sending/receiving of data over a network can consume a considerable amount of
-power. Thus, battery could be a scarce resource for the units operating in a DIL
-environment. This is similar to the constraint imposed on \gls{iot} devices.
+sending and receiving of data can consume a considerable amount of power. Thus,
+battery could be a scarce resource for the units operating in a DIL environment.
+This is similar to the constraint imposed on \gls{iot} devices.
 
 \end{description}
 
@@ -234,8 +236,8 @@ necessarily perform well in military environments. In contrast to civilian
 networks where the data rate is abundant, mobile tactical networks may suffer
 from high error rates and low data rate. Adapting Web service solutions meant
 for civil networks directly for military purposes may not be possible.
-Therefore, Web services need to be adapted in order to handle unreliable and
-limited networks. However, it can be very expensive to alter existing Web
+Therefore, Web services need to be adapted in order to better handle unreliable
+and limited networks. However, it can be very expensive to alter existing Web
 service technology and incorporate proprietary solutions. The NATO research
 group with the title "SOA Challenges for Real-Time and Disadvantaged Grids"
 (IST-090), has previously investigated which improvements that could be made in
@@ -267,19 +269,19 @@ improvements. The most important findings were:
 
 \end{itemize}
 
-The last bullet point refers to the issue of that when we have identified
+The last bullet point refers to the issue of when we have identified
 optimization techniques, where do we apply them? One approach could be to modify
 the Web service application itself. However, this would mean that every
-application deployed tactical network would require modification. This would
-require a lot of resources and severely limit the flexibility of using Web
-services.
+application deployed in a tactical network would require modification. This
+would require a lot of resources and severely limit the flexibility of using
+standardized Web services.
 
-IST-090 recommends another approach, applying the optimization in proxies
-without altering the Web services themselves \cite{ist-090}. A proxy is a node
-deployed somewhere in a network, which applications can tunnel their network
-traffic through. With this approach, the only thing required to do, is to
-configure the applications to send and receive data through the proxies. The
-proxies will then handle the optimization for tactical networks.
+IST-090 recommends another approach, applying optimizations in proxies without
+altering the Web services themselves \cite{ist-090}. A proxy is a node deployed
+somewhere in a network, which applications can tunnel their network traffic
+through. With this approach, the only thing required to do is to configure the
+applications to send and receive data through the proxies. The proxies will then
+handle the optimization for tactical networks.
 \Cref{figure-proposed-proxy-solution} illustrates a setup like this, where
 clients can invoke Web services through a proxy pair over a DIL network. By
 placing the optimization in proxies, the Web services themselves can remain
@@ -291,7 +293,7 @@ unchanged.
 
 This approach is identified by IST-090 and is explored in this thesis. Based on
 this recommendation we create a proxy with the aim of facilitating Web service
-usage in DIL.
+usage in DIL networks.
 
 
 \section{Premises of the Thesis}
@@ -302,11 +304,10 @@ in widespread use in NATO. Also the REST architectural style has been identified
 as a technology of interest to NATO. As we discuss later in \cref{web-services},
 \gls{http} is the by far most common transport protocol used by these type of
 services. The first and second premise is therefore that the proxy must be able
-to support both \gls{http} REST and W3C Web service communication between
-machines connected in a DIL network.
+to support both REST and W3C Web services deployed in a DIL network.
 
 Next, in order to optimize Web services in DIL environments, the applications
-themselves should not be required to be customized, all optimization should be
+themselves should not be required to be customized. All optimization should be
 placed in proxies. This retains the interoperability with standards-based COTS
 solutions. The forth and final premise is that the proxy must work with standard
 security mechanisms. In our case this means that any messages sent through the
@@ -400,7 +401,7 @@ four steps and the efforts undertaken in them are summarized here:
     the optimization techniques, we design and implement them. This step is
     elaborated in \cref{chapter:design}.
 
-    \item[Evaluate the system] Finally, the system developed is evaluated through a
+    \item[Evaluate the system] Finally, the solution is evaluated through a
     series of tests. The purpose of this is to evaluate if we in fact were able
     to solve the problem we set out to solve. We cover the testing and
     evaluation in \cref{chapter:evaluation} and draw a conclusion in
@@ -413,7 +414,7 @@ four steps and the efforts undertaken in them are summarized here:
 
 The outcome of this thesis is a recommendation regarding which optimizations
 techniques can be used in DIL networks to increase the performance of Web
-services. As the a part of this work we implement a prototype DIL proxy.
+services. As a part of this work we implement a prototype DIL proxy.
 
 \section{Outline}
 
@@ -424,6 +425,6 @@ computer networks in general before we dive into different communication
 paradigms and protocols. Then, in chapter 3, we discuss previous work done in
 the area. In chapter 4 we derive a specification for the proxy, before we in
 chapter 5 present the design and implementation details. Next, we present the
-testing of the proxy and how the proxy fulfilled the premises and requirements.
-Finally, in chapter 7, we summarize the discussion and provide reflections on
-future work within this field.
+testing of the proxy and how the proxy fulfilled the premises and requirements
+in chapter 6. Finally, in chapter 7, we summarize the discussion and provide
+reflections on possible future work within this field.

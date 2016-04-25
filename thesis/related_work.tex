@@ -7,7 +7,7 @@ performance of Web services in \gls{dil} environments. Improving Web services is
 important for both civil and military users as increasing the performance means
 that applications can become faster and more reliable. For these reasons, quite
 an amount of research has been done in the area of optimizing network
-applications, both for "regular" networks and DIL networks.
+applications, both for unlimited and DIL networks.
 
 In the following sections, we identify results and recommendations that are
 applicable to this thesis. We get started by looking into the work of the NATO
@@ -24,7 +24,7 @@ applicable with regards to the scope and premises of this thesis.
 IST-118 has published a paper\cite{ist-118} where they summarized the findings
 of IST-090. Although the paper only looked into W3C Web services, many of their
 recommendations are also applicable to RESTful Web services. They identified
-three key issues that need to be addressed in order to apply Web services in
+three key issues that need to be addressed in order to adopt Web services in
 tactical networks:
 
 \label{section:DIL-problems}
@@ -74,15 +74,15 @@ different ways to do this:
 
 \begin{enumerate}
     \item Employing caching near the client in order to reuse older messages.
-    \item Using the publish/subscribe paradigm, which allows clients to subscribe to
+    \item Using the publish-subscribe paradigm, which allows clients to subscribe to
     information instead of requesting it. This allows the same message to be sent
     to multiple clients.
-    \item Employing content filtering, which filters out unnecessary data.
+    \item Employing content filtering which filters out unnecessary data.
 \end{enumerate}
 
-The scope of this thesis is to optimize for request-response type of clients
-and Web services. Furthermore, since we are investigating general-purpose
-optimization techniques without knowledge of the payload, these
+The scope of this thesis is to optimize for request-response type of clients and
+Web services. Furthermore, since we are investigating general-purpose
+optimization techniques without knowledge of the payload, some of these
 recommendations does not quite apply to us. However, to reduce Web service
 overhead we can apply the well-known technique of compression.
 
@@ -185,10 +185,10 @@ researchers at the Florida Institute for Human \& Machine Cognition.
 Like DSPRoxy, NetProxy is a transparent proxy providing integration between SOA
 systems without requiring modification of applications themselves. It works by
 first intercepting all network traffic from the applications and then do an
-analysis. Together with this information and information about the network,
-NetProxy decides which appropriate action to take. It can be configured to
-support protocol remapping by using other protocols than HTTP/TCP. Integrated
-with NetProxy is the message-oriented transport protocol \gls{mockets}, which is
+analysis of it. Together with information about the network, NetProxy then
+decides which appropriate action to take. It can be configured to support
+protocol remapping by using other protocols than HTTP/TCP. Integrated with
+NetProxy is the message-oriented transport protocol \gls{mockets}, which is
 designed to replace \gls{tcp} and \gls{udp} and is targeted for DIL networks
 \cite{suri-netproxy}. Mockets replaces the congestion control and reliable
 transmission algorithms of TCP with other alternate implementations designed for
@@ -222,11 +222,11 @@ several factors:
 \subsection{AFRO}
 
 \gls{afro} is an edge proxy which offers different levels of \gls{qos} to Web
-services through performance monitoring and usage of the context-aware
-service provision paradigm \cite{ist-090}. It performs so called adaption actions, which
+services through performance monitoring and usage of the context-aware service
+provision paradigm \cite{ist-090}. It performs so called adaption actions, which
 modifies the SOAP XML messages by changing their encoding to more efficient data
-representation. \gls{afro} also removes information that is acceptable to be removed by
-the service requester.
+representation. \gls{afro} also removes information that is acceptable to be
+removed by the service requester.
 
 However, since the proxy modifies the data being sent, the digital signature of
 the data is also changed. In applications where we want to be sure that no one

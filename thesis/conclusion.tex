@@ -48,18 +48,16 @@ regards the RTT time perceived by Web service clients.
 
 We also validated that the proxy could overcome the limited aspect of DIL, as
 the test cases was successful in all emulated DIL networks. This fulfilled
-premises 2 and requirement 6.
-
-Furthermore, we supported a set of transport protocol as the means of
-transporting data between proxies and with that fulfilled requirement 8. We saw
-how different transport protocol affected the performance of Web services. In
-most of the different types of DIL environments, using HTTP/TCP as the
-inter-proxy protocol was proved as the best transport. However, we saw that in
-cases where the message payload was low and in networks with low data rates,
-using a CoAP proxy was the best option. We also discovered how the Californium
-implementation of CoAP with default configuration caused a sub-optimal
-utilization. Tuning the block-size configuration could improve the CoAP's proxy
-performance also for larger payloads.
+premises 2 and requirement 6.F urthermore, we supported a set of transport
+protocols as the means of transporting data between proxies and with that
+fulfilled requirement 8. We saw how different transport protocol affected the
+performance of Web services. In most of the different types of DIL environments,
+using HTTP/TCP as the inter-proxy protocol was proved as the best transport.
+However, we saw that in cases where the message payload was low and in networks
+with low data rates, using a CoAP proxy was the best option. We also discovered
+how the Californium implementation of CoAP with default configuration caused a
+sub-optimal utilization. Tuning the block-size configuration could improve the
+CoAP's proxy performance also for larger payloads.
 
 Next, we proved that the proxy works with security mechanisms through a
 proof-of-concept test using secure Web services.

@@ -21,11 +21,11 @@ requirements for this approach.
 \section{HTTP Proxy}
 
 The first premise implies that our proxy must accept \gls{http}, as this is the
-far most used Web service transport protocol. Furthermore, the third and fourth premises
-have some important implications for our proxy. Our proxy must be able
-to accept a HTTP requests from a Web service, forward it to the other proxy,
-which in turn delivers it to the intended receiver. The communication between
-the proxies is not required to be with HTTP, but rather a protocol that deals
+far most used Web service transport protocol. Furthermore, the third and fourth
+premises have some important implications for our proxy. Our proxy must be able
+to accept HTTP requests from a Web service, forward it to the other proxy, which
+in turn delivers it to the intended receiver. The communication between the
+proxies is not required to be with HTTP, but rather using a protocol that deals
 with DIL networks in a better way. However, since ultimately a HTTP request
 should be delivered to the intended receiver, the HTTP properties must be
 retained. This means that the proxy must preserve the HTTP method and headers.
@@ -63,15 +63,15 @@ messages. However, the only way to know if the connection is reestablished is to
 try and send more messages and see if they succeed. The first, and maybe naive
 approach, could be to just retransmit the message again and again. But by doing
 this, we could risk overflowing a slow receiver, as well as causing congestion
-in a possible overloaded network. Different types of networks and different use
+in a possibly overloaded network. Different types of networks and different use
 cases for the applications involved may require different redelivery mechanisms.
 At deployment, the proxy should therefore support a  set of configurable
 redelivery mechanism properties:
 
 \begin{description}
 
-    \item[Redelivery Delay] The proxy should support the retrying of sending messages
-    with a fixed delay between each attempt.
+    \item[Redelivery Delay] The proxy should support the retransmission of
+    sending messages with a fixed delay between each attempt.
 
     \item[Exponential Backoff] If exponential backoff is configured, the proxy
     should gradually try resending more and more seldom.
@@ -117,12 +117,12 @@ Compression reduces the size of a message sent over a network. In order to
 perform compression the proxy must be able to modify the payload of the message.
 Due to security mechanisms that detect changes to the payload (digital
 signatures), the payload must be restored back to its original form before being
-forwarded to the final receiver. One of our premises was that we must support
-both RESTful and W3C Web services. RESTful services do not put any
-restrictions on the data format of a message. Thus, we cannot use XML-specific
-compression, but rather we need to use general-purpose techniques.
+forwarded to the final receiver. One of our premises is that we must support
+both RESTful and W3C Web services. RESTful services do not put any restrictions
+on the data format of a message. Thus, we cannot use XML-specific compression,
+but rather we need to use general-purpose techniques.
 
-Based on previous work we identified GZIP as the best approach for general
+Based on previous work we identify GZIP as the best approach for general
 purpose compression.
 
 \subsection{Proxy Protocol Communication}
@@ -179,10 +179,10 @@ usage in the context of proxy communication in a DIL network.
 
 \end{description}
 
-The proxy should support the identified protocols suitable for communication
-over a DIL network. The recommendations are summarized in
-\cref{table:possible-proxy-protocols}. For evaluation purposes the proxy should be
-easily configured of which protocol to use.
+The proxy should support the identified protocols found suitable for
+communication between proxies over a DIL network. The recommendations are
+summarized in \cref{table:possible-proxy-protocols}. For evaluation purposes the
+proxy should be easily configured of which protocol to use.
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X |}

@@ -1,17 +1,16 @@
 \chapter{Technical Background}
-
 \label{chapter:background}
 
+In this chapter we present the technical background of the central concepts and
+protocols this thesis is based on. We first give an introduction to computer
+networks in general and how they are organized. Next, we introduce a set of
+network metrics used to characterize different types of DIL networks in this
+thesis. Then we look into two very common communication patterns. Next, we
+present the W3C Web service technology commonly used for exchanging data in
+military systems. We also introduce the REST style of services. Finally, we look
+into a number of protocols that we can replace HTTP/TCP with in order to
+increase the performance of Web services.
 
-
-Before diving into the design and implementation of the proxy developed in this
-thesis, in this chapter we present the technical background of the central
-concepts and protocols. We first give an introduction to computer networks in
-general and how they are organized. Then we look into two very common
-communication patterns. Next, we discuss common Web services used for exchanging
-data in military systems. Then we look into a number of protocols that we can
-replace HTTP/TCP with in order to increase the performance of Web services.
-Finally, we introduce the concept of performance testing and network metrics.
 
 \section{Computer Networks}
 
@@ -21,11 +20,11 @@ network is the Internet, which is a large network of networks facilitating
 communication between nodes all over the world. Internet is linked together by
 nodes using a set of protocols called the Internet Protocol Suite
 \cite{rfc-1122}. The functionality of the protocol suite is organized into four
-abstraction layers.
+abstraction layers outlined in the following paragraphs.
 
 \subsection{Network Layers}
 
-The Internet Protocol Suite are organized into four layers, each one built upon
+The Internet Protocol Suite is organized into four layers, each one built upon
 the one below it as shown in \cref{figure-network-layers}.
 
 %%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
@@ -44,8 +43,9 @@ the one below it as shown in \cref{figure-network-layers}.
 \subsubsection{Link Layer}
 
 The lowest layer of the protocol suite is the link layer, where the link is the
-physical component used to interconnect two adjacent nodes in a network. An
-example of a link layer protocol is Ethernet.
+physical component used to interconnect two adjacent nodes in a network.
+Ethernet is an example of a link layer protocol facilitating the transfer of
+data between two physically connected nodes.
 
 \subsubsection{Internet Layer}
 
@@ -70,14 +70,14 @@ decided that data communication in NATO systems should be based on IP packets
  \subsubsection{Transport Layer}
 
 In the Internet protocol suite model, the transport layer provides end-to-end
-communication services for applications. It builds on top of the network layer,
+communication services to applications. It builds on top of the network layer,
 and takes responsibility for sending data all the way from a process on a source
 computer to a process on the destination computer. The by far most used
 transport protocol is the \gls{tcp}, which provides reliable transport of data
-to applications. With reliable transport we mean that if data in transmission is
-lost or received in the wrong order, this is handled by the transport protocol.
-This provides an important abstraction for applications so that they do not need
-to deal with the characteristics of the physical network themselves.
+to applications. With reliable transport we mean that if data in a transmission
+is lost or received in the wrong order, this is handled by the transport
+protocol. This provides an important abstraction for applications so that they
+do not need to deal with this themselves.
 
 \subsubsection{Application Layer}
 
@@ -177,9 +177,10 @@ This definition points out a set of standards that enable machine-to-machine
 interactions. Web service interfaces is described in documents called WSDL, and
 communication is based on sending XML-based SOAP messages. There exists many
 definitions of Web services where the core principles are the same, but the
-finer details may vary. \Cref{figure-w3c-web-services} illustrates these
-fundamental principles. Web service technology is a realization of the \gls{soa}
-principles, which provides loose coupling and eases integration between systems.
+finer details may vary. \Cref{figure-w3c-web-services} illustrates the
+fundamental principles. The Web service technology is a realization of the
+\gls{soa} principles, and provides loose coupling and eases integration
+between systems.
 
 \begin{figure}[h]
 \centering
@@ -212,13 +213,13 @@ service which clients can invoke.
 \subsubsection{SOAP}
 
 SOAP is an application level, XML-based protocol specification for information
-exchange\cite{w3c-soap} in the implementation of Web services. Data
-communication in SOAP is done by nodes sending each other whats called SOAP
-messages. A SOAP message can be considered as an "envelope" consisting of an
-optional message header and a required message body. The header can contain
-information not directly related to the message such as routing information for
-the message and security information. The body contains the data being sent,
-known as the payload.
+exchange in the implementation of Web services \cite{w3c-soap}. Data
+communication in SOAP is done by nodes sending each other SOAP messages. A SOAP
+message can be considered as an "envelope" consisting of an optional message
+header and a required message body. The header can contain information not
+directly related to the message such as routing information for the message and
+security information. The body contains the data being sent, referred to as the
+payload.
 
 SOAP is transport protocol agnostic, which means it can be carried over various
 underlying protocols. The far most used transport protocol is HTTP over TCP, but
@@ -240,7 +241,7 @@ rather than on component semantics like W3C Web services.  REST is based on a
 client-server model where a client requests data from a server when needed.
 
 Web services that adhere to the REST style are called RESTful Web services. They
-are closely associated with HTTP and use HTTP verbs(e.g GET, POST, DELETE) to
+are closely associated with HTTP and use HTTP verbs (e.g GET, POST, DELETE) to
 operate on information located on a server. RESTful Web services typically
 expose some sort of information, called resources in REST. \Cref{table-rest}
 illustrates how a component exposes a set of operations of an example car
@@ -274,12 +275,11 @@ services are \gls{http}, which we present in detail in the next section.
 
 \section{\glsentrylong{http}}
 
-As we have seen in the previous sections, both RESTful and W3C Web services
-utilize the \gls{http} as their way to communicate with other services. The
-usage of \gls{http} is very widespread and it is the foundation of data
-communication for the \glsentrylong{www} since the early 90's. It's protocol
-specification is coordinated by \gls{ietf} and the \gls{w3c}, and is defined
-as \cite{rfc-2616}:
+As we have seen in the previous sections, both RESTful and W3C Web services rely
+on \gls{http} as the means of communicating with other services. The usage of
+\gls{http} is very widespread and it is the foundation of data communication for
+the \glsentrylong{www} since the early 90's. Its protocol specification is
+coordinated by \gls{ietf} and the \gls{w3c}, and is defined as \cite{rfc-2616}:
 
 \paragraph{}
 \textit{
@@ -295,9 +295,9 @@ as \cite{rfc-2616}:
 
 \gls{http} started out as a simple protocol for raw data transfer across the
 Internet and has since been updated in HTTP/1.0, HTTP/1.1 and most recently a
-major update with HTTP/2.0. It is a request-response protocol which means that all
-data exchanges are initiated with a client invoking a HTTP-request and then
-waits until a server responds with a HTTP response. A HTTP-request consist of
+major update in HTTP/2.0. It is a request-response protocol which means that all
+data exchanges are initiated with a client invoking a HTTP request and then
+waits until a server responds with a HTTP response. A HTTP request consist of
 the request method, \gls{uri}, protocol version, client information, and a optional
 body. The server responds with a message containing a status line, protocol
 version, a code indicating the success or error of the request, and a optional
@@ -307,7 +307,7 @@ the request/response or about the message body, e.g information about the encodi
 and caching information.
 
 HTTP, being an application level protocol, relies on a transport protocol to
-actually transfer data to an another machine. HTTP communication most often, but
+actually transfer data to another machine. HTTP communication most often, but
 not necessarily, occurs over TCP/IP connections. The only requirement in the HTTP
 specification is that a reliable transport protocol is used.
 
@@ -322,14 +322,14 @@ specification is that a reliable transport protocol is used.
  \begin{tabularx}{\textwidth}{| X | X |}
  \hline
    \textbf{HTTP Method} & \textbf{Purpose} \\ \hline
-   OPTIONS & Asks the server which HTTP methods and header field it supports. \\ \hline
-   GET & Retrieve information identified by the resource indentifier(Request-URI). \\ \hline
-   HEAD & Identical to GET, except that the HTTP-body is not returned from the server. \\ \hline
+   OPTIONS & Asks the server which HTTP methods and header fields it supports. \\ \hline
+   GET & Retrieve information identified by the resource identifier (Request-URI). \\ \hline
+   HEAD & Identical to GET, except that the HTTP body is not returned from the server. \\ \hline
    POST & Asks the server to accept the message payload from the client as a new resource.\\ \hline
-   PUT & Similar to POST but allows the client to ask the server to update a resource identified by the request-uri \\ \hline
-   DELETE & Requests that the resource identified by the request-uri is deleted \\ \hline
-   TRACE & Echoes the HTTP request. Used for debugging \\ \hline
-   CONNECT & For use with a proxy that can dynamically switch to being a tunnel\\ \hline
+   PUT & Similar to POST but allows the client to ask the server to update a resource identified by the request URI. \\ \hline
+   DELETE & Requests that the resource identified by the request URI is deleted. \\ \hline
+   TRACE & Echoes the HTTP request. Used for debugging. \\ \hline
+   CONNECT & For use with a proxy that can dynamically switch to being a tunnel.\\ \hline
  \end{tabularx}
  \caption{HTTP methods}
  \label{table-http-methods}
@@ -341,37 +341,38 @@ specification is that a reliable transport protocol is used.
 \gls{tcp} is called the workhorse of the Internet because it is so critical for
 how the Internet works. It is the primary transport protocol of the Internet
 Protocol Suite\cite{rfc-1122} and provides reliable, in-sequence delivery of
-two-way traffic(full-duplex) data.  \gls{tcp} was defined in RFC
+two-way traffic (full-duplex) data. \gls{tcp} was defined in RFC
 793\cite{rfc-793} back in September 1981 and has since been improved in various
 RFC's. The main motivation behind \gls{tcp} was to provide reliable end-to-end
-byte streams over unreliable networks.  HTTP most often uses TCP as its
-transport protocol. In this section we present the characteristics of TCP and
-some of the issues we may encounter working with it.
+byte streams over unreliable networks. HTTP and other application layer
+protocols often use TCP as their transport layer protocol. In the coming
+sections we therefore present TCP in detail and discuss some of the issues we
+may encounter using it.
 
  \subsection{The Protocol}
 
  TCP is a connection-oriented protocol, which means that a connection between a
  sender and the receiver must be established before any data can be transfered.
- A connection is specified by a pair of sockets identifying its two sides.
- Associated with each connection TCP initialize and maintains some status
- information for each connection. This includes window size, socket information
- and sequence numbers.
+ TCP does this by using a three-way handshake to establish a connection. For
+ each connection TCP initializes and maintains some status information such as
+ window size, socket information and sequence numbers.
 
 Computers supporting TCP have a piece of software which manages TCP streams and
-interfaces to the IP layer. Most often this software is a part of the
+interfaces to the Internet layer. Most often this software is a part of the
 kernel \cite{computer-networks}. It accepts data streams from local processes,
-and breaks them up into pieces, before sending them to the IP layer. The pieces
-are called TCP segments, which consist of a fixed 20 byte header, followed by
-zero or more data byte. The TCP software decides how big the segments should be,
-but for performance reasons they should not exceed the \gls{mtu} of the link(the
-physical network). Each segment should be so small that it can be sent in a
-single, unfragmented package over the entire network. This usually limits the
-size of each segment to the \gls{mtu} of the Ethernet, which is 1500 bytes.
+and breaks them up into pieces, before sending them to the Internet layer. The
+pieces are called TCP segments, which consist of a fixed 20 byte header,
+followed by zero or more data bytes. The TCP software decides how big the
+segments should be, but for performance reasons they should not exceed the
+\gls{mtu} of the link (the physical network). Each segment should be so small
+that it can be sent in a single, unfragmented package over the entire network.
+This usually limits the size of each segment to the \gls{mtu} of the Ethernet,
+which is 1500 bytes.
 
 When the TCP software receives data from applications, it is not necessarily
-sent immediately as it may be buffered before its sent. At the receiver, data is
-delivered to the TCP software, which reconstructs the original byte streams and
-deliver them to the target application.
+sent immediately as it may be buffered before its sent. At the receiving end,
+data is delivered to the TCP software, which reconstructs the original byte
+stream and deliver it to the destination application.
 
 
 \subsection{TCP Reliability}
@@ -379,10 +380,10 @@ deliver them to the target application.
 When transferring data over the Internet, the data may pass through various
 networks, routers and physical networks. Some of the routers may not work
 correctly, a bit may be flipped when transferring data wirelessly, or some other
-factor may come in to play. For those reasons, we have to accept that some of
+factor may come in to play. For these reasons, we have to accept that some of
 the data will be damaged, lost, duplicated or delivered out of order.
 
-TCP recovers from such faults by assigning sequence number to each packet being
+TCP recovers from such faults by assigning sequence numbers to each packet being
 sent. It then requires a positive acknowledgement from the receiver that the
 data was actually received. If the acknowledgement is not received within a
 timeout interval, the data is transmitted again. For the receiver the sequence
@@ -412,42 +413,41 @@ is able to pass forward. The consequence of this is that an increase in network
 traffic to this node, would only lead to a small increase, or even a decrease,
 of the network throughput \cite{Al-Bahadili2012}.
 
-To avoid congestion TCP uses a number of mechanisms. These aim to control the
+To avoid congestion, TCP uses a number of mechanisms. These aim to control the
 rate of data packets entering into the networks to avoid congestion, but still
 get as high throughput as possible. One of these mechanisms is
 \textit{slow-start}, which general idea is to start transmitting with a low
 packet rate, then gradually increasing the packet rate. When TCP notice that a
 packet is eventually lost, it considers it as a sign of network congestion and
-reduces its packet rate.
+reduces the rate it send packets.
 
 \subsection{Issues Using TCP in DIL}
 \label{section:tcp-problems}
 
 DIL networks are characterized by their high delay, low data rate and relatively
 high error rate. Since TCP's congestion control interprets this as evidence of
-congestion, it will back off and use a lower data rate. This causes TCP to send
-with a lower rate than the network actually can provide. Moreover, it could also
-ultimately lead to the TCP connection terminating due to those
+congestion, it will back off and send with a lower packet rate. This could cause
+TCP to send with a lower rate than the network actually can provide. Moreover,
+it could also ultimately lead to the TCP connection terminating due to those
 effects \cite{nato-disadvantaged-grids}.
 
 
 \section{Protocols of Interest}
 
 Since \gls{tcp} may be sub-optimal or even break down entirely in DIL networks,
-we're in this thesis looking into alternative protocols and other optimization
+we are in this thesis looking into alternative protocols and other optimization
 techniques. In networks with low data rate, protocols with low overhead per IP
 packet is beneficial. With frequent disconnects, protocols that are
 connection-less may be more suitable than connection-oriented. One important
 limitation is that NATO has chosen the "everything over IP", which means that
 all optimization must occur on the top of the network layer. Because of this we
-evaluate protocols in the transport and application layer of the Internet
-Protocol Suite.
+evaluate protocols in the transport and application layer.
 
-In the following sections we give a short introduction to the protocols
-we're investigating in this thesis. The protocols have been selected because of
-their prevalence in the civil and military world or their reported performance
-in the "Internet of Things". We get started by discussing \gls{udp}, which
-alongside \gls{tcp} is one of the core protocols of the Internet protocol suite.
+In the following sections we give a short introduction to the protocols we are
+investigating in this thesis. The protocols have been selected because of their
+prevalence in the civil and military world or their reported performance in the
+\gls{iot}. We get started by discussing the \gls{udp}, which alongside \gls{tcp}
+is one of the core protocols of the Internet protocol suite.
 
 
 \subsection{\glsentrylong{udp}}
@@ -458,25 +458,24 @@ which we go through in this section. \gls{udp} was formally defined in 1980 in
 RFC 768\cite{rfc-udp} and is a simpler protocol than \gls{tcp}. It sends
 messages, called datagrams, to nodes over the \gls{ip} network. While \gls{tcp}
 provides reliable transmission along with flow control and congestion control,
-do UDP only support the sending of IP datagrams. Furthermore it is a
+does UDP only support the sending of IP datagrams. Furthermore it is a
 connectionless protocol, which means that the protocol can send messages
 \textit{without} establishing a connection first. Since \gls{udp} does not
 provide guaranteed delivery or in-order delivery of messages, it should only be
 used by applications that do not require this.
 
 To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller
-headers and less overhead, which makes it a faster protocol. The downside is
-that it does not provide any mechanisms for congestion control or reliability.
-UDPs lack of end-to-end congestion control may result in drastic unfairness if
-an \gls{udp} stream are competing with a \gls{tcp}
-stream \cite{floyd-congestion}. While a TCP stream will detect congestion and
-back-down its traffic, an UDP stream will greedily send at full-throttle, thus
-causing an unfair share of the available network. UDP is therefore often
-referred to as not \textit{TCP-Friendly}.
+headers and less overhead. The downside is that it does not provide any
+mechanisms for congestion control or reliability. UDPs lack of end-to-end
+congestion control may result in drastic unfairness if an \gls{udp} stream are
+competing with a \gls{tcp} stream \cite{floyd-congestion}. While a TCP stream
+will detect congestion and back-down its traffic, an UDP stream will greedily
+send at full-throttle, thus causing an unfair share of the available network.
+UDP is therefore often referred to as not \textit{TCP-Friendly}.
 
  It is worth noting that UDPs lack of reliability may by handled on a higher
  level in the application stack on top of \gls{udp}. This is done by the next
- protocol we're looking into.
+ protocol we are looking into.
 
 \subsection{\glsentrylong{coap}}
 
@@ -492,7 +491,7 @@ POST and DELETE.
 
 CoAP messaging is based on asynchronously exchanging CoAP messages over UDP
 between two endpoints. The current specification defines four types of CoAP
-messages, where each message uses a 4 byte fixed-length binary header.
+messages where each message uses a 4 byte fixed-length binary header.
 \Cref{table:coap-messages} lists the four types of CoAP messages. A CoAP header
 may be followed by \textit{options} and a payload. \Gls{coap} provide mechanisms
 for optional reliability since \gls{udp} itself does not guarantee reliable
@@ -529,7 +528,7 @@ larger messages in a block-wise fashion.
 \subsection{\glsentrylong{amqp}}
 
 The \gls{amqp} is an application layer protocol for sending messages.
-It supports both the request/response and the publish/subscribe communication
+It supports both the request-response and the publish-subscribe communication
 paradigms. \gls{amqp} uses \gls{tcp} as its underlying reliable transport layer
 protocol.
 
@@ -547,28 +546,28 @@ An AMQP network consist of nodes connected via \textit{links}. Nodes can be
 producers, consumers and queues. Producers generate messages, consumers process
 messages, while queues store and forward them. These nodes live inside
 \textit{containers}, which can be client applications and brokers. Each
-container can have multiple nodes. AMQP version 1.0 is does not specify the
+container can have multiple nodes. AMQP version 1.0 does not specify the
 internal workings of those nodes, but defines the protocol for transferring
 messages between them. The basic data unit in AMQP is called a \textit{frame}
 and is used to initiate, control and tear down the transfer of a message between
 two nodes. The 9 different frames are listed in \cref{table-amqp-frames}.
 
-Prior to any communication, an AMQP connection must be established making AMQP a
-connection-oriented protocol. A connection is divided into independent
-unidirectional \textit{channels}. An AMQP \textit{session} correlates two
-unidirectional channels to form a bidirectional, sequential conversation between
-two containers. To establish a connection the first operation is to establish a
-TCP connection between the nodes. Then the protocol header is exchanged,
-allowing the nodes to agree on a common protocol version. This is exchanged in
-plaintext (not in an AMQP frame). The message itself is sent with the
-\textit{transfer} frame. Larger messages can be split into multiple frames.
+AMQP is a connection-oriented since an AMQP connection must be established prior
+to any communication. A connection is divided into independent unidirectional
+\textit{channels}. An AMQP \textit{session} correlates two unidirectional
+channels to form a bidirectional, sequential conversation between two
+containers. To establish a connection the first operation is to establish a TCP
+connection between the nodes. Then the protocol header is exchanged, allowing
+the nodes to agree on a common protocol version. This is exchanged in plaintext
+(not in an AMQP frame). The message itself is sent with the \textit{transfer}
+frame. Larger messages can be split into multiple frames.
 
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X |}
 \hline
   \textbf{AMQP Frame} & \textbf{Purpose} \\ \hline
-  Open & Describes the capabilities and limits of the node. \\ \hline
+  Open & Describes the capabilities and limits of the node \\ \hline
   Begin & Begin a session on a channel \\ \hline
   Attach & Attach a link to a session \\ \hline
   Flow & Update link state \\ \hline
@@ -584,22 +583,21 @@ plaintext (not in an AMQP frame). The message itself is sent with the
 
 \subsection{MQTT}
 
-MQTT is a publish/subscribe messaging transport protocol \cite{oasis-mqtt}.  It
+MQTT is a publish-subscribe messaging transport protocol \cite{oasis-mqtt}. It
 emerged in 1999 and recently became an \gls{oasis} standard in 2014. MQTT is
 considered to be light weight and simple to implement, making it suitable for
 use in networks where the data rate is limited and/or a low code footprint is
-needed. With the emerge of "The Internet of Things", these properties have
-caused regained interest in MQTT. The protocol is broker-based and runs on top
-of the TCP/IP protocols.
+needed. These properties make MQTT popular as a \gls{iot} protocol. The protocol
+is broker-based and runs on top of the TCP/IP protocols.
 
-The protocol provides message sending services to applications and offers
-different levels of \gls{qos}, specifying the delivery policies for a message.
-This is beneficial in networks where messages may be lost while traveling
-through a network. The lowest level of \gls{qos} is \textit{at most once}, which
-specifies that a message should arrive at the receiver either once or not at
-all. Next, the policy \textit{at least once} ensures that the message arrives at
-the receiver at least once, but possible multiple times. The last and highest
-level of MQTT's \gls{qos}, \textit{exactly once}, guarantees one, and only one,
+MQTT provides message sending services to applications and offers different
+levels of \gls{qos}, specifying the delivery policies for a message. This is
+beneficial in networks where messages may be lost while traveling through a
+network. The lowest level of \gls{qos} is \textit{at most once}, which specifies
+that a message should arrive at the receiver either once or not at all. Next,
+the policy \textit{at least once} ensures that the message arrives at the
+receiver at least once, but possible multiple times. The last and highest level
+of MQTT's \gls{qos}, \textit{exactly once}, guarantees one, and only one,
 delivery of the message. The protocol works by sending different MQTT control
 packets, listed in \cref{table:mqtt-packets}. Only \textit{exactly once}
 \gls{qos} requires the usage of the control packets PUBREC, PUBREL and PUBCOMP.
@@ -630,18 +628,18 @@ packets, listed in \cref{table:mqtt-packets}. Only \textit{exactly once}
 
 \subsection{\glsentrylong{sctp}}
 
-The \glsentrylong{sctp} is a transport-layer protocol, which offers
-functionality from both \gls{udp} and \gls{tcp}\cite{rfc-sctp}. The motivation
-behind the protocol was that many developers found TCP too limiting, but still
-required more reliability that UDP could provide. \gls{sctp} tries to solve
-these issues. It is message-oriented like UDP, but ensures reliable, in sequence
-transport of messages with congestion control like TCP. \gls{sctp} is a
-connection-oriented protocol and provide features like multi-homing and
-multi-streaming. Multi-homing is the possibility to use more than one network
-path between two nodes. This increases reliability since if one path fails,
-messages can still be sent over the other link(s). Multi-streaming refers to
-\gls{sctp} ability to transmit several independent streams of data at the same
-time, for example sending an image at the same time as a HTML Web page.
+The \gls{sctp} is a transport-layer protocol, which offers functionality from
+both \gls{udp} and \gls{tcp} \cite{rfc-sctp}. The motivation behind the protocol
+is that many developers find TCP too limiting, but still require more
+reliability than UDP can provide. \gls{sctp} tries to solve these issues. It is
+message-oriented like UDP, but ensures reliable, in sequence transport of
+messages with congestion control like TCP. \gls{sctp} is a connection-oriented
+protocol and provide features like multi-homing and multi-streaming.
+Multi-homing is the possibility to use more than one network path between two
+nodes. This increases reliability since if one path fails, messages can still be
+sent over the other links. Multi-streaming refers to \gls{sctp} ability to
+transmit several independent streams of data at the same time, for example
+sending an image at the same time as a HTML Web page.
 
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/sctp.pdf}
@@ -652,14 +650,12 @@ time, for example sending an image at the same time as a HTML Web page.
 
 \section{Summary}
 
-In this chapter we have presented computer networks in general, before we
-discussed the two most common types of Web services. Moreover, we have discussed
-the protocols that these Web services use in order to transmit messages over the
-Internet. We also introduced some new protocols designed to work in "Internet of
-things" networks, which have many of the same characteristics as DIL networks.
-The protocols are summarized in \cref{table:protocols:summary}. Finally, we
-introduced the concept of performance testing and important network metrics when
-doing such testing.
+In this chapter we presented computer networks in general, before we discussed
+the two most common types of Web services. Moreover, we discussed the protocols
+that these Web services use in order to transmit messages over the Internet. We
+also introduced some new protocols designed to work in "Internet of things"
+networks, which have many of the same characteristics as DIL networks. The
+protocols are summarized in \cref{table:protocols:summary}.
 
 %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
@@ -669,8 +665,8 @@ doing such testing.
   TCP & Transport. & Stream-oriented transport protocol. Reliable and with congestion control. \\ \hline
   UDP & Transport. & Message oriented. Low overhead, but lacks reliability and TCP-friendliness. \\ \hline
   SCTP & Transport. & Similar to UDP but also provide reliable, in sequence transport of messages like TCP. \\ \hline
-  HTTP & Application. Uses TCP. &  Widely used and the foundation for World Wide Web\\ \hline
-  CoAP & Application. Uses UDP. & Low header overhead with optional reliability \\ \hline
+  HTTP & Application. Uses TCP. &  Widely used and the foundation for World Wide Web. \\ \hline
+  CoAP & Application. Uses UDP. & Low header overhead with optional reliability. \\ \hline
   AMQP & Application. Uses TCP. &  Messaging middleware with store-and-forward capabilities.\\ \hline
   MQTT & Application. Uses TCP & Light weight and simple pub/sub protocol. \\ \hline
 \end{tabularx}

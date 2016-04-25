@@ -143,19 +143,19 @@ Using \gls{cots} software over networks that are \gls{dil} may not perform
 satisfactory, or can even break down entirely. Such networks are characterized
 by seeing frequent disruptions for both shorter and longer periodes, as well as
 high delays, low data rates and high packet error rates. In this thesis, we
-design and implement a HTTP proxy to improve the performance of Web services in
-DIL environments. The main idea of our design is to deploy a pair of proxies to
-facilitate HTTP communication between entities. As an optimization technique, we
-evaluate the usage of alternative transport protocols to carry information
-across these type of networks.
+design and implement a prototype proxy to improve the performance of Web
+services in DIL environments. The main idea of our design is to deploy a pair of
+proxies to facilitate HTTP communication between Web service applications. As an
+optimization technique, we evaluate the usage of alternative transport protocols
+to carry information across these type of networks.
 
-The implemented proxy is designed to support \gls{http}, \gls{amqp} and
-\gls{coap} for \textit{inter-proxy communication}. By introducing a proxy pair,
-we was able to break the end-to-end dependency between two services
-communicating over a DIL network, thus achieving higher reliability.
-Furthermore, experimental results reveal that when the message size is low,
-\gls{coap} has a lower overhead than the other protocols. MER OM RESULTER
-SENERE.
+By introducing a proxy pair, we were able to break the end-to-end dependency
+between two applications communicating in a DIL network, and thus achieve higher
+reliability. The proxy was designed to support the \gls{http}, the \gls{amqp}
+and the \gls{coap} for \textit{inter-proxy} communication. Evaluations show that
+in most cases using HTTP/TCP yielded the lowest \gls{rtt}. However, with small
+message payloads and in networks with low data rates, \gls{coap} has a lower RTT
+and network footprint than HTTP/TCP.
 
 
 
@@ -167,15 +167,15 @@ of Mathematics and Natural Sciences, University at the University of Oslo in
 thesis topic and supervision. I would like to thank my supervisors Frank Johnsen
 and Trude Hafsøe Bloebaum for providing guidance and helpful feedback throughout
 my thesis. Their many advices are much appreciated. Additionally, I would like
-to thank Jostein Sander for guiding me at the communication laboratory at FFI.
+to thank Jostein Sander for guiding me in the communication laboratory at FFI.
 
  I would also like to thank Øyvind Tangen, Svein Petter Gjøby and Ole Kristian
  Rosvold for reading my thesis and providing helpful feedback.
 
 Finally, I would like to thank all the amazing students I've met during my five
 years at the University of Oslo. Thanks for all the good times, whether it was
-planning the next dagen@ifi, wasting hours talking about nothing at Assembler or
-drinking beer at Escape.
+planning the next dagen@ifi, wasting countless hours talking about nothing at
+Assembler or drinking beer at Escape.
 
 
 \tableofcontents

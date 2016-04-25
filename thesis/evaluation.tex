@@ -10,7 +10,7 @@ which adaptations to make in different types of DIL networks. Since the proxy is
 being developed as a prototype for military usage, we use test scenarios that
 resemble actual military and civilian usage. For the purpose of testing we
 therefore develop two sets of test applications, one W3C Web service and one
-RESTful Web service. These applications is then used to test the proxy in
+RESTful Web service. These applications are then used to test the proxy in
 networks with different DIL characteristics.
 
 We start this chapter by introducing different types of DIL networks. Then we
@@ -343,7 +343,7 @@ another computer. The specifications of the machines used in the testing are lis
 \subsection{Network Setup}
 
 The client and Web service machines are connected to each other through a third
-computer acting as a link emulator. The link emulator machine have two Ethernet
+computer acting as a link emulator. The link emulator machine has two Ethernet
 network cards and interconnects the two other machines. This setup can be seen
 in \cref{figure-testing-environment}. In order for the link emulator to forward
 IP packets back and forth between the client and server, IP forwarding is
@@ -440,7 +440,7 @@ that the proxy fulfill the functional requirements we set:
 
  In addition, the results from the function tests can be used to benchmark
  against other tests. Before we introduce the usage of proxies, we first run the
- test sets without. This allow us to investigate the overhead associated with
+ test sets without. This allows us to investigate the overhead associated with
  the usage of proxies. We use the test setup described in the last section,
  although without any intended limitations of the network. The tests are
  performed for both test applications and repeated multiple times to get the
@@ -515,7 +515,7 @@ following:
 
 \begin{itemize}
 
-	\item The first thing that happens when a test run is started, is that a TCP
+	\item The first thing that happens when a test run is started is that a TCP
 	connection between the client application and the proxy is established. Then,
 	the first HTTP DELETE request of the Car system test is sent from the
 	application to the proxy. The request has no message body. Next, to be able to
@@ -558,7 +558,7 @@ we dived down into the details:
 \begin{itemize}
 
 	\item As with HTTP, a TCP connection between the test client and the
-	proxy is first established. Then the proxy establish a TCP connection with the
+	proxy is first established. Then the proxy establishes a TCP connection with the
 	message broker.
 
 	 \item Next, in order to forward the first HTTP request, the proxy initiates
@@ -758,12 +758,12 @@ are listed in \cref{table:los-test-packets-nffi} and
     HTTP proxy.
 
     \item For the Car system test we see that enabling compression yields a
-    slightly longer average RTT. The resason for this can be the time used to
+    slightly longer average RTT. The reason for this can be the time used to
     compress the payload is larger than the time saved by reducing the size of
     the message.
 
     \item The LOS type of network is a relatively unlimited network. The results
-    has the same characteristics as the results from the function tests.
+    have the same characteristics as the results from the function tests.
 
 \end{itemize}
 
@@ -855,7 +855,7 @@ The results from the test in this type of network are presented in
 
 \subsection{WiFi 2}
 
-This type of network also emulate wireless communication, but instead in the
+This type of network also emulates wireless communication, but instead in the
 ``outer'' areas of the wireless range. It has good data rate, moderate delay
 and very high packet error rate (20 \%).
 
@@ -878,8 +878,8 @@ network, we see the following:
     \item In the NFFI test case with CoAP without compression, the proxy was not
     able to forward the request. The reason for this is that the CoAP request
     between the proxies timed out. The retransmission mechanism of the proxy
-    were invoked, but the consecutive attempts were unsuccessfully as well.
-    Furthermore, we observe that even with compression did CoAP has a longer
+    was invoked, but the consecutive attempts were unsuccessfully as well.
+    Furthermore, we observe that even with compression did CoAP have a longer
     average RTT than the other protocols.
 
     \item We also see that for the NFFI test cases, compressing the messages
@@ -1027,7 +1027,7 @@ test applications in a sample test run. We observe the following:
 \label{section:evaluation-kongsberg}
 
 
-The majority of the testing were performed over software emulated networks. To
+The majority of the testing was performed over software emulated networks. To
 validate these results, we performed experiments with military communication
 equipment. We used two WM600 radios developed by \gls{kda}, intended for users
 "on-the-move". WM600 can be used as IP radios through the Ethernet interface and
@@ -1114,7 +1114,7 @@ of this, compared against HTTP/TCP and CoAP, AMQP generates more network
 traffic.
 
 Another consistent trend is that the CoAP proxy struggle with large messages in
-the NFFI test case. A Wireshark capture reveals that the CoAP proxy's could
+the NFFI test case. A Wireshark capture reveals that the CoAP proxy could
 utilize the Ethernet link in a better way. The maximum size of an IP packet sent
 over Ethernet is 1500 bytes \cite{rfc-894}, while the packet capture shows that
 CoAP splits larger messages into CoAP messages of only 512 bytes. Sending more
@@ -1123,12 +1123,12 @@ than necessary packets over the network introduces some overhead:
 \begin{itemize}
 
     \item The minimum size of an IP packet header is 20 bytes. For each
-    unnecessary packet sent, at least 20 more bytes is therefore sent over the
+    unnecessary packet sent, at least 20 more bytes are therefore sent over the
     network. Furthermore, since each message is acknowledged by the receiver, an
     \textit{additional} packet is sent over the network.
 
     \item The more IP packets sent, the greater is the chance of packet loss.
-    This especially apply to networks with high error rate.
+    This especially applies to networks with high error rate.
 
     \item The messages have to be splitted at the sender and then reassembled at
     the receiver, consuming CPU power.

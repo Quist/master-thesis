@@ -58,7 +58,7 @@ data between two physically connected nodes.
  The \gls{ip} is the protocol that enables the transfer of messages between two
  nodes in a network. Messages between two nodes are sent as IP packets and are
  routed through possibly multiple other nodes before it reaches its destination.
- This routing function is the fundamentation of the Internet, as it allows nodes
+ This routing function is fundamental for the Internet, as it allows nodes
  to communicate without knowing the exact network path to each other.
 
 To provide a
@@ -77,11 +77,11 @@ transport protocol is the \gls{tcp}, which provides reliable transport of data
 to applications. With reliable transport we mean that if data in a transmission
 is lost or received in the wrong order, this is handled by the transport
 protocol. This provides an important abstraction for applications so that they
-do not need to deal with this themselves.
+do not need to deal with these issues themselves.
 
 \subsubsection{Application Layer}
 
-The top layer of the Internet Protcol Suite is the application layer. Its role
+The top layer of the Internet Protocol Suite is the application layer. Its role
 is to serve communication services to applications. When we talk about
 application layer protocols, we usually talk about protocols that applications
 use to communicate with other applications. Application layer protocols use the
@@ -105,9 +105,9 @@ message.
 \subsubsection{Publish-Subscribe}
 
 Publish-subscribe is a message pattern where subscribers express their interest
-in a type of messages, often called topics or classes. A message publisher then
-creates messages of a certain class and publish them without needing to know who
-are actually subscribing to these types of messages. Many publish-subscribe
+in a type of messages, often called topics or classes. Message publishers create
+messages of a certain classes and publish them without needing to know who are
+actually subscribing to these types of messages.  Many publish-subscribe
 system employ a \textit{message broker} as seen in
 \cref{figure-message-brokers}. The message broker handles published messages
 from publishers and receives subscriptions from subscribers. The broker can
@@ -131,7 +131,7 @@ node to another. In this thesis we use the following metrics:
 
 \begin{description}
 
-\item[Data Rate] The data rate describe the speed that data can be transfered
+\item[Data Rate] The data rate describes the speed that data can be transferred
 between two nodes.
 
 \item[Latency] Latency is the time from a node sends a packet to the destination
@@ -147,7 +147,7 @@ altered due to noise or interference.
 \label{web-services}
 
 Web services are client and server applications that communicate over a network.
-They can be used to realize the \gls{soa} priniciples, and are in widespread use
+They can be used to realize the \gls{soa} principles, and are in widespread use
 in both civilian and military systems. It is worth noting that the term \textit{Web
 services} is a broad term and can be used to describe different types of
 services available over a network. The most common usage of the term refers to
@@ -195,7 +195,7 @@ following sections.
 \subsubsection{\glsentrylong{xml}}
 
 The \gls{xml}\cite{W3C-XML} is considered as the base standard for Web services.
-An XML document consist of data surrounded by tags and is designed to be both
+An XML document consists of data surrounded by tags and is designed to be both
 machine and user readable. Tags describe the data they enclose. The tags can be
 standardized, which allows exchange and understanding of data in a standardized,
 machine-readable way.
@@ -230,7 +230,7 @@ other protocols such as UDP and SMTP can be used as well.
 
 In the previous sections we looked into the standards and specifications that
 compose W3C Web services. However, there also exist other types of Web services
-which do not follow the these standards. In 2000, the computer scientist Roy
+which do not follow these standards. In 2000, the computer scientist Roy
 Fielding introduced \gls{rest} where he presented a model of how he thought the
 Web \textit{should} work. This idealized model of interactions within a Web
 application is what we refer to as the REST architectural style
@@ -241,7 +241,7 @@ rather than on component semantics like W3C Web services.  REST is based on a
 client-server model where a client requests data from a server when needed.
 
 Web services that adhere to the REST style are called RESTful Web services. They
-are closely associated with HTTP and use HTTP verbs (e.g GET, POST, DELETE) to
+are closely associated with HTTP and use HTTP verbs (e.g. GET, POST, DELETE) to
 operate on information located on a server. RESTful Web services typically
 expose some sort of information, called resources in REST. \Cref{table-rest}
 illustrates how a component exposes a set of operations of an example car
@@ -297,13 +297,13 @@ coordinated by \gls{ietf} and the \gls{w3c}, and is defined as \cite{rfc-2616}:
 Internet and has since been updated in HTTP/1.0, HTTP/1.1 and most recently a
 major update in HTTP/2.0. It is a request-response protocol which means that all
 data exchanges are initiated with a client invoking a HTTP request and then
-waits until a server responds with a HTTP response. A HTTP request consist of
+waits until a server responds with a HTTP response. A HTTP request consists of
 the request method, \gls{uri}, protocol version, client information, and a optional
 body. The server responds with a message containing a status line, protocol
 version, a code indicating the success or error of the request, and a optional
 body. Both HTTP requests and responses use a generic message format and can
 contain zero or more HTTP headers. Headers are used to provide information about
-the request/response or about the message body, e.g information about the encoding
+the request/response or about the message body, e.g. information about the encoding
 and caching information.
 
 HTTP, being an application level protocol, relies on a transport protocol to
@@ -352,7 +352,7 @@ may encounter using it.
  \subsection{The Protocol}
 
  TCP is a connection-oriented protocol, which means that a connection between a
- sender and the receiver must be established before any data can be transfered.
+ sender and the receiver must be established before any data can be transferred.
  TCP does this by using a three-way handshake to establish a connection. For
  each connection TCP initializes and maintains some status information such as
  window size, socket information and sequence numbers.
@@ -372,7 +372,7 @@ which is 1500 bytes.
 When the TCP software receives data from applications, it is not necessarily
 sent immediately as it may be buffered before its sent. At the receiving end,
 data is delivered to the TCP software, which reconstructs the original byte
-stream and deliver it to the destination application.
+stream and delivers it to the destination application.
 
 
 \subsection{TCP Reliability}
@@ -408,7 +408,7 @@ can send.
 Congestion control is about controlling the data traffic entry into a network in
 order to avoid network congestion. On its way from the sender to the receiver,
 an IP packet may pass through different subnets with different capabilities.
-Network congestion may occur if a node in a network receives more data then it
+Network congestion may occur if a node in a network receives more data than it
 is able to pass forward. The consequence of this is that an increase in network
 traffic to this node, would only lead to a small increase, or even a decrease,
 of the network throughput \cite{Al-Bahadili2012}.
@@ -437,7 +437,7 @@ effects \cite{nato-disadvantaged-grids}.
 Since \gls{tcp} may be sub-optimal or even break down entirely in DIL networks,
 we are in this thesis looking into alternative protocols and other optimization
 techniques. In networks with low data rate, protocols with low overhead per IP
-packet is beneficial. With frequent disconnects, protocols that are
+packet are beneficial. With frequent disconnects, protocols that are
 connection-less may be more suitable than connection-oriented. One important
 limitation is that NATO has chosen the "everything over IP", which means that
 all optimization must occur on the top of the network layer. Because of this we
@@ -467,7 +467,7 @@ used by applications that do not require this.
 To summarize, \gls{udp} is a more lightweight protocol than TCP. It has smaller
 headers and less overhead. The downside is that it does not provide any
 mechanisms for congestion control or reliability. UDPs lack of end-to-end
-congestion control may result in drastic unfairness if an \gls{udp} stream are
+congestion control may result in drastic unfairness if an \gls{udp} stream is
 competing with a \gls{tcp} stream \cite{floyd-congestion}. While a TCP stream
 will detect congestion and back-down its traffic, an UDP stream will greedily
 send at full-throttle, thus causing an unfair share of the available network.
@@ -542,7 +542,7 @@ versions is that version 1.0 does not specify the details of broker
 implementation. We investigate version 1.0 since it is the newest and has been
 standardized.
 
-An AMQP network consist of nodes connected via \textit{links}. Nodes can be
+An AMQP network consists of nodes connected via \textit{links}. Nodes can be
 producers, consumers and queues. Producers generate messages, consumers process
 messages, while queues store and forward them. These nodes live inside
 \textit{containers}, which can be client applications and brokers. Each
@@ -674,5 +674,5 @@ protocols are summarized in \cref{table:protocols:summary}.
 \label{table:protocols:summary}
 \end{table}
 
-Many of the mentioned protocols has been previously researched for use in DIL
+Many of the mentioned protocols have been previously researched for use in DIL
 networks. In the next chapter we will present relevant work in this area.

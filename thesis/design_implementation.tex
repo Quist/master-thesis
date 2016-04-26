@@ -53,9 +53,6 @@ configurable by the users of the proxy.
 \label{figure:proxy-communication}
 \end{figure}
 
-\subsection{Message Broker}
-
-ActiveMQ 5-13.2
 
 \section{Choosing a Framework}
 
@@ -121,7 +118,7 @@ the source code of the proxy is listed in \cref{appendix-source-code} of the
 appendix and \cref{table:implementation-versions} lists the software used as
 part of the implementation.
 
-We can divide the implementation into four areas:
+We can divide the implementation into four stages:
 
 \begin{enumerate}
     \item Reading and parsing user configuration.
@@ -139,10 +136,10 @@ about the configuration are explained in \cref{section:proxy-config}.
 
 Depending on which protocol the user has selected for usage as inter-proxy
 communication, at startup the respective Camel component is initiated and added
-to the Camel context. Due to the time available, we did not implement support for all of the
-recommended protocols from the last chapter. The currently supported protocols
-are HTTP, AMQP and CoAP. However, the proxy is designed to by easily extendable to
-include additional protocols.
+to the Camel context. Due to the time available, we did not implement support
+for all of the recommended protocols from the last chapter. The currently
+supported protocols are HTTP, AMQP and CoAP. However, the proxy is designed to
+by easily extendable to include additional protocols.
 
 \subsubsection{HTTP Component}
 
@@ -154,12 +151,13 @@ consume and produce HTTP messages as part of the inter-proxy communication.
 
 \subsubsection{AMQP Component}
 
-Apache Camel's AMQP component supports the AMQP 1.0 protocol using the JMS Client
-API of the Qpid project. JMS is a Java Message Oriented Middleware for sending
-messages between two or more clients. In the proxy component initialization
-phase, the AMQP component is initialized to connect to the configured broker. In
-addition, the request timeout value of an AMQP request is set either to the
-default value of 20 seconds, or to the configured value.
+Apache Camel's AMQP component supports the AMQP 1.0 protocol using the JMS
+Client API of the Qpid project. JMS is a Java Message Oriented Middleware for
+sending messages between two or more clients. In the proxy component
+initialization phase, the AMQP component is initialized to connect to the
+configured message broker. In addition, the request timeout value of an AMQP
+request is set either to the default value of 20 seconds, or to the configured
+value.
 
 \subsubsection{CoAP Component}
 

@@ -3,26 +3,28 @@
 \label{chapter:evaluation}
 
 In this chapter we outline how the testing and evaluation of the proxy was
-performed and present the results obtained. The goal is to measure any possible
-improvements (or deteriorations) of the performance of Web services using the
-developed proxy. Based on the measurements we then give a recommendation about
-which adaptations to make in different types of DIL networks. Since the proxy is
-being developed as a prototype for military usage, we use test scenarios that
-resemble actual military and civilian usage. For the purpose of testing we
-therefore develop two sets of test applications, one W3C Web service and one
-RESTful Web service. These applications are then used to test the proxy in
-networks with different DIL characteristics.
+performed and present the results obtained. The goal is to validate that the
+proxy fulfills the premises and requirements and to measure any possible
+improvements (or deteriorations) of the performance of Web services. Based on
+the measurements we then give a recommendation about which adaptations to make
+in different types of DIL networks. Since the proxy is being developed as a
+prototype for military usage, we use test scenarios that resemble actual
+military and civilian usage. For the purpose of testing we develop two sets of
+test applications, one W3C Web service and one RESTful Web service. These
+applications are then used to test the proxy in networks with different DIL
+characteristics.
 
-We start this chapter by introducing different types of DIL networks. Then we
-present how such networks can be emulated using the Linux network traffic tools,
-before we introduce evaluation tools and the two test applications. Next, we put
-the proxy to the test in an unlimited network to verify that it behaves nicely.
-We call this the function test. Then we start introducing the DIL
-characteristics into the tests and measure if we can improve the performance by
-using proxies. We introduce the \textit{disconnected} and \textit{intermittent}
-aspects first, before we test the proxy in six different \textit{limited}
-networks. We also test in a setup using actual military communication equipment.
-This was done to validate the results from the software emulated networks.
+We start this chapter by introducing different types of DIL networks we can
+encounter working with tactical networks. Then we present how these networks can
+be emulated using the Linux network traffic tools, before we introduce
+evaluation tools and the two test applications. Next, we put the proxy to the
+test in an unlimited network to verify that it behaves nicely. We call this the
+function test. Then we start introducing the DIL characteristics into the tests
+and measure if we can improve the performance by using proxies. We introduce the
+\textit{disconnected} and \textit{intermittent} aspects first, before we test
+the proxy in six different \textit{limited} networks. We also test in a setup
+using actual military communication equipment. This was done to validate the
+results from the software emulated networks.
 
 Finally, we discuss the results, their underlying causes, and which implications
 they have. Ultimately, we give a recommendation about the usage of proxies in
@@ -351,7 +353,7 @@ enabled in the kernel.
 
 \begin{figure}[h]
 \includegraphics[scale=0.73]{images/testing_environment.pdf}
-\caption{Test setup}
+\caption{Network used for testing}
 \label{figure-testing-environment}
 \end{figure}
 
@@ -391,17 +393,26 @@ rates. The bash scripts used to emulate the DIL networks are included in
 
 \subsection{Test Execution}
 
-The client is run on one machine together with a proxy, while the other proxy
-and the Web service is run on the Web service machine. Both Web services are deployed
-in a Glassfish 4 application server. To facilitate AMQP communication, a message
-broker is run at the Web service machine. This setup is illustrated in
-\cref{figure-testing-setup}.
+The tests were executed with the setup illustrated in
+\cref{figure-testing-setup}. Machine 2 hosts a test client and a proxy, while
+machine 1 hosts a proxy and the Web services. The Web services are deployed in a
+Glassfish 4 application server. In order to facilitate AMQP communication
+between proxies, a message broker is also run at the Web service machine. In our
+tests we use version 5-13.2 of Apache ActiveMQ \cite{activemq-homepage}, an
+open source message broker supporting messaging protocols like AMQP and MQTT.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{images/testing_setup.pdf}
 \caption{Test setup}
 \label{figure-testing-setup}
 \end{figure}
+
+Each test execution is initiated from a Java client on machine 2. We then
+measure how long it takes to complete all requests part of the test, thus
+allowing us to measure the Route Trip Time (RTT) as perceived by the client. All
+tests are performed multiple times in order to calculate the mean, standard
+deviation and variance. The results used to create the graphs presented in the
+coming sections, are included in the appendix, \cref{appendix-results}.
 
 The tests are performed with the following parameters:
 
@@ -418,18 +429,13 @@ The tests are performed with the following parameters:
 
 \end{itemize}
 
-Each test execution is initiated from a Java client. We then measure how long it
-takes to complete all requests, thus allowing us to measure the Route Trip Time
-(RTT). All tests are performed multiple times in order to calculate the mean,
-standard deviation and variance. The results used to create the graphs presented
-in the coming sections, are included in the appendix, \cref{appendix-results}.
 
 
 \section{Function Tests}
 
 The first part of the testing is performed without any actual intended
 limitations to the network. The objective of the function tests is to validate
-that the proxy fulfill the functional requirements we set:
+that the proxy fulfill the functional requirements we sat in chapter 4:
 
 \begin{itemize}
     \item Receive and forward HTTP requests.
@@ -439,37 +445,181 @@ that the proxy fulfill the functional requirements we set:
 \end{itemize}
 
  In addition, the results from the function tests can be used to benchmark
- against other tests. Before we introduce the usage of proxies, we first run the
- test sets without. This allows us to investigate the overhead associated with
- the usage of proxies. We use the test setup described in the last section,
- although without any intended limitations of the network. The tests are
- performed for both test applications and repeated multiple times to get the
- average \gls{rtt}.
+ against other tests. We run both with and without proxies, allowing us to
+ investigate the overhead associated with the usage of proxies. We use the test
+ setup described in the last section, although without any intended limitations
+ of the network. The tests are performed for both test applications and repeated
+ multiple times to get the average \gls{rtt}.
 
-\subsection{Results and Analysis}
+\subsection{Results}
 
-Without using the proxy, \cref{figure:results-function-testsx} shows that for
-both the NFFI and Car system test case, they finish successfully within the
-average time of 200 ms. When we introduce usage of proxies, all test cases still
-complete successfully. The HTTP requests and responses are successfully
-forwarded through the proxies, and the custom HTTP header set by the Car system is
-retained. In the test cases without enabling compression, the usage of proxies
-results in a longer RTT. This can be attributed to the overhead involved when
-the proxy processes the requests and converts the message into the proxy message
-format.
+Both the NFFI and Car system test cases finish successfully within the average
+of 200 ms when not using proxies. \Cref{figure:results-function-testsx} shows
+the results from the function tests and reveals the impact of introducing the
+usage of proxies. When using proxies, all test cases still completes
+successfully, but their average RTT varies depending on the protocol. The
+clients HTTP requests are forwarded through the proxies to the Web service,
+which successfully returns a HTTP response back. We also verified that a custom
+HTTP header added by the Car system client and Web service are successfully
+retained. Together with the successful GZIP compression, the functional
+requirements for the proxy is therefore identified as fulfilled.
 
-When compression is enabled and a HTTP proxy is used, we see a decrease in the
-RTT for the NFFI test case. Inspecting the network traffic with Wireshark
-reveals the probable cause for this. Compressing the relatively large XML
-documents sent in NFFI test case yield a very high compression rate. The
-compression rates of the rather small JSON documents in the Car System test case
-are relatively small. Furthermore, we observe that the transport protocol used
-by the proxies has significant impact on the RTT and packets sent over the
-network. \Cref{table:function-test-packets-nffi} and
+\subsubsection{Analysis}
+
+Even in an unlimited network, we still see a significant difference between the
+protocols. These trends may be the same or perhaps reinforced when the protocols
+are used in DIL networks. In the coming paragraphs we therefore investigate and
+discuss the possible underlying reasons for the results we obtained in the
+function tests.
+
+In test cases without compression, using proxies results in a longer RTT. This
+can be due to the overhead of sending requests through proxies, which includes
+initializing TCP connections and the time the proxies use processing requests.
+When using a HTTP proxy with compression, we see a decrease in the RTT for the
+NFFI test case. Inspecting the network traffic with Wireshark reveals the
+probable cause for this. Compressing the relatively large XML documents sent in
+NFFI test case yield a very high compression rate. The compression rates of the
+rather small JSON documents in the Car System test case are relatively small in
+comparison.
+
+Furthermore, we observe that the transport protocol used by the proxies has
+significant impact on the RTT and packets sent over the network.
+\Cref{table:function-test-packets-nffi} and
 \cref{table:function-test-packets-rest} list the IP packets sent over the
-networks of one sample run of the two test cases. In the following
-paragraphs we discuss the behavior of the different protocols in use by the
-proxies.
+networks of one sample run of the two test cases. To better understand the
+reasons for the difference in average RTT and network usage, we are in the
+following sections investigating the behavior of each protocol separately.
+
+\subsubsection{HTTP Proxy}
+
+The HTTP proxy generally performed well. For the NFFI test case with
+compression, the proxy is marginally faster than when not using a proxy. The
+reduction of data sent and received over the network is reflected by the reduced
+number of IP packets. Without compression and for the Car system test case, the
+RTT of the HTTP proxy is marginally longer. The reason could be the overhead
+associated with the proxy. Using Wireshark we analyzed one sample run of the Car
+system test using a HTTP proxy and found the following network activities:
+
+\begin{enumerate}
+
+    \item The Car system client starts invoking its first HTTP request. This is
+    a DELETE request without a message body. Since requests are proxied through
+    the HTTP proxy, a TCP connection between the client application and the
+    proxy is established.
+
+    \item After receiving the request from the client, the proxy establishes a
+    TCP connection with the other proxy.
+
+    \item The HTTP request is sent from the proxy to the other proxy. The DELETE
+    request has now been converted to a POST request and the message body
+    contains the proxy message. Since the request now has a message body, two
+    HTTP headers has been appended: Content-Type and Content-Length. In
+    addition, the HTTP-header breadcrumbID has been added, an header used by
+    Camel. Including the proxy message, the size of the original HTTP request
+    has now grown from 243 to 635 bytes.
+
+	\item A HTTP response is returned from the other proxy. It consists of two
+	reassembled TCP segments with the total size of 974  bytes. Comparing with the
+	response from when not using a proxy, indicates a few things. Without the proxy
+	the response to the DELETE request is without a message body, while with the
+	HTTP body contains a proxy message. In addition, the response has additional
+	HTTP headers than the original request. For this examined response, using the
+	proxy introduced a message overhead of 756 bytes.
+
+    \item The response if forwarded from the proxy to the client.
+
+    \item The client starts its next request and repeat the mentioned steps.
+    However, since the TCP connections now is initialized and open, both between
+    the client and proxy and between the proxies, the TCP connection are reused.
+
+
+  \end{enumerate}
+
+Using a HTTP proxy successfully forwarded messages, but introduced some
+overhead. HTTP headers are added and possibly duplicated, as the proxy
+encapsulates the original headers inside the proxy message and then adds
+its own headers to the HTTP request between the proxies.
+
+
+\subsubsection{AMQP Proxy}
+
+AMQP had the worst average RTT of the proxy protocols, especially for the Car
+system test case. As seen in \cref{table:function-test-packets-nffi} and
+\cref{table:function-test-packets-rest}, AMQP sends a lot more IP packets
+through the network than HTTP. Since AMQP is broker based, communication occurs
+through a message broker and not directly between the proxies. Using Wireshark,
+we dived down into the details:
+
+\begin{enumerate}
+
+	\item A TCP connection between the test client and  proxy is first established.
+
+    \item The proxy establishes a TCP connection with the message broker.
+
+    \item The proxy and message broker agree on an AMQP version by exchanging
+    the AMQP protocol header.
+
+	 \item Next, in order to forward the first request, the proxy initiates an AMQP
+	 connection. This consists of numerous AMQP frames being sent between the proxy
+	 and message broker. This includes sending the AMQP frames Open, Begin, Attach
+	 and Flow.  First after sending these frames, the first \textit{transfer} frame
+	 carrying the message is sent.
+
+     \item Finally, when a response is returned, both the AMQP and TCP connection
+     between the proxy and message broker are closed.
+
+     \item The proxy returns the response back to the test client.
+
+     \item When the next test HTTP request is initiated by the client, these
+     steps are repeated.
+
+\end{enumerate}
+
+Although all requests are successfully forwarded, do the AMQP proxy cause a
+significant overhead due to its complex connection procedures. For every request
+that is forwarded through the proxy, a new AMQP and TCP connection had to be
+established.
+
+\subsubsection{CoAP Proxy}
+
+Using CoAP as the inter-proxy communication protocol had roughly the same
+average RTT as the HTTP proxy, with one exception. In the uncompressed NFFI test
+case it had a longer RTT and sent a unreasonable higher amount of packets. We
+discuss the possible reasons for this in detail in
+\cref{section:evaluation-discussion}. For the test cases not involving large
+messages however, CoAP sent significantly \textit{fewer} IP packets than the
+other proxy protocols. Using Wireshark we looked into the network traffic of the
+Car system test:
+
+\begin{enumerate}
+
+    \item The test client first establishes a TCP connection with the proxy and sends
+    the first message.
+
+    \item The proxy forwards the request in an UDP message to the other proxy.
+
+    \item The other proxy returns the response and acknowledgment in one UDP
+    message.
+
+    \item The proxy returns the response to the test client.
+
+    \item The test client invokes a new request and the steps are repeated.
+
+
+\end{enumerate}
+
+As we see, CoAP has a more simple messaging pattern compared to AMQP and partly
+also HTTP/TCP. CoAP uses UDP which is a connection-less protocol, which means
+that no packets have to be sent in order to establish a connection. For the
+function tests, we see that the CoAP proxy is the proxy with the least network
+footprint.
+
+The function tests were done in an unlimited network, so our findings are not
+necessarily applicable to DIL networks. In section \cref{section:tests-limited}
+we put the proxy and protocols to the test in more limited networks. But first,
+in the next section we see how the proxies cope with the disconnect and
+intermittent aspect of the DIL.
+
 
 \begin{landscape}
     \begin{figure}
@@ -502,119 +652,42 @@ proxies.
 \label{table:function-test-packets-rest}
 \end{table}
 
-\subsubsection{HTTP Proxy}
-
-For the NFFI test case with compression enabled, the HTTP proxy is marginally
-faster than without the proxy. The reduction of data sent and received is
-reflected by that the number of IP packets sent over the network are
-significantly reduced, as seen in \cref{table:function-test-packets-nffi}.
-Without compression and for the Car system test case, the RTT is marginally
-longer. The reason for this can be the overhead associated with the proxy. Using
-Wireshark we analyzed one sample run of the Car system test and found the
-following:
-
-\begin{itemize}
-
-	\item The first thing that happens when a test run is started is that a TCP
-	connection between the client application and the proxy is established. Then,
-	the first HTTP DELETE request of the Car system test is sent from the
-	application to the proxy. The request has no message body. Next, to be able to
-	forward the request using HTTP, the proxy establishes a TCP connection with the
-	other proxy.
-
-	\item Then, a HTTP request is sent from the proxy to the other proxy. The
-	DELETE request has now been converted to a POST request and the message
-	body contains the proxy message. Since the request now has a message body,
-	two HTTP headers has been appended: Content-Type and Content-Length. In
-	addition, the HTTP-header breadcrumbID has been added. This is a header used
-	by Camel. Including the proxy message, the size of the original HTTP request
-	has now grown from 243 to 635 bytes.
-
-	\item Next, the HTTP response is returned from the other proxy. It consists of two
-	reassembled TCP segments with the total size of 974  bytes. Comparing with the
-	response from when not using a proxy, tells us a few things. Without the proxy,
-	the response to the DELETE request is without a message body, while otherwise
-	the custom proxy message is sent in the HTTP body. In addition, the response
-	has additional HTTP headers than the original request. For this response, using
-	the proxy had a message overhead of 756 bytes.
-
-    \item In the consecutive HTTP requests the proxy did not need to establish a
-    TCP connection since it was already open.
-
-  \end{itemize}
-
-As outlined above, using HTTP as the inter-proxy communication method caused an
-overhead by including all of the HTTP request information in the proxy message.
-
-\subsubsection{AMQP Proxy}
-
-AMQP had the worst average RTT of the proxy protocols, especially for the Car
-system test case. As seen in \cref{table:function-test-packets-nffi} and
-\cref{table:function-test-packets-rest}, AMQP sends a lot more IP packets
-through the network than HTTP. Since AMQP is broker based, communication occurs
-through a message broker and not directly between the proxies. Using Wireshark,
-we dived down into the details:
-
-\begin{itemize}
-
-	\item As with HTTP, a TCP connection between the test client and the
-	proxy is first established. Then the proxy establishes a TCP connection with the
-	message broker.
-
-	 \item Next, in order to forward the first HTTP request, the proxy initiates
-	 an AMQP connection. This consists of numerous AMQP frames being sent between
-	 the proxy and message broker. This includes exchanging the AMQP protocol
-	 header and sending the AMQP frames Open, Begin, Attach and Flow.  First after
-	 sending these frames, the first \textit{transfer} frame carrying the
-	 message is sent.
-
-     \item Finally, when a response is returned, both the AMQP and TCP connection
-     are closed.
-
-     \item When the next HTTP request is forwarded, these steps are repeated.
-
-\end{itemize}
-
-AMQP causes a significant overhead due to its complex connection procedures. For
-every request that is forwarded through the proxy, a new AMQP and TCP connection
-had to be established.
-
-\subsubsection{CoAP Proxy}
-
-Using CoAP as the inter-proxy communication protocol had roughly the same
-average RTT as the HTTP proxy, with one exception. In the uncompressed NFFI test
-case it had a longer RTT and sent a significant higher number of packets. We
-discuss the possible reasons for this in detail in
-\cref{section:evaluation-discussion}. For the test cases not involving large
-messages, CoAP sent significantly \textit{fewer} IP packets than the other proxy
-protocols.
-
 
 
 
 \section{DIL Tests - Intermittent and Disconnected}
 
 \textit{Intermittent} and \textit{disconnected} refers to the network connection
-being lost for some period of time, but then regained again. Disconnected
-refers to loss of connection over a longer period, while intermittent is a
-special case of disconnected and refers to shorter disruptions. In our testing
-we focused on loss of connections for longer periods of time. The objective of
-this testing is to evaluate how the proxy manages loss of connections over
-periods of time. We define the success criteria for this test to be that the
-client is able to eventually process his request after the connection is
-reestablished. The clients HTTP request should not be interrupted in any way,
-other than it taking longer time to process the request.
+being lost for some period of time, but then regained again. Disconnected refers
+to loss of connection over a longer period, while intermittent is a special case
+of disconnected and refers to shorter disruptions. The requirements we set for
+our proxy were that it should:
+
+\begin{itemize}
+
+    \item Handle frequent network disruptions.
+    \item Handle disconnects over longer periods of time.
+
+\end{itemize}
+
+
+
+In our testing we focus on loss of connections for longer periods of time. The
+objective of this testing is to evaluate how the proxy manages disconnects. We
+define the success criteria to be that a client is able to eventually process
+his request after the connection is reestablished. The clients HTTP request
+should not be interrupted in any way, other than it taking longer time to
+process the request.
 
 \subsection{Execution}
 
- The tests were performed on an unlimited network and were performed for both
- the NFFI and Car system service. They were executed by starting the test
- applications and then immediately removing the Ethernet cable between the
- client machine and the link emulator as illustrated in
- \cref{figure-testing-disconncted}. We then waited around 60 seconds, allowing
- requests to trigger timeouts and thus invoking the proxy’s redelivery
- mechanisms. Finally, we connected the cable again and observed if the test
- application were able to finish its requests successfully.
+ The tests is performed over an unlimited network and is performed for both the
+ NFFI and Car system test. They are executed by starting the test applications
+ and then immediately removing the Ethernet cable between the client machine and
+ the link emulator as illustrated in \cref{figure-testing-disconncted}. We then
+ wait around 60 seconds, allowing requests to trigger timeouts and thus invoking
+ the proxy redelivery mechanism. Finally, we connect the cable again and
+ observe if the test application is able to finish its requests successfully.
 
  \begin{figure}[h]
  \includegraphics[width=\textwidth]{images/testing_disconnected.pdf}
@@ -661,20 +734,28 @@ when connection was reestablished.
 
 
 \section{DIL Tests - Limited}
+\label{section:tests-limited}
 
 The third DIL characteristic, \textit{limited}, refers to different ways a
 network can be limited. This includes high delays, packet loss and low
 bandwidth. In this section we present the testing performed for the different
-types of networks identified in \cref{table-network-types}.
+types of networks identified in \cref{table-network-types}. Through this testing
+we evaluate how the proxy performs with regards to requirement 6, stating that
+the proxy should be able to:
+
+\begin{itemize}
+
+    \item Handle low data rates, high delays and high packet error rates.
+
+\end{itemize}
 
 
 
 \subsection{Satellite Communication}
 
-In this test scenario we emulate \gls{satcom}. With satellite communication
-all data is relayed through a communication satellite in orbit around
-the earth. This type of communication is characterized by its low data rate
-and high delay.
+In this test network we emulate \gls{satcom}. With satellite communication all
+data is relayed through a communication satellite in orbit around the earth.
+This type of communication is characterized by its low data rate and high delay.
 
 \subsubsection{Results and Analysis}
 
@@ -684,21 +765,21 @@ we observe the following:
 
 \begin{itemize}
 
-    \item Compression can be of less importance in networks where the high delay
-    is the limiting factor.
+    \item The HTTP proxy with compression has the overall best RTT.
 
     \item With one exception, AMQP has significantly higher RTT than the other
-    protocols. For the Car system tests with many HTTP requests, we see that
-    AMQP triggers the sending of many IP packets. In a sample test run the
-    Wireshark capture revealed that AMQP sends twenty times the amount of IP packets
-    compared to CoAP.
+    protocols. For the Car system tests with many subsequent HTTP requests, we
+    see that AMQP triggers the sending of many IP packets. In a sample test run
+    the Wireshark capture revealed that AMQP sends twenty times the amount of IP
+    packets compared to CoAP.
 
-    \item CoAP struggles with the large messages of NFFI test case. In the Car
-    system test case however, a Wireshark capture reveals that it sends few number of IP
-    packets.
+    \item CoAP struggles with large uncompressed messages of NFFI test case. For
+    the Car system test however, the CoAP proxy has almost equal average RTT as
+    the HTTP proxy. A Wireshark capture during the Car system test shows that
+    CoAP proxy sends very few number of IP packets compared to other protocols.
 
-    \item The HTTP proxy with compression enabled has the overall best RTT. For
-    the Car system test, CoAP has almost equal average RTT as the HTTP proxy.
+    \item Compression can be of less importance in networks where the high delay
+    is the limiting factor.
 
 \end{itemize}
 
@@ -735,7 +816,7 @@ we observe the following:
 
 \subsection{Line-of-Sight}
 
-In this test scenario we emulate \gls{los} networks, which are characterized by
+In this test scenario we emulate \gls{los} networks which are characterized by
 being a radio-based type of network with no physical obstacles between the nodes
 in the network. LOS has high data rate, low delay and zero error rate.
 
@@ -748,22 +829,18 @@ are listed in \cref{table:los-test-packets-nffi} and
 
 \begin{itemize}
 
-    \item We observe the same trends regarding CoAP and AMQP as in the function
-    testing.
-
-    \item HTTP proxy has the lowest average RTT in the NFFI test case, while not
-    using a proxy yielded the best RTT in the Car system test.
-
-    \item In the Car system tests the CoAP proxy is marginally faster than a
+    \item HTTP proxy yielded the lowest average RTT in the NFFI test case, while not
+    using a proxy had the best RTT in the Car system test. In the Car system tests the CoAP proxy is marginally faster than a
     HTTP proxy.
+
+    \item We observe the same trends regarding CoAP and AMQP as in the function
+    testing. The LOS type of network is a relatively unlimited network. The results
+    have the same characteristics as the results from the function tests.
 
     \item For the Car system test we see that enabling compression yields a
     slightly longer average RTT. The reason for this can be the time used to
     compress the payload is larger than the time saved by reducing the size of
     the message.
-
-    \item The LOS type of network is a relatively unlimited network. The results
-    have the same characteristics as the results from the function tests.
 
 \end{itemize}
 
@@ -807,16 +884,16 @@ and the packet error rate is 1 \%.
 
 \subsubsection{Results and Analysis}
 
-The results from the test in this type of network are presented in
+The results from the tests in this type of network are presented in
 \cref{figure:wifi1-results}, \cref{table:wifi1-test-packets-nffi} and
 \cref{table:wifi1-test-packets-rest}. We see the following:
 
 \begin{itemize}
 
     \item Again we observe the same trends from previous tests. AMQP has the
-    longest RTT, while CoAP struggle with large messages.
+    longest average RTT, while CoAP struggle with large messages.
 
-    \item For the NFFI test, HTTP with compression enabled yields the lowest
+    \item For the NFFI test, HTTP proxy with compression yields the lowest
     average RTT.
 
     \item For the Car system tests, running without using proxies have the
@@ -870,25 +947,25 @@ network, we see the following:
 
 \begin{itemize}
 
-    \item We observe a significantly longer average RTT for all test cases. The
+    \item A significantly longer average RTT for all test cases. The
     variance of the test results have increased compared to the other test
     networks. This can be attributed to the high probability of packet errors,
     since some test runs may experience few errors, while other more.
 
-    \item In the NFFI test case with CoAP without compression, the proxy was not
-    able to forward the request. The reason for this is that the CoAP request
-    between the proxies timed out. The retransmission mechanism of the proxy
-    was invoked, but the consecutive attempts were unsuccessfully as well.
-    Furthermore, we observe that even with compression did CoAP have a longer
-    average RTT than the other protocols.
+    \item The HTTP proxy with compression had the overall best average
+    RTT.
+
+    \item In the NFFI test case with a CoAP proxy without compression, the proxy
+    was not able to forward the request. The reason for this is that the CoAP
+    request between the proxies timed out. The retransmission mechanism of the
+    proxy was invoked, but the consecutive attempts were unsuccessfully as well.
+    Furthermore, we observe that even with compression did the CoAP proxy have a longer
+    average RTT than the other proxies protocols.
 
     \item We also see that for the NFFI test cases, compressing the messages
     yields a large performance increase with regards to the average RTT. This is
     probably due to since less IP packets need to be sent over the network, it
     is a less chance for packet errors.
-
-    \item The HTTP proxy with compression enabled had the overall best average
-    RTT.
 
 \end{itemize}
 
@@ -935,16 +1012,17 @@ run of the test cases. We observe the following:
 
 \begin{itemize}
 
+    \item CoAP proxy with compression had the best average RTT and sent the
+    fewest number of IP packets.
+
     \item The NFFI tests without compression have a very high average RTT.
-    Furthermore, we see that the AMQP test without compression was not able to
+
+    \item The AMQP test without compression was not able to
     complete before it timed out.
 
     \item If we compare the test cases without proxy and proxy with HTTP, we can
-    now see the overhead caused by using proxies. The increased HTTP message
-    size caused by the proxy leads to a higher average RTT.
-
-    \item When compression was enabled, CoAP had the best average RTT and sent
-    the fewest number of IP packets.
+    see the overhead caused by using proxies. The increased HTTP message size
+    caused by the proxy leads to a higher average RTT.
 
 \end{itemize}
 
@@ -990,9 +1068,10 @@ test applications in a sample test run. We observe the following:
 
 \begin{itemize}
 
+    \item HTTP proxy with compression has the overall lowest average RTT.
+
     \item Again we see that CoAP struggles with large messages.
 
-    \item HTTP proxy has the overall lowest average RTT.
 
 \end{itemize}
 
@@ -1041,22 +1120,22 @@ radio can be seen in \cref{figure-kdawm600}.
 \label{figure-kdawm600}
 \end{figure}
 
-We performed the testing at a communication laboratory located at \gls{ffi} with
+We performed the testing in a communication laboratory located at \gls{ffi} with
 the setup illustrated in \cref{figure-radio-testing-environment}. It is a
 point-to-point setup with two radios and without any multi hop functionality.
 The radios have capacity to work as a multi hop \gls{manet}, but this was not
-tested in this thesis. In the laboratory, the radios were attached to
-configurable attenuators, which could reduce the power of a signal by distorting
-its waveform. The purpose of the attenuators is to facilitate radio experiments
-with varying signal strength.
+tested in this thesis. The radios were attached to configurable attenuators,
+which could reduce the power of a signal by distorting its waveform. The purpose
+of the attenuators is to facilitate radio experiments with varying signal
+strength.
 
-During our experiments, we sat the attenuators to 30 DB. The measured data rate
-was around 90 kbit/s and with a ping response time of 23 ms.
+During our experiments, the attenuators were set to 30 DB. The measured data
+rate of the network was around 90 kbit/s and with a ping response time of 23 ms.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.6]{images/radio_testing_environment.pdf}
-\caption{Testing environment}
+\caption{Tactical broadband testing environment}
 \label{figure-radio-testing-environment}
 \end{figure}
 
@@ -1095,26 +1174,25 @@ performed over tactical broadband. We make the following observations:
 \section{Discussion}
 \label{section:evaluation-discussion}
 
-In all emulated networks we see some consistent trends across all tests.
-Compressing the messages between the proxies generally lowered the RTT,
-especially for large messages in the NFFI test case. The exception is in some of
-the DIL networks with relatively high data rates, the time spent to compress
-and decompress a message can be longer than the time saved by sending a
-compressed message.
+In all emulated networks we see some consistent trends. Compressing the messages
+between the proxies generally lowered the RTT, especially for large messages of
+the NFFI test case. The exception is in some of the DIL networks with relatively
+high data rates, the time spent to compress and decompress a message was longer
+than the time saved by sending a compressed message.
 
-In all test cases the AMQP proxy has a large overhead for each HTTP request forwarded
-by the proxy. We believe this is due to the laborious connection initialization
-of the AMQP protocol. This is especially noticeable to the many HTTP requests of
-the Car system test. We see that for each HTTP request a new AMQP connection is
-established, which generates a lot of network traffic. It is possible to avoid
-this by reusing connections over multiple requests, often referred to as
-\textit{connection pooling}. However, the Camel AMQP component did not offer
-this functionality at the time of the implementation of this proxy. Regardless
-of this, compared against HTTP/TCP and CoAP, AMQP generates more network
-traffic.
+In all test cases the AMQP proxy had a large overhead for each HTTP request
+forwarded by the proxy. We believe this is due to the laborious connection
+initialization of the AMQP protocol. This is especially noticeable to the many
+subsequent HTTP requests of the Car system test. We saw that for each HTTP
+request a new AMQP connection was established, which generated a lot of network
+traffic. It is possible to avoid this by reusing connections over multiple
+requests, often referred to as \textit{connection pooling}. However, the Camel
+AMQP component did not offer this functionality at the time of the
+implementation of this proxy. Regardless of this, compared against HTTP/TCP and
+CoAP, AMQP generates more network traffic.
 
-Another consistent trend is that the CoAP proxy struggle with large messages in
-the NFFI test case. A Wireshark capture reveals that the CoAP proxy could
+Another consistent trend was that the CoAP proxy struggled with large messages
+in the NFFI test case. A Wireshark capture reveals that the CoAP proxy could
 utilize the Ethernet link in a better way. The maximum size of an IP packet sent
 over Ethernet is 1500 bytes \cite{rfc-894}, while the packet capture shows that
 CoAP splits larger messages into CoAP messages of only 512 bytes. Sending more
@@ -1149,8 +1227,8 @@ into smaller \textit{blocks}. At the receiving end these blocks are reassembled
 before they are delivered to the higher layers. The implementation we used for
 CoAP, Californium, supports the block-wise transfer feature. According to the
 specification of the feature, the byte size of each block must be of a
-power-of-two \cite{draft-coap-blockwise}. When we dig into the source code of
-Californium we see that the default size of a block is 512 bytes. This may be
+power-of-two \cite{draft-coap-blockwise}. When we looked into the source code of
+Californium we saw that the default size of a block is 512 bytes. This may be
 reasonable in some cases where the path \gls{mtu} is not known or simply is low.
 However, in our case with a path MTU of 1500 bytes, the block size could have
 been set to 1024 to reduce the number of packets sent by the CoAP proxy.

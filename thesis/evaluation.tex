@@ -176,10 +176,10 @@ conclusions. IPerf was one of the recommended tools in a previous study which
 explored different network monitoring tools for use in limited capacity
 networks \cite{bloebaum-monitoring}.
 
-To confirm and validate our network emulations we used iPerf 3 alongside the
-Linux tool \textit{ping}. The measurements were performed between the machine
-hosting the client and the machine hosting the Web service. They were performed
-before starting the test cases so that the network traffic it generated would
+To confirm and validate our network emulations we use iPerf 3 alongside the
+Linux tool \textit{ping}. The measurements are performed between the machine
+hosting the client and the machine hosting the Web service. They are performed
+before starting the test cases so that the network traffic it generates do not
 not interfere.
 
 
@@ -189,11 +189,11 @@ Wireshark is a packet analyzer and allows for performing network usage analysis
 \cite{wireshark-homepage}. As an example, this tool allows a user to see all IP
 packets sent from a machine over the Ethernet interface.
 
-When performing the testing, we used Wireshark to monitor the network traffic on
-the machine hosting the client and its proxy. This allowed us to investigate the
+When performing the testing, we use Wireshark to monitor the network traffic on
+the machine hosting the client and its proxy. This allow us to investigate the
 behavior of the evaluated protocols in the different types of networks. In
-particular we used it to see how many packets that were sent, as well as the
-total number of bytes that were sent over the network.
+particular we use it to see how many packets that are sent, as well as the
+total number of bytes that are sent over the network.
 
 
 \section{Test Sets}
@@ -413,8 +413,12 @@ allowing us to measure the Route Trip Time (RTT) as perceived by the client. All
 tests are performed multiple times in order to calculate the mean, standard
 deviation and variance. The results used to create the graphs presented in the
 coming sections, are included in the appendix, \cref{appendix-results}.
+Moreover, for each test we perform a packet capture with Wireshark of one sample
+test run. This allow us to get an indicator of the network usage of the proxies
+and the different inter-proxy communication protocols.
 
-The tests are performed with the following parameters:
+The tests are performed
+with the following parameters:
 
 \begin{itemize}
 
@@ -1180,7 +1184,7 @@ the NFFI test case. The exception is in some of the DIL networks with relatively
 high data rates, the time spent to compress and decompress a message was longer
 than the time saved by sending a compressed message.
 
-In all test cases the AMQP proxy had a large overhead for each HTTP request
+In all test cases the \gls{amqp} proxy had a large overhead for each HTTP request
 forwarded by the proxy. We believe this is due to the laborious connection
 initialization of the AMQP protocol. This is especially noticeable to the many
 subsequent HTTP requests of the Car system test. We saw that for each HTTP
@@ -1191,7 +1195,7 @@ AMQP component did not offer this functionality at the time of the
 implementation of this proxy. Regardless of this, compared against HTTP/TCP and
 CoAP, AMQP generates more network traffic.
 
-Another consistent trend was that the CoAP proxy struggled with large messages
+Another consistent trend was that the \gls{coap} proxy struggled with large messages
 in the NFFI test case. A Wireshark capture reveals that the CoAP proxy could
 utilize the Ethernet link in a better way. The maximum size of an IP packet sent
 over Ethernet is 1500 bytes \cite{rfc-894}, while the packet capture shows that
@@ -1249,7 +1253,7 @@ RTT perceived by a client and network usage. Overall, we saw that the HTTP proxy
 or not using a proxy yielded the lowest average RTT in the limited networks.
 However, not using a proxy is vulnerable to disconnects which the HTTP proxy
 handles better. As the general recommendation, we therefore recommend using a
-HTTP proxy in limited networks. In some special cases however, the CoAP proxy
+HTTP proxy in limited networks. In some special cases however, the \gls{coap} proxy
 may be a viable option. When the data rate of a network is low and the message
 size is low, the CoAP proxy proved itself with a lower average RTT and less
 network usage than the HTTP proxy.

@@ -5,14 +5,12 @@
 In this chapter, we discuss earlier relevant work in the area of improving the
 performance of Web services in \gls{dil} environments. Improving Web services is
 important for both civil and military users as increasing the performance means
-that applications can become faster and more reliable. For these reasons, quite
-an amount of research has been done in the area of optimizing network
-applications, both for unlimited and DIL networks.
+that applications can become faster and more reliable.
 
-In the following sections, we identify results and recommendations that are
+In the following sections, we identify studies and recommendations that are
 applicable to this thesis. We get started by looking into the work of the NATO
-research groups IST-090 and "SOA Recommendations for Disadvantaged Grids in
-the Tactical Domain" (IST-118). IST-118 is an ongoing follow-on to the work of
+research groups IST-090 and "SOA Recommendations for Disadvantaged Grids in the
+Tactical Domain" (IST-118). IST-118 is an ongoing follow-on to the work of
 IST-090, with the goal of creating a recommendation for a tactical profile for
 using SOA in disadvantaged grids. Next, based on these recommendations, we
 investigate work done in the area of alternative transport protocols and
@@ -116,17 +114,54 @@ ratio followed by GZIP. However, they concluded that all evaluated techniques
 provided a significant reduction of payload size, so the specific technique was
 of less importance.
 
+\section{TACTICS TSI Architecture}
+
+Another ongoing effort to overcome issues using standard Web services in
+tactical networks are the TACTICS project supported by the \gls{eda}
+\cite{tactics-diefenbach}. The goal of the project is to propose a reference
+architecture for a \gls{tsi} suited for establishing a tactical \gls{soa} of
+defence-related information systems. The architecture features a service
+middleware meant to run on devices with different capabilities. The purpose of
+the middleware is to receive standard Web service invocations or responses and
+ensure that they complete. The middleware can forward IP packets between
+different radio networks and store and forward messages.
 
 \section{Previous Evaluations of Alternative Protocols}
 
-Previous studies have investigated potential gains from replacing HTTP/TCP with
-alternative protocols \cite{evaluation-transport-protocols-web-services}. They
-looked into TCP, UDP, SCTP and AMQP for conveying Web services traffic under
-typical military networking conditions. The researchers found that \gls{sctp}
-had the highest success rate in military tactical communication. However, on
-links with the lowest data rate, the protocol tended to generate more overhead
-than TCP. They pointed out that this was due to SCTP having a more complex
-connection handshake procedure and in addition using heartbeat packets.
+A previous study has investigated potential gains from replacing HTTP/TCP with
+alternative protocols \cite{evaluation-transport-protocols-web-services}.
+\Citeauthor{evaluation-transport-protocols-web-services} looked into TCP, UDP,
+SCTP and AMQP for conveying Web services traffic under typical military
+networking conditions. The researchers found that \gls{sctp} had the highest
+success rate in military tactical communication. However, on links with the
+lowest data rate, the protocol tended to generate more overhead than TCP. They
+pointed out that this was due to SCTP having a more complex connection handshake
+procedure and in addition using heartbeat packets.
+
+Another study has compared the performance of MQTT and \gls{coap} in terms of
+end-to-end delay and network usage \cite{thangavel-mqtt-coap}.
+\Citeauthor{thangavel-mqtt-coap} performed experiments in different emulated
+networks with varying message sizes and loss rates. They saw that both MQTT and
+CoAP were successfully able to handle packet losses of up to 25 \%. With lower
+loss rates, messages sent with MQTT had the lowest delay, but as the loss rate
+increased CoAP had lower delay. They identified the reason for this being that
+the TCP transmission of MQTT had a larger overhead than CoAP's UDP transmission.
+In their experiments with small message sizes and for all tested loss rates, did
+CoAP have less network overhead than MQTT. However, as the message size grew was
+the opposite true.
+
+Another comparison of CoAP and MQTT was done in a study using the protocols for
+sensing applications running on a smartphone \cite{caro-mqtt-coap}. This study
+also confirmed CoAP as having lower network usage and a lower RTT. However, the
+study pointed out that MQTT has more advanded \gls{qos} services, since it can
+guarantee exactly once delivery of messages. Since CoAP does not have this
+feature, applications which require this feature should consider using MQTT.
+
+CoAP has also been compared against HTTP in a work done by
+\citeauthor{walter-coap-http}, where they performed an evaluation with regards
+of response time and energy consumption by a sensor node
+\cite{walter-coap-http}. They found that using CoAP consumed significantly lower
+energy than using HTTP, and that CoAP also had  a lower response time.
 
 \section{Proxy Optimization}
 
@@ -136,6 +171,10 @@ for optimizing Web services in DIL networks already exist. However, many of them
 do not fulfill all the requirements we have for our proxy. Some of them do
 only support SOAP Web services and others are unusable due to security reasons.
 This section lists and discusses previous implementations of such proxies.
+
+\subsection{Types of Proxies}
+
+EDGE.
 
 \subsection{\glsentrylong{dsproxy}}
 

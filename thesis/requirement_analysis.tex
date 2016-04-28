@@ -113,7 +113,9 @@ works chapter, there exist many approaches to optimizing Web services. Reducing
 Web service overhead by using compression was identified as a technique that
 yields a significant improvement. Another method was the usage of alternative
 transport protocols. In this thesis, we focus on compression and the usage of
-alternative protocols as the means of optimizing Web services.
+alternative protocols as the means of optimizing Web services. However, the
+prototype proxy should be designed to easily support additional optimization
+techniques in the future.
 
 \subsection{Compression}
 
@@ -129,13 +131,19 @@ use general-purpose techniques.
 Based on previous work we identify GZIP as the best approach for general
 purpose compression.
 
-\subsection{Proxy Protocol Communication}
+\subsection{Inter-Proxy Communication}
 
 One of the optimization techniques we identified is the usage of alternative
-transport protocols between the proxy pair. We introduced a set of protocols in
-the technical background chapter and discussed previous evaluations using them
-in DIL networks in the last chapter. In the following paragraphs, we analyze
-them for usage in the context of proxy communication in a DIL network.
+transport protocols between the proxy pair. The proxy should support different
+protocols to allow us to evaluate how they affect the performance of Web
+services in DIL networks. Furthermore, if additional transport protocols are
+identified in the future, the prototype proxy should be easily extendable to
+support these.
+
+We introduced a set of protocols in the technical background chapter and
+discussed previous evaluations using them in DIL networks in the last chapter.
+In the following paragraphs, we analyze them for usage in the context of
+inter-proxy communication in a DIL network.
 
 \begin{description}
 
@@ -186,8 +194,8 @@ them for usage in the context of proxy communication in a DIL network.
 The proxy should support the identified protocols found suitable for
 communication between proxies over a DIL network.
 \Cref{table:possible-proxy-protocols} summarize our recommendations. For
-evaluation purposes, the proxy should be easily configured of which protocol to
-use.
+evaluation purposes, the proxy should be easily configured with which protocol
+to use.
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X |}

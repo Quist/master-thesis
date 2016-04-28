@@ -26,6 +26,21 @@ The premises of the thesis were that the proxy should:
     \item Work with security mechanisms.
 \end{enumerate}
 
+Furthermore we derived a set of requirements that the proxy should:
+
+\begin{enumerate}
+    \item Receive and forward HTTP requests.
+    \item Retain HTTP request and response headers.
+    \item Support GZIP compression of payload.
+    \item Handle frequent network disruptions.
+    \item Handle disconnects over longer periods of time.
+    \item Handle low data rates, high delays and high packet error rates.
+    \item Allow for configuration of redelivery delay and maximal number of retransmissions.
+    \item Support usage of different transport protocols between the proxies.
+    \item Easy configuration of which protocol to use.
+    \item Be easily extendable to include other protocols and other optimization techniques.
+\end{enumerate}
+
 In our evaluation we tested whether our proxy solution fulfilled these premises
 and the more detailed requirements we specified in
 \cref{section:requirements-summary}. Through the function testing we were able
@@ -43,7 +58,7 @@ since the proxy employs reliable protocols and an application layer redelivery
 mechanism.
 
 Requirement 3 was fulfilled by implementing GZIP compression on messages between
-proxies. Optimization proved to yield a significant performance increase with
+proxies. Optimization was identified to yield a significant performance increase with
 regards the RTT time perceived by Web service clients.
 
 We also validated that the proxy could overcome the limited aspect of DIL, as
@@ -52,15 +67,15 @@ premises 2 and requirement 6. Furthermore, we supported a set of transport
 protocols as the means of transporting data between proxies and with that
 fulfilled requirement 8. We saw how different transport protocol affected the
 performance of Web services. In most of the different types of DIL environments,
-using HTTP/TCP as the inter-proxy protocol was proved as the best transport.
+using HTTP/TCP as the inter-proxy protocol was identified as the best transport.
 However, we saw that in cases where the message payload was low and in networks
 with low data rates, using a \gls{coap} proxy was the best option. We also discovered
 how the Californium implementation of CoAP with default configuration caused a
 sub-optimal utilization of an Ethernet link. Tuning the block-size configuration
 could improve the CoAP's proxy performance also for larger payloads.
 
-Next, we proved that the proxy works with security mechanisms through a
-proof-of-concept test using secure Web services.
+Next, we were able to show that the proxy works with security mechanisms through
+a proof-of-concept test using secure Web services.
 
 Finally, the proxy implements a configuration setup that allows the user to
 specify different properties of the proxy. A user of the proxy can easily

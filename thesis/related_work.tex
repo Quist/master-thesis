@@ -174,7 +174,28 @@ This section lists and discusses previous implementations of such proxies.
 
 \subsection{Types of Proxies}
 
-EDGE.
+A proxy is a node deployed somewhere in a network, which through network traffic
+can pass. Proxies has many use cases such caching, firewalling and security. In
+order to adopt Web services into tactical networks we mainly talk about two
+types of proxies. Edge proxies act as gateways between different networks as
+illustrated in \cref{figure:edge} and can perform adaptations on network traffic
+passing between.
+
+\begin{figure}[h]
+\includegraphics[scale=0.35]{images/edge_proxy.pdf}
+\caption{Edge proxy}
+\label{figure:edge}
+\end{figure}
+
+Another type is point-to-point inside a network as illustrated in
+\cref{proxy-point}, and involves using a proxy-pair to facilitate communication
+between two or more applications.
+
+\begin{figure}[h]
+\includegraphics[scale=0.35]{images/proxy_point.pdf}
+\caption{Point-to-point proxy}
+\label{figure:proxy-point}
+\end{figure}
 
 \subsection{\glsentrylong{dsproxy}}
 
@@ -346,7 +367,9 @@ of their techniques that we carry on in the proxy developed in this thesis.
 
 Finally, we investigated previous attempts with the usage of alternative
 transport protocols, before we looked into previous efforts in the area of
-tuning application server parameters.
+tuning application server parameters. Based on recommendations and studies of
+previous work, we are in the next chapter deriving a set of requirements for our
+proxy.
 
 %%%%%%%% TABLE OPTIMALIZATION OVERVIEW %%%%%%%%%%%%%
 \begin{table}[h]

@@ -8,29 +8,20 @@ we dive into the implementations details.
 
 \section{Design of Solution}
 
-In previous chapters we have argued that all optimization techniques should be
+In previous chapters, we have argued that all optimization techniques should be
 placed in proxies to retain interoperability for COTS applications, as well as
-to break the end-to-end dependency. Therefore, our design involves deploying a
-proxy pair to facilitate Web communication. The idea is to deploy the proxy pair
-in two different locations separated by a DIL network. Through the locally
-deployed proxy, Web applications can proxy all their data communication. The
-proxy will then apply different optimization techniques and over a DIL network
-forward the request to the other proxy and finally return a response. Ideally,
-should a proxy be deployed as close to its intended user applications as
-possible, preferably on the same machine.
-
-It is worth noting that since the proxies are designed to accept \textit{all} HTTP
-requests, they can support any applications that utilize HTTP, including request-
-response and publish-subscribe applications.
-
-
-\subsection{Design of Proxy}
-
-A deployed proxy is designed to accept arbitrary HTTP requests, possibly
-originating from multiple clients, and forward them to the other proxy as seen
-in \cref{figure:proxy_design}. Ideally, the proxy should be deployed as close to
-its intended users as possible, as the communication between an application and
-its proxy is not subject to any optimization for DIL environments.
+to break their end-to-end dependency. Therefore, our design involves deploying a
+proxy pair to facilitate Web communication over a DIL network. The idea is to
+deploy the proxy pair in two different locations separated by a DIL network.
+Through a locally deployed proxy, Web applications can then proxy all their data
+communication. The proxy then applies different optimization techniques and
+forwards requests over a DIL network to the other proxy and finally return a
+response. Ideally, the proxy should be deployed as close to its intended users
+as possible, as the communication between an application and its proxy is not
+subject to any optimization for DIL environments. Since we design the proxies
+accept HTTP requests, they can support any applications that use HTTP. Besides,
+they are designed to be bi-directional meaning that requests can originate from
+either side.
 
 \begin{figure}[h]
 \includegraphics[scale=0.55]{images/proxy_design.pdf}
@@ -38,15 +29,20 @@ its proxy is not subject to any optimization for DIL environments.
 \label{figure:proxy_design}
 \end{figure}
 
-It is the communication between a proxy pair that is subject to optimizations.
-The proxies are therefore designed to support the optimization techniques we
-have identified. Those are primarily concerned about using different transport
-protocols as the inter-proxy communication, as illustrated in
-\cref{figure:proxy-communication}. The purpose of this is to give
+
+\subsection{Design of Proxy}
+
+A deployed proxy is designed to accept arbitrary HTTP requests, possibly
+originating from multiple clients, and forward them to the other proxy as seen
+in \cref{figure:proxy_design}. The communication between a proxy pair is subject
+to optimizations. The proxies are therefore designed to support the optimization
+techniques we have identified. Those are primarily concerned about using
+different transport protocols as the inter-proxy communication, as illustrated
+in \cref{figure:proxy-communication}. The purpose of this is to give
 recommendations about the usage of transport protocols in DIL networks. Which
 protocol to use as the means of inter-proxy communication is therefore designed
-to be easily configurable by the users of the proxy. The protocol is configured
-at start-up.
+to be easily configurable at start-up by the users of the proxy.
+
 
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/proxy_communcation.pdf}
@@ -99,7 +95,7 @@ overview of this.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{images/camel_routes.pdf}
+\includegraphics[scale=0.6]{images/camel_routes.pdf}
 \caption{Example of a Camel route}
 \label{figure:camel-route}
 \end{figure}
@@ -289,18 +285,27 @@ proxy. The route consists of the following steps:
 \subsection{Protocol Specific Routes}
 \label{section:protocol-routes}
 
-Depending on which protocol the user has configured for inter-proxy
+One of the requirements for the proxy solution was that it should be easily
+extendable to support possible optimization techniques and transport protocols
+identified in the future. To realize this, we made the setup of routes as
+generic as possible. Each implemented protocol derive from the abstract class
+DilRouteBuilder and implements two required methods. \Cref{listing:dilroute}
+shows the DilRouteBuilder class. At initialization, to easily include additional
+optimizations, preprocessors and postprocessors can be added to the routes.
+
+
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Abstract class that all protocols derive from", label=listing:dilroute]{listings/dilroutebuilder.java}
+
+On startup, depending on which protocol the user has configured for inter-proxy
 communication, the endpoint defining the interface between the proxies is
 defined. \Cref{table:example-endpoints} lists example endpoints of a deployed
 proxy located at the IP address 192.168.10.10. The address 0.0.0.0 means that
 the proxy binds to all known network interfaces.
 
- We discuss the protocol specific routing in the following paragraphs.
-
 \begin{table}[h]
 \begin{tabular}{|l|l|l|}
 \hline
-\textbf{Component} & \textbf{Consume endpoint} & \textbf{Produce endpoint}       \\ \hline
+\textbf{Component} & \textbf{From endpoint} & \textbf{To endpoint}       \\ \hline
 HTTP               & http://0.0.0.0:3001/proxy & http://192.168.10.10:4001/proxy \\ \hline
 AMQP               & amqp:queue:uniquename1    & amqp:queue:uniquename2          \\ \hline
 CoAP               & coap://0.0.0.0:3001/proxy & coap://192.168.10.10:4001/proxy \\ \hline
@@ -310,6 +315,9 @@ CoAP               & coap://0.0.0.0:3001/proxy & coap://192.168.10.10:4001/proxy
 \end{table}
 
 
+
+We discuss the protocol specific routing in the following paragraphs.
+
 \subsubsection{HTTP Route}
 
 Two HTTP endpoints are defined if HTTP is configured as the inter-proxy
@@ -318,11 +326,18 @@ used to produce to. From the user provided configuration, the \textit{hostname}
 and \textit{port} are retrieved, and the proxy starts listening on this
 endpoint. Note that the HTTP component is also used to listen for requests from
 other applications. Therefore, only requests with a \gls{uri} starting with a
-\textit{proxy} prefix will be treated as an incoming proxy message.
+\textit{proxy} prefix will be treated as an incoming proxy message. In the same
+way, the produce endpoint is defined. The target hostname of the other proxy is
+retrieved from the configuration, and the \textit{proxy} prefix is appended.
 
-In the same way, the produce endpoint is defined. The target hostname of the
-other proxy is retrieved from the configuration, and the \textit{proxy} prefix
-is appended.
+Including a message body with some of the HTTP methods like GET and OPTIONS have
+no semantic meaning according to the HTTP specification \cite{rfc-2616}.
+However, for inter-proxy communication a proxy message must be included in the
+request even if the original request was without a message body. Therefore, all
+HTTP requests between the proxies are designed to be a POST request in order to
+include a message body. Upon receiving a HTTP request from another proxy, the
+original HTTP method is restored before the request is delivered to the
+destination application.
 
 \subsubsection{AMQP Route}
 

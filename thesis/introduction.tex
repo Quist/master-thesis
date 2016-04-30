@@ -2,7 +2,7 @@
 \chapter{Introduction}
 
 Today the Internet connects millions of users from all over the world. It plays
-an important role for both businesses and persons in their everyday life by
+an important role for both businesses and people in their everyday life by
 enabling the possibility to access and exchange information. The communication
 infrastructure provides fast and stable access to the Internet. This
 infrastructure might not be present in all use-cases requiring the exchange of
@@ -14,9 +14,9 @@ development of the \gls{iot}, where more and more devices are becoming connected
 to the Internet. Typical IoT devices are sensors with limited energy and
 wirelessly connected to the Internet. High packet loss rates, low data rates,
 and instability may characterize such wireless networks. They are often referred
-to as Low-Power and Lossy Networks (LLNs). In this thesis, we look into improving
-the performance of Web services operating in these types of conditions, with a
-focus on military application.
+to as Low-Power and Lossy Networks (LLNs). In this thesis, we look into
+improving the performance of Web services operating in these types of
+conditions, with a focus on military application.
 
 
 Military units may operate in areas where conditions like terrain, obstacles,
@@ -192,7 +192,7 @@ and \textit{Limited}.
 Military units that participate in a tactical network may be highly mobile and
 may disconnect from a network either voluntarily or not. Unplanned loss of
 connectivity can be due to various reasons, such as loss of signal or equipment
-malfunction.  The disconnected term refers to that units may be disconnected for
+malfunction. The disconnected term refers to that units may be disconnected for
 a long time, possibly for multiple hours or even days.
 
 \item[Intermittent]
@@ -204,13 +204,13 @@ road. It may temporarily lose connection due to the signal being obstructed by
 trees beside the road, driving into tunnels or by having a bad radio signal.
 
 \item[Limited] Limited refers to various ways a network can be constrained. The
-data rate may be low, and the network delay may be high, and the \gls{per} may be
-high. The term data rate refers to the amount of data that can be transmitted
-over a network per unit of time. Delay refers to the time it takes for a bit of
-data to travel across the network from machine to machine. \gls{per} means the
-number of incorrectly received packets divided by the total number of received
-packets. A packet is considered as incorrect if at least one bit error occurs.
-
+data rate may be low, and the network delay may be high, and the \gls{per} may
+be high. The term data rate refers to the speed that data that can be
+transmitted over a network. Delay means the time it takes for data to travel
+from machine to machine. The packet error rate refers to the percent of packets
+being sent incorrectly due to the data being erroneous altered in transmission.
+A packet is considered as incorrect if at least one bit error in the data
+occurs. \Cref{section:network-mectrics} elaborate on these metrics.
 
 \end{description}
 
@@ -286,7 +286,7 @@ clients can invoke Web services through a proxy pair over a DIL network. By
 placing the optimization in proxies, the Web services themselves can remain
 unchanged.
 
-\begin{figure}[h] \includegraphics[scale=0.5]{images/proposed_solution.pdf}
+\begin{figure}[h] \includegraphics[width=\textwidth]{images/proposed_solution.pdf}
 \caption{Proposed proxy solution} \label{figure-proposed-proxy-solution}
 \end{figure}
 
@@ -423,7 +423,7 @@ The remainder of this thesis is organized as follows:
 Chapter 2 presents the technical background for this thesis. We introduce
 computer networks in general before we dive into different communication
 paradigms and protocols. Then, in chapter 3, we discuss previous work done in
-the area. In chapter 4 we derive a specification for the proxy before we in
+the area. In chapter 4, we derive a specification for the proxy, before we in
 chapter 5 present the design and implementation details. Next, we show the
 testing of the proxy and how the proxy fulfilled the premises and requirements
 in chapter 6. Finally, in chapter 7, we summarize the discussion and provide

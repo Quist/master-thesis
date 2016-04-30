@@ -103,7 +103,7 @@ equipment. The purpose was to confirm the results from the emulated network
 tests. These experiments are presented in \cref{section:evaluation-kongsberg}.
 
 \begin{figure}[h]
-\includegraphics[scale=0.73]{images/testing_environment_simple.pdf}
+\includegraphics[width=\textwidth]{images/testing_environment_simple.pdf}
 \caption{Test setup}
 \label{figure-testing-environment-simple}
 \end{figure}
@@ -352,7 +352,7 @@ packets back and forth between the client and server, IP forwarding is enabled
 in the kernel.
 
 \begin{figure}[h]
-\includegraphics[scale=0.73]{images/testing_environment.pdf}
+\includegraphics[width=\textwidth]{images/testing_environment.pdf}
 \caption{Network used for testing}
 \label{figure-testing-environment}
 \end{figure}
@@ -692,12 +692,14 @@ request.
 \subsection{Execution}
 
  The tests are performed over an unlimited network and for both the NFFI and Car
- system test. They are executed by starting the test applications and then
- immediately removing the Ethernet cable between the client machine and the link
- emulator as illustrated in \cref{figure-testing-disconncted}. We then wait
- around 60 seconds, allowing requests to trigger timeouts and thus invoking the
- proxy redelivery mechanism. Finally, we connect the cable again and observe if
- the test application is able to finish its requests successfully.
+ system test. The proxy redelivery delay is configured to be with a fixed
+ 20-second retransmission. The tests are executed by starting the test
+ applications and then immediately removing the Ethernet cable between the
+ client machine and the link emulator as illustrated in
+ \cref{figure-testing-disconncted}. We then wait around 60 seconds, allowing
+ requests to trigger timeouts and thus invoking the proxy redelivery mechanism.
+ Finally, we connect the cable again and observe if the test application is able
+ to finish its requests successfully.
 
  \begin{figure}[h]
  \includegraphics[width=\textwidth]{images/testing_disconnected.pdf}
@@ -1268,7 +1270,7 @@ RTT perceived by a client and network usage.
  proxy. \Cref{table-evaluation-summary} summarize our recommendations.
 
 \begin{table}[h]
-\begin{tabular}{| l | l | l |}
+\begin{tabularx}{\textwidth}{| l | X | X |}
 \hline
   \textbf{Network} & \textbf{NFFI Web service recommendation} & \textbf{REST recommendation}\\ \hline
   \gls{satcom} & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
@@ -1277,7 +1279,7 @@ RTT perceived by a client and network usage.
   WiFi 2 & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
   \gls{cnr} & CoAP proxy with GZIP & CoAP proxy with GZIP \\ \hline
   Edge & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
-\end{tabular}
+\end{tabularx}
 \caption{Recommendations}
 \label{table-evaluation-summary}
 \end{table}

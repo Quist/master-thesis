@@ -24,7 +24,7 @@ they are designed to be bi-directional meaning that requests can originate from
 either side.
 
 \begin{figure}[h]
-\includegraphics[scale=0.55]{images/proxy_design.pdf}
+\includegraphics[width=\textwidth]{images/proxy_design.pdf}
 \caption{Solution concept}
 \label{figure:proxy_design}
 \end{figure}
@@ -287,7 +287,7 @@ proxy. The route consists of the following steps:
 
 One of the requirements for the proxy solution was that it should be easily
 extendable to support possible optimization techniques and transport protocols
-identified in the future. To realize this, we made the setup of routes as
+identified in the future. To realize this, we designed the setup of routes as
 generic as possible. Each implemented protocol derive from the abstract class
 DilRouteBuilder and implements two required methods. \Cref{listing:dilroute}
 shows the DilRouteBuilder class. At initialization, to easily include additional
@@ -303,20 +303,18 @@ proxy located at the IP address 192.168.10.10. The address 0.0.0.0 means that
 the proxy binds to all known network interfaces.
 
 \begin{table}[h]
-\begin{tabular}{|l|l|l|}
+\begin{tabularx}{\textwidth}{|l|X|X|}
 \hline
 \textbf{Component} & \textbf{From endpoint} & \textbf{To endpoint}       \\ \hline
-HTTP               & http://0.0.0.0:3001/proxy & http://192.168.10.10:4001/proxy \\ \hline
+HTTP               & http://0.0.0.0:3001 proxy & http:// 192.168.10.10:4001/proxy \\ \hline
 AMQP               & amqp:queue:uniquename1    & amqp:queue:uniquename2          \\ \hline
-CoAP               & coap://0.0.0.0:3001/proxy & coap://192.168.10.10:4001/proxy \\ \hline
-\end{tabular}
+CoAP               & coap://0.0.0.0:3001/proxy & coap:// 192.168.10.10:4001/proxy \\ \hline
+\end{tabularx}
 \caption{Example endpoints for a deployed proxy.}
 \label{table:example-endpoints}
 \end{table}
 
-
-
-We discuss the protocol specific routing in the following paragraphs.
+The following paragraphs discuss the protocol specific routing.
 
 \subsubsection{HTTP Route}
 
@@ -434,8 +432,8 @@ The proxy is implemented in Java using the Apache Camel framework.
 implementation.
 
 \begin{table}[h]
-\begin{tabular}{|l|l|}
-    \hline
+\begin{tabularx}{0.5\textwidth}{|X|X|}
+\hline
 \textbf{Software} & \textbf{Version} \\ \hline
 Java            & 1.8           \\ \hline
 Apache Camel     & 2.16.1           \\ \hline
@@ -444,7 +442,7 @@ camel-jetty      & 2.16.1            \\ \hline
 javax.jms-api      & 2.0            \\ \hline
 Californium      & 1.0.0            \\ \hline
 typesafe      & 1.3.0            \\ \hline
-\end{tabular}
+\end{tabularx}
 \caption{Software used in the proxy implementation}
 \label{table:implementation-versions}
 \end{table}

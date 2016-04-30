@@ -29,7 +29,7 @@ the one below it as shown in \cref{figure-network-layers}.
 
 %%%%%%%%%%%% Internet Protocol Suite %%%%%%%%%%%%%%%%%%%
 \begin{table}[h]
-\begin{tabularx}{\textwidth}{| X |}
+\begin{tabularx}{0.5\textwidth}{| X |}
 \hline
   \textbf{Application Layer} \\ \hline
   \textbf{Transport Layer} \\ \hline
@@ -122,6 +122,7 @@ filtering and prioritize queuing.
 
 
 \subsection{Network Metrics}
+\label{section:network-mectrics}
 
 When transferring data over a network, the transfer is subject to many factors
 that may affect the transmission. A message sent over the Internet pass through
@@ -131,14 +132,15 @@ node to another. In this thesis we use the following metrics:
 
 \begin{description}
 
-\item[Data Rate] The data rate describes the speed that data can be transferred
-between two nodes.
+\item[Data Rate] The data rate refers to the amount of data that can be
+transmitted over a network per unit of time.
 
-\item[Delay] The delay is the time from a node sends a packet to the destination
-node receives it.
+\item[Delay] The delay is the time it takes for a bit of data from machine to
+machine to travel across the network.
 
-\item[Packet Errors] The number of packets in a transmission that have been
-altered due to noise or interference.
+\item[Packet Error Rate] \gls{per} means the number of incorrectly received
+packets divided by the total number of received packets. A packet is considered
+as incorrect if at least one bit error occurs.
 
 \end{description}
 

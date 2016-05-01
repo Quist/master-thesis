@@ -1,10 +1,10 @@
 \chapter{Requirement Analysis}
 \label{chapter:requirements}
 
-In this chapter we discuss the requirements for optimization techniques aiming
+In this chapter, we discuss the requirements for optimization techniques aiming
 at enabling Web services in DIL environments. These requirements build on the
-scope and premises discussed in the introduction. To recap, the defining
-premises were that the proxy should:
+scope and premises discussed in the introduction. The defining premises were
+that the proxy should:
 
 \begin{enumerate}
     \item Support HTTP RESTful and W3C Web services.
@@ -13,15 +13,19 @@ premises were that the proxy should:
     \item Work with security mechanisms.
 \end{enumerate}
 
-Based on previous research, in particular the work of the \gls{nato} research
-groups IST-090 and IST-118, we are in thesis developing a proxy solution
-supporting these premises. In the following sections we discuss the specific
+Based on previous studies, in particular the work of the \gls{nato} research
+groups IST-090 and IST-118, we are in this thesis developing a proxy solution
+supporting these premises. In the following sections, we discuss the specific
 requirements for this approach.
 
 \section{HTTP Proxy}
 
-The first premise implies that our proxy must accept \gls{http}, as this is the
-far most used Web service transport protocol. Furthermore, the third and fourth
+The first premise is that the proxy should support HTTP RESTful and W3C Web
+services. While the majority of W3C Web services use HTTP to transport their
+SOAP messages, some use for example UDP or TCP. To avoid the proxy becoming to
+complex and while still supporting the majority of Web services, we chose to
+only support HTTP Web services. Our first premise therefore implies that the
+proxy must be able to forward HTTP messages. Furthermore, the third and fourth
 premises have some important implications for our proxy. Our proxy must be able
 to accept HTTP requests from a Web service, forward it to the other proxy, which
 in turn delivers it to the intended receiver. The communication between the
@@ -32,15 +36,15 @@ retained. This means that the proxy must preserve the HTTP method and headers.
 Also, since REST is payload agnostic, the proxy must be able to support
 different types of data being sent through it (XML, JSON etc.).
 
-Furthermore, the proxy must be able to handle the difficult network conditions
+Furthermore, the proxy must be able to handle the challenging network conditions
 of DIL. The specific requirements are outlined in the following sections.
 
 \section{Cope with DIL Networks}
 
 The \gls{dil} term refers to three aspects of a network, \textit{disconnected,
-intermittent} and \textit{limited}. The proxy should be able to
-overcome the implications of these aspects. In the following sections we discuss
-the requirements each aspect implies.
+intermittent} and \textit{limited}. The proxy should be able to overcome the
+implications of these issues. In the following sections, we discuss the
+requirements each aspect implies.
 
 \subsection{Disconnected}
 
@@ -56,16 +60,16 @@ DIL network can be lost, while still maintaining the connection between the
 client and local proxy. When the connection is reestablished, the proxy must be
 able to continue transmission of messages on behalf of clients.
 
-This requires the proxy to have some sort of redelivery mechanism. When a proxy
-detects that it unable to transmit messages to the other proxy, it should
-ideally wait until the connection is reestablished before trying to send more
-messages. However, the only way to know if the connection is reestablished is to
-try and send more messages and see if they succeed. The first, and maybe naive
-approach, could be to just retransmit the message again and again. But by doing
-this, we could risk overflowing a slow receiver, as well as causing congestion
-in a possibly overloaded network. Different types of networks and different use
-cases for the applications involved may require different redelivery mechanisms.
-At deployment, the proxy should therefore support a  set of configurable
+This requires the proxy to have some redelivery mechanism. When a proxy detects
+that it unable to transmit messages to the other proxy, it should ideally wait
+until the connection is reestablished before trying to send more messages.
+However, the only way to know if the connection is restored is to try and send
+more messages and see if they succeed. The first, and maybe naive approach,
+could be just to retransmit the message again and again. But by doing this, we
+could risk overflowing a slow receiver, as well as causing congestion in a
+possibly overloaded network. Different types of networks and different use cases
+for the applications involved may require different redelivery mechanisms.
+Therefore, at deployment, the proxy should support a set of configurable
 redelivery mechanism properties:
 
 \begin{description}
@@ -89,13 +93,13 @@ network. It is comparable to the disconnect aspect, as intermittent refers to a
 shorter disconnect. A "long" intermittent disconnect triggers a timeout at the
 application layer and should be dealt with by the proxy retransmission
 mechanisms. With shorter intermittent disconnects, the transport protocol should
-be able to deal with it. This requires using a reliable transport protocol, or
+be able to deal with it. This requires using a reliable transport protocol or
 handling it in the application layer.
 
 \subsection{Limited}
 
 Limited refers to different ways a network can be limited. Accordingly, the
-proxy must cope with very low data rates, possible high error rates and long
+proxy must cope with very low data rates, possible high error rates, and long
 delays. This implies that reducing Web service overhead in order to lower the
 amount of bytes that need to be sent over a limited network is important.
 Moreover, the proxy may run on machines with restricted resources (battery
@@ -103,65 +107,73 @@ capacity), which means that a low CPU overhead is desired.
 
 \section{Support Optimization Techniques}
 
-To improve the performance of Web services in DIL environments, the proxy should
-support a set of optimization techniques. As we discussed in the related works
-chapter, there exist many approaches to optimizing Web services. Reducing Web
-service overhead by using compression was identified as a technique that yields
-a significant improvement. Another approach was the usage of alternative
-transport protocols. In this thesis we focus on compression and the usage of
-alternative protocols as the means of optimizing Web services.
+The proxy should support a set of optimization techniques to improve the
+performance of Web services in DIL environments. As we discussed in the related
+works chapter, there exist many approaches to optimizing Web services. Reducing
+Web service overhead by using compression was identified as a technique that
+yields a significant improvement. Another method was the usage of alternative
+transport protocols. In this thesis, we focus on compression and the usage of
+alternative protocols as the means of optimizing Web services. However, the
+prototype proxy should be designed to easily support additional optimization
+techniques in the future.
 
 \subsection{Compression}
 
-Compression reduces the size of a message sent over a network. In order to
-perform compression the proxy must be able to modify the payload of the message.
-Due to security mechanisms that detect changes to the payload (digital
-signatures), the payload must be restored back to its original form before being
-forwarded to the final receiver. One of our premises is that we must support
-both RESTful and W3C Web services. RESTful services do not put any restrictions
-on the data format of a message. Thus, we cannot use XML-specific compression,
-but rather we need to use general-purpose techniques.
+Compression reduces the size of a message sent over a network. To perform
+compression, the proxy must be able to modify the payload of the message. Due to
+security mechanisms that detect changes to the payload (digital signatures), the
+payload must be restored back to its original form before being forwarded to the
+final receiver. One of our premises is that we must support both RESTful and W3C
+Web services. RESTful services do not put any restrictions on the data format of
+a message. Thus, we cannot use XML-specific compression, but rather we need to
+use general-purpose techniques.
 
 Based on previous work we identify GZIP as the best approach for general
 purpose compression.
 
-\subsection{Proxy Protocol Communication}
+\subsection{Inter-Proxy Communication}
 
 One of the optimization techniques we identified is the usage of alternative
-transport protocols between the proxy pair. We introduced a set of protocols in
-the technical background chapter and discussed previous evaluations using them
-in DIL networks in last chapter. In the following paragraphs we analyze them for
-usage in the context of proxy communication in a DIL network.
+transport protocols between the proxy pair. The proxy should support different
+protocols to allow us to evaluate how they affect the performance of Web
+services in DIL networks. Furthermore, if additional transport protocols are
+identified in the future, the prototype proxy should be easily extendable to
+support these.
+
+We introduced a set of protocols in the technical background chapter and
+discussed previous evaluations using them in DIL networks in the last chapter.
+In the following paragraphs, we analyze them for usage in the context of
+inter-proxy communication in a DIL network.
 
 \begin{description}
 
     \item[\gls{http}] The by far most used protocol for Web services is HTTP
     over TCP. TCP is an old and proven protocol and was originally designed to
-    provide reliable end-to-end communication over unreliable networks. The
-    less intrusive optimization technique would therefore be that the proxies
-    simply forward HTTP-requests without using an alternative protocol.
-    Although proxing Web service requests through proxies would cause some overhead from
+    provide reliable end-to-end communication over unreliable networks. The less
+    intrusive optimization technique would therefore be that the proxies simply
+    forward HTTP-requests without using an alternative protocol. Although
+    proxying Web service requests through proxies would cause some overhead from
     processing time and custom proxy headers, we still get the benefit of
     breaking the end-to-end dependency and the possibility of using compression.
     Furthermore, using HTTP allows us to compare the "standard" protocol against
-    other protocols. We therefore recommend HTTP as a possible proxy pair
+    other protocols. Therefore, we recommend HTTP as a possible proxy pair
     communication method.
 
-    \item[\gls{udp}] UDP has less overhead than TCP, but lacks mechanisms for
+    \item[\gls{udp}] UDP has less overhead than TCP but lacks mechanisms for
     reliability and congestion control. The lack of reliability could be handled
     at the application level instead, but would require a library on top of it.
-    Furthermore, UDP is not TCP-friendly. For these reasons, we conclude that UDP
-    is unfit for proxy communication as part of this thesis.
+    Furthermore, UDP is not TCP-friendly. For these reasons, we conclude that
+    UDP is unfit for proxy communication as part of this thesis.
 
 	\item[\gls{coap}] CoAP is a relatively new protocol intended for use in the
-	Internet of Things. It is designed to have low overhead, low code footprint
-	and be easily mapped to and from HTTP. These properties make the protocol
-	very interesting as the means of communication between a proxy pair.
+	Internet of Things. It is designed to have low overhead, low code footprint and
+	be easily mapped to and from HTTP. These properties make the protocol
+	interesting as the means of communication between a proxy pair.
 
 	\item[\gls{amqp}] AMQP is in widespread use and offers reliable message
-	transmission. It supports both the request-response and publish-subscribe
-	message paradigms. We therefore recommend AMQP as a possible proxy pair
-	communication method.
+	transmission. Therefore, we recommend AMQP as a possible proxy pair
+	communication method. AMQP supports both the request-response and
+	publish-subscribe message paradigms.
 
 	\item[MQTT] MQTT is a publish-subscribe messaging protocol and is considered
 	as lightweight and simple to implement. However, the inter-proxy
@@ -170,19 +182,20 @@ usage in the context of proxy communication in a DIL network.
 	have a request-response paradigm on top of publish-subscribe by organizing
 	queues and by using some application logic. However, since MQTT does not
 	natively support request-response, we do not recommend this protocol for
-	proxy pair communication.
+	inter-proxy communication.
 
 	\item[\gls{sctp}] SCTP offers functionality from both UDP and TCP. It is
 	reliable and has been identified in previous related work as an interesting
-	protocol for DIL networks. We therefore recommend it as a possible proxy
+	protocol for DIL networks. Therefore, we recommend it as a possible proxy
 	communication method.
 
 \end{description}
 
 The proxy should support the identified protocols found suitable for
-communication between proxies over a DIL network. The recommendations are
-summarized in \cref{table:possible-proxy-protocols}. For evaluation purposes the
-proxy should be easily configured of which protocol to use.
+communication between proxies over a DIL network.
+\Cref{table:possible-proxy-protocols} summarize our recommendations. For
+evaluation purposes, the proxy should be easily configured with which protocol
+to use.
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X |}
@@ -204,7 +217,7 @@ proxy should be easily configured of which protocol to use.
 \section{Summary}
 \label{section:requirements-summary}
 
-In this chapter we have discussed the requirements for our proxy, which we
+In this chapter, we have discussed the requirements for our proxy, which we
 summarize here:
 
 \begin{enumerate}

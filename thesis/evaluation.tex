@@ -2,28 +2,30 @@
 
 \label{chapter:evaluation}
 
-In this chapter we outline how the testing and evaluation of the proxy was
+In this chapter, we outline how the testing and evaluation of the proxy was
 performed and present the results obtained. The goal is to validate that the
 proxy fulfills the premises and requirements and to measure any possible
 improvements (or deteriorations) of the performance of Web services. Based on
 the measurements we then give a recommendation about which adaptations to make
 in different types of DIL networks. Since the proxy is being developed as a
 prototype for military usage, we use test scenarios that resemble actual
-military and civilian usage. For the purpose of testing we develop two sets of
-test applications, one W3C Web service and one RESTful Web service. These
-applications are then used to test the proxy in networks with different DIL
-characteristics.
+military usage. We also included one civilian usage based on \gls{edge} since
+civilian mobile phone technology is currently being considered for military use
+both by NATO and several nations. For the purpose of testing, we develop two
+sets of test applications, one W3C Web service, and one RESTful Web service.
+These applications are then used to test the proxy in networks with different
+DIL characteristics.
 
 We start this chapter by introducing different types of DIL networks we can
 encounter working with tactical networks. Then we present how these networks can
-be emulated using the Linux network traffic tools, before we introduce
-evaluation tools and the two test applications. Next, we put the proxy to the
-test in an unlimited network to verify that it behaves nicely. We call this the
-function test. Then we start introducing the DIL characteristics into the tests
-and measure if we can improve the performance by using proxies. We introduce the
-\textit{disconnected} and \textit{intermittent} aspects first, before we test
-the proxy in six different \textit{limited} networks. We also test in a setup
-using actual military communication equipment. This was done to validate the
+be emulated using the Linux network traffic tools before we introduce evaluation
+tools and the two test applications. Next, we put the proxy to the test in an
+unlimited network to verify that it behaves correctly. We call this the function
+test. Then we start introducing the DIL characteristics into the tests and
+measure if we can improve the performance by using proxies. We introduce the
+\textit{disconnected} and \textit{intermittent} aspects first before we test the
+proxy in six different \textit{limited} networks. We also test in a setup using
+actual military communication equipment. This testing was done to validate the
 results from the software emulated networks.
 
 Finally, we discuss the results, their underlying causes, and which implications
@@ -33,9 +35,13 @@ DIL networks.
 \section{Types of DIL Networks}
 
 Military communication can occur over a wide range of different technologies and
-environments. These include \gls{satcom}, \gls{los}, \gls{cnr} and WiFi. WiFi is
-divided into two types, one indicating operation in the "sweet spot" and one in
-the edge of the network. Some communication technologies, such as satellite
+environments. An infinite number of possible network combinations exist, so we
+have chosen to focus on five different network types identified by the task
+group IST-118 for DIL-testing \cite{johnsen-recommendations}. The networks were
+identified because they represent typical networks typically found in military
+communication.  These include \gls{satcom}, \gls{los}, \gls{cnr} and WiFi. WiFi
+is divided into two types, one indicating operation in the "sweet spot" and one
+in the edge of the network. Some communication technologies, such as satellite
 communication, are characterized by long communication delay while others may be
 by their low data rate. An overview of selected military communication
 technologies can be seen in \cref{figure-networks-overview}.
@@ -46,23 +52,20 @@ technologies can be seen in \cref{figure-networks-overview}.
 \label{figure-networks-overview}
 \end{figure}
 
-An infinite number of possible network combinations exist, so we have chosen to
-focus on five different network types identified by the task group IST-118 for
-DIL-testing \cite{johnsen-recommendations}. The networks were identified because
-they represent typical networks typically found in military communication. We
-also investigated \gls{lte}, commonly known as 4G, a network technology which
+We also investigated \gls{lte}, commonly known as 4G, a network technology which
 has become in widespread use in the latest years. The reason for including LTE
-in addition to the ones from IST-118, is that the Norwegian Defense is looking
-into the possibility of using LTE. This makes it interesting for us to
-investigate the performance under this type of network as well. However, LTE has
-gotten so fast and reliable, it is not really relevant from a DIL perspective.
-We therefore instead looked into \gls{edge}, which is used as a fallback in
-geographical areas where \gls{lte} and 3G is not available. Of the networks we
-evaluate for, EDGE is the only one with asymmetrical down- and upload speed: 50
-kbps up and 200 kbps down \cite{evaluation-transport-protocols-web-services}.
+in addition to the ones from IST-118 is that the Norwegian Defense is looking
+into the possibility of using LTE. This fact makes it interesting for us to
+investigate the performance of Web services in this type of network as well.
+However, LTE has gotten so fast and reliable that it is not really relevant from
+a DIL perspective. We therefore instead looked into \gls{edge}, which is used as
+a fallback in geographical areas where \gls{lte} and 3G are not available. Of
+the networks we evaluate for, EDGE is the only one with asymmetrical down- and
+upload speed: 50 kbps up and 200 kbps down
+\cite{evaluation-transport-protocols-web-services}.
 
-The different networks and their properties are summarized in
-\cref{table-network-types}.
+\Cref{table-network-types} summarizes the identified networks and their
+propererties.
 
 \begin{table}[h]
 \begin{tabular}{| l | l | l | l | l |}
@@ -82,25 +85,25 @@ The different networks and their properties are summarized in
 
 \section{Testing and Evaluation Tools}
 
-In order to evaluate how using the proxies impacts the performance of Web
-services in DIL environments, we needed some way of emulating limited and
-constrained networks. Obviously, we would have got the most realistic test
-environment by testing "out in the field" ourselves. However, this would require
-a considerable amount of effort and it would be difficult to reproduce the exact
-same environment and test results. We therefore chose to emulate DIL networks by
-using a setup consisting of interconnecting two machines through a third
-machine. The third machine is used as a link emulator and controls the network
-traffic passing between the two other machines. This setup is illustrated in
+To evaluate how using the proxies impacts the performance of Web services in DIL
+environments, we needed some way of emulating limited and constrained networks.
+Obviously, we would have got the most realistic test environment by testing "out
+in the field" ourselves. However, this would require a considerable amount of
+effort, and it would be difficult to reproduce the exact same environment and
+test results. Therefore, we chose to emulate DIL networks by using a setup
+consisting of interconnecting two machines through a third machine. The third
+machine is used as a link emulator and controls the network traffic passing
+between the two other machines. This setup is illustrated in
 \cref{figure-testing-environment-simple}. To emulate DIL networks, the link
 emulator uses components in the Linux kernel to control the flow of the network
 traffic going through it.
 
-Additionally we performed experiments using actual military communication
+Additionally, we performed experiments using actual military communication
 equipment. The purpose was to confirm the results from the emulated network
 tests. These experiments are presented in \cref{section:evaluation-kongsberg}.
 
 \begin{figure}[h]
-\includegraphics[scale=0.73]{images/testing_environment_simple.pdf}
+\includegraphics[width=\textwidth]{images/testing_environment_simple.pdf}
 \caption{Test setup}
 \label{figure-testing-environment-simple}
 \end{figure}
@@ -115,16 +118,16 @@ packets and dequeues them as fast as the network hardware can accept them.
 Linux kernels network scheduler. The \gls{netem} is an enhancement of the
 traffic control facilities that allows us to control delay, packet loss and
 other characteristics of packets outgoing from a selected network interface
-\cite{man-netem}. These tools together allow us to emulate the networks listed in
-\cref{table-network-types}.
+\cite{man-netem}. These tools together enable us to emulate the networks listed
+in \cref{table-network-types}.
 
 How to configure \gls{netem} and the Linux traffic control tools is outlined in
 the following paragraphs.
 
 \subsubsection{Emulating Network Delays}
 
-With NetEm we can emulate delays on outgoing packets on a specific link. In
-\cref{listing-netem-delay} we show an example configuration where a fixed delay
+With NetEm, we can emulate delays on outgoing packets on a specific link. In
+\cref{listing-netem-delay}, we show an example configuration where a fixed delay
 of 100 ms to all packets going out of local Ethernet connection.
 
 \begin{lstlisting}[frame=single, language=json, caption="Emulating the delay of outgoing packets", label=listing-netem-delay]
@@ -134,20 +137,20 @@ of 100 ms to all packets going out of local Ethernet connection.
 
 \subsubsection{Emulating the Data Rate}
 
-To emulate different data rates we use a part of the Linux traffic control tool
+To emulate different data rates, we use a part of the Linux traffic control tool
 called \gls{tbf}. TBF can be used to shape network traffic and ensures that the
 configured rate is not exceeded. It shapes traffic based on the concept of
-\textit{tokens} and \textit{buckets}. Tokens are generated at a desired data
+\textit{tokens} and \textit{buckets}. Tokens are generated at the desired data
 rate and are collected into buckets, which have a maximum number of tokens they
-can store. When TBF receives a packet, it checks if it has sufficient number of
-tokens in order to send the packet. If not, it is deferred, thus causing an
-artificial delay for the packet.
+can store. When TBF receives a packet, it checks if it has a sufficient number
+of tokens to send the packet. If not, it is deferred, thus causing an artificial
+delay for the packet.
 
 \Cref{listing-netem-data-rate} shows an example configuration where we configure
 the maximum data rate of 50 kilobits per second. The burst value is the size of
 the bucket in bytes and describes the maximum amount of bytes that tokens can be
-available for instantaneously. The limit is the number of bytes that can be queued
-waiting for tokens to be available.
+available for instantaneously. The limit is the number of bytes that can be
+queued waiting for available tokens.
 
 \begin{lstlisting}[frame=single, language=json, caption="Emulating the data rate", label=listing-netem-data-rate]
   tc qdisc add dev eth0 handle 1: \
@@ -157,7 +160,7 @@ waiting for tokens to be available.
 \subsubsection{Emulating the Corruption Rate}
 
 The corruption rate allows us to insert random data into a chosen percent of
-packets. In \cref{listing-netem-error-rate} we show how the corruption rate can
+packets. In \cref{listing-netem-error-rate}, we show how the corruption rate can
 be set to 20 percent.
 
 \begin{lstlisting}[frame=single, language=json, caption="Emulating the corruption rate", label=listing-netem-error-rate]
@@ -180,7 +183,7 @@ To confirm and validate our network emulations we use iPerf 3 alongside the
 Linux tool \textit{ping}. The measurements are performed between the machine
 hosting the client and the machine hosting the Web service. They are performed
 before starting the test cases so that the network traffic it generates do not
-not interfere.
+interfere.
 
 
 \subsection{Wireshark}
@@ -190,43 +193,40 @@ Wireshark is a packet analyzer and allows for performing network usage analysis
 packets sent from a machine over the Ethernet interface.
 
 When performing the testing, we use Wireshark to monitor the network traffic on
-the machine hosting the client and its proxy. This allow us to investigate the
-behavior of the evaluated protocols in the different types of networks. In
-particular we use it to see how many packets that are sent, as well as the
-total number of bytes that are sent over the network.
+the machine hosting the client and its proxy. This is called a packet capture
+and allows us to investigate the behavior of the evaluated protocols in the
+different types of networks. In particular, we use it to see how many packets
+that are sent, as well as the total number of bytes that are sent over the
+network.
 
 
 \section{Test Sets}
 
 For each test network, we perform tests with both a W3C Web service test case
-and a RESTful Web service test case. Each test set consist of a Java client and
+and a RESTful Web service test case. Each test set consists of a Java client and
 a Web service. Information about the source code of the test applications is
 included in \cref{appendix-source-code} of the appendix.
 
-In this thesis we look into ways of improving the performance of Web services.
+In this thesis, we look into ways of improving the performance of Web services.
 The purpose of the test sets is to imitate network traffic generated by real Web
 services. From evaluating the performance increase or decrease of the test
 services when using the proxies, we can deduce that this applies to applications
-in actual use as well. As performance indicators we use the average \gls{rtt} as
-perceived by the client application and how network is utilized. The latter is
-done by capturing packets during a sample test run with Wireshark. It is worth
-noting that this was only performed on one test case for each test, thus any
-variance between test runs may not have detected. This is especially true for
-the networks with an chance of packet errors. However, it gives us an idea of
-the network traffic during that test.
+in actual use as well. As performance indicators, we use the average \gls{rtt} as
+perceived by the client application and how the network is utilized.
 
 \subsection{NFFI W3C Web Service}
 
-For the purpose of testing W3C Web service applications we created a mock system
-which allows a client to request a service to report positions of friendly
-forces. The position report uses the \gls{nffi} format, which has an associated
-XML schema with it. We refer to this test case as the "NFFI" test case.
+For the purpose of testing W3C Web service applications, we created a mock
+system which allows a client to request a service to report positions of
+friendly forces. The position report uses the \gls{nffi} format, which has an
+associated XML schema with it. We refer to this test case as the "NFFI" test
+case.
 
-One test run is illustrated in \cref{figure-nffi-flow} and consists of the
-client making a HTTP POST request to the Web service. Associated with the
-request is an XML payload which tells the Web service which operation to invoke.
-In our case, the service then returns an XML message containing a large number
-of positions in the NFFI format.
+One test run is illustrated in \cref{figure-nffi-flow} and consists of a client
+making a HTTP POST request to the Web service. Associated with the request is an
+XML payload which tells the Web service which operation to invoke. In our case,
+the service then returns an XML message containing a large number of positions
+in the NFFI format.
 
 \begin{figure}[h]
 \centering
@@ -253,10 +253,10 @@ of positions in the NFFI format.
 We originally wanted to use a service resembling a military scenario like the
 NFFI service. However, no such applications were easily available for testing at
 the time of writing the thesis. For the purpose of testing RESTful services, we
-therefore chose to develop a small example service ourselves. The RESTful Car
-service is a service keeping order of cars in a car registry. It is a
-simple system keeping track of the registration number and type description of
-multiple cars. We refer to this test case as the "Car system" test case.
+chose to develop a small example service ourselves. The RESTful Car service is a
+service keeping order of cars in a car registry. It is a simple system keeping
+track of the registration number and type description of multiple cars. We refer
+to this test case as the "Car system" test case.
 
  The service exposes an \gls{api} which offers different actions to manage the
  car system. Clients can invoke these operations by using HTTP requests and
@@ -272,7 +272,7 @@ multiple cars. We refer to this test case as the "Car system" test case.
 \label{figure-rest-flow}
 \end{figure}
 
-Each test run of the Car system consist of a client sequentially invoking the
+Each test run of the Car system consists of a client sequentially invoking the
 server with different API requests, listed in \cref{table:car-requests}. The
 most common HTTP-methods GET, PUT, POST, and DELETE are all part of the tests.
 To test that custom HTTP headers are retained when the HTTP messages are
@@ -310,7 +310,7 @@ custom header is present.
 A test run of both the NFFI test case and the Car system test case consists of
 sequentially sending HTTP requests to their respective Web service. However,
 they have some fundamental differences. The Car system test involves running 12
-HTTP requests, while the NFFI request only invokes three. Also, the payload of
+HTTP requests while the NFFI request only invokes three. Also, the payload of
 each request and response is generally much smaller for the Car system tests.
 Moreover, the response message of the third request of the NFFI service is
 significantly larger than any other request or response.
@@ -320,10 +320,10 @@ significantly larger than any other request or response.
 \label{testing-environment}
 
 Both test sets consist of one client and one Web service, where the client would
-request the service for some sort of action. The client is ran on one computer,
-while the Web service is deployed in the Glassfish 4 application server on
-another computer. The specifications of the machines used in the testing are listed in
-\cref{table-machines}.
+request the service for some sort of action. The client is running on one
+computer while the Web service is deployed in the Glassfish 4 application
+server on another computer. The specifications of the machines used in the
+testing are listed in \cref{table-machines}.
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
@@ -347,19 +347,19 @@ another computer. The specifications of the machines used in the testing are lis
 The client and Web service machines are connected to each other through a third
 computer acting as a link emulator. The link emulator machine has two Ethernet
 network cards and interconnects the two other machines. This setup can be seen
-in \cref{figure-testing-environment}. In order for the link emulator to forward
-IP packets back and forth between the client and server, IP forwarding is
-enabled in the kernel.
+in \cref{figure-testing-environment}. For the link emulator to forward IP
+packets back and forth between the client and server, IP forwarding is enabled
+in the kernel.
 
 \begin{figure}[h]
-\includegraphics[scale=0.73]{images/testing_environment.pdf}
+\includegraphics[width=\textwidth]{images/testing_environment.pdf}
 \caption{Network used for testing}
 \label{figure-testing-environment}
 \end{figure}
 
 The client and Web service machine are assigned an IP address in two different
 subnets. This is done by the Linux network interface administration program
-\textit{ifconfig}. In \cref{listing-ifconfig-client} the client machine is
+\textit{ifconfig}. In \cref{listing-ifconfig-client}, the client machine is
 assigned the IP address 192.168.11.44.
 
 \begin{lstlisting}[frame=single, language=json, caption="Setting the IP address a network interface", label=listing-ifconfig-client]
@@ -383,12 +383,12 @@ and Web service machine, we start emulating different DIL networks.
 
 Since all network traffic passes through the routing machine, we can control the
 flow of IP packets here. As we previously discussed, we make use of the network
-traffic control tools of Linux. For each network configuration a bash script is
-run. This script configures the network interfaces in order to get the correct
-network behavior. Both interfaces are configured so the network is symmetrical
-in both directions, with the exception of EDGE which has asymmetrical data
-rates. The bash scripts used to emulate the DIL networks are included in
-\cref{appendix-netem-scripts} of the appendix.
+traffic control tools of Linux. For each network configuration, a bash script is
+run. This script configures the network interface to get the correct network
+behavior. Both interfaces are configured so the network is symmetrical in both
+directions, except EDGE which has asymmetrical data rates. The bash scripts used
+to emulate the DIL networks are included in \cref{appendix-netem-scripts} of the
+appendix.
 
 
 \subsection{Test Execution}
@@ -396,10 +396,10 @@ rates. The bash scripts used to emulate the DIL networks are included in
 The tests were executed with the setup illustrated in
 \cref{figure-testing-setup}. Machine 2 hosts a test client and a proxy, while
 machine 1 hosts a proxy and the Web services. The Web services are deployed in a
-Glassfish 4 application server. In order to facilitate AMQP communication
-between proxies, a message broker is also run at the Web service machine. In our
-tests we use version 5-13.2 of Apache ActiveMQ \cite{activemq-homepage}, an
-open source message broker supporting messaging protocols like AMQP and MQTT.
+Glassfish 4 application server. To facilitate AMQP communication between
+proxies, a message broker is also run at the Web service machine. In our tests
+we use version 5-13.2 of Apache ActiveMQ \cite{activemq-homepage}, an open
+source message broker supporting messaging protocols like AMQP and MQTT.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{images/testing_setup.pdf}
@@ -410,15 +410,20 @@ open source message broker supporting messaging protocols like AMQP and MQTT.
 Each test execution is initiated from a Java client on machine 2. We then
 measure how long it takes to complete all requests part of the test, thus
 allowing us to measure the Route Trip Time (RTT) as perceived by the client. All
-tests are performed multiple times in order to calculate the mean, standard
-deviation and variance. The results used to create the graphs presented in the
-coming sections, are included in the appendix, \cref{appendix-results}.
-Moreover, for each test we perform a packet capture with Wireshark of one sample
-test run. This allow us to get an indicator of the network usage of the proxies
-and the different inter-proxy communication protocols.
+tests are performed at least 10 times to calculate the mean, standard deviation,
+and variance. The results used to create the graphs presented in the following
+sections are included in the appendix, \cref{appendix-results}.
 
-The tests are performed
-with the following parameters:
+
+Moreover, for each test we perform a packet capture with Wireshark of one sample
+test run. The capture allows us to get an indicator of the network usage of the
+proxies and the different inter-proxy communication protocols. It is worth
+noting that this was only performed on one test case for each test. Thus, any
+variance between test runs may not have detected. This is especially true for
+the networks with a chance of packet errors. However, it gives us an idea of
+the network traffic during that test.
+
+The tests are performed with the following parameters:
 
 \begin{itemize}
 
@@ -437,9 +442,9 @@ with the following parameters:
 
 \section{Function Tests}
 
-The first part of the testing is performed without any actual intended
-limitations to the network. The objective of the function tests is to validate
-that the proxy fulfill the functional requirements we sat in chapter 4:
+The first part of the testing is performed without any intended limitations to
+the network. The objective of the function tests is to validate that the proxy
+fulfills the functional requirements we sat in chapter 4:
 
 \begin{itemize}
     \item Receive and forward HTTP requests.
@@ -472,21 +477,21 @@ requirements for the proxy is therefore identified as fulfilled.
 
 Even in an unlimited network, we still see a significant difference between the
 protocols. These trends may be the same or perhaps reinforced when the protocols
-are used in DIL networks. In the coming paragraphs we therefore investigate and
-discuss the possible underlying reasons for the results we obtained in the
+are used in DIL networks. Therefore, in the coming paragraphs, we investigate
+and discuss the possible underlying reasons for the results we obtained in the
 function tests.
 
-In test cases without compression, using proxies results in a longer RTT. This
-can be due to the overhead of sending requests through proxies, which includes
-initializing TCP connections and the time the proxies use processing requests.
-When using a HTTP proxy with compression, we see a decrease in the RTT for the
-NFFI test case. Inspecting the network traffic with Wireshark reveals the
-probable cause for this. Compressing the relatively large XML documents sent in
-NFFI test case yield a very high compression rate. The compression rates of the
-rather small JSON documents in the Car System test case are relatively small in
-comparison.
+In test cases without compression, using proxies results in a longer RTT. The
+longer RTT can be due to the overhead of sending requests through proxies, which
+includes initializing TCP connections and the time the proxies use processing
+requests. When using a HTTP proxy with compression, we see a decrease in the RTT
+for the NFFI test case. Inspecting the network traffic with Wireshark reveals
+the probable cause for this. Compressing the relatively large XML documents sent
+in NFFI test case yield a very high compression rate. The compression rates of
+the rather small JSON documents in the Car System test case are relatively small
+in comparison.
 
-Furthermore, we observe that the transport protocol used by the proxies has
+Furthermore, we observe that the transport protocol used by the proxies has a
 significant impact on the RTT and packets sent over the network.
 \Cref{table:function-test-packets-nffi} and
 \cref{table:function-test-packets-rest} list the IP packets sent over the
@@ -515,26 +520,27 @@ system test using a HTTP proxy and found the following network activities:
     TCP connection with the other proxy.
 
     \item The HTTP request is sent from the proxy to the other proxy. The DELETE
-    request has now been converted to a POST request and the message body
+    request has now been converted to a POST request, and the message body
     contains the proxy message. Since the request now has a message body, two
-    HTTP headers has been appended: Content-Type and Content-Length. In
-    addition, the HTTP-header breadcrumbID has been added, an header used by
-    Camel. Including the proxy message, the size of the original HTTP request
-    has now grown from 243 to 635 bytes.
+    HTTP headers have been appended: Content-Type and Content-Length. Besides,
+    the HTTP-header breadcrumbID has been added, a header used by Camel.
+    Including the proxy message, the size of the original HTTP request has now
+    grown from 243 to 635 bytes.
 
 	\item A HTTP response is returned from the other proxy. It consists of two
 	reassembled TCP segments with the total size of 974  bytes. Comparing with the
-	response from when not using a proxy, indicates a few things. Without the proxy
-	the response to the DELETE request is without a message body, while with the
-	HTTP body contains a proxy message. In addition, the response has additional
-	HTTP headers than the original request. For this examined response, using the
-	proxy introduced a message overhead of 756 bytes.
+	response from when not using a proxy, indicates a few things. Without the
+	proxy, the response to the DELETE request is without a message body, while
+	with, the HTTP body contains a proxy message. In addition, the response has
+	additional HTTP headers than the original request. For this examined response,
+	using the proxy introduced a message overhead of 756 bytes.
 
     \item The response if forwarded from the proxy to the client.
 
-    \item The client starts its next request and repeat the mentioned steps.
-    However, since the TCP connections now is initialized and open, both between
-    the client and proxy and between the proxies, the TCP connection are reused.
+    \item The client starts its next request and repeats the mentioned steps.
+    However, since the TCP connections now are initialized and open, both
+    between the client and proxy and between the proxies, the TCP connections
+    are reused.
 
 
   \end{enumerate}
@@ -563,11 +569,11 @@ we dived down into the details:
     \item The proxy and message broker agree on an AMQP version by exchanging
     the AMQP protocol header.
 
-	 \item Next, in order to forward the first request, the proxy initiates an AMQP
-	 connection. This consists of numerous AMQP frames being sent between the proxy
-	 and message broker. This includes sending the AMQP frames Open, Begin, Attach
-	 and Flow.  First after sending these frames, the first \textit{transfer} frame
-	 carrying the message is sent.
+	 \item Next, to forward the first request, the proxy initiates an AMQP
+	 connection. The connection initialization consists of numerous AMQP frames
+	 being sent between the proxy and message broker. It includes sending the
+	 AMQP frames Open, Begin, Attach and Flow.  First after sending these frames,
+	 the first \textit{transfer} frame carrying the message is sent.
 
      \item Finally, when a response is returned, both the AMQP and TCP connection
      between the proxy and message broker are closed.
@@ -579,7 +585,7 @@ we dived down into the details:
 
 \end{enumerate}
 
-Although all requests are successfully forwarded, do the AMQP proxy cause a
+Although all requests are successfully forwarded, the AMQP proxy cause a
 significant overhead due to its complex connection procedures. For every request
 that is forwarded through the proxy, a new AMQP and TCP connection had to be
 established.
@@ -588,10 +594,10 @@ established.
 
 Using CoAP as the inter-proxy communication protocol had roughly the same
 average RTT as the HTTP proxy, with one exception. In the uncompressed NFFI test
-case it had a longer RTT and sent a unreasonable higher amount of packets. We
+case, it had a longer RTT and sent an unreasonable higher amount of packets. We
 discuss the possible reasons for this in detail in
 \cref{section:evaluation-discussion}. For the test cases not involving large
-messages however, CoAP sent significantly \textit{fewer} IP packets than the
+messages, however, CoAP sent significantly \textit{fewer} IP packets than the
 other proxy protocols. Using Wireshark we looked into the network traffic of the
 Car system test:
 
@@ -600,28 +606,28 @@ Car system test:
     \item The test client first establishes a TCP connection with the proxy and sends
     the first message.
 
-    \item The proxy forwards the request in an UDP message to the other proxy.
+    \item The proxy forwards the request in a UDP message to the other proxy.
 
     \item The other proxy returns the response and acknowledgment in one UDP
     message.
 
     \item The proxy returns the response to the test client.
 
-    \item The test client invokes a new request and the steps are repeated.
+    \item The test client invokes a new request, and the steps are repeated.
 
 
 \end{enumerate}
 
 As we see, CoAP has a more simple messaging pattern compared to AMQP and partly
-also HTTP/TCP. CoAP uses UDP which is a connection-less protocol, which means
-that no packets have to be sent in order to establish a connection. For the
+also HTTP/TCP. CoAP uses UDP, which is a connection-less protocol, which means
+that no packets have to be sent to establish a connection. For the
 function tests, we see that the CoAP proxy is the proxy with the least network
 footprint.
 
 The function tests were done in an unlimited network, so our findings are not
-necessarily applicable to DIL networks. In section \cref{section:tests-limited}
-we put the proxy and protocols to the test in more limited networks. But first,
-in the next section we see how the proxies cope with the disconnect and
+necessarily applicable to DIL networks. In \cref{section:tests-limited}, we put
+the proxy and protocols to the test in more limited networks. However, first, in
+the next section we see how the proxies cope with the disconnect and
 intermittent aspect of the DIL.
 
 
@@ -662,10 +668,10 @@ intermittent aspect of the DIL.
 \section{DIL Tests - Intermittent and Disconnected}
 
 \textit{Intermittent} and \textit{disconnected} refers to the network connection
-being lost for some period of time, but then regained again. Disconnected refers
-to loss of connection over a longer period, while intermittent is a special case
-of disconnected and refers to shorter disruptions. The requirements we set for
-our proxy were that it should:
+being lost for some period, but then regained again. Disconnected refers to the loss
+of connection over a longer period, while intermittent is a special case of
+disconnected and refers to shorter disruptions. The requirements we set for our
+proxy were that it should:
 
 \begin{itemize}
 
@@ -676,22 +682,24 @@ our proxy were that it should:
 
 
 
-In our testing we focus on loss of connections for longer periods of time. The
-objective of this testing is to evaluate how the proxy manages disconnects. We
-define the success criteria to be that a client is able to eventually process
-his request after the connection is reestablished. The clients HTTP request
-should not be interrupted in any way, other than it taking longer time to
-process the request.
+In our testing, we focus on the loss of connections for longer periods of time.
+The objective of this testing is to evaluate how the proxy manages disconnects.
+We define the success criteria to be that a client can eventually process his
+request after the connection is reestablished. The client's HTTP request should
+not be interrupted in any way, other than it taking a longer time to process the
+request.
 
 \subsection{Execution}
 
- The tests is performed over an unlimited network and is performed for both the
- NFFI and Car system test. They are executed by starting the test applications
- and then immediately removing the Ethernet cable between the client machine and
- the link emulator as illustrated in \cref{figure-testing-disconncted}. We then
- wait around 60 seconds, allowing requests to trigger timeouts and thus invoking
- the proxy redelivery mechanism. Finally, we connect the cable again and
- observe if the test application is able to finish its requests successfully.
+ The tests are performed over an unlimited network and for both the NFFI and Car
+ system test. The proxy redelivery delay is configured to be with a fixed
+ 20-second retransmission. The tests are executed by starting the test
+ applications and then immediately removing the Ethernet cable between the
+ client machine and the link emulator as illustrated in
+ \cref{figure-testing-disconncted}. We then wait around 60 seconds, allowing
+ requests to trigger timeouts and thus invoking the proxy redelivery mechanism.
+ Finally, we connect the cable again and observe if the test application is able
+ to finish its requests successfully.
 
  \begin{figure}[h]
  \includegraphics[width=\textwidth]{images/testing_disconnected.pdf}
@@ -702,12 +710,12 @@ process the request.
 
 \subsection{Results and Analysis}
 
-For both the REST and W3C Web service test scenarios the results were identical.
-Without using proxies, the connection timed out and the applications were unable
-to continue as shown in \cref{table:disconnected-nffi} and
-\cref{table:disconnected-rest}. With proxies, the connection did not time out
+For both the REST and W3C Web service test scenarios, the results were
+identical. Without using proxies, the connection timed out, and the applications
+were unable to continue as shown in \cref{table:disconnected-nffi} and
+\cref{table:disconnected-rest}. With proxies, the connection did not time out,
 and the protocols retransmission mechanisms were able to continue transmission
-when connection was reestablished.
+when the connection was reestablished.
 
 
 \begin{table}[h!]
@@ -740,16 +748,16 @@ when connection was reestablished.
 \section{DIL Tests - Limited}
 \label{section:tests-limited}
 
-The third DIL characteristic, \textit{limited}, refers to different ways a
-network can be limited. This includes high delays, packet loss and low
-bandwidth. In this section we present the testing performed for the different
-types of networks identified in \cref{table-network-types}. Through this testing
-we evaluate how the proxy performs with regards to requirement 6, stating that
-the proxy should be able to:
+The third DIL characteristic, \textit{limited}, refers to various ways a network
+can be constrained. The limited characteristic includes long delays, packet
+loss, and low data rate. In this section, we present the testing performed for
+the different types of networks identified in \cref{table-network-types}.
+Through this testing we evaluate how the proxy performs with regards to
+requirement 6, stating that the proxy should be able to:
 
 \begin{itemize}
 
-    \item Handle low data rates, high delays and high packet error rates.
+    \item Handle low data rates, long delays, and high packet error rates.
 
 \end{itemize}
 
@@ -757,7 +765,7 @@ the proxy should be able to:
 
 \subsection{Satellite Communication}
 
-In this test network we emulate \gls{satcom}. With satellite communication all
+In this test network, we emulate \gls{satcom}. With satellite communication, all
 data is relayed through a communication satellite in orbit around the earth.
 This type of communication is characterized by its low data rate and high delay.
 
@@ -773,17 +781,17 @@ we observe the following:
 
     \item With one exception, AMQP has significantly higher RTT than the other
     protocols. For the Car system tests with many subsequent HTTP requests, we
-    see that AMQP triggers the sending of many IP packets. In a sample test run
+    see that AMQP triggers the sending of many IP packets. In a sample test run,
     the Wireshark capture revealed that AMQP sends twenty times the amount of IP
     packets compared to CoAP.
 
     \item CoAP struggles with large uncompressed messages of NFFI test case. For
-    the Car system test however, the CoAP proxy has almost equal average RTT as
+    the Car system test, however, the CoAP proxy has almost equal average RTT as
     the HTTP proxy. A Wireshark capture during the Car system test shows that
-    CoAP proxy sends very few number of IP packets compared to other protocols.
+    CoAP proxy sends very few of IP packets compared to other protocols.
 
-    \item Compression can be of less importance in networks where the high delay
-    is the limiting factor.
+    \item Compression can be of less importance in networks with high data
+    rates and where the long delay is the limiting factor.
 
 \end{itemize}
 
@@ -820,28 +828,29 @@ we observe the following:
 
 \subsection{Line-of-Sight}
 
-In this test scenario we emulate \gls{los} networks which are characterized by
+In this test scenario, we emulate \gls{los} networks which are characterized by
 being a radio-based type of network with no physical obstacles between the nodes
-in the network. LOS has high data rate, low delay and zero error rate.
+in the network. LOS has high data rate, low delay, and zero error rate.
 
 \subsubsection{Results and Analysis}
 
-The average RTT of the LOS tests are shown in \cref{los:results-satcom}. IP
+The average RTT of the LOS tests is shown in \cref{los:results-satcom}. IP
 packets sent and received in a sample run of the NFFI and Car system test cases
 are listed in \cref{table:los-test-packets-nffi} and
-\cref{table:los-test-packets-rest}. The important findings are summarized here:
+\cref{table:los-test-packets-rest}. The significant findings are summarized
+here:
 
 \begin{itemize}
 
-    \item HTTP proxy yielded the lowest average RTT in the NFFI test case, while not
-    using a proxy had the best RTT in the Car system test. In the Car system tests the CoAP proxy is marginally faster than a
-    HTTP proxy.
+    \item HTTP proxy yielded the lowest average RTT in the NFFI test case, while
+    not using a proxy had the best RTT in the Car system test. In the Car system
+    tests, the CoAP proxy is marginally faster than a HTTP proxy.
 
     \item We observe the same trends regarding CoAP and AMQP as in the function
     testing. The LOS type of network is a relatively unlimited network. The results
     have the same characteristics as the results from the function tests.
 
-    \item For the Car system test we see that enabling compression yields a
+    \item For the Car system test, we see that enabling compression yields a
     slightly longer average RTT. The reason for this can be the time used to
     compress the payload is larger than the time saved by reducing the size of
     the message.
@@ -882,20 +891,20 @@ are listed in \cref{table:los-test-packets-nffi} and
 
 \subsection{WiFi 1}
 
-With this type of network we emulate communication over WiFi where the
-conditions are relatively good. The data rate is high, the delay is moderate
+With this type of network, we emulate communication over WiFi where the
+conditions are relatively good. The data rate is high, the delay is moderate,
 and the packet error rate is 1 \%.
 
 \subsubsection{Results and Analysis}
 
-The results from the tests in this type of network are presented in
+The results of the tests in this type of network are presented in
 \cref{figure:wifi1-results}, \cref{table:wifi1-test-packets-nffi} and
 \cref{table:wifi1-test-packets-rest}. We see the following:
 
 \begin{itemize}
 
     \item Again we observe the same trends from previous tests. AMQP has the
-    longest average RTT, while CoAP struggle with large messages.
+    longest average RTT while CoAP struggle with large messages.
 
     \item For the NFFI test, HTTP proxy with compression yields the lowest
     average RTT.
@@ -937,7 +946,7 @@ The results from the tests in this type of network are presented in
 \subsection{WiFi 2}
 
 This type of network also emulates wireless communication, but instead in the
-``outer'' areas of the wireless range. It has good data rate, moderate delay
+``outer'' areas of the wireless range. It has good data rate, moderate delay,
 and very high packet error rate (20 \%).
 
 
@@ -951,10 +960,10 @@ network, we see the following:
 
 \begin{itemize}
 
-    \item A significantly longer average RTT for all test cases. The
-    variance of the test results have increased compared to the other test
-    networks. This can be attributed to the high probability of packet errors,
-    since some test runs may experience few errors, while other more.
+    \item A significantly longer average RTT for all test cases. The variance of
+    the test results has increased compared to the other test networks. The high
+    variance can be attributed to the high probability of packet errors, since
+    some test runs may experience few errors, while other more.
 
     \item The HTTP proxy with compression had the overall best average
     RTT.
@@ -967,9 +976,9 @@ network, we see the following:
     average RTT than the other proxies protocols.
 
     \item We also see that for the NFFI test cases, compressing the messages
-    yields a large performance increase with regards to the average RTT. This is
-    probably due to since less IP packets need to be sent over the network, it
-    is a less chance for packet errors.
+    yields a substantial performance increase with regards to the average RTT.
+    This is probably due to since fewer IP packets need to be sent over the
+    network, it is a less chance for packet errors.
 
 \end{itemize}
 
@@ -1065,7 +1074,7 @@ download rate. We emulate EDGE with a moderate delay and zero packet loss.
 
 \subsubsection{Results and Analysis}
 
-\Cref{figure:edge-results} shows the average response times of the WiFi 2 test
+\Cref{figure:edge-results} shows the average response times of the EDGE test
 cases. \Cref{table:edge-test-packets-nffi} and
 \cref{table:edge-test-packets-rest} list the packets sent and received from the
 test applications in a sample test run. We observe the following:
@@ -1126,8 +1135,8 @@ radio can be seen in \cref{figure-kdawm600}.
 
 We performed the testing in a communication laboratory located at \gls{ffi} with
 the setup illustrated in \cref{figure-radio-testing-environment}. It is a
-point-to-point setup with two radios and without any multi hop functionality.
-The radios have capacity to work as a multi hop \gls{manet}, but this was not
+point-to-point setup with two radios and without any multi-hop functionality.
+The radios have the capacity to work as a multi-hop \gls{manet}, but this was not
 tested in this thesis. The radios were attached to configurable attenuators,
 which could reduce the power of a signal by distorting its waveform. The purpose
 of the attenuators is to facilitate radio experiments with varying signal
@@ -1155,7 +1164,7 @@ performed over tactical broadband. We make the following observations:
     \item Compression yields a significantly lower RTT for the NFFI tests and a
     small decrease for the Car system tests.
 
-    \item The CoAP proxy struggles with large messages, but otherwise has the
+    \item The CoAP proxy struggles with large messages but otherwise has the
     overall best RTT.
 
 \end{itemize}
@@ -1184,11 +1193,11 @@ the NFFI test case. The exception is in some of the DIL networks with relatively
 high data rates, the time spent to compress and decompress a message was longer
 than the time saved by sending a compressed message.
 
-In all test cases the \gls{amqp} proxy had a large overhead for each HTTP request
+In all test cases, the \gls{amqp} proxy had a significant overhead for each HTTP request
 forwarded by the proxy. We believe this is due to the laborious connection
 initialization of the AMQP protocol. This is especially noticeable to the many
 subsequent HTTP requests of the Car system test. We saw that for each HTTP
-request a new AMQP connection was established, which generated a lot of network
+request, a new AMQP connection was established, which generated a lot of network
 traffic. It is possible to avoid this by reusing connections over multiple
 requests, often referred to as \textit{connection pooling}. However, the Camel
 AMQP component did not offer this functionality at the time of the
@@ -1205,34 +1214,34 @@ than necessary packets over the network introduces some overhead:
 \begin{itemize}
 
     \item The minimum size of an IP packet header is 20 bytes. For each
-    unnecessary packet sent, at least 20 more bytes are therefore sent over the
-    network. Furthermore, since each message is acknowledged by the receiver, an
-    \textit{additional} packet is sent over the network.
+    additional unnecessary packet sent, at least 20 more bytes are therefore
+    sent over the network. Furthermore, since the receiver acknowledges each
+    message, an \textit{additional} packet is sent over the network.
 
     \item The more IP packets sent, the greater is the chance of packet loss.
     This especially applies to networks with high error rate.
 
-    \item The messages have to be splitted at the sender and then reassembled at
+    \item The messages have to be splitt at the sender and then reassembled at
     the receiver, consuming CPU power.
 
 \end{itemize}
 
-The maximum size of an IP packet is 65535 bytes \cite{rfc-791}, while the underlying
-transmission links usually have a much lower maximum size on its packets. Thus if
-an IP packet larger than 1500 bytes is sent over Ethernet it has to be
-\textit{fragmented} into smaller fragments before they are sent. The maximum
-size of a packet that can be sent over a network without causing fragmentation
-is called the Path MTU. We generally want to avoid causing IP fragmentation due
-to the overhead associated with it \cite{genkov2006avoiding}.
+The maximum size of an IP packet is 65535 bytes \cite{rfc-791} while the
+underlying transmission links usually have a much lower maximum size on its
+packets. Thus, if an IP packet larger than 1500 bytes is sent over Ethernet, it
+has to be \textit{fragmented} into smaller fragments before they are sent. The
+maximum size of a packet that can be transmitted over a network without causing
+fragmentation is called the Path MTU. We generally want to avoid causing IP
+fragmentation due to the overhead associated with it \cite{genkov2006avoiding}.
 
-In order to avoid IP fragmentation, and to support sending messages larger than
-65 535 bytes, CoAP supports the block-wise feature splitting larger messages
-into smaller \textit{blocks}. At the receiving end these blocks are reassembled
+To avoid IP fragmentation, and to support sending messages larger than 65 535
+bytes, CoAP supports the block-wise feature splitting larger messages into
+smaller \textit{blocks}. At the receiving end, these blocks are reassembled
 before they are delivered to the higher layers. The implementation we used for
 CoAP, Californium, supports the block-wise transfer feature. According to the
 specification of the feature, the byte size of each block must be of a
 power-of-two \cite{draft-coap-blockwise}. When we looked into the source code of
-Californium we saw that the default size of a block is 512 bytes. This may be
+Californium, we saw that the default size of a block is 512 bytes. This may be
 reasonable in some cases where the path \gls{mtu} is not known or simply is low.
 However, in our case with a path MTU of 1500 bytes, the block size could have
 been set to 1024 to reduce the number of packets sent by the CoAP proxy.
@@ -1244,22 +1253,24 @@ low overhead by having a small binary header and a simple messaging model.
 
 \section{Summary}
 
-In this chapter we introduced six types of DIL networks and presented two test
+In this chapter, we introduced six types of DIL networks and presented two test
 cases. We performed a function test of the proxy and saw that the premises and
 requirements were fulfilled. Then we showed how disconnects would cause clients
-not using a proxy to fail, while the ones using a proxy were eventually
+not using a proxy to fail while the ones using a proxy were eventually
 successful. Finally, we evaluated the proxy solution with regards to the average
-RTT perceived by a client and network usage. Overall, we saw that the HTTP proxy
-or not using a proxy yielded the lowest average RTT in the limited networks.
-However, not using a proxy is vulnerable to disconnects which the HTTP proxy
-handles better. As the general recommendation, we therefore recommend using a
-HTTP proxy in limited networks. In some special cases however, the \gls{coap} proxy
-may be a viable option. When the data rate of a network is low and the message
-size is low, the CoAP proxy proved itself with a lower average RTT and less
-network usage than the HTTP proxy.
+RTT perceived by a client and network usage.
+
+ Overall, we saw that the HTTP proxy or not using a proxy yielded the lowest
+ average RTT in the limited networks. However, not using a proxy is vulnerable
+ to disconnects which the HTTP proxy handles better. Therefore, as the general
+ recommendation, we recommend using a HTTP proxy in limited networks. In some
+ special cases, however, the \gls{coap} proxy may be a viable option. When the
+ data rate of a network is low, and the message size is low, the CoAP proxy
+ proved itself with a lower average RTT and less network usage than the HTTP
+ proxy. \Cref{table-evaluation-summary} summarize our recommendations.
 
 \begin{table}[h]
-\begin{tabular}{| l | l | l |}
+\begin{tabularx}{\textwidth}{| l | X | X |}
 \hline
   \textbf{Network} & \textbf{NFFI Web service recommendation} & \textbf{REST recommendation}\\ \hline
   \gls{satcom} & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
@@ -1268,7 +1279,7 @@ network usage than the HTTP proxy.
   WiFi 2 & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
   \gls{cnr} & CoAP proxy with GZIP & CoAP proxy with GZIP \\ \hline
   Edge & HTTP proxy with GZIP & HTTP proxy with GZIP \\ \hline
-\end{tabular}
+\end{tabularx}
 \caption{Recommendations}
 \label{table-evaluation-summary}
 \end{table}

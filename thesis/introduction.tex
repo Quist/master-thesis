@@ -1,30 +1,30 @@
 
 \chapter{Introduction}
 
-Today the Internet connects millions of persons from all over the world. It
-plays an important role for both businesses and persons in their everyday life
-by enabling the possibility to access and exchange information. The
-communication infrastructure provides fast and stable access to the Internet.
-This infrastructure might not be present in all use-cases requiring the exchange
-of information over the Internet. Consider for example a nature disaster
-damaging the communication infrastructure, which limits the quality of
-connections and available data rate. In such a scenario the exchange of
-information are critical for public health and security services. Another
-consideration is the development of the \gls{iot}, where more and more devices
-are becoming connected to the Internet. Typical IoT devices are sensors with
-limited energy and wirelessly connected to the Internet. The wireless networks
-may be characterized by high packet loss rates, low data rates and instability.
-Such networks are called Low-Power and Lossy Networks (LLNs). In this thesis we
-look into improving the performance of Web services operating in these types of
+Today the Internet connects millions of users from all over the world. It plays
+an important role for both businesses and people in their everyday life by
+enabling the possibility to access and exchange information. The communication
+infrastructure provides fast and stable access to the Internet. This
+infrastructure might not be present in all use-cases requiring the exchange of
+information over the Internet. Consider for example a nature disaster damaging
+the communication infrastructure, which limits the quality of connections and
+available data rate. In such a scenario the exchange of information is critical
+for public health and security services. Another consideration is the
+development of the \gls{iot}, where more and more devices are becoming connected
+to the Internet. Typical IoT devices are sensors with limited energy and
+wirelessly connected to the Internet. High packet loss rates, low data rates,
+and instability may characterize such wireless networks. They are often referred
+to as Low-Power and Lossy Networks (LLNs). In this thesis, we look into
+improving the performance of Web services operating in these types of
 conditions, with a focus on military application.
 
 
-Military units may operate in areas where conditions like terrain, obstacles and
-radio interference make communication difficult. They may operate far from
+Military units may operate in areas where conditions like terrain, obstacles,
+and radio interference make communication difficult. They may operate far from
 existing communication infrastructure and rely only on wireless communication.
-Such communication are often characterized by unreliable connections with low
-data rate, long delays and high error rates. In a military scenario it is
-necessary for units to seamlessly exchange information across different types of
+Such communication is often characterized by unreliable connections with low
+data rate, long delays, and high error rates. In a military scenario, it is
+necessary for units to exchange information seamlessly across different types of
 communication systems. This ranges from remote combat units at the tactical
 level, to commanding officers at the operational level in a static headquarters
 packed with computer support. To the \gls{nato}, this concept is referred to as
@@ -34,31 +34,30 @@ and the Web Service technology as key enablers for information exchange in
 
 Web service technology is well tested and in widespread use in civil
 applications where the network is stable and the data rate is abundant. However,
-certain military networks suffer from limited networks, which can leave Web
-services built for civilian use unusable. This thesis investigates how these
-challenges can be overcome by tunneling the network traffic from Web services
-through proxies, where the proxies apply different optimization techniques. The
-main approach looks into how using alternative network transport protocols may
-increase speed and reliability.
+military networks may suffer from limited networks, which can leave Web services
+built for civilian use unusable. How to overcome these challenges are
+investigated in this thesis. The primary approach looks into how using
+alternative network transport protocols may increase speed and reliability.
 
 \section{Background and Motivation}
 
 \gls{nato} is a military alliance consisting of 28 member countries
 \cite{nato-homepage-member-countries} and which primary goal is to protect the
 freedom and security of its members through political and military means. In
-joint military operations the relatively large number of member countries can be
-a challenge when setting up machine-to-machine information exchange. Differences
-in communication systems and equipment attribute to making the integration of
-such systems more difficult. In order to address this issue, NATO has chosen the
-\gls{soa} concept, which when built using open standards facilitates
+joint military operations, the relatively large number of member countries can
+be a challenge when setting up machine-to-machine information exchange.
+Differences in communication systems and equipment contribute to making the
+integration of such systems more difficult. To address this issue, NATO has
+chosen the \gls{soa} concept, which when built using open standards facilitates
 interoperability \cite{nnec-study}.
 
 \subsection{\glsentrylong{soa}}
-\gls{soa} is an architectural pattern where application components
-provide services to other components over a network. \gls{soa} is built on
-concepts such as object-orientation and distributed computing and aims to get
-a loose coupling between clients and services. In their reference model for
-\gls{soa}, the \gls{oasis} defines \gls{soa} as \cite{oasis-soa-reference-model}:
+
+\gls{soa} is an architectural pattern where application components provide
+services to other components over a network. \gls{soa} builds on concepts such
+as object-orientation and distributed computing and aims to get a loose coupling
+between clients and services. In their reference model for \gls{soa}, the
+\gls{oasis} defines \gls{soa} as \cite{oasis-soa-reference-model}:
 
 \paragraph{}
 
@@ -70,17 +69,17 @@ and expectations.}
 
 \paragraph{}
 
-In \gls{soa}, business processes are divided into smaller chunks of business
-logic, referred to as \textit{services}. A service can be business related, e.g.
-a patient register service, or an infrastructure service used by other services
-and not by a user application. \gls{oasis} defines a service as
+In \gls{soa}, business processes are divided into smaller parts of business
+logic, referred to as \textit{services}. A service can be business related, such
+as a patient register service, or an infrastructure service used by other
+services and not by a user application. \gls{oasis} defines a service as
 \cite{oasis-soa-reference-model}:
 
 \paragraph{}
 \textit{
 A service is a mechanism to enable access to one or more capabilities, where the
 access is  provided using a prescribed interface and is exercised consistent
-with constraints and policies as  specified by the service description
+with constraints and policies as  specified by the service description.
 }
 
 \begin{figure}[h]
@@ -93,8 +92,8 @@ Services are provided by \textit{service providers} and are consumed by
 \textit{service consumers} as illustrated in \cref{figure-soa-roles}. The
 service provider is responsible for creating a service description, making the
 service available to others and implementing the service according to the
-service description. Services are made available to service consumers through a
-form of \textit{service discovery}. This can be a static configuration, or more
+service description. Services are provided to service consumers through a form
+of \textit{service discovery}. This can be a static configuration, or more
 dynamic with a central \textit{service registry}, where service providers
 publish service descriptions. Service consumers find the services they need by
 contacting the service registry. The communication between services occurs
@@ -103,50 +102,50 @@ through the exchange of standardized messages.
 Following the \gls{soa} principles dictate a very loose coupling between
 services and the consumers of those. This allows software systems to be more
 flexible, as new components can be integrated with minimal impact on the
-existing system. Another aspect of loose coupling is with regard to time, which
-enable services and its consumers to not be available at the same instance of
-time. This enables asynchronous communication. Loose coupling with regards to
-location allows the location of a service to be changed without needing to
+existing system. Another aspect of loose coupling is concerning time, which
+enables services and its consumers not to be available in the same instance of
+time. This allows asynchronous communication. Loose coupling with regards to
+location permits the location of a service to be changed without needing to
 reprogram, reconfigure, or restart the service consumers. This is possible
-through the usage of runtime service discovery, which is dynamic retrieval of
-the new location of the service.
+through the usage of runtime service discovery, which is the dynamic retrieval
+of the new location of the service.
 
-Furthermore \gls{soa} enables service implementation neutrality. The
+Furthermore, \gls{soa} enables service implementation neutrality. The
 implementation of a service is completely separated from the service
 description. This allows re-implementation and alteration of a service without
-affecting the service consumers. Thus this can attribute to keep development
+affecting the service consumers. Thus, this can attribute to keep development
 costs low and avoiding proprietary solutions and vendor lock-in. Another
 benefit with \gls{soa} is re-usability by dividing common business processes
 into services, which may help cost reduction and avoids duplication.
 
-\gls{soa} is only a pattern and the concepts can be realized by a range of
-technologies. The most common approach used is the \gls{w3c} Web service family
-of standards, which use the SOAP messaging protocol. To achieve interoperability
-between systems from different nations and vendors, NATO has chosen this
-technology in order to realize the \gls{soa} principles \cite{soa-baseline}. This
-allows member nations to implement their own technology as long as they adhere
-to the standards. The Web service technology is discussed in detail in
-\cref{web-services}. Another approach to realize the \gls{soa} principles is
+SOA is only a pattern, and a range of technologies can realize the concepts. The
+most common approach used is the \gls{w3c} Web service family of standards,
+which use the SOAP messaging protocol. To achieve interoperability between
+systems from different nations and vendors, NATO has chosen this technology in
+order to realize the \gls{soa} principles \cite{soa-baseline}. This allows
+member countries to implement their technology as long as they adhere to the
+standards. The Web service technology is discussed in detail in
+\cref{w3c-web-services}. Another method to realize the \gls{soa} principles is
 \gls{rest}, an architecture style which has gained a lot of traction in the
-civil industry. We discuss REST further in \cref{rest}.
+civilian industry. We discuss REST further in \cref{rest}.
 
-The mentioned Web service technologies, both REST and W3C Web services, are in
-widespread use both in the civil and military world. However, employing Web
-service solutions directly into military use may not be so straight forward.
-These technologies were not specifically designed to handle the network
-conditions found in certain military networks. In the following sections we
-present an overview of military networks, discuss characteristics of them and
-the possible challenges of using Web services in them.
+Both REST and W3C Web services are in widespread use both in the civilian and
+military world. However, employing Web service solutions directly for military
+purposes may not be so straightforward. These technologies were not specifically
+designed to handle the network conditions found in certain military networks. In
+the following sections, we present an overview of military networks, discuss
+characteristics of them and the possible challenges of using Web services in
+them.
 
 \subsection{Military Networks}
 
 Military networks are complex and consist of many different heterogeneous
 network technologies. We can group them into layers, which have different
 characteristics as can been seen in \cref{figure:military-networks}. At the
-highest level, there is fixed infrastructure and relatively static users,
-meaning that they seldom move around or disconnect. At the lower levels, there
-are fewer units, but they are much more dynamic. The lower levels are called
-tactical networks and are discussed in the next paragraph.
+highest level, there is fixed infrastructure and a relatively static number of
+services. At the lower levels, there are fewer services, but the units operating
+at this level are much more dynamic. The lower levels are called tactical
+networks and are discussed in the next paragraph.
 
 \begin{figure}[h]
 \includegraphics[scale=0.4, left]{images/network_complexity.png}
@@ -162,7 +161,7 @@ where deployed may use existing communication infrastructure. Mobile tactical
 networks have no existing communication infrastructure and therefore experience
 the largest communication challenges.
 
- In tactical networks military units use tactical communication equipment, which
+ In tactical networks, military units use tactical communication equipment, which
  includes technologies like VHF, UHF, HF, tactical broadband and satellites
  \cite{ist-090}. Examples of such units are mobile units like vehicles, foot
  soldiers and field headquarters. NATO studies\cite{nato-disadvantaged-grids}
@@ -183,9 +182,9 @@ environments, which is the term we use in this thesis.
 \label{dil}
 
 To improve the performance of Web services in tactical networks, it is important
-to understand the limitations we are dealing with. The \gls{dil} concept refers
-to three characteristics of a limited network: \textit{Disconnected,
-Intermittent} and \textit{Limited}.
+to understand the limitations of DIL networks. The \gls{dil} concept refers to
+three characteristics of a limited network: \textit{Disconnected, Intermittent}
+and \textit{Limited}.
 
 \begin{description}
 \item[Disconnected]
@@ -193,35 +192,36 @@ Intermittent} and \textit{Limited}.
 Military units that participate in a tactical network may be highly mobile and
 may disconnect from a network either voluntarily or not. Unplanned loss of
 connectivity can be due to various reasons, such as loss of signal or equipment
-malfunction.  The disconnected term refers to that units may be disconnected for
+malfunction. The disconnected term refers to that units may be disconnected for
 a long time, possibly for multiple hours or even days.
 
 \item[Intermittent]
 
-Units operating in a \gls{dil} environment may lose connection temporarily before
-reconnecting again. The duration can range from milliseconds to seconds. As an
-example, consider a military vehicle driving on a countryside road. It may
-temporary lose connection due to the signal being obstructed by trees beside
-the road, driving into tunnels or by having a bad radio signal.
+Units operating in a \gls{dil} environment may lose connection temporarily
+before reconnecting again. The duration can range from milliseconds to seconds.
+As an example, consider a military vehicle that is driving on a countryside
+road. It may temporarily lose connection due to the signal being obstructed by
+trees beside the road, driving into tunnels or by having a bad radio signal.
 
-\item[Limited] Limited refers to various ways a network can be limited. The data
-rate may be low, the network delay may be high and the \gls{per} may be high.
-The term data rate refers to the amount of data that can be transmitted over a
-network per unit of time. Delay refers to the time it takes for a bit of data to
-travel across the network from machine to machine. \gls{per} means the number of
-incorrectly received packets divided by the total number of received packets. A
-packet is considered as incorrect if at least one bit error occurs.
-
-In addition to network limitations, other factors may also limit communication
-for military units. As an example, consider a military foot patrol operating out
-in the field. To communicate critical information with other units they use
-radios. The radio communication equipment is powered by batteries, which the
-soldiers have to carry with them. Running applications and the sending and
-receiving of data can consume a considerable amount of power. Thus, battery
-could be a scarce resource for the units operating in a DIL environment. This is
-similar to the constraint imposed on \gls{iot} devices.
+\item[Limited] Limited refers to various ways a network can be constrained. The
+data rate may be low, and the network delay may be high, and the \gls{per} may
+be high. The term data rate refers to the speed that data that can be
+transmitted over a network. Delay means the time it takes for data to travel
+from machine to machine. The packet error rate refers to the percent of packets
+being sent incorrectly due to the data being erroneous altered in transmission.
+A packet is considered as incorrect if at least one bit error in the data
+occurs. \Cref{section:network-mectrics} elaborate on these metrics.
 
 \end{description}
+
+In addition to network limitations, other factors may also limit communication
+for military units. As an example, consider a military foot patrol that is
+operating out in the field. To communicate critical information with other units
+they use radios. The radio communication equipment is powered by batteries,
+which the soldiers have to carry with them. Running applications and the sending
+and receiving of data can consume a considerable amount of power. Thus, the
+battery could be a scarce resource for the units operating in a DIL environment.
+This is similar to the constraint imposed on \gls{iot} devices.
 
 
 \section{Problem Statement}
@@ -229,29 +229,30 @@ similar to the constraint imposed on \gls{iot} devices.
 
 The Web service technology enables interoperability between systems, but also
 increases the information overhead, requiring higher data rate demands. Most of
-the Web service solutions used today are aimed for civilian use and do not
+the Web service solutions used today are aimed for civilian purposes and do not
 necessarily perform well in military environments. In contrast to civilian
 networks where the data rate is abundant, mobile tactical networks may suffer
 from high error rates and low data rate. Adapting Web service solutions meant
-for civil networks directly for military purposes may not be possible.
-Therefore, Web services need to be adapted in order to better handle unreliable
-and limited networks. However, it can be very expensive to alter existing Web
-service technology and incorporate proprietary solutions. The NATO research
-group titled "SOA Challenges for Real-Time and Disadvantaged Grids" (IST-090)
-has previously investigated which improvements that could be made in order to
-enable the usage of \gls{cots} applications in \gls{dil} networks. \Gls{cots} is
-a term used to describe the purchase of standard manufactured systems rather
-than custom made. The research group pointed out the desire to optimize Web
-services, but without the need of incorporating proprietary and ad hoc solutions
-\cite{ist-090}.
+for nonmilitary networks directly for military purposes may not be possible.
+Therefore, Web services need to be adapted to better handle unreliable and
+limited networks. However, it can be very expensive to alter existing Web
+service technology and incorporate proprietary solutions.
+
 
 
 \section{A Suggested Approach}
 \label{section:hypothesis}
 
-IST-090 did not find a magic bullet that would solve all problems with using Web
-services in DIL networks, but identified some factors that would offer measurable
-improvements. The most important findings were:
+The NATO research group titled "SOA Challenges for Real-Time and Disadvantaged
+Grids" (IST-090) has previously investigated which improvements that could be
+made to enable the usage of \gls{cots} applications in \gls{dil} networks.
+\Gls{cots} is a term used to describe the purchase of standard manufactured
+systems rather than custom made. The research group pointed out the desire to
+optimize Web services, but without the need of incorporating proprietary and
+ad-hoc solutions \cite{ist-090}. IST-090 did not find a magic bullet that would
+solve all problems with using Web services in DIL networks but identified some
+factors that would offer measurable improvements. The most notable findings
+were:
 
 \begin{itemize}
 
@@ -270,9 +271,9 @@ improvements. The most important findings were:
 The last bullet point refers to the issue of when we have identified
 optimization techniques, where do we apply them? One approach could be to modify
 the Web service application itself. However, this would mean that every
-application deployed in a tactical network would require modification. This
-would require a lot of resources and severely limit the flexibility of using
-standardized Web services.
+application deployed in a tactical network would require modification. The
+alteration would require a lot of resources and severely limit the flexibility
+of using standardized Web services.
 
 IST-090 recommends another approach, applying optimizations in proxies without
 altering the Web services themselves \cite{ist-090}. A proxy is a node deployed
@@ -285,7 +286,7 @@ clients can invoke Web services through a proxy pair over a DIL network. By
 placing the optimization in proxies, the Web services themselves can remain
 unchanged.
 
-\begin{figure}[h] \includegraphics[scale=0.5]{images/proposed_solution.pdf}
+\begin{figure}[h] \includegraphics[width=\textwidth]{images/proposed_solution.pdf}
 \caption{Proposed proxy solution} \label{figure-proposed-proxy-solution}
 \end{figure}
 
@@ -296,23 +297,23 @@ usage in DIL networks.
 
 \section{Premises of the Thesis}
 
-In this section we define the premises for the thesis and the proxy being
+In this section, we define the premises for the thesis and the proxy being
 developed as a part of it. As we have previously discussed, W3C Web services are
-in widespread use in NATO. Also the REST architectural style has been identified
+in widespread use in NATO. Also, the REST architectural style has been identified
 as a technology of interest to NATO. As we discuss later in \cref{web-services},
 \gls{http} is the by far most common transport protocol used by these types of
-services. The first and second premise is therefore that the proxy must be able
+services. The first and second premise are therefore that the proxy must be able
 to support both REST and W3C Web services deployed in a DIL network.
 
-Next, in order to optimize Web services in DIL environments, the applications
-themselves should not be required to be customized. All optimization should be
-placed in proxies. This retains the interoperability with standards-based COTS
-solutions. The fourth and final premise is that the proxy must work with standard
-security mechanisms. In our case this means that any messages sent through the
-proxies, must be exactly the same at the receiver as it would have been without
-the proxies. This is due to both the header fields and the body of the message
-can be part of security mechanisms, such as digital signatures and the presence
-of authentication header fields.
+Next, to optimize Web services in DIL environments, the applications themselves
+should not be required to be customized. All optimization should be placed in
+proxies. By doing this, we retain the interoperability with standards-based COTS
+solutions. The fourth and final premise are that the proxy must work with
+standard security mechanisms. In our case, this means that any messages sent
+through the proxies must be exactly the same at the receiver as it would have
+been without the proxies. The reason for this is due to both the header fields
+and the body of the message can be part of security mechanisms, such as digital
+signatures and the presence of authentication header fields.
 
 To summarize, the premises of this thesis are that the proxy solution must:
 
@@ -327,38 +328,38 @@ To summarize, the premises of this thesis are that the proxy solution must:
 
 The goal of this thesis is to investigate optimization techniques for Web
 services in \gls{dil} environments. We limit it to techniques that can be
-applied at the application or the transport layer of the Internet protocol
-suite (see \cref{figure-network-layers}). The reason for this is that NATO has
-previously decided "everything over IP", a statement describing that all data
-communication in NATO should occur with IP packets \cite{nnec-study}. We
-therefore limit our optimization possibilities to the mentioned layers.
+applied to the application or the transport layer of the Internet protocol suite
+(see \cref{figure-network-layers}). The reason for this is that NATO has
+previously decided that all data communication in NATO should occur with IP
+packets \cite{nnec-study}. We, therefore, limit our optimization possibilities to
+the mentioned layers.
 
 We mainly focus on the performance of Web services, yet security is of paramount
 importance in military networks. Hence, any optimization techniques applied
 should be possible to use together with common security mechanisms. Another
-aspect is that applications that are to be used in military networks, need to be
+aspect is that applications that are to be used in military networks need to be
 approved by security authorities. If the application is too complex, e.g. it has
 a very large code base or use a lot of external frameworks, the approval process
-can be very lengthy. It is therefore an important consideration to make
-the proxy as relatively simple as possible.
+can be very lengthy. It is therefore an important consideration to make the
+proxy as relatively simple as possible.
 
 
 \section{Research Methodology}
 
-Research is the systematic investigation of how to find answers to a specific
+Research is the systematic investigation of how to find answers to a particular
 problem. It is broadly classified into \textit{Basic Research} and
-\textit{Applied Research} \cite{rajasekar2006research}. Basic research, also
+\textit{Applied Research} \cite{rajasekar2006research}. Basic research also
 called fundamental or pure research, is research on basic principles and reasons
-for occurrence of a particular event or process or phenomenon. It does not
-necessarily have any practical use. Applied research, on the other hand, is
-concerned about solving problems employing well known and accepted theories and
-principles. In this thesis we set out to solve the actual real-world problem of
-optimizing Web services, thus we perform applied science. To solve this problem
-we need a systematic approach of how to perform the research. This is referred
-to as \textit{research methodology} and says something about how the research is
-to be carried out.
+for the occurrence of a particular event or process or phenomenon. It does not
+necessarily have any practical application. Applied research, on the other hand,
+is concerned about solving problems employing well known and accepted theories
+and principles. In this thesis, we set out to solve the actual real-world
+problem of optimizing Web services. Thus, we perform applied research. To
+address the problem we need a systematic approach of how to conduct the
+research. This is referred to as \textit{research methodology} and says
+something about how the research is to be carried out.
 
-In this thesis we're performing research in the area of Computer Science, a
+In this thesis we are performing research in the area of Computer Science, a
 scientific discipline defined as \cite{denning}: \\
 
 \textit{The systematic study of algorithmic processes that
@@ -367,23 +368,24 @@ implementation, and application}.
 
 \paragraph{}
 
- \citeauthor{denning} have identified three main processes for the computer science
- discipline, \textit{theory, abstraction} and \textit{design} \cite{denning}.
- \textit{Theory} derives from the mathematics discipline and applies to the areas of
- computer science that rely on underlying mathematics. Examples of this are
- the computer science areas of algorithms and data structures that involve
- complexity and graph theory. The next process, \textit{abstraction}, deals with
- modeling potential implementations. \textit{Design} is about the process of
- specifying a problem, transforming the problem statement into a design
- specification, and repeatedly inventing and investigating alternative solutions
- until a reliable, maintainable, documented, and tested design is achieved.
+ \citeauthor{denning} have identified three main processes for the computer
+ science discipline, \textit{theory, abstraction} and \textit{design}
+ \cite{denning}. \textit{Theory} derives from the mathematics discipline and
+ applies to the areas of computer science that rely on underlying mathematics.
+ Examples of this are the computer science areas of algorithms and data
+ structures that involve complexity and graph theory. The next process,
+ \textit{abstraction}, deals with modeling potential implementations. The
+ \textit{design} process is the process of specifying a problem, transforming
+ the problem statement into a design specification, and repeatedly inventing and
+ investigating alternative solutions until a reliable, maintainable, documented,
+ and tested design is achieved.
 
 The research methodology used in this thesis is based on the design process. The
 four steps and the efforts undertaken in them are summarized here:
 
 \begin{description}
 
-    \item[Specify the problem] The main focus of this thesis is how to improve
+    \item[Specify the problem] The primary focus of this thesis is how to improve
     the performance of Web services in DIL networks. We formulate a problem
     statement in \cref{section:problem-statement} and propose a possible
     solution in \cref{section:hypothesis}. Moreover, we present the technical
@@ -395,12 +397,12 @@ four steps and the efforts undertaken in them are summarized here:
     related work, we derive a set of requirements and specifications in
     \cref{chapter:requirements}.
 
-    \item[Design and implement the system] When we identify the requirements for
-    the optimization techniques, we design and implement them. This step is
-    elaborated in \cref{chapter:design}.
+    \item[Design and implement the system] After we identify the requirements
+    for the optimization techniques, we design and implement them.
+    \Cref{chapter:design} elaborate this step.
 
-    \item[Evaluate the system] Finally, the solution is evaluated through a
-    series of tests. The purpose of this is to evaluate if we in fact were able
+    \item[Evaluate the system] Finally, the solution is assessed through a
+    series of tests. The purpose of this is to evaluate if we are in fact able
     to solve the problem we set out to solve. We cover the testing and
     evaluation in \cref{chapter:evaluation} and draw a conclusion in
     \cref{chapter:conclusion}.
@@ -412,7 +414,7 @@ four steps and the efforts undertaken in them are summarized here:
 
 The outcome of this thesis is a recommendation regarding which optimizations
 techniques can be used in DIL networks to increase the performance of Web
-services. As a part of this work we implement a prototype DIL proxy.
+services. As a part of this work, we implement a prototype DIL proxy.
 
 \section{Outline}
 
@@ -421,8 +423,8 @@ The remainder of this thesis is organized as follows:
 Chapter 2 presents the technical background for this thesis. We introduce
 computer networks in general before we dive into different communication
 paradigms and protocols. Then, in chapter 3, we discuss previous work done in
-the area. In chapter 4 we derive a specification for the proxy, before we in
-chapter 5 present the design and implementation details. Next, we present the
+the area. In chapter 4, we derive a specification for the proxy, before we in
+chapter 5 present the design and implementation details. Next, we show the
 testing of the proxy and how the proxy fulfilled the premises and requirements
 in chapter 6. Finally, in chapter 7, we summarize the discussion and provide
 reflections on possible future work within this field.

@@ -1,34 +1,53 @@
 \chapter{Conclusion and Future Work}
 \label{chapter:conclusion}
 
-In this chapter we conclude the thesis and suggest potential future work.
+In this chapter, we conclude the thesis and suggest potential future work.
 
 \section{Conclusion}
 
 The goal of this thesis was to investigate different ways to improve the
 performance of Web services in networks characterized by unreliable connects,
-high error rates and low data rate. Web services enable interoperability between
-systems, but adapting Web services meant for civil use into limited networks may
-not be feasible due to the network limitations. To adapt standard Web services
-into DIL networks without requiring incorporating proprietary solutions, based
-on previous research we introduced the usage of proxies. The proxy applies
-optimization techniques in order to facilitate the usage and to increase the
-performance of Web services in DIL. As a part of the thesis we specified a set
-of requirements for the proxy and implemented it using the Apache Camel
-framework.
+high error rates, and low data rate. Web services enable interoperability between
+systems, but adapting Web services meant for civilian use into limited networks
+may not be feasible due to the network limitations. To adapt standard Web
+services into DIL networks without requiring incorporating proprietary
+solutions, based on previous research we introduced the usage of proxies. The
+proxy applies optimization techniques to facilitate the usage and to increase
+the performance of Web services in DIL. As a part of the thesis, we specified a
+set of requirements for the proxy and implemented it using the Apache Camel
+framework.\Cref{table-conclusion-requirements} lists the premises and
+requirements.
 
-The premises of the thesis were that the proxy should:
+% Please add the following required packages to your document preamble:
+% \usepackage[normalem]{ulem}
+% \useunder{\uline}{\ul}{}
+\begin{table}[h]
+\centering
 
-\begin{enumerate}
-    \item Support HTTP RESTful and W3C Web services.
-    \item Work in DIL networks.
-    \item Be interoperable with standards-based COTS solutions.
-    \item Work with security mechanisms.
-\end{enumerate}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+Premise 1     & Support HTTP RESTful and W3C Web services.                                         \\ \hline
+Premise 2     & Work in DIL networks.                                                              \\ \hline
+Premise 3     & Be interoperable with standards-based COTS solutions.                              \\ \hline
+Premise 4     & Work with security mechanisms.                                                     \\ \hline
+Requirement 1  & Receive and forward HTTP requests.                                                 \\ \hline
+Requirement 2  & Retain HTTP request and response headers.                                          \\ \hline
+Requirement 3  & Support GZIP compression of payload.                                               \\ \hline
+Requirement 4  & Handle frequent network disruptions.                                               \\ \hline
+Requirement 5  & Handle disconnects over longer periods of time.                                    \\ \hline
+Requirement 6  & Handle low data rates, high delays and high packet error rates.                    \\ \hline
+Requirement 7  & Allow for configuration of redelivery delay and maximal number of retransmissions. \\ \hline
+Requirement 8  & Support usage of different transport protocols between the proxies.                \\ \hline
+Requirement 9  & Easy configuration of which protocol to use.                                       \\ \hline
+Requirement 10 & Be easily extendable to include other protocols and other optimization techniques. \\ \hline
+\end{tabularx}
+\caption{Premises and requirements}
+\label{table-conclusion-requirements}
+\end{table}
 
-In our evaluation we tested whether our proxy solution fulfilled these premises
+In our evaluation, we tested whether our proxy solution fulfilled these premises
 and the more detailed requirements we specified in
-\cref{section:requirements-summary}. Through the function testing we were able
+\cref{section:requirements-summary}. Through the function testing, we were able
 to prove that the proxy worked with a test set of Web service applications. The
 Web services successfully forwarded the requests through a deployed proxy pair,
 without requiring modifications except configuring the usage of proxies. This
@@ -38,29 +57,30 @@ Furthermore, we tested how the proxies facilitated the usage of Web services in
 DIL networks. We verified that the proxy was able to overcome the disconnect
 aspect of DIL by implementing a redelivery mechanism. This fulfilled requirement
 5 and the disconnect aspect of premise 2. Requirement 4 regarding frequent
-network disruptions was not explicitly tested, but should be fulfilled by design
+network disruptions was not explicitly tested, but should be achieved by design
 since the proxy employs reliable protocols and an application layer redelivery
 mechanism.
 
 Requirement 3 was fulfilled by implementing GZIP compression on messages between
-proxies. Optimization proved to yield a significant performance increase with
+proxies. Optimization was identified to yield a significant performance increase with
 regards the RTT time perceived by Web service clients.
 
-We also validated that the proxy could overcome the limited aspect of DIL, as
-the test cases were successful in all emulated DIL networks. This fulfilled
-premises 2 and requirement 6. Furthermore, we supported a set of transport
-protocols as the means of transporting data between proxies and with that
-fulfilled requirement 8. We saw how different transport protocol affected the
-performance of Web services. In most of the different types of DIL environments,
-using HTTP/TCP as the inter-proxy protocol was proved as the best transport.
+We also validated that the proxy could overcome the limited aspect of DIL as the
+test cases were successful in all emulated DIL networks. This fulfilled premises
+2 and requirement 6. Furthermore, we supported a set of transport protocols as
+the means of transporting data between proxies and with that fulfilled
+requirement 8. We saw how different transport protocol affected the performance
+of Web services. In most of the various types of DIL environments, using
+HTTP/TCP as the inter-proxy protocol was identified as the best transport.
 However, we saw that in cases where the message payload was low and in networks
-with low data rates, using a \gls{coap} proxy was the best option. We also discovered
-how the Californium implementation of CoAP with default configuration caused a
-sub-optimal utilization of an Ethernet link. Tuning the block-size configuration
-could improve the CoAP's proxy performance also for larger payloads.
+with low data rates, using a \gls{coap} proxy was the best option. We also
+discovered how the Californium implementation of CoAP with default configuration
+caused a sub-optimal utilization of an Ethernet link. Tuning the block-size
+configuration could improve the CoAP's proxy performance also for larger
+payloads.
 
-Next, we proved that the proxy works with security mechanisms through a
-proof-of-concept test using secure Web services.
+Next, we were able to show that the proxy works with security mechanisms through
+a proof-of-concept test using secure Web services.
 
 Finally, the proxy implements a configuration setup that allows the user to
 specify different properties of the proxy. A user of the proxy can easily
@@ -73,9 +93,27 @@ the payload. This satisfies requirement 7, 9 and 10.
 
 
 All in all, the goal of the thesis was reached. We developed a prototype proxy
-and were able improve the performance of Web services in DIL environments.
-Further possible investigations in this area and improvements to the proxy are
-discussed in the next section.
+and gave a recommendation regarding optimization techniques for Web services in
+DIL environments. \Cref{table:conclusion-recommendations} summarize our
+recommendations.
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{| l | X |}
+    \hline
+  \textbf{DIL Network} & \textbf{Optimization recommendation} \\ \hline
+  \gls{satcom} & HTTP proxy with GZIP \\ \hline
+  \gls{los} & HTTP proxy with GZIP  \\ \hline
+  WiFi 1 & HTTP proxy with GZIP  \\ \hline
+  WiFi 2 & HTTP proxy with GZIP  \\ \hline
+  \gls{cnr} & CoAP proxy with GZIP  \\ \hline
+  Edge & HTTP proxy with GZIP \\ \hline
+\end{tabularx}
+\caption{Optimization recommendations for DIL networks}
+\label{table:conclusion-recommendations}
+\end{table}
+
+Further possible investigations in this area and improvements
+to the proxy are discussed in the next section.
 
 
 \section{Future Work}

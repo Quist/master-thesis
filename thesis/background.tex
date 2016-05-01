@@ -100,7 +100,7 @@ common approaches:
 
 Request-response is a message pattern where a requester sends a request to a
 system. The system then processes the request and responds with a response
-message.
+message. This pattern is also known as client-server model.
 
 \subsubsection{Publish-Subscribe}
 
@@ -446,11 +446,19 @@ limitation is that NATO has chosen the "everything over IP", which means that
 all optimization must occur on the top of the network layer. Because of this, we
 evaluate protocols in the transport and application layer.
 
-In the following sections, we give a short introduction to the protocols we are
-investigating in this thesis. The protocols have been selected because of their
-prevalence in the civilian and military world or their reported performance in
-the \gls{iot}. We get started by discussing the \gls{udp}, which alongside
-\gls{tcp} is one of the core protocols of the Internet protocol suite.
+There exist a vast amount of protocols developed for different use-cases and by
+different organizations. In this thesis, we focus on protocols that are
+established and/or standardized. Using proprietary solutions, or protocols which
+lacks standardization, may contribute to the proxy solution being more difficult
+to get approved by military security authorities. In the following sections, we
+give an introduction to the protocols we are investigating in this thesis. The
+protocols is because of their prevalence in the civilian and military world or
+their reported performance in the \gls{iot}. Protocols used in IoT are of
+interest to us since they are designed to work in networks which have similar
+characteristics as DIL networks.
+
+We get started by discussing the \gls{udp}, which alongside \gls{tcp} is one of
+the core protocols of the Internet protocol suite.
 
 
 \subsection{\glsentrylong{udp}}
@@ -644,12 +652,6 @@ nodes. This increases reliability since if one path fails, messages can still be
 sent over the other links. Multi-streaming refers to \gls{sctp} ability to
 transmit several independent streams of data at the same time, for example
 sending an image at the same time as a HTML Web page.
-
-\begin{figure}[h]
-\includegraphics[scale=0.5]{images/sctp.pdf}
-\caption{Overview of SCTP (from \cite{rfc-sctp})}
-\end{figure}
-
 
 
 \section{Summary}

@@ -3,8 +3,35 @@
 
 Based on the premises and requirements identified in the previous chapter, we
 are in this chapter introducing the design and implementation details of our
-proposed proxy solution. We get started by discussing the overall design before
-we dive into the implementations details.
+proposed proxy solution. Before we start looking into the specific design and
+implementation, we present the primary area of use for our
+point-to-point proxy solution.
+
+\section{Area of Use}
+
+ The purpose of our point-to-point proxy solution is to facilitate communication
+ between two nodes separated by a DIL network. Military networks typically
+ consist of several interconnected tactical networks and nodes.  Within each
+ tactical network, the network conditions normally are satisfactory, while
+ networks spanning between the different tactical networks may have the DIL
+ characteristics. Consider for example a military patrol consisting of a vehicle
+ and a group of soldiers. Within the tactical network consisting of the vehicle
+ and the soldiers, the network conditions are good. However, the communication
+ link to the Headquarter has the DIL characteristics. A proxy pair can then be
+ deployed at the vehicle and at the Headquarters to facilitate communication
+ over the DIL network. \Cref{figure:proxy-pair-example} illustrates this
+ example. This concept, where a local network is connected back to existing
+ communication infrastructure, is referred to as a \textit{reach-back link}.
+
+\begin{figure}[h]
+\includegraphics[scale=0.45]{images/use_case.pdf}
+\caption{Example area of use for point-to-point proxies}
+\label{figure:proxy-pair-example}
+\end{figure}
+
+While use cases similar to the previously mentioned example are the primary area
+of use for our proxies, they can be deployed between any two nodes in a network to
+facilitate communication over a DIL network.
 
 \section{Design of Solution}
 
@@ -20,8 +47,8 @@ response. Ideally, the proxy should be deployed as close to its intended users
 as possible, as the communication between an application and its proxy is not
 subject to any optimization for DIL environments. Since we design the proxies
 accept HTTP requests, they can support any applications that use HTTP. Besides,
-they are designed to be bi-directional meaning that requests can originate from
-either side.
+the solution is designed to be bi-directional, meaning that requests can
+originate from either side.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{images/proxy_design.pdf}
@@ -497,4 +524,10 @@ typesafe      & 1.3.0            \\ \hline
 
 \section{Summary}
 
-In this chapter, we presented the design and implementation details of the proxy.
+In this chapter, we presented the design and implementation details of the
+proxy. We introduced the Apache Camel Framework and how we utilized it to
+compress messages and facilitate mapping of HTTP messages to other protocols.
+Furthermore, we presented how the proxy could be used and configured by users.
+We also introduced a custom open source Camel component we implemented to map
+messages between HTTP and CoAP. In the next chapter, we present how the
+implemented proxy solution is tested and evaluated.

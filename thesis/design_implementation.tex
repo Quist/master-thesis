@@ -86,12 +86,13 @@ protocols.
 
 Routing is a central concept in Apache Camel and consists of defining a
 \textit{from route}. The from route is an endpoint from which Camel consumes
-messages. It can then invoke a series of \textit{processors}, which can modify
-the headers, payload, etc. of the message. Then, Camel forwards the message to a
-\textit{to route}, which can be an application running somewhere else. When a
-response is received, Camel can invoke a new set of processors on the message
-before it is finally returned to the origin. \Cref{figure:camel-route} shows an
-overview of this.
+messages. Messages received by Camel are converted into generic Camel
+\textit{exchanges}. \textit{Processors} can then be invoked on these exchanges,
+which allow for modification of message headers and payload. After consuming a
+message, Camel can forward the message to a \textit{to route}, which can be an
+application running somewhere else. When a response is received, Camel can
+invoke a new set of processors on the message before it is finally returned to
+the origin. \Cref{figure:camel-route} shows the concept of routing in Camel.
 
 \begin{figure}[h]
 \centering
@@ -135,9 +136,9 @@ about the configuration are explained in \cref{section:proxy-config}.
 Depending on which protocol the user has selected for usage as inter-proxy
 communication, at startup the respective Camel component is initiated and added
 to the Camel context. Due to the time available, we did not implement support
-for all of the recommended protocols from the last chapter. The currently
-supported protocols are HTTP, AMQP, and CoAP. However, the proxy is designed to
-by easily extendable to include additional protocols.
+for all of the recommended protocols from the last chapter. The prototype proxy
+currently supports the protocols HTTP, AMQP, and CoAP. However, we design the
+proxy to be easily extendable to include additional protocols in the future.
 
 \subsubsection{HTTP Component}
 
@@ -158,14 +159,14 @@ is set either to the default value of 20 seconds or the configured value.
 
 \subsubsection{CoAP Component}
 
-At the time of writing this thesis, there was no Camel component available for
-the CoAP protocol. Therefore, we implemented our own custom component,
-supporting the transport of CoAP messages. The component utilizes Californium,
-which is a Java framework supporting the CoAP protocol
-\cite{californium-homepage}. Californium is open source and is part of the
-\gls{iot} ecosystem of Eclipse. The component is initialized with the port the
-CoAP server should listen for requests. Also, an optional timeout value for a
-CoAP request can be added.
+At the time of writing this thesis, there is no Camel component available for
+the CoAP protocol. Therefore, we implement our own custom component, supporting
+the transport of CoAP messages. \Cref{section:coap-component} presents this
+component in detail. The component utilizes Californium, which is a Java
+framework supporting the CoAP protocol \cite{californium-homepage}. Californium
+is open source and is part of the \gls{iot} ecosystem of Eclipse. The component
+is initialized with the port the CoAP server should listen for requests. Also,
+an optional timeout value for a CoAP request can be added.
 
 \subsection{Routes}
 
@@ -423,6 +424,53 @@ java -Dhttp.proxyHost=localhost \
 
 In \cref{test}, the application \textbf{client.jar} is started, and all HTTP
 traffic will go through the proxy server at localhost on port 3001.
+
+\section{Custom Camel CoAP Component}
+\label{section:coap-component}
+
+Since no Apache Camel \gls{coap} component was available at the time of implementing
+this proxy, we developed our own. We followed a tutorial\cite{camel-tutorial}
+for writing custom components by Apache Camel and made the component available
+as open source at GitHub \cite{camel-coap-github}.
+
+The component exposes a Camel endpoint, which can be added to the Camel Context
+at startup. This allows the user to use CoAP to both consume and produce
+messages. The CoAP component extends Camel's DefaultEndpoint class and
+implements two methods: CreateProducer and CreateConsumer.
+
+\subsection{CoAP Producer}
+
+The purpose of the Camel CoAP producer is to send CoAP messages to a CoAP
+server. When Camel routes a message using the CoAP component, the producer is
+invoked with a generic Camel Exchange message. The producer then retrieves the
+payload from the exchange and sends it to the CoAP server specified at component
+initialization. We use the Californium\cite{californium-homepage}
+implementation of CoAP to send and receive CoAP messages.
+
+When a CoAP response is returned from the CoAP server, the producer copies the
+returned message into the response of the Exchange. The CoAP message response
+code is mapped into a HTTP status code according to guidelines for mapping HTTP
+to CoAP \cite{dijk}. For the purpose of creating the proxy prototype, we only
+support mapping a subset of all possible mappings.
+
+If a response is not received within a specified timeout, the producer sets a
+HTTP Timeout status on the exchange. When Camel continues the routing process,
+this will, in turn, invoke Camels error handler allowing the redelivery
+mechanism to start retransmitting.
+
+
+\subsection{CoAP Consumer}
+
+The purpose of the Camel \gls{coap} consumer is to consume CoAP messages and
+convert them into Camel Exchanges. At startup of a Camel application using the
+CoAP component, a Californium CoAP server is started. It starts listening for
+CoAP messages on a user-specified port. When a CoAP message is received, the
+message is converted into a Camel exchange. Then Camel continues the routing of
+the message according to the route configuration. In our proxy implementation,
+messages are forwarded to a HTTP application. When a response is received, the
+CoAP consumer converts the message into a CoAP response. The HTTP status
+response code is mapped into a CoAP response code using guidelines for mapping
+HTTP to CoAP \cite{dijk}.
 
 
 \section{Software Used}

@@ -1,7 +1,7 @@
-\begin{tabular}{lrrrr}
+\begin{tabularx}{\textwidth}{lXXXX}
 \hline
-\multicolumn{1}{l}{}                  & \multicolumn{2}{c}{Client -> Web service}                           & \multicolumn{2}{c}{Web service -> Client}                           \\
-\multicolumn{1}{l}{Test} & \multicolumn{1}{l}{Packets sent} & \multicolumn{1}{l}{Bytes sent} & \multicolumn{1}{l}{Packets sent} & \multicolumn{1}{l}{Bytes sent} \\ \hline
+\multicolumn{1}{l}{}                  & \multicolumn{2}{c}{Client->Web service}                           & \multicolumn{2}{c}{Web service->Client}                           \\
+\multicolumn{1}{l}{Test} & \multicolumn{1}{l}{P. sent} & \multicolumn{1}{l}{B. sent} & \multicolumn{1}{l}{P.sent} & \multicolumn{1}{l}{B.sent} \\ \hline
 Without Proxy                   & 46             & 4267           & 43             & 51343          \\
 Proxy with HTTP                 & 43             & 5260           & 44             & 55489          \\
 Proxy with HTTP \& GZIP         & 14             & 2847           & 13             & 7103           \\
@@ -9,4 +9,4 @@ Proxy with AMQP                 & 68             & 9950           & 91          
 Proxy with AMQP \& GZIP         & 54             & 8529           & 59             & 15044          \\
 Proxy with CoAP                 & 101            & 7565           & 101            & 56582          \\
 Proxy with CoAP \& GZIP         & 11             & 1647           & 11             & 5466           \\
-\end{tabular}
+\end{tabularx}

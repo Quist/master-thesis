@@ -23,10 +23,11 @@ month={Nov},}
 
 # inf3190 pensum bok
 @book{computer-networks,
-	author = {Andrew S. Tanenbaum, David J. Wetherall},
+	author = {Andrew S. Tanenbaum and David J. Wetherall},
 	title = {Computer Networks},
 	publisher = {Pearson New International Edition},
-	edition = {Fifth Edition}
+	edition = {Fifth Edition},
+	year = 2014
 }
 
 @article{denning,
@@ -167,7 +168,7 @@ month={April},}
 
 @article{rajasekar2006research,
   title={Research methodology},
-  author={Rajasekar, S and Philominathan, P and Chinnathambi, V},
+  author={S. Rajasekar and P. Philominathan and V. Chinnathambi},
   journal={arXiv preprint physics/0601009},
   year={2006}
 }
@@ -177,7 +178,9 @@ month={April},}
 	author= {NATO C3 Board},
 	title={Core Enterprise Services Standards Recommendations - The SOA Baseline Profile},
 	year = 2011,
-	number = {1.7}
+	month = 11,
+	day = 11,
+	note = {Version 1.7}
 }
 
 @conference{tactics-diefenbach,
@@ -207,8 +210,8 @@ month={April},}
 @misc{wrc-web-service,
 	author = {Hugo Haas and Allen Brown},
 	title = {Web Services Glossary},
-	howpublished = {\url{http://www.w3.org/TR/ws-gloss/\#webservice}},
-	note = {Accessed: 2015-05-06}
+	url = {https://www.w3.org/TR/ws-gloss/},
+	urldate={2015-06-05}
 }
 
 
@@ -276,65 +279,76 @@ month={Oct},}
 
 @online{activemq-homepage,
 	title = "ActiveMQ home page",
-	url = "http://activemq.apache.org/"
+	url = "http://activemq.apache.org/",
+	urldate = {2016-02-05}
 }
 
 @online{apache-math-homepage,
 	title = "The Apache Commons Mathematics Library home page",
-	url = "https://commons.apache.org/proper/commons-math/"
+	url = "https://commons.apache.org/proper/commons-math/",
+	urldate = {2016-02-05}
 }
 
 @online{californium-homepage,
 	title = "Californium home page",
-	url = "http://www.eclipse.org/californium/"
+	url = "http://www.eclipse.org/californium/",
+	urldate = {2016-02-05}
 }
 
 
 @online{camel-homepage,
 	title = "Apache Camel home page",
-	url = "http://camel.apache.org/"
+	url = "http://camel.apache.org/",
+	urldate = {2016-02-05}
 }
 
 @online{camel-tutorial,
 	title = "Apache camel - Writing Components",
-	url = "http://camel.apache.org/writing-components.html"
+	url = "http://camel.apache.org/writing-components.html",
+	urldate = {2016-02-05}
 }
 
 @online{camel-coap-github,
 	title = "Github -- camel-coap",
-	url = "https://github.com/Quist/camel-coap"
+	url = "https://github.com/Quist/camel-coap",
+	urldate = {2016-02-05}
 }
 
 
 @online{http-server-homepage,
 	title = "Github -- http-server: a command-line http server",
-	url = "https://github.com/indexzero/http-server"
+	url = "https://github.com/indexzero/http-server",
+	urldate = {2016-02-05}
 }
 
 @online{iperf3-homepage,
 	title = "iPerf 3 home page",
-	url = "https://iperf.fr/"
+	url = "https://iperf.fr/",
+	urldate = {2016-02-05}
 }
 
 @online{nginx-homepage,
 	title = "nginx home page",
-	url = "http://nginx.org/"
+	url = "http://nginx.org/",
+	urldate = {2016-02-05}
 }
 
 @online{squid-homepage,
 	title = "squid home page",
-	url = "http://www.squid-cache.org/"
+	url = "http://www.squid-cache.org/",
+	urldate = {2016-02-05}
 }
 
 @online{typesafe-homepage,
 	title = "Github -- typesafehub/config",
-	url = "https://github.com/typesafehub/config"
+	url = "https://github.com/typesafehub/config",
+	urldate = {2016-02-05}
 }
 
 
 %Funnet på web
 %NATO har valgt SOA.
-@misc{ist-090,
+@online{ist-090,
 	author = {
 		Annunziata, F. and
   		Ardic, B. and
@@ -353,20 +367,22 @@ month={Oct},}
 	},
 	title={IST-090 SOA challenges for disadvantaged grids},
 	year= 2014,
-	howpublished = {\url{https://www.cso.nato.int/pubs/rdp.asp?RDP=STO-TR-IST-090}},
-	month={april}
+	url = {https://www.cso.nato.int/pubs/rdp.asp?RDP=STO-TR-IST-090},
+	month={april},
+	urldate={2016-02-05}
 }
 
 @online{jetty-homepage,
 	title = "jetty home page",
-	url = "http://www.eclipse.org/jetty/"
+	url = "http://www.eclipse.org/jetty/",
+	urldate = {2016-02-05}
 }
 
-@misc{kongsberg-wm600,
+@online{kongsberg-wm600,
 	author = {Kongsberg Defence \& Aerospace},
 	title = {TacLAN UHF radio},
-	howpublished = {\url{http://www.kongsberg.com/en/kds/products/defencecommunications/taclan/}},
-	note = {Accessed: 18. 04. 2016}
+	url = {http://www.kongsberg.com/en/kds/products/defencecommunications/taclan/},
+	urldate = {2016-18-04}
 }
 
 
@@ -381,21 +397,22 @@ month={Oct},}
 }
 
 % Oracle dokumentasjon på Java proxier
-@misc{oracle-proxy,
+@online{oracle-proxy,
 	author = {Oracle},
 	title={Java Networking and Proxies},
-	howpublished = {\url{https://docs.oracle.com/javase/8/docs/technotes/guides/net/proxies.html}},
+	url = {https://docs.oracle.com/javase/8/docs/technotes/guides/net/proxies.html},
+	urldate = {2016-02-05}
 }
 
-@misc{nato-homepage-member-countries,
+@online{nato-homepage-member-countries,
 	author = {NATO},
 	title = {NATO - Member Countries},
-	howpublished = {\url{http://www.nato.int/cps/en/natohq/nato_countries.htm}},
-	note = {Accessed: 2015-05-04}
+	url = {"http://www.nato.int/cps/en/natohq/nato_countries.htm"},
+	urldate = "2015-02-02"
 }
 
 % Definisjoner på SOA og Web Services.
-@misc{oasis-soa-reference-model,
+@online{oasis-soa-reference-model,
 	author = { OASIS and
 				MacKenzie, C. Matthew and
 				Laskey, Ken and
@@ -404,10 +421,10 @@ month={Oct},}
 				Metz, Rebekah
 			},
 	title = {Reference Model for Service Oriented Architecture 1.0 OASIS standard},
-	howpublished = {\url{http://docs.oasis-open.org/soa-rm/v1.0/soa-rm.pdf}},
+	url = {http://docs.oasis-open.org/soa-rm/v1.0/soa-rm.pdf},
 	month = {october},
 	year = {2006},
-	note = {Accessed: 06. 10. 2015}
+	urldate = "2015-06-10"
 }
 
 
@@ -436,25 +453,25 @@ month={Oct},}
 author = "Esko Dijk and Akbar Rahman and Thomas Fossati and Salvatore Loreto and Angelo Castellani",
 title = "Guidelines for HTTP-CoAP mapping Implementations",
 url = "https://tools.ietf.org/html/draft-ietf-core-http-mapping-09",
-urldate = "2016-05-01"
+urldate = "2016-01-05"
 }
 
-@misc{draft-coap-blockwise,
+@online{draft-coap-blockwise,
 	author = {C. Bormann},
 	title = {Block-wise transfers in CoAP -- draft-ietf-core-block-19},
-	howpublished = {\url{https://tools.ietf.org/html/draft-ietf-core-block-19}},
+	url = {https://tools.ietf.org/html/draft-ietf-core-block-19},
 	month = {march},
 	year = {2016},
-	note = {Accessed: 23. 04. 2016}
+	urldate = {2016-23-04}
 }
 
 
 % RFC om UDP
 @online{rfc-udp,
-author = "J Postel",
+author = "J. Postel",
 title = "RFC 768 - User Datagram protocol",
 url = "https://tools.ietf.org/html/rfc768",
-urldate = "2016-02-28",
+urldate = "2016-28-02",
 year = "1980",
 month = "08",
 day = "28"
@@ -470,14 +487,14 @@ month = "11"
 }'
 
 % First TCP specification
-@misc{rfc-791,
+@online{rfc-791,
 	author = {Information Sciences Institute -
                    University of Southern California},
-	title = {RFC 793 -- Internet Protocol -- DARPA Internet Program -- Protocol Specification},
-	howpublished = {\url{https://tools.ietf.org/html/rfc791}},
+	title = {RFC 791 -- Internet Protocol -- DARPA Internet Program -- Protocol Specification},
+	url = {https://tools.ietf.org/html/rfc791},
 	month = {september},
 	year = {1981},
-	note = {Accessed: 23. 04. 2016}
+	urldate={2016-23-04}
 }
 
 % First TCP specification
@@ -485,35 +502,35 @@ month = "11"
 	author = {Information Sciences Institute -
                    University of Southern California},
 	title = {RFC 793 -- Transmission Control Protocol},
-	howpublished = {\url{https://tools.ietf.org/html/rfc793}},
+	url = {https://tools.ietf.org/html/rfc793},
 	month = {september},
 	year = {1981},
-	note = {Accessed: 10. 02. 2016}
+	urldate = {2016-10-02}
 }
 
 @misc{rfc-894,
 	author = {Charles Hornig},
 	title = {RFC 894 -- A Standard for the Transmission of IP Datagrams over Ethernet Networks},
-	howpublished = {\url{https://tools.ietf.org/html/rfc894}},
+	url = {https://tools.ietf.org/html/rfc894},
 	month = {september},
 	year = {1984},
-	note = {Accessed: 23. 04. 2016}
+	urldate = {2016-23-04}
 }
 
 
 
-@misc{rfc-1122,
+@online{rfc-1122,
 	author = {R. Braden},
 	title = {RFC 1122 -- Requirements for Internet Hosts -- Communication Layers},
-	howpublished = {\url{https://tools.ietf.org/html/rfc1122}},
+	url = {https://tools.ietf.org/html/rfc1122},
 	month = {october},
 	year = {1989},
-	note = {Accessed: 06. 01. 2016}
+	urldate = {2016-06-01}
 }
 
 
 % HTTP specification
-@misc{rfc-2616,
+@online{rfc-2616,
 	author = {
 				R. Fielding and
 				UC Irvine and
@@ -530,10 +547,10 @@ month = "11"
 				T. Berners-Lee
 			},
 	title = {RFC 2616 -- Hypertext Transfer Protocol -- HTTP/1.1},
-	howpublished = {\url{https://tools.ietf.org/html/rfc2616}},
+	url = {https://tools.ietf.org/html/rfc2616},
 	month = {june},
 	year = {1999},
-	note = {Accessed: 10. 02. 2016}
+	urldate = {2016-10-02}
 }
 
 % SCTP specification
@@ -541,21 +558,21 @@ month = "11"
 author = "R Stewart",
 title = "RFC 4960 - Stream control transmission protocol",
 url = "https://tools.ietf.org/html/rfc4960",
-urldate = "2016-02-29",
+urldate = "2016-29-02",
 year = "2007",
 month = "09"
 }
 
-@misc{rfc-json,
+@online{rfc-json,
 	author = {T. Bray},
 	title = {RFC 7159 --  The JavaScript Object Notation (JSON) Data Interchange Format},
-	howpublished = {\url{https://tools.ietf.org/html/rfc7159}},
+	url = {https://tools.ietf.org/html/rfc7159},
 	month = {march},
 	year = {2014},
-	note = {Accessed: 17. 04. 2016}
+	urldate = {2016-17-04}
 }
 
-@misc{rfc-7252,
+@online{rfc-7252,
 	author = {
 				Z. Shelby and
 				ARM and
@@ -564,17 +581,17 @@ month = "09"
 				Universitaet Bremen TZI
 			},
 	title = {RFC 7252 --  The Constrained Application Protocol (CoAP)},
-	howpublished = {\url{https://tools.ietf.org/html/rfc7252}},
+	url = {https://tools.ietf.org/html/rfc7252},
 	month = {june},
 	year = {2014},
-	note = {Accessed: 10. 02. 2016}
+	urldate = {2016-10-02}
 }
 
 @online{oasis-amqp,
 author = "OASIS",
 title = "Advanced message queuing protocol (AMQP) version 1.0",
 url = "http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html\#toc",
-urldate = "2016-02-28",
+urldate = "2016-28-02",
 year = "2012",
 month = "10",
 day = "29"
@@ -586,16 +603,17 @@ day = "29"
 				Gupta, Rahul
 	},
 	title= {MQTT Version 3.1.1 Specification},
-	howpublished = {\url{http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html}},
+	url = {http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html},
 	month = {october},
 	year = 2014,
-	note = {Accessed: 06. 01. 2016}
+	urldate={2016-06-01}
 }
 
 
 @online{wireshark-homepage,
 	title = "Wireshark home page",
-	url = "https://iperf.fr/"
+	url = "https://iperf.fr/",
+	urldate = {2016-02-05}
 }
 
 
@@ -604,7 +622,7 @@ day = "29"
 author = " W3C",
 title = "Extensible markup language (XML) 1.0",
 url = "https://www.w3.org/TR/REC-xml/",
-urldate = "2016-02-25",
+urldate = "2016-25-02",
 year = "2008",
 month = "11",
 day = "26"
@@ -616,7 +634,7 @@ day = "26"
 author = "Erik Christensen and Francisco Curbera and Greg Meredith and Sanjiva Weerawarana",
 title = "W3C - Web service definition language (WSDL)",
 url = "https://www.w3.org/TR/wsdl",
-urldate = "2016-02-27",
+urldate = "2016-27-02",
 year = "2001",
 month = "03",
 day = "15"
@@ -628,7 +646,7 @@ day = "15"
 author = "Martin Gudgin and Marc Hadley and Noah Mendelsohn and Jean-Jacques Moreau and Henrik Frystyk Nielsen and Anish Karmarkar and Yves Lafon",
 title = "W3C - SOAP version 1.2 part 1: Messaging framework (Second edition)",
 url = "https://www.w3.org/TR/soap12-part1/",
-urldate = "2016-02-27",
+urldate = "2016-27-02",
 year = "2007",
 month = "04",
 day = "27"

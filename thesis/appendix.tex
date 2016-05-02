@@ -35,27 +35,23 @@ uses a broker, which must be configured. See table x.
 This appendix lists the different scripts that was used to emulate the different
 types of networks.
 
-\section{\gls{satcom}}
 
-\begin{lstlisting}[frame=single, caption="Emulating SATCOM", label=satcom]
-  tc qdisc add dev eth0 parent 1:1 handle 10: \
-    netem delay XX ms
-\end{lstlisting}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating SATCOM"]{../master-test-scripts/satellite.bash}
 
 \section{\gls{los}}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating LOS"]{../master-test-scripts/los.bash}
 
 \section{WiFi 1}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 1", label=listing:proxy-request]{../master-test-scripts/wifi1.bash}
 
 \section{WiFi 2}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 2", label=listing:proxy-request]{../master-test-scripts/wifi2.bash}
 
 \section{\gls{cnr}}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating CNR", label=listing:proxy-request]{../master-test-scripts/cnr.bash}
 
 \section{\gls{edge}}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating EDGE", label=listing:proxy-request]{../master-test-scripts/edge.bash}
 
 
 

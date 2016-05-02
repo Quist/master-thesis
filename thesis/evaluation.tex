@@ -6,7 +6,7 @@ In this chapter, we outline how the testing and evaluation of the proxy is
 performed and present the results obtained. The goal is to validate that the
 proxy fulfills the premises and requirements and to measure any possible
 improvements (or deteriorations) of the performance of Web services. Based on
-the measurements we then give a recommendation about which adaptations to make
+the measurements, we then give a recommendation about which adaptations to make
 in different types of DIL networks. Since the proxy is being developed as a
 prototype for military usage, we use test scenarios that resemble actual
 military usage. We also included one civilian usage based on \gls{edge} since
@@ -65,7 +65,7 @@ upload speed: 50 kbps up and 200 kbps down
 \cite{evaluation-transport-protocols-web-services}.
 
 \Cref{table-network-types} summarizes the identified networks and their
-propererties.
+properties.
 
 \begin{table}[h]
 \begin{tabular}{| l | l | l | l | l |}
@@ -227,7 +227,8 @@ One test run is illustrated in \cref{figure-nffi-flow} and consists of a client
 making a HTTP POST request to the Web service. Associated with the request is an
 XML payload which tells the Web service which operation to invoke. In our case,
 the service then returns an XML message containing a large number of positions
-in the NFFI format.
+in the NFFI format. \Cref{table-nffi-http-requests} shows the HTTP messages
+involved in the test.
 
 \begin{figure}[h]
 \centering
@@ -246,6 +247,7 @@ in the NFFI format.
 \textbf{Total:}       & \textbf{3}                     & \textbf{1215}                & \textbf{48489}          \\ \hline
 \end{tabular}
 \caption{NFFI Web service HTTP requests}
+\label{table-nffi-http-requests}
 \end{table}
 
 
@@ -322,9 +324,9 @@ significantly larger than any other request or response.
 
 Both test sets consist of one client and one Web service, where the client would
 request the service for some sort of action. The client is running on one
-computer while the Web service is deployed in the Glassfish 4 application
-server on another computer. The specifications of the machines used in the
-testing are listed in \cref{table-machines}.
+computer while the Web service is deployed in a Glassfish 4 application server
+on another computer. The specifications of the machines used in the testing are
+listed in \cref{table-machines}.
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
@@ -339,7 +341,7 @@ testing are listed in \cref{table-machines}.
   Network hardware & ASIX AX88772 USB 2.0 & 82567LM Gigabit & 82567LM-3 Gigabit\\ \hline
   Network interface capacity & 100 Mbit/s & 1 Gbit/s & 1 Gbit/s \\ \hline
 \end{tabularx}
-\caption{Machines involved in the testing}
+\caption{The machines involved in the testing}
 \label{table-machines}
 \end{table}
 

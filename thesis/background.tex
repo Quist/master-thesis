@@ -2,7 +2,7 @@
 \label{chapter:background}
 
 In this chapter, we present the technical background of the central concepts and
-protocols this thesis is based. We first give an introduction to computer
+protocols on which this thesis is based. We first give an introduction to computer
 networks in general and how they are organized. Next, we introduce a set of
 network metrics used to characterize different types of DIL networks in this
 thesis. Then we look into two very common communication patterns. Next, we
@@ -20,7 +20,7 @@ is the Internet, which is a large network of networks facilitating communication
 between nodes all over the world. The Internet is linked together by nodes using
 a set of protocols called the Internet Protocol Suite \cite{rfc-1122}. The
 functionality of the protocol suite is organized into four abstraction layers
-outlined in the following paragraphs.
+outlined in the following sections.
 
 \subsection{Network Layers}
 
@@ -49,7 +49,7 @@ data between two physically connected nodes.
 
 \subsubsection{Internet Layer}
 
- Where the link layer is only concerned with moving data over a wire to an
+ Where the link layer is only concerned with moving data over a link to an
  adjacent node, the Internet layer is concerned with how to deliver data all the
  way from a source to a destination, possible passing through multiple nodes on
  its way. It does not guarantee delivery of data since data can be lost on the
@@ -70,14 +70,14 @@ NATO has decided that data communication in NATO systems should be based on IP
  \subsubsection{Transport Layer}
 
 In the Internet protocol suite model, the transport layer provides end-to-end
-communication services to applications. It builds on top of the network layer
+communication services to applications. It builds on top of the Internet layer
 and takes responsibility for sending data all the way from a process on a source
 computer to a process on the destination computer. The by far most used
 transport protocol is the \gls{tcp}, which provides reliable transport of data
 to applications. With reliable transport, we mean that if data in a transmission
 is lost or received in the wrong order, this is handled by the transport
-protocol. This provides a valuable abstraction for applications so that they
-do not need to deal with these issues themselves.
+protocol. This provides a valuable abstraction for applications so that they do
+not need to deal with these issues themselves.
 
 \subsubsection{Application Layer}
 
@@ -91,16 +91,15 @@ as the underlying transport protocol.
 
 \subsection{Messaging Patterns}
 
-A message pattern describes how applications communicate with each other. This
-communication is referred to as \textit{messages}. There exist multiple
-messaging patterns and in this chapter we look into protocols using two very
-common approaches:
+A message pattern describes how applications communicate with each other. There
+exist multiple messaging patterns and in this chapter we look into protocols
+using two very common approaches:
 
 \subsubsection{Request-Response}
 
 Request-response is a message pattern where a requester sends a request to a
 system. The system then processes the request and responds with a response
-message. This pattern is also known as client-server model.
+message. This pattern is also known as the client-server model.
 
 \subsubsection{Publish-Subscribe}
 
@@ -136,7 +135,8 @@ node to another. In this thesis we use the following metrics:
 transmitted over a network per unit of time.
 
 \item[Delay] The delay is the time it takes for a bit of data from machine to
-machine to travel across the network.
+machine to travel across the network. The \gls{rtt} is the time it takes from a
+request is sent until a response is received.
 
 \item[Packet Error Rate] \gls{per} means the number of incorrectly received
 packets divided by the total number of received packets. A packet is considered
@@ -199,9 +199,7 @@ following sections.
 
 The \gls{xml}\cite{W3C-XML} is considered as the base standard for Web services.
 An XML document consists of data surrounded by tags and is designed to be both
-machine and user readable. Tags describe the data they enclose. The tags can be
-standardized, which allows exchange and understanding of data in a standardized,
-machine-readable way.
+machine and user readable. Tags describe the data they enclose.
 
 
 \subsubsection{\glsentrylong{wsdl}}
@@ -265,12 +263,12 @@ oriented.
  \label{table-rest}
  \end{table}
 
- \gls{rest} is easy to understand and has gained a lot of traction in the civil
- industry in the latest years. Although NATO has chosen W3C Web services as the
- technology to do information exchange, REST is identified as a technology of
- interest to certain groups in NATO \cite{johnsen-recommendations}. One potential
- downside to NATO with REST, however, is that RESTful Web services lack
- standardization, which may cause interoperability issues.
+The \gls{rest} style has gained a lot of traction in the civil industry in the
+latest years. Although NATO has chosen W3C Web services as the technology to do
+information exchange, REST is identified as a technology of interest to certain
+groups in NATO \cite{johnsen-recommendations}. One potential downside to NATO
+with REST, however, is that RESTful Web services lack standardization, which may
+cause interoperability issues.
 
 Closely associated with REST and the most used transport protocol for W3C Web
 services are \gls{http}, which we present in detail in the next section.
@@ -300,17 +298,17 @@ coordinated by \gls{ietf} and the \gls{w3c}, and is defined as \cite{rfc-2616}:
 Internet and has since been updated in HTTP/1.0, HTTP/1.1 and most recently a
 major update in HTTP/2.0. It is a request-response protocol which means that all
 data exchanges are initiated with a client sending a HTTP request and then waits
-until a server responds with a HTTP response. A HTTP request consists of the
+until a server responds with a HTTP response. A HTTP request consists of a
 request method, \gls{uri}, protocol version, client information, and an optional
 body. The server responds with a message containing a status line, protocol
 version, a code indicating the success or error of the request, and an optional
 body. Both HTTP requests and responses use a generic message format and can
 contain zero or more HTTP headers. Headers are used to provide information about
-the request/response or about the message body, e.g. information about the
+the request-response or about the message body, e.g. information about the
 encoding and caching information.
 
 HTTP, being an application level protocol, relies on a transport protocol to
-transfer data to another machine. HTTP communication most often, but not
+transfer data to other machines. HTTP communication most often, but not
 necessarily, occurs over TCP/IP connections. The only requirement in the HTTP
 specification is that a reliable transport protocol is used.
 
@@ -370,7 +368,7 @@ segments should be, but for performance reasons they should not exceed the
 \gls{mtu} of the link (the physical network). Each segment should be so small
 that it can be sent in a single, unfragmented package over the entire network.
 This usually limits the size of each segment to the \gls{mtu} of the Ethernet,
-which is 1500 bytes.
+which is 1500 bytes \cite{rfc-894}.
 
 When the TCP software receives data from applications, it is not necessarily
 immediately sent as it may be buffered before its sent. At the receiving end,
@@ -383,28 +381,28 @@ stream and delivers it to the destination application.
 When transferring data over the Internet, the data may pass through various
 networks, routers, and physical networks. Some of the routers may not work
 correctly, a bit may be flipped when transferring data wirelessly, or some other
-factor may come into play. For these reasons, we have to accept that some of the
-data will be damaged, lost, duplicated or delivered out of order.
+factor may come into play. For these reasons, TCP have to deal with that some of
+the data will be damaged, lost, duplicated or delivered out of order.
 
 TCP recovers from such faults by assigning sequence numbers to each packet being
-sent. It then requires a positive acknowledgment from the receiver that the
-data was actually received. If the acknowledgment is not received within a
-timeout interval, the data is transmitted again. For the receiver, the sequence
-numbers are used to ensure that data is received in the correct order, as well
-as eliminating duplicates. Furthermore, to detect damaged data, TCP applies
+sent. It then requires a positive acknowledgment from the receiver that the data
+was actually received. If the acknowledgment is not received within a timeout
+interval, the data is transmitted again. For the receiver, the sequence numbers
+are used to ensure that data is received in the correct order, as well as
+eliminating duplicates. Furthermore, to detect damaged data, TCP applies
 checksums to each segment transmitted. At the receiver, the checksum is then
-checked, and damaged segments are discarded.
+checked, and damaged segments can be discarded.
 
 \subsection{Flow Control}
 
-If a fast receiver sends data faster than a slow receiver can process, the
+If a fast sender sends data faster than a slow receiver can process, the
 receiver will be swamped with data and may experience severe performance
 reduction. Flow control is a mechanism to manage the rate of the data
-transmission to avoid overflowing a receiver. TCP provides this by using a
-window of acceptable sequence numbers that the receiver is willing to accept.
-With every acknowledgment sent back to the sender, the window is specified.
-This allows the receiver to control which segments, and how fast, the sender can
-send.
+transmission to avoid overflowing a receiver. TCP provides this feature by
+maintaining a window of acceptable sequence numbers that the receiver is willing
+to accept. With every acknowledgment sent back to the sender, the window is
+specified. This allows the receiver to control which segments, and how fast, the
+sender can send.
 
 \subsection{Congestion Control}
 
@@ -420,7 +418,7 @@ To avoid congestion, TCP uses a number of mechanisms. These aim to control the
 rate of data packets entering into the networks to avoid congestion, but still
 get as high throughput as possible. One of these mechanisms is
 \textit{slow-start}, which the general idea is to start transmitting with a low
-packet rate, then gradually increasing the packet rate.When TCP notice that a
+packet rate, then gradually increasing the packet rate. When TCP notices that a
 packet is eventually lost, it considers it as a sign of network congestion and
 reduces the rate it sends packets.
 
@@ -438,23 +436,23 @@ effects \cite{nato-disadvantaged-grids}.
 \section{Protocols of Interest}
 
 Since \gls{tcp} may be sub-optimal or even break down entirely in DIL networks,
-we are in this thesis looking into alternative protocols and other optimization
-techniques. In networks with low data rate, protocols with low overhead per IP
-packet are beneficial. With frequent disconnects, protocols that are
-connection-less may be more suitable than connection-oriented. One important
-limitation is that NATO has chosen the "everything over IP", which means that
-all optimization must occur on the top of the network layer. Because of this, we
-evaluate protocols in the transport and application layer.
+we are in this thesis looking into alternative protocols. In networks with low
+data rates, protocols with low overhead per IP packet are beneficial. With
+frequent disconnects, protocols that are connection-less may be more suitable
+than connection-oriented. One important limitation is that NATO has chosen the
+"everything over IP", which means that all optimization must occur on the top of
+the network layer. Because of this, we evaluate protocols in the transport and
+application layer.
 
 There exist a vast amount of protocols developed for different use-cases and by
-different organizations. In this thesis, we focus on protocols that are
+various organizations. In this thesis, we focus on protocols that are
 established and/or standardized. Using proprietary solutions, or protocols which
-lacks standardization, may contribute to the proxy solution being more difficult
-to get approved by military security authorities. In the following sections, we
-give an introduction to the protocols we are investigating in this thesis. The
-protocols is because of their prevalence in the civilian and military world or
-their reported performance in the \gls{iot}. Protocols used in IoT are of
-interest to us since they are designed to work in networks which have similar
+lack standardization, may contribute to the proxy solution being harder to get
+approved by military security authorities. In the following sections, we give an
+introduction to the protocols we are investigating in this thesis. The protocols
+is because of their prevalence in the civilian and military world or their
+reported performance in the \gls{iot}. Protocols used in IoT are of interest to
+us since they are designed to work in networks which have similar
 characteristics as DIL networks.
 
 We get started by discussing the \gls{udp}, which alongside \gls{tcp} is one of
@@ -470,7 +468,7 @@ RFC 768\cite{rfc-udp} and is a simpler protocol than \gls{tcp}. It sends
 messages, called datagrams, to nodes over the \gls{ip} network. While \gls{tcp}
 provides reliable transmission along with flow control and congestion control,
 UDP only supports the sending of IP datagrams. Furthermore, it is a
-connectionless protocol, which means that the protocol can send messages
+connection-less protocol, which means that the protocol can send messages
 \textit{without} establishing a connection first. Since \gls{udp} does not
 provide guaranteed delivery or in-order delivery of messages, it should only be
 used by applications that do not require this.
@@ -493,7 +491,7 @@ UDP is therefore often referred to as not \textit{TCP-Friendly}.
 \gls{coap} is a specialized Web transfer protocol designed for use with
 constrained nodes and  networks \cite{rfc-7252}. It is intended for
 machine-to-machine applications typically found in the Internet of Things.
-Furthermore, it is designed with a similar interface as HTTP to integrate easily
+Furthermore, it is designed with a similar interface as HTTP to easily integrate
 with Web services. \gls{coap} and HTTP work similarly in the way that they both
 use a client-server interaction model. \Gls{coap} is based on the REST style
 where a server makes resources available under a \gls{uri}. Clients can then
@@ -569,7 +567,7 @@ to any communication. A connection is divided into independent unidirectional
 \textit{channels}. An AMQP \textit{session} correlates two unidirectional
 channels to form a bidirectional, sequential conversation between two
 containers. To establish a connection, the first operation is to create a TCP
-connection between the nodes. Then the protocol header is exchanged, allowing
+connection between the nodes. Then, the protocol header is exchanged, allowing
 the nodes to agree on a common protocol version. This is exchanged in plaintext
 (not in an AMQP frame). The message itself is sent with the \textit{transfer}
 frame. Larger messages can be split into multiple frames.
@@ -659,8 +657,8 @@ sending an image at the same time as a HTML Web page.
 In this chapter, we presented computer networks in general, before we discussed
 the two most common types of Web services. Moreover, we reviewed the protocols
 that these Web services use to transmit messages over the Internet. We also
-introduced some new protocols designed to work in "Internet of things" networks,
-which have many of the same characteristics as DIL networks. The protocols are
+introduced protocols designed to work in "Internet of things" networks, which
+have many of the same characteristics as DIL networks. The protocols are
 summarized in \cref{table:protocols:summary}.
 
 %%%%%%%%%%%% Transport protokoller %%%%%%%%%%%%%%%%%%%

@@ -90,7 +90,7 @@ overhead, we can apply the well-known technique of compression.
 
 Data compression is the technique of encoding information using fewer bits than
 the original representation. In a network with limited data rate, the reduction
-would significantly reduce time used to send the data. The reduction of data is
+could significantly reduce time used to send the data. The reduction of data is
 often expressed in the term \textit{compression rate}, which represents the
 ratio between the uncompressed size and compressed size of the payload.
 Moreover, there exist two types of compression, \textit{lossy} and
@@ -122,7 +122,7 @@ of less importance.
 A previous study has investigated potential gains from replacing HTTP/TCP with
 alternative protocols \cite{evaluation-transport-protocols-web-services}.
 \Citeauthor{evaluation-transport-protocols-web-services} looked into TCP, UDP,
-SCTP and AMQP for conveying Web services traffic under typical military
+SCTP and AMQP for conveying Web service traffic under typical military
 networking conditions. The researchers found that \gls{sctp} had the highest
 success rate in military tactical communication. However, on links with the
 lowest data rate, the protocol tended to generate more overhead than TCP. They
@@ -142,7 +142,7 @@ loss rates, CoAP had less network overhead than MQTT. However, when the message
 size grew, MQTT had less overhead than CoAP.
 
 Another comparison of CoAP and MQTT was done in a study using the protocols for
-sensing applications running on a smartphone \cite{caro-mqtt-coap}. This study
+sensor applications running on a smartphone \cite{caro-mqtt-coap}. This study
 also confirmed CoAP as having lower network usage and a lower RTT. However, the
 study pointed out that MQTT has more advanced \gls{qos} services, since it can
 guarantee exactly-once delivery of messages. Since CoAP does not have this
@@ -196,7 +196,7 @@ The \gls{dsproxy} is a point-to-point proxy solution developed by \gls{ffi}
 unmodified standard W3C Web services (SOAP over HTTP/TCP) in DIL environments.
 The concept is to route all SOAP messages through the proxy. When the proxy
 receive a message, it is stored locally before it is forwarded. If the
-forwarding fails for some reason, it is retries the request until it eventually
+forwarding fails for some reason, it retries the request until it eventually
 succeeds. This ability, called \textit{store-and-forward}, is one of the
 fundamental core functionalities of \gls{dsproxy}. When a request eventually
 succeeds, the response is returned to the client on the original TCP connection
@@ -226,7 +226,7 @@ building overlay networks and supporting different configurations and plugins.
 \subsection{NetProxy}
 %https://www.researchgate.net/profile/Niranjan_Suri/publications
 
-NetProxy is another network point-to-point proxy solution aiming at enabling SOA
+NetProxy is another point-to-point proxy solution aiming at enabling SOA
 applications for use in DIL environments \cite{suri-netproxy}. The proxy is a
 component of the \gls{acm}, a set of components that satisfy many of the
 communications requirements found in challenged networks. The work is being

@@ -75,7 +75,7 @@ redelivery mechanism properties:
 \begin{description}
 
     \item[Redelivery Delay] The proxy should support the retransmission of
-    sending messages with a fixed delay between each attempt.
+    messages with a fixed delay between each attempt.
 
     \item[Exponential Backoff] If exponential backoff is configured, the proxy
     should gradually try resending more and more seldom.
@@ -134,7 +134,7 @@ purpose compression.
 \subsection{Inter-Proxy Communication}
 
 One of the optimization techniques we identified is the usage of alternative
-transport protocols between the proxy pair. The proxy should support different
+transport protocols between the proxy pair. The proxies should support different
 protocols to allow us to evaluate how they affect the performance of Web
 services in DIL networks. Furthermore, if additional transport protocols are
 identified in the future, the prototype proxy should be easily extendable to
@@ -208,7 +208,7 @@ to use.
   MQTT & No \\ \hline
   SCTP & Yes \\ \hline
 \end{tabularx}
-\caption{Protocols recommended as possible proxy communication protocol.}
+\caption{Protocols recommended as communication protocols between proxies.}
 \label{table:possible-proxy-protocols}
 \end{table}
 

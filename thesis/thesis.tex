@@ -129,21 +129,22 @@ Disconnected, Intermittent and Limited (DIL) may not perform satisfactorily, or
 can even break down entirely due to network disruptions. Frequent network
 interruptions for both shorter and longer periods, as well as long delays, low
 data and high packet error rates characterizes DIL networks. In this thesis, we
-design and implement a prototype proxy to improve the performance of Web
-services in DIL environments. The main idea of our design is to deploy a pair of
-proxies to facilitate HTTP communication between Web service applications. As an
-optimization technique, we evaluate the usage of alternative transport protocols
-to carry information across these types of networks.
+designed and implemented a prototype proxy to improve the performance of Web
+services in DIL environments. The main idea of our design was to deploy a proxy
+pair to facilitate HTTP communication between Web service applications. As an
+optimization technique, we evaluated the usage of alternative transport
+protocols to carry information across these types of networks. The proxy pair
+was designed to support different protocols for inter-proxy communication. We
+implemented the proxies to support the Hypertext Transfer Protocol (HTTP), the
+Advanced Message Queuing Protocol (AMQP) and the Constrained Application
+Protocol (CoAP).
 
-By introducing a proxy pair, we were able to break the end-to-end dependency
-between two applications communicating in a DIL network, and thus achieve higher
-reliability. The proxy was designed to support different protocols for
-inter-proxy communication. We implement the proxy to support the Hypertext
-Transfer Protocol (HTTP), the Advanced Message Queuing Protocol (AMQP) and the
-Constrained Application Protocol (CoAP). Evaluations show that in most cases
-using HTTP/TCP yielded the lowest Round-Trip Time (RTT). However, with small
-message payloads and in networks with low data rates, CoAP had a lower RTT and
-network footprint than HTTP/TCP.
+By introducing proxies, we were able to break the end-to-end network dependency
+between two applications communicating in a DIL environment, and thus achieve
+higher reliability. Our evaluations showed that in most DIL networks, using HTTP
+yields the lowest Round-Trip Time (RTT). However, with small message payloads
+and in networks with very low data rates, CoAP had a lower RTT and network
+footprint than HTTP.
 
 
 
@@ -165,13 +166,12 @@ would like to thank my family for always supporting me.
 Finally, I would like to thank all the amazing students I've met during my five
 years at the University of Oslo. Thanks for all the good times, whether it was
 planning the next dagen@ifi, wasting countless hours talking about nothing at
-Assembler or drinking beer at Escape.
+Assembler, or drinking beer at Escape.
 
 
 \tableofcontents
 
 \glsresetall
-
 \include{introduction}
 \include{background}
 \include{related_work}
@@ -179,7 +179,6 @@ Assembler or drinking beer at Escape.
 \include{design_implementation}
 \include{evaluation}
 \include{conclusion}
-
 
 \pagebreak
 \printbibliography{}

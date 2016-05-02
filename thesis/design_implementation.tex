@@ -37,18 +37,19 @@ facilitate communication over a DIL network.
 
 In previous chapters, we have argued that all optimization techniques should be
 placed in proxies to retain interoperability for COTS applications, as well as
-to break their end-to-end dependency. Therefore, our design involves deploying a
-proxy pair to facilitate Web communication over a DIL network. The idea is to
-deploy the proxy pair in two different locations separated by a DIL network.
-Through a locally deployed proxy, Web applications can then proxy all their data
-communication. The proxy then applies different optimization techniques and
-forwards requests over a DIL network to the other proxy and finally return a
-response. Ideally, the proxy should be deployed as close to its intended users
-as possible, as the communication between an application and its proxy is not
-subject to any optimization for DIL environments. Since we design the proxies
-accept HTTP requests, they can support any applications that use HTTP. Besides,
-the solution is designed to be bi-directional, meaning that requests can
-originate from either side.
+to break their end-to-end network dependency. Therefore, our design involves
+deploying a proxy pair to facilitate Web communication over a DIL network. The
+idea is to deploy the proxy pair in two different locations separated by a DIL
+network. Through a locally deployed proxy, Web applications can then proxy all
+their data communication. The proxy then applies different optimization
+techniques and forwards requests over a DIL network to the other proxy. When a
+response is returned, it is returned back the original requester. Ideally, the
+proxy should be deployed as close to its intended users as possible, as the
+communication between an application and its proxy is not subject to any
+optimization for DIL environments. Since we design the proxies accept HTTP
+requests, they can support any applications that use HTTP. Besides, the solution
+is designed to be bi-directional, meaning that requests can originate from
+either side.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{images/proxy_design.pdf}
@@ -62,10 +63,9 @@ originate from either side.
 A deployed proxy is designed to accept arbitrary HTTP requests, possibly
 originating from multiple clients, and forward them to the other proxy as seen
 in \cref{figure:proxy_design}. The communication between a proxy pair is subject
-to optimizations. The proxies are therefore designed to support the optimization
-techniques we have identified. Those are primarily concerned about using
-different transport protocols as the inter-proxy communication, as illustrated
-in \cref{figure:proxy-communication}. The purpose of this is to give
+to optimizations. Those are primarily concerned about using different transport
+protocols as the inter-proxy communication, as illustrated in
+\cref{figure:proxy-communication}. The purpose of this is to give
 recommendations about the usage of transport protocols in DIL networks. Which
 protocol to use as the means of inter-proxy communication is therefore designed
 to be easily configurable at start-up by the users of the proxy.
@@ -97,8 +97,8 @@ optimization techniques, rather than on the specific low-level details of HTTP.
 There are numerous HTTP proxies available for use, for example,
 Nginx\cite{nginx-homepage} and Squid\cite{squid-homepage}. Requirement 8 states
 that the solution must support different communication protocols between
-proxies. Because of this, we looked for software that could easily map a HTTP
-message to other protocols. Based on recommendations from the community at FFI
+proxies. Because of this, we looked for software that could easily map HTTP
+messages into other protocols. Based on recommendations from the community at FFI
 we found the Apache Camel framework.
 
 \subsection{Apache Camel}
@@ -137,7 +137,7 @@ components and is designed to support user-written components as well.
 
 \section{Implementation}
 
-The proxy is implemented as a Java 1.8 application using the Apache Camel
+Our proxy solution is implemented as a Java 1.8 application using the Apache Camel
 framework. A large part of the implementation is concerned about reading user
 configuration and setting up \textit{routing rules} for Camel. Information about
 the source code of the proxy is listed in \cref{appendix-source-code} of the
@@ -230,7 +230,7 @@ JSON document. JSON is a lightweight, text-based data format \cite{rfc-json}. We
 chose this data format due to its compactness, simplicity and the wide support
 for libraries for generating and parsing JSON. Due to a HTTP request and
 response having slightly different semantics, we used the same format, but with
-different properties for a request and response. The request format is defined
+different properties for a request and a response. The request format is defined
 in \cref{table-proxy-request}, and the response format in
 \cref{table-proxy-response}.
 
@@ -266,7 +266,7 @@ listing illustrates a HTTP request originating from an outside application. It
 is a HTTP POST to the intended destination http://myservice.com, with a XML
 message as payload.
 
-\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Example proxy request", label=listing:proxy-request]{listings/proxy_message.json}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Example proxy request between the proxy pair", label=listing:proxy-request]{listings/proxy_message.json}
 
 \paragraph{}
 
@@ -399,8 +399,8 @@ infinity.
 \subsection{Runtime}
 
 In the running stage, the proxy listens on the defined routes and forwards
- requests according to the previously configured routes. All requests passing
- through the proxy are logged to the console.
+requests according to the previously configured routes. All requests passing
+through the proxy are logged to the console.
 
 
 \section{Functionality}

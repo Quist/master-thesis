@@ -1,14 +1,15 @@
 \begin{appendices}
 
-\chapter{Configuration}
+\chapter{Proxy Configuration}
 \label{appendix-config}
 
-\section{Proxy Configuration}
+The proxy is configured by passing a path to a valid configuration file at
+startup, as seen in \cref{listing:appendix-proxy-start}.  The configuration
+fields of the proxy are listed in \cref{appendix-table-config}. When using the
+AMQP protocol for inter-proxy communication, a message broker and queue names
+must be configured as shown in \cref{appendix-amqp-conf}.
 
-The configuration fields of the proxy are listed in
-\cref{appendix-table-config}. When using the AMQP protocol, a message broker
-must be configured as shown in \cref{appendix-amqp-conf}. The path to a config
-file must be passed as an argument to the proxy on startup.
+\lstinputlisting[frame=single, language=json, caption="How to start the proxy", label=listing:appendix-proxy-start]{listings/proxy_start.sh}
 
 
 \begin{table}[h]
@@ -35,26 +36,26 @@ file must be passed as an argument to the proxy on startup.
 
 \label{appendix-netem-scripts}
 
-This appendix lists the different scripts that was used to emulate the different
-types of networks.
+This appendix lists the different scripts that were used to emulate the
+different types of networks in the evaluation.
 
-
+\section{\gls{satcom}}
 \lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating SATCOM"]{../master-test-scripts/satellite.bash}
 
 \section{\gls{los}}
 \lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating LOS"]{../master-test-scripts/los.bash}
 
 \section{WiFi 1}
-\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 1", label=listing:proxy-request]{../master-test-scripts/wifi1.bash}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 1"]{../master-test-scripts/wifi1.bash}
 
 \section{WiFi 2}
-\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 2", label=listing:proxy-request]{../master-test-scripts/wifi2.bash}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 2"]{../master-test-scripts/wifi2.bash}
 
 \section{\gls{cnr}}
-\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating CNR", label=listing:proxy-request]{../master-test-scripts/cnr.bash}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating CNR"]{../master-test-scripts/cnr.bash}
 
 \section{\gls{edge}}
-\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating EDGE", label=listing:proxy-request]{../master-test-scripts/edge.bash}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating EDGE"]{../master-test-scripts/edge.bash}
 
 
 

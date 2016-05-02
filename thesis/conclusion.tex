@@ -7,15 +7,15 @@ In this chapter, we conclude the thesis and suggest potential future work.
 
 The goal of this thesis was to investigate different ways to improve the
 performance of Web services in networks characterized by unreliable connects,
-high error rates, and low data rate. Web services enable interoperability between
-systems, but adapting Web services meant for civilian use into limited networks
-may not be feasible due to the network limitations. To adapt standard Web
-services into DIL networks without requiring incorporating proprietary
-solutions, based on previous research we introduced the usage of proxies. The
+high error rates, and low data rate. Web services enable interoperability
+between systems, but adapting Web services meant for civilian use into limited
+networks may not be feasible due to the network limitations. To adapt standard
+Web services into DIL networks without requiring incorporating proprietary
+solutions, we introduced the usage of proxies based on previous research. The
 proxy applies optimization techniques to facilitate the usage and to increase
 the performance of Web services in DIL. As a part of the thesis, we specified a
 set of requirements for the proxy and implemented it using the Apache Camel
-framework.\Cref{table-conclusion-requirements} lists the premises and
+framework. \Cref{table-conclusion-requirements} lists the premises and
 requirements.
 
 % Please add the following required packages to your document preamble:
@@ -62,8 +62,8 @@ since the proxy employs reliable protocols and an application layer redelivery
 mechanism.
 
 Requirement 3 was fulfilled by implementing GZIP compression on messages between
-proxies. Optimization was identified to yield a significant performance increase with
-regards the RTT time perceived by Web service clients.
+proxies. Compression was identified to yield a significant performance increase
+with regards the RTT time perceived by Web service clients.
 
 We also validated that the proxy could overcome the limited aspect of DIL as the
 test cases were successful in all emulated DIL networks. This fulfilled premises
@@ -151,11 +151,11 @@ compact binary header could be used.
 
 During our Wireshark analysis of the test results, we discovered that when using
 the proxy, some of the HTTP request headers was propagated into the HTTP
-response headers. This happened for all inter-proxy protocols and caused by the
-way Camel exchanges are implemented. This could be fixed by explicitly removing
-the headers when routing the message back to the requester. Although this
-implies that the proxies are not completely transparent, we do not believe this
-had any significant impact on the testing. The payload of messages is still
+response headers. This happened for all inter-proxy protocols and is caused by
+the way Camel exchanges are implemented. This could be fixed by explicitly
+removing the headers when routing the message back to the requester. Although
+this implies that the proxies are not completely transparent, we do not believe
+this had any significant impact on the testing. The payload of messages is still
 exactly the same, and all headers are present. However, for each unnecessary
 header sent, additional bytes has to be transferred over the network. Although
 the number of additional bytes is relatively small, fixing this bug would reduce

@@ -486,6 +486,37 @@ the digital signature of the payload is intact.
 Together with the successful GZIP compression, the functional requirements for
 the proxy is therefore identified as fulfilled.
 
+\begin{table}[h]
+\input{../results/function_tests/nffi/output/wireshark_packets}
+\caption{NFFI Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-nffi}
+\end{table}
+
+\begin{table}[h]
+\input{../results/function_tests/rest/output/wireshark_packets}
+\caption{REST Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-rest}
+\end{table}
+
+
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
+    }
+    {
+    \caption{Function tests - Average RTT Time for the client application.}
+    \label{figure:results-function-testsx}
+    }
+    \end{floatrow}
+
+    \end{figure}
+\end{landscape}
+
 \subsubsection{Analysis}
 
 Even in an unlimited network, we still see a significant difference between the
@@ -644,37 +675,6 @@ the next section we see how the proxies cope with the disconnect and
 intermittent aspect of the DIL.
 
 
-\begin{landscape}
-    \begin{figure}
-    \centering
-    \begin{floatrow}
-        \ffigbox[\FBwidth]
-    {
-    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
-    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
-    }
-    {
-    \caption{Function tests - Average RTT Time for the client application.}
-    \label{figure:results-function-testsx}
-    }
-    \end{floatrow}
-
-    \end{figure}
-\end{landscape}
-
-
-\begin{table}[h]
-\input{../results/function_tests/nffi/output/wireshark_packets}
-\caption{NFFI Function test - IP Packets sent and received by the client application.}
-\label{table:function-test-packets-nffi}
-\end{table}
-
-\begin{table}[h]
-\input{../results/function_tests/rest/output/wireshark_packets}
-\caption{REST Function test - IP Packets sent and received by the client application.}
-\label{table:function-test-packets-rest}
-\end{table}
-
 
 
 
@@ -727,8 +727,8 @@ For both the REST and W3C Web service test scenarios, the results were
 identical. Without using proxies, the connection timed out, and the applications
 were unable to continue as shown in \cref{table:disconnected-nffi} and
 \cref{table:disconnected-rest}. With proxies, the connection did not time out,
-and the protocols retransmission mechanisms were able to continue transmission
-when the connection was reestablished.
+and the proxy retransmission mechanisms were able to continue transmission when
+the connection was reestablished.
 
 
 \begin{table}[h!]
@@ -780,7 +780,7 @@ requirement 6, stating that the proxy should be able to:
 
 In this test network, we emulate \gls{satcom}. With satellite communication, all
 data is relayed through a communication satellite in orbit around the earth.
-This type of communication is characterized by its low data rate and high delay.
+This type of communication is characterized by its moderate data rate and high delay.
 
 \subsubsection{Results and Analysis}
 
@@ -808,6 +808,19 @@ we observe the following:
 
 \end{itemize}
 
+
+\begin{table}[h]
+\input{../results/satellite/nffi/output/wireshark_packets}
+\caption{NFFI SATCOM test - IP Packets sent and received by the client application.}
+\label{table:satcom-test-packets-nffi}
+\end{table}
+
+\begin{table}[h]
+\input{../results/satellite/rest/output/wireshark_packets}
+\caption{REST SATCOM test - IP Packets sent and received by the client application.}
+\label{table:satcom-test-packets-rest}
+\end{table}
+
 \begin{landscape}
     \begin{figure}
     \centering
@@ -824,17 +837,7 @@ we observe the following:
 \end{landscape}
 
 
-\begin{table}[h]
-\input{../results/satellite/nffi/output/wireshark_packets}
-\caption{NFFI SATCOM test - IP Packets sent and received by the client application.}
-\label{table:satcom-test-packets-nffi}
-\end{table}
 
-\begin{table}[h]
-\input{../results/satellite/rest/output/wireshark_packets}
-\caption{REST SATCOM test - IP Packets sent and received by the client application.}
-\label{table:satcom-test-packets-rest}
-\end{table}
 
 
 
@@ -995,6 +998,17 @@ network, we see the following:
 
 \end{itemize}
 
+\begin{table}[h]
+\input{../results/wifi2/nffi/output/wireshark_packets}
+\caption{NFFI WiFi 2 test - IP Packets sent and received by the client application.}
+\label{table:wifi2-test-packets-nffi}
+\end{table}
+
+\begin{table}[h]
+\input{../results/wifi2/rest/output/wireshark_packets}
+\caption{REST WiFi 2 test - IP Packets sent and received by the client application.}
+\label{table:wifi2-test-packets-rest}
+\end{table}
 
 \begin{landscape}
     \begin{figure}
@@ -1011,17 +1025,7 @@ network, we see the following:
     \end{figure}
 \end{landscape}
 
-\begin{table}[h]
-\input{../results/wifi2/nffi/output/wireshark_packets}
-\caption{NFFI WiFi 2 test - IP Packets sent and received by the client application.}
-\label{table:wifi2-test-packets-nffi}
-\end{table}
 
-\begin{table}[h]
-\input{../results/wifi2/rest/output/wireshark_packets}
-\caption{REST WiFi 2 test - IP Packets sent and received by the client application.}
-\label{table:wifi2-test-packets-rest}
-\end{table}
 
 \subsection{Combat Net Radio}
 

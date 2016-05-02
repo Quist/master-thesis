@@ -445,13 +445,14 @@ The tests are performed with the following parameters:
 
 The first part of the testing is performed without any intended limitations to
 the network. The objective of the function tests is to validate that the proxy
-fulfills the functional requirements we sat in chapter 4:
+fulfills the functional requirements we sat for our proxy:
 
 \begin{itemize}
     \item Receive and forward HTTP requests.
     \item Retain HTTP request and response headers.
     \item Support GZIP compression of payload.
     \item Support usage of different transport protocols between the proxies.
+    \item Work with security mechanisms.
 \end{itemize}
 
  In addition, the results from the function tests can be used to benchmark
@@ -469,10 +470,19 @@ the results from the function tests and reveals the impact of introducing the
 usage of proxies. When using proxies, all test cases still completes
 successfully, but their average RTT varies depending on the protocol. The
 clients HTTP requests are forwarded through the proxies to the Web service,
-which successfully returns a HTTP response back. We also verified that a custom
-HTTP header added by the Car system client and Web service are successfully
-retained. Together with the successful GZIP compression, the functional
-requirements for the proxy is therefore identified as fulfilled.
+which successfully returns a HTTP response back.
+
+We also verified that the proxy solution works with standard security
+mechanisms. The HTTP header added by the Car system client and Web service is
+successfully retained. Moreover, we verified the integrity of the payload of the
+NFFI test case when using the proxies and compression. Using Wireshark, we
+compared the HTTP response body from one of the requests in the NFFI test using
+proxies, with one run where proxies were not used. Diffing the two payloads, we
+verified that the proxy did not alter the payload in any way. This verifies that
+the digital signature of the payload is intact.
+
+Together with the successful GZIP compression, the functional requirements for
+the proxy is therefore identified as fulfilled.
 
 \subsubsection{Analysis}
 

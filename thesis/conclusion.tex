@@ -79,8 +79,9 @@ caused a sub-optimal utilization of an Ethernet link. Tuning the block-size
 configuration could improve the CoAP's proxy performance also for larger
 payloads.
 
-Next, we were able to show that the proxy works with security mechanisms through
-a proof-of-concept test using secure Web services.
+Next, we were able to show that the proxy works with security mechanisms by
+verifying that the digital signature of the payload is intact, by diffing the
+payload when not using proxies with the payload when using proxies.
 
 Finally, the proxy implements a configuration setup that allows the user to
 specify different properties of the proxy. A user of the proxy can easily
@@ -117,21 +118,45 @@ to the proxy are discussed in the next section.
 
 
 \section{Future Work}
-IPSEC.
 
-\subsection{Andre protokoller}
-SCTP, OPC-UA
+The proxy solution developed as a part of this thesis primarily focus on
+alternative transport protocols and compression as the means of optimization.
+Further investigations should consider other optimization techniques as well,
+such as caching and content filtering. Moreover, due to the time available, we
+were not able to test the SCTP protocol for use in the proxies. We identified
+SCTP as a potential protocol for DIL networks, so further optimization
+investigations should consider this protocol as well.
 
-\subsection{Improvements of Proxy}
+Security is of vital importance in military communication. Another area that
+could be investigated further is to perform tests with IPSEC enabled. IPSEC is
+a protocol suite designed to provide interoperable cryptographic security on the
+IP layer \cite{kent1998}. Performing tests with IPsec enabled would give knowledge of how this
+security mechanism affects the performance of Web services.
 
-Runtime valg av optimalisering.
+\subsection{Improving the proxy}
 
+In our evaluation, we saw that which transport protocol had the best performance
+depended on the message size and the current network conditions. Future
+optimization of the proxy solution may include a runtime selection of
+the transport protocol instead of selection at start-up. Furthermore, we saw
+that the CoAP implementation we used, sent large messages split over small
+Ethernet frames. Setting a higher CoAP block size may yield a potential
+performance increase when sending large messages with the CoAP protocol.
 
-%Not necessary to use proxy message here, since we can simply forward the HTTP request.
+To reduce the overhead of the proxy, further optimization may improve the proxy
+message format implementation. Instead of using a textual message format, a
+compact binary header could be used.
 
+\subsubsection{Known Bugs}
 
-\subsection{Known bugs}
-
-Some HTTP Request headers are also included in the HTTP response.
-
-\subsubsection{HTTP}
+During our Wireshark analysis of the test results, we discovered that when using
+the proxy, some of the HTTP request headers was propagated into the HTTP
+response headers. This happened for all inter-proxy protocols and caused by the
+way Camel exchanges are implemented. This could be fixed by explicitly removing
+the headers when routing the message back to the requester. Although this
+implies that the proxies are not completely transparent, we do not believe this
+had any significant impact on the testing. The payload of messages is still
+exactly the same, and all headers are present. However, for each unnecessary
+header sent, additional bytes has to be transferred over the network. Although
+the number of additional bytes is relatively small, fixing this bug would reduce
+the overhead of using the proxy.

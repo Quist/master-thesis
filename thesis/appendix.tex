@@ -1,13 +1,15 @@
 \begin{appendices}
 
-\chapter{Configuration}
+\chapter{Proxy Configuration}
 \label{appendix-config}
 
-\section{Proxy Configuration}
+The proxy is configured by passing a path to a valid configuration file at
+startup, as seen in \cref{listing:appendix-proxy-start}.  The configuration
+fields of the proxy are listed in \cref{appendix-table-config}. When using the
+AMQP protocol for inter-proxy communication, a message broker and queue names
+must be configured as shown in \cref{appendix-amqp-conf}.
 
-The configuration fields of the proxy is listed in \cref{appendix-table-config}.
-In addition, some protocols require additional configurations. The AMQP protocol
-uses a broker, which must be configured. See table x.
+\lstinputlisting[frame=single, language=json, caption="How to start the proxy", label=listing:appendix-proxy-start]{listings/proxy_start.sh}
 
 
 \begin{table}[h]
@@ -28,47 +30,45 @@ uses a broker, which must be configured. See table x.
 \label{appendix-table-config}
 \end{table}
 
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="AMQP Proxy configuration example", label=appendix-amqp-conf]{listings/amqp.conf}
+
 \chapter{Network emulating}
 
 \label{appendix-netem-scripts}
 
-This appendix lists the different scripts that was used to emulate the different
-types of networks.
+This appendix lists the different scripts that were used to emulate the
+different types of networks in the evaluation.
 
 \section{\gls{satcom}}
-
-\begin{lstlisting}[frame=single, caption="Emulating SATCOM", label=satcom]
-  tc qdisc add dev eth0 parent 1:1 handle 10: \
-    netem delay XX ms
-\end{lstlisting}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating SATCOM"]{../master-test-scripts/satellite.bash}
 
 \section{\gls{los}}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating LOS"]{../master-test-scripts/los.bash}
 
 \section{WiFi 1}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 1"]{../master-test-scripts/wifi1.bash}
 
 \section{WiFi 2}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating WiFi 2"]{../master-test-scripts/wifi2.bash}
 
 \section{\gls{cnr}}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating CNR"]{../master-test-scripts/cnr.bash}
 
 \section{\gls{edge}}
-Placeholder
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Emulating EDGE"]{../master-test-scripts/edge.bash}
 
 
 
 \chapter{Results}
 \label{appendix-results}
 
-In this appendix the data material from the evaluations is presented. Each test
-case was run a number of times, ranging from 10 to 100 runs. Then the mean,
-\gls{std} and variance was calculated by using the Apache Commons
-Mathematics Library\cite{apache-math-homepage}. An example of how this was done
-running NFFI Web service tests can be seen in \cref{listing:statistics}.
+In this appendix, the data material from the evaluations is presented. Each test
+case was run a number of times, ranging from 10 to 100 runs. The mean, \gls{std}
+and variance was calculated by using the Apache Commons Mathematics
+Library \cite{apache-math-homepage}. An example of how this was done running NFFI
+Web service tests can be seen in \cref{listing:statistics}.
 
-\lstinputlisting[frame=single, language=java, firstnumber=1, caption="Calculating statistic values", label=listing:statistics]{listings/stats.java}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Calculating statistic values", label=listing:statistics]{listings/stats.java}
 
 
 We also performed an analysis of the network utilization using Wireshark. This was done by starting a packet capture, running one test run and inspecting the packet capture. The calculation of bytes sent and received was done by:
@@ -107,7 +107,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/function_tests/nffi/output/wireshark}
-\caption{Wireshark analysis of NFFI Web Service - Function Test}
+\caption{Wireshark analysis of NFFI Web Service - Packets \& Bytes Sent -- Function Test}
 \end{table}
 
 \subsection{RESTful Car System}
@@ -119,7 +119,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/function_tests/rest/wireshark}
-\caption{Wireshark analysis of RESTful Car System - Function Test}
+\caption{Wireshark analysis of RESTful Car System - Packets \& Bytes Sent - Function Test}
 \end{table}
 
 \section{Satellite Tests}
@@ -138,7 +138,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/satellite/nffi/wireshark}
-\caption{Wireshark analysis of NFFI Web Service - Satellite test}
+\caption{Wireshark analysis of NFFI Web Service - Packets \& Bytes Sent - Satellite test}
 \end{table}
 
 \subsection{RESTful Car System}
@@ -150,7 +150,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/satellite/rest/wireshark}
-\caption{Wireshark analysis of RESTful Car System - Satellite test}
+\caption{Wireshark analysis of RESTful Car System - Packets \& Bytes Sent - Satellite test}
 \end{table}
 
 
@@ -181,7 +181,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/los/nffi/wireshark}
-\caption{Wireshark analysis of NFFI Web Service - LOS test}
+\caption{Wireshark analysis of NFFI Web Service - Packets \& Bytes Sent - LOS test}
 \end{table}
 
 
@@ -194,7 +194,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/los/rest/wireshark}
-\caption{Wireshark analysis of RESTful Car System - LOS test}
+\caption{Wireshark analysis of RESTful Car System - Packets \& Bytes Sent - LOS test}
 \end{table}
 
 
@@ -226,7 +226,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/wifi1/nffi/wireshark}
-\caption{Wireshark analysis of NFFI Web Service - WiFi 1 test}
+\caption{Wireshark analysis of NFFI Web Service - Packets \& Bytes Sent - WiFi 1 test}
 \end{table}
 
 \subsection{RESTful Car System}
@@ -238,7 +238,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/wifi1/rest/wireshark}
-\caption{Wireshark analysis of RESTful Car System - WiFi 1 test}
+\caption{Wireshark analysis of RESTful Car System - Packets \& Bytes Sent - WiFi 1 test}
 \end{table}
 
 
@@ -258,7 +258,7 @@ We also performed an analysis of the network utilization using Wireshark. This w
 
 \begin{table}[H]
 \input{../results/wifi2/nffi/wireshark}
-\caption{Wireshark analysis of NFFI Web Service - WiFi 2 test}
+\caption{Wireshark analysis of NFFI Web Service - Packets \& Bytes Sent - WiFi 2 test}
 \end{table}
 
 \subsection{RESTful Car System}
@@ -269,10 +269,10 @@ We also performed an analysis of the network utilization using Wireshark. This w
 \end{table}
 
 \begin{table}[H]
-\begin{tabular}{lrrrr}
+\begin{tabularx}{\textwidth}{lXXXX}
 \hline
-\multicolumn{1}{l}{}                  & \multicolumn{2}{c}{Client -> Web service}                           & \multicolumn{2}{c}{Web service -> Client}                           \\
-\multicolumn{1}{l}{Protocol} & \multicolumn{1}{l}{Packets sent} & \multicolumn{1}{l}{Bytes sent} & \multicolumn{1}{l}{Packets sent} & \multicolumn{1}{l}{Bytes sent} \\ \hline
+\multicolumn{1}{l}{}                  & \multicolumn{2}{c}{Client->Web service}                           & \multicolumn{2}{c}{Web service->Client}                           \\
+\multicolumn{1}{l}{Test} & \multicolumn{1}{l}{P. sent} & \multicolumn{1}{l}{B. sent} & \multicolumn{1}{l}{P.sent} & \multicolumn{1}{l}{B.sent} \\ \hline
 Without proxy                           & 32                                            & 6 136                                    & 39                                            & 11 065                                   \\
 Proxy with HTTP                         & 37                                            & 12 434                                   & 30                                            & 16 596                                   \\
 Proxy with HTTP \& GZIP                 & 31                                            & 9 575                                    & 28                                            & 13 901 \\
@@ -281,8 +281,8 @@ Proxy with AMQP \& GZIP                 & 231                                   
 Proxy with CoAP                         & 18                                            & 6 895                                    & 15                                            & 10 640 \\
 Proxy with CoAP \& GZIP                 & 24                                            & 7 730                                    & 17                                            & 8 566
 
-\end{tabular}
-\caption{Wireshark analysis of RESTful Car System - WiFi 2 test}
+\end{tabularx}
+\caption{Wireshark analysis of RESTful Car System - Packets \& Bytes Sent - WiFi 2 test}
 
 \end{table}
 
@@ -304,7 +304,7 @@ Proxy with CoAP \& GZIP                 & 24                                    
 
 \begin{table}[H]
 \input{../results/cnr/nffi/wireshark}
-\caption{Wireshark analysis of NFFI Web Service - CNR test}
+\caption{Wireshark analysis of NFFI Web Service - Packets \& Bytes Sent - CNR test}
 \end{table}
 
 
@@ -317,7 +317,7 @@ Proxy with CoAP \& GZIP                 & 24                                    
 
 \begin{table}[H]
 \input{../results/cnr/rest/wireshark}
-\caption{Wireshark analysis of RESTful Car System - CNR 1 test}
+\caption{Wireshark analysis of RESTful Car System - Packets \& Bytes Sent - CNR test}
 \end{table}
 
 
@@ -337,7 +337,7 @@ Proxy with CoAP \& GZIP                 & 24                                    
 
 \begin{table}[H]
 \input{../results/edge/nffi/wireshark}
-\caption{Wireshark analysis of NFFI Web Service - EDGE test}
+\caption{Wireshark analysis of NFFI Web Service - Packets \& Bytes Sent - EDGE test}
 \end{table}
 
 \subsection{RESTful Car System}
@@ -349,7 +349,7 @@ Proxy with CoAP \& GZIP                 & 24                                    
 
 \begin{table}[H]
 \input{../results/edge/rest/wireshark}
-\caption{Wireshark analysis of RESTful Car System - EDGE 1 test}
+\caption{Wireshark analysis of RESTful Car System - Packets \& Bytes Sent - EDGE test}
 \end{table}
 
 

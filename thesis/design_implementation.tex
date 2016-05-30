@@ -3,24 +3,52 @@
 
 Based on the premises and requirements identified in the previous chapter, we
 are in this chapter introducing the design and implementation details of our
-proposed proxy solution. We get started by discussing the overall design before
-we dive into the implementations details.
+proposed proxy solution. Before we start looking into the specific design and
+implementation, we present the primary area of use for our
+point-to-point proxy solution.
+
+\section{Area of Use}
+
+ The purpose of our point-to-point proxy solution is to facilitate communication
+ between two nodes separated by a DIL network. Military networks typically
+ consist of several interconnected tactical networks and nodes.  Within each
+ tactical network, the network conditions normally are satisfactory, while
+ networks spanning between the different tactical networks may have the DIL
+ characteristics. Consider for example a military patrol consisting of a vehicle
+ and a group of soldiers. Within the tactical network consisting of the vehicle
+ and the soldiers, the network conditions are good. However, the communication
+ link to the Headquarter has the DIL characteristics. A proxy pair can then be
+ deployed at the vehicle and at the Headquarters to facilitate communication
+ over the DIL network. \Cref{figure:proxy-pair-example} illustrates this
+ example. This concept, where a local network is connected back to existing
+ communication infrastructure, is referred to as a \textit{reach-back link}.
+
+\begin{figure}[h]
+\includegraphics[scale=0.45]{images/use_case.pdf}
+\caption{Example area of use for point-to-point proxies}
+\label{figure:proxy-pair-example}
+\end{figure}
+
+While use cases similar to the previously mentioned example are the primary area
+of use for our proxies, they can be deployed between any two nodes in a network to
+facilitate communication over a DIL network.
 
 \section{Design of Solution}
 
 In previous chapters, we have argued that all optimization techniques should be
 placed in proxies to retain interoperability for COTS applications, as well as
-to break their end-to-end dependency. Therefore, our design involves deploying a
-proxy pair to facilitate Web communication over a DIL network. The idea is to
-deploy the proxy pair in two different locations separated by a DIL network.
-Through a locally deployed proxy, Web applications can then proxy all their data
-communication. The proxy then applies different optimization techniques and
-forwards requests over a DIL network to the other proxy and finally return a
-response. Ideally, the proxy should be deployed as close to its intended users
-as possible, as the communication between an application and its proxy is not
-subject to any optimization for DIL environments. Since we design the proxies
-accept HTTP requests, they can support any applications that use HTTP. Besides,
-they are designed to be bi-directional meaning that requests can originate from
+to break their end-to-end network dependency. Therefore, our design involves
+deploying a proxy pair to facilitate Web communication over a DIL network. The
+idea is to deploy the proxy pair in two different locations separated by a DIL
+network. Through a locally deployed proxy, Web applications can then proxy all
+their data communication. The proxy then applies different optimization
+techniques and forwards requests over a DIL network to the other proxy. When a
+response is returned, it is returned back the original requester. Ideally, the
+proxy should be deployed as close to its intended users as possible, as the
+communication between an application and its proxy is not subject to any
+optimization for DIL environments. Since we design the proxies accept HTTP
+requests, they can support any applications that use HTTP. Besides, the solution
+is designed to be bi-directional, meaning that requests can originate from
 either side.
 
 \begin{figure}[h]
@@ -35,17 +63,16 @@ either side.
 A deployed proxy is designed to accept arbitrary HTTP requests, possibly
 originating from multiple clients, and forward them to the other proxy as seen
 in \cref{figure:proxy_design}. The communication between a proxy pair is subject
-to optimizations. The proxies are therefore designed to support the optimization
-techniques we have identified. Those are primarily concerned about using
-different transport protocols as the inter-proxy communication, as illustrated
-in \cref{figure:proxy-communication}. The purpose of this is to give
+to optimizations. Those are primarily concerned about using different transport
+protocols as the inter-proxy communication, as illustrated in
+\cref{figure:proxy-communication}. The purpose of this is to give
 recommendations about the usage of transport protocols in DIL networks. Which
 protocol to use as the means of inter-proxy communication is therefore designed
 to be easily configurable at start-up by the users of the proxy.
 
 
 \begin{figure}[h]
-\includegraphics[scale=0.5]{images/proxy_communcation.pdf}
+\includegraphics[width=\textwidth]{images/proxy_communication.png}
 \caption{The proxies were designed to support multiple protocols for inter-proxy communication}
 \label{figure:proxy-communication}
 \end{figure}
@@ -70,8 +97,8 @@ optimization techniques, rather than on the specific low-level details of HTTP.
 There are numerous HTTP proxies available for use, for example,
 Nginx\cite{nginx-homepage} and Squid\cite{squid-homepage}. Requirement 8 states
 that the solution must support different communication protocols between
-proxies. Because of this, we looked for software that could easily map a HTTP
-message to other protocols. Based on recommendations from the community at FFI
+proxies. Because of this, we looked for software that could easily map HTTP
+messages into other protocols. Based on recommendations from the community at FFI
 we found the Apache Camel framework.
 
 \subsection{Apache Camel}
@@ -96,7 +123,7 @@ the origin. \Cref{figure:camel-route} shows the concept of routing in Camel.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.6]{images/camel_routes.pdf}
+\includegraphics[scale=0.4]{images/camel_routes.png}
 \caption{Example of a Camel route}
 \label{figure:camel-route}
 \end{figure}
@@ -110,7 +137,7 @@ components and is designed to support user-written components as well.
 
 \section{Implementation}
 
-The proxy is implemented as a Java 1.8 application using the Apache Camel
+Our proxy solution is implemented as a Java 1.8 application using the Apache Camel
 framework. A large part of the implementation is concerned about reading user
 configuration and setting up \textit{routing rules} for Camel. Information about
 the source code of the proxy is listed in \cref{appendix-source-code} of the
@@ -203,7 +230,7 @@ JSON document. JSON is a lightweight, text-based data format \cite{rfc-json}. We
 chose this data format due to its compactness, simplicity and the wide support
 for libraries for generating and parsing JSON. Due to a HTTP request and
 response having slightly different semantics, we used the same format, but with
-different properties for a request and response. The request format is defined
+different properties for a request and a response. The request format is defined
 in \cref{table-proxy-request}, and the response format in
 \cref{table-proxy-response}.
 
@@ -239,7 +266,7 @@ listing illustrates a HTTP request originating from an outside application. It
 is a HTTP POST to the intended destination http://myservice.com, with a XML
 message as payload.
 
-\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Example proxy request", label=listing:proxy-request]{listings/proxy_message.json}
+\lstinputlisting[frame=single, language=json, firstnumber=1, caption="Example proxy request between the proxy pair", label=listing:proxy-request]{listings/proxy_message.json}
 
 \paragraph{}
 
@@ -372,8 +399,8 @@ infinity.
 \subsection{Runtime}
 
 In the running stage, the proxy listens on the defined routes and forwards
- requests according to the previously configured routes. All requests passing
- through the proxy are logged to the console.
+requests according to the previously configured routes. All requests passing
+through the proxy are logged to the console.
 
 
 \section{Functionality}
@@ -497,4 +524,10 @@ typesafe      & 1.3.0            \\ \hline
 
 \section{Summary}
 
-In this chapter, we presented the design and implementation details of the proxy.
+In this chapter, we presented the design and implementation details of the
+proxy. We introduced the Apache Camel Framework and how we utilized it to
+compress messages and facilitate mapping of HTTP messages to other protocols.
+Furthermore, we presented how the proxy could be used and configured by users.
+We also introduced a custom open source Camel component we implemented to map
+messages between HTTP and CoAP. In the next chapter, we present how the
+implemented proxy solution is tested and evaluated.

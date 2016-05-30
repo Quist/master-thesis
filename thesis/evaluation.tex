@@ -2,11 +2,11 @@
 
 \label{chapter:evaluation}
 
-In this chapter, we outline how the testing and evaluation of the proxy was
+In this chapter, we outline how the testing and evaluation of the proxy is
 performed and present the results obtained. The goal is to validate that the
 proxy fulfills the premises and requirements and to measure any possible
 improvements (or deteriorations) of the performance of Web services. Based on
-the measurements we then give a recommendation about which adaptations to make
+the measurements, we then give a recommendation about which adaptations to make
 in different types of DIL networks. Since the proxy is being developed as a
 prototype for military usage, we use test scenarios that resemble actual
 military usage. We also included one civilian usage based on \gls{edge} since
@@ -65,7 +65,7 @@ upload speed: 50 kbps up and 200 kbps down
 \cite{evaluation-transport-protocols-web-services}.
 
 \Cref{table-network-types} summarizes the identified networks and their
-propererties.
+properties.
 
 \begin{table}[h]
 \begin{tabular}{| l | l | l | l | l |}
@@ -103,7 +103,7 @@ equipment. The purpose was to confirm the results from the emulated network
 tests. These experiments are presented in \cref{section:evaluation-kongsberg}.
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{images/testing_environment_simple.pdf}
+\includegraphics[width=\textwidth]{images/testing_environment_simple.png}
 \caption{Test setup}
 \label{figure-testing-environment-simple}
 \end{figure}
@@ -183,7 +183,8 @@ To confirm and validate our network emulations we use iPerf 3 alongside the
 Linux tool \textit{ping}. The measurements are performed between the machine
 hosting the client and the machine hosting the Web service. They are performed
 before starting the test cases so that the network traffic it generates do not
-interfere.
+interfere. The measurements are included in \cref{appendix-results} of the
+appendix.
 
 
 \subsection{Wireshark}
@@ -226,11 +227,12 @@ One test run is illustrated in \cref{figure-nffi-flow} and consists of a client
 making a HTTP POST request to the Web service. Associated with the request is an
 XML payload which tells the Web service which operation to invoke. In our case,
 the service then returns an XML message containing a large number of positions
-in the NFFI format.
+in the NFFI format. \Cref{table-nffi-http-requests} shows the HTTP messages
+involved in the test.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.6]{images/nffi_flow.pdf}
+\includegraphics[scale=0.4]{images/nffi_flow.png}
 \caption{NFFI Web service}
 \label{figure-nffi-flow}
 \end{figure}
@@ -245,6 +247,7 @@ in the NFFI format.
 \textbf{Total:}       & \textbf{3}                     & \textbf{1215}                & \textbf{48489}          \\ \hline
 \end{tabular}
 \caption{NFFI Web service HTTP requests}
+\label{table-nffi-http-requests}
 \end{table}
 
 
@@ -321,9 +324,9 @@ significantly larger than any other request or response.
 
 Both test sets consist of one client and one Web service, where the client would
 request the service for some sort of action. The client is running on one
-computer while the Web service is deployed in the Glassfish 4 application
-server on another computer. The specifications of the machines used in the
-testing are listed in \cref{table-machines}.
+computer while the Web service is deployed in a Glassfish 4 application server
+on another computer. The specifications of the machines used in the testing are
+listed in \cref{table-machines}.
 
 \begin{table}[h]
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
@@ -338,7 +341,7 @@ testing are listed in \cref{table-machines}.
   Network hardware & ASIX AX88772 USB 2.0 & 82567LM Gigabit & 82567LM-3 Gigabit\\ \hline
   Network interface capacity & 100 Mbit/s & 1 Gbit/s & 1 Gbit/s \\ \hline
 \end{tabularx}
-\caption{Machines involved in the testing}
+\caption{The machines involved in the testing}
 \label{table-machines}
 \end{table}
 
@@ -352,7 +355,7 @@ packets back and forth between the client and server, IP forwarding is enabled
 in the kernel.
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{images/testing_environment.pdf}
+\includegraphics[width=\textwidth]{images/testing_environment.png}
 \caption{Network used for testing}
 \label{figure-testing-environment}
 \end{figure}
@@ -402,7 +405,7 @@ we use version 5-13.2 of Apache ActiveMQ \cite{activemq-homepage}, an open
 source message broker supporting messaging protocols like AMQP and MQTT.
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{images/testing_setup.pdf}
+\includegraphics[width=\textwidth]{images/testing_setup.png}
 \caption{Test setup}
 \label{figure-testing-setup}
 \end{figure}
@@ -444,13 +447,14 @@ The tests are performed with the following parameters:
 
 The first part of the testing is performed without any intended limitations to
 the network. The objective of the function tests is to validate that the proxy
-fulfills the functional requirements we sat in chapter 4:
+fulfills the functional requirements we sat for our proxy:
 
 \begin{itemize}
     \item Receive and forward HTTP requests.
     \item Retain HTTP request and response headers.
     \item Support GZIP compression of payload.
     \item Support usage of different transport protocols between the proxies.
+    \item Work with security mechanisms.
 \end{itemize}
 
  In addition, the results from the function tests can be used to benchmark
@@ -468,10 +472,50 @@ the results from the function tests and reveals the impact of introducing the
 usage of proxies. When using proxies, all test cases still completes
 successfully, but their average RTT varies depending on the protocol. The
 clients HTTP requests are forwarded through the proxies to the Web service,
-which successfully returns a HTTP response back. We also verified that a custom
-HTTP header added by the Car system client and Web service are successfully
-retained. Together with the successful GZIP compression, the functional
-requirements for the proxy is therefore identified as fulfilled.
+which successfully returns a HTTP response back.
+
+We also verified that the proxy solution works with standard security
+mechanisms. The HTTP header added by the Car system client and Web service is
+successfully retained. Moreover, we verified the integrity of the payload of the
+NFFI test case when using the proxies and compression. Using Wireshark, we
+compared the HTTP response body from one of the requests in the NFFI test using
+proxies, with one run where proxies were not used. Diffing the two payloads, we
+verified that the proxy did not alter the payload in any way. This verifies that
+the digital signature of the payload is intact.
+
+Together with the successful GZIP compression, the functional requirements for
+the proxy is therefore identified as fulfilled.
+
+\begin{table}[h]
+\input{../results/function_tests/nffi/output/wireshark_packets}
+\caption{NFFI Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-nffi}
+\end{table}
+
+\begin{table}[h]
+\input{../results/function_tests/rest/output/wireshark_packets}
+\caption{REST Function test - IP Packets sent and received by the client application.}
+\label{table:function-test-packets-rest}
+\end{table}
+
+
+\begin{landscape}
+    \begin{figure}
+    \centering
+    \begin{floatrow}
+        \ffigbox[\FBwidth]
+    {
+    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
+    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
+    }
+    {
+    \caption{Function tests - Average RTT Time for the client application.}
+    \label{figure:results-function-testsx}
+    }
+    \end{floatrow}
+
+    \end{figure}
+\end{landscape}
 
 \subsubsection{Analysis}
 
@@ -631,37 +675,6 @@ the next section we see how the proxies cope with the disconnect and
 intermittent aspect of the DIL.
 
 
-\begin{landscape}
-    \begin{figure}
-    \centering
-    \begin{floatrow}
-        \ffigbox[\FBwidth]
-    {
-    \subfloat[NFFI]{\includegraphics[width=0.5\textwidth]{../results/function_tests/nffi/output/result.pdf}}
-    \subfloat[REST]{\includegraphics[width=0.5\textwidth]{../results/function_tests/rest/result.pdf}}
-    }
-    {
-    \caption{Function tests - Average RTT Time for the client application.}
-    \label{figure:results-function-testsx}
-    }
-    \end{floatrow}
-
-    \end{figure}
-\end{landscape}
-
-
-\begin{table}[h]
-\input{../results/function_tests/nffi/output/wireshark_packets}
-\caption{NFFI Function test - IP Packets sent and received by the client application.}
-\label{table:function-test-packets-nffi}
-\end{table}
-
-\begin{table}[h]
-\input{../results/function_tests/rest/output/wireshark_packets}
-\caption{REST Function test - IP Packets sent and received by the client application.}
-\label{table:function-test-packets-rest}
-\end{table}
-
 
 
 
@@ -702,7 +715,7 @@ request.
  to finish its requests successfully.
 
  \begin{figure}[h]
- \includegraphics[width=\textwidth]{images/testing_disconnected.pdf}
+ \includegraphics[width=\textwidth]{images/testing_disconnected.png}
  \caption{Emulating a disconnect}
  \label{figure-testing-disconncted}
  \end{figure}
@@ -714,8 +727,8 @@ For both the REST and W3C Web service test scenarios, the results were
 identical. Without using proxies, the connection timed out, and the applications
 were unable to continue as shown in \cref{table:disconnected-nffi} and
 \cref{table:disconnected-rest}. With proxies, the connection did not time out,
-and the protocols retransmission mechanisms were able to continue transmission
-when the connection was reestablished.
+and the proxy retransmission mechanisms were able to continue transmission when
+the connection was reestablished.
 
 
 \begin{table}[h!]
@@ -767,7 +780,7 @@ requirement 6, stating that the proxy should be able to:
 
 In this test network, we emulate \gls{satcom}. With satellite communication, all
 data is relayed through a communication satellite in orbit around the earth.
-This type of communication is characterized by its low data rate and high delay.
+This type of communication is characterized by its moderate data rate and high delay.
 
 \subsubsection{Results and Analysis}
 
@@ -795,6 +808,19 @@ we observe the following:
 
 \end{itemize}
 
+
+\begin{table}[h]
+\input{../results/satellite/nffi/output/wireshark_packets}
+\caption{NFFI SATCOM test - IP Packets sent and received by the client application.}
+\label{table:satcom-test-packets-nffi}
+\end{table}
+
+\begin{table}[h]
+\input{../results/satellite/rest/output/wireshark_packets}
+\caption{REST SATCOM test - IP Packets sent and received by the client application.}
+\label{table:satcom-test-packets-rest}
+\end{table}
+
 \begin{landscape}
     \begin{figure}
     \centering
@@ -811,17 +837,7 @@ we observe the following:
 \end{landscape}
 
 
-\begin{table}[h]
-\input{../results/satellite/nffi/output/wireshark_packets}
-\caption{NFFI SATCOM test - IP Packets sent and received by the client application.}
-\label{table:satcom-test-packets-nffi}
-\end{table}
 
-\begin{table}[h]
-\input{../results/satellite/rest/output/wireshark_packets}
-\caption{REST SATCOM test - IP Packets sent and received by the client application.}
-\label{table:satcom-test-packets-rest}
-\end{table}
 
 
 
@@ -982,6 +998,17 @@ network, we see the following:
 
 \end{itemize}
 
+\begin{table}[h]
+\input{../results/wifi2/nffi/output/wireshark_packets}
+\caption{NFFI WiFi 2 test - IP Packets sent and received by the client application.}
+\label{table:wifi2-test-packets-nffi}
+\end{table}
+
+\begin{table}[h]
+\input{../results/wifi2/rest/output/wireshark_packets}
+\caption{REST WiFi 2 test - IP Packets sent and received by the client application.}
+\label{table:wifi2-test-packets-rest}
+\end{table}
 
 \begin{landscape}
     \begin{figure}
@@ -998,17 +1025,7 @@ network, we see the following:
     \end{figure}
 \end{landscape}
 
-\begin{table}[h]
-\input{../results/wifi2/nffi/output/wireshark_packets}
-\caption{NFFI WiFi 2 test - IP Packets sent and received by the client application.}
-\label{table:wifi2-test-packets-nffi}
-\end{table}
 
-\begin{table}[h]
-\input{../results/wifi2/rest/output/wireshark_packets}
-\caption{REST WiFi 2 test - IP Packets sent and received by the client application.}
-\label{table:wifi2-test-packets-rest}
-\end{table}
 
 \subsection{Combat Net Radio}
 

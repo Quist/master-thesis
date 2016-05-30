@@ -56,9 +56,9 @@ Another issue is when heterogeneous networks are interconnected. Different
 performance in networks may lead to the buildup of data in buffers, risking the
 loss of information. A proposed solution to this is to have store-and-forward
 support which can support that messages are not dropped, but rather stored and
-forwarded when possible. This technique can also be used to overcome temporary
-disconnects from a network since messages are stored until the connection is
-reestablished.
+forwarded when possible. Another important usage of this technique is to
+overcome network disruptions because messages can be stored until the network
+connection is reestablished.
 
 
 \subsubsection{3. Web Service Overhead}
@@ -90,7 +90,7 @@ overhead, we can apply the well-known technique of compression.
 
 Data compression is the technique of encoding information using fewer bits than
 the original representation. In a network with limited data rate, the reduction
-would significantly reduce time used to send the data. The reduction of data is
+could significantly reduce time used to send the data. The reduction of data is
 often expressed in the term \textit{compression rate}, which represents the
 ratio between the uncompressed size and compressed size of the payload.
 Moreover, there exist two types of compression, \textit{lossy} and
@@ -116,24 +116,13 @@ ratio followed by GZIP. However, they concluded that all evaluated techniques
 provided a significant reduction of payload size, so the specific technique was
 of less importance.
 
-\section{TACTICS TSI Architecture}
-
-Another ongoing effort to overcome issues using standard Web services in
-tactical networks are the TACTICS project supported by the \gls{eda}
-\cite{tactics-diefenbach}. The goal of the project is to propose a reference
-architecture for a \gls{tsi} suited for establishing a tactical \gls{soa} of
-defence-related information systems. The architecture features a service
-middleware meant to run on devices with different capabilities. The purpose of
-the middleware is to receive standard Web service invocations or responses and
-ensure that they complete. The middleware can forward IP packets between
-different radio networks and store and forward messages.
 
 \section{Previous Evaluations of Alternative Protocols}
 
 A previous study has investigated potential gains from replacing HTTP/TCP with
 alternative protocols \cite{evaluation-transport-protocols-web-services}.
 \Citeauthor{evaluation-transport-protocols-web-services} looked into TCP, UDP,
-SCTP and AMQP for conveying Web services traffic under typical military
+SCTP and AMQP for conveying Web service traffic under typical military
 networking conditions. The researchers found that \gls{sctp} had the highest
 success rate in military tactical communication. However, on links with the
 lowest data rate, the protocol tended to generate more overhead than TCP. They
@@ -149,11 +138,11 @@ loss rates, messages sent with MQTT had the least delay, but as the loss rate
 increased, CoAP had a lower delay. They identified the reason for this being
 that the TCP transmission of MQTT had a larger overhead than CoAP's UDP
 transmission. In their experiments with small message sizes and for all tested
-loss rates, CoAP had less network overhead than MQTT. However, as the message
-size grew was the opposite true.
+loss rates, CoAP had less network overhead than MQTT. However, when the message
+size grew, MQTT had less overhead than CoAP.
 
 Another comparison of CoAP and MQTT was done in a study using the protocols for
-sensing applications running on a smartphone \cite{caro-mqtt-coap}. This study
+sensor applications running on a smartphone \cite{caro-mqtt-coap}. This study
 also confirmed CoAP as having lower network usage and a lower RTT. However, the
 study pointed out that MQTT has more advanced \gls{qos} services, since it can
 guarantee exactly-once delivery of messages. Since CoAP does not have this
@@ -178,7 +167,7 @@ section lists and discusses previous implementations of such proxies.
 \subsection{Types of Proxies}
 
 A proxy is a node deployed somewhere in a network, which through network traffic
-can pass. Proxies has many use cases such caching, firewalling and security. To
+can pass. Proxies have many use cases such caching, firewalling and security. To
 adopt Web services into tactical networks, we mainly talk about two types of
 proxies. Edge proxies act as gateways between different networks as illustrated
 in \cref{figure:edge} and can perform adaptations on network traffic passing
@@ -190,42 +179,41 @@ through it.
 \label{figure:edge}
 \end{figure}
 
-Another type is point-to-point inside a network as illustrated in
-\cref{figure:proxy-point}, and involves using a proxy-pair to facilitate communication
-between two or more applications.
+Another type, is point-to-point proxies in a network as illustrated in
+\cref{figure:proxy-point}, which involves using a proxy-pair to facilitate
+communication between two or more applications.
 
 \begin{figure}[h]
-\includegraphics[scale=0.35]{images/proxy_point.pdf}
+\includegraphics[scale=0.35]{images/proxy_point_gray.pdf}
 \caption{Point-to-point proxy}
 \label{figure:proxy-point}
 \end{figure}
 
 \subsection{\glsentrylong{dsproxy}}
 
-The \gls{dsproxy} is a proxy solution developed by \gls{ffi}
-\cite{dsproxy-ffi}\cite{ieee-dsproxy}. Its goal was to enable the usage of
+The \gls{dsproxy} is a point-to-point proxy solution developed by \gls{ffi}
+\cite{dsproxy-ffi}\cite{ieee-dsproxy}. Its goal is to enable the usage of
 unmodified standard W3C Web services (SOAP over HTTP/TCP) in DIL environments.
-The concept was to route all SOAP messages through the proxy. When the proxy
-received a message, it was stored locally before it was forwarded. If the
-forwarding failed for some reason, it could retry the request until it
-eventually succeeded. This ability, called \textit{store-and-forward}, was one
-of the fundamental core functionalities of \gls{dsproxy}. When a request
-eventually succeeded, the response was returned to the client on the original
-TCP connection initiated by the client. By doing this, Web service invocations
-were made possible over unreliable networks by hiding any network disruptions
-from the client.
+The concept is to route all SOAP messages through the proxy. When the proxy
+receive a message, it is stored locally before it is forwarded. If the
+forwarding fails for some reason, it retries the request until it eventually
+succeeds. This ability, called \textit{store-and-forward}, is one of the
+fundamental core functionalities of \gls{dsproxy}. When a request eventually
+succeeds, the response is returned to the client on the original TCP connection
+initiated by a client. By doing this, Web service invocations is made possible
+over unreliable networks by hiding any network disruptions from the client.
 
 \begin{figure}[h]
-\includegraphics[scale=0.35]{images/dsproxy.pdf}
+\includegraphics[scale=0.35]{images/dsproxy_gray.pdf}
 \caption{DSProxy overlay network (from \cite{ieee-dsproxy} )}
 \label{figure:dsproxy}
 \end{figure}
 
-Another core functionality of DSProxy was mechanisms for organizing an overlay
+Another core functionality of DSProxy is mechanisms for organizing an overlay
 network consisting of multiple proxy instances as seen in \cref{figure:dsproxy}.
 The overlay network enabled the ability to traverse multiple and heterogeneous
-networks, but also added a lot of complexity to the proxy application. Apart
-from the mentioned core functionalities, DSProxy supported a set of pluggable
+networks, but also add a lot of complexity to the proxy application. Apart from
+the mentioned core functionalities, DSProxy support a set of pluggable
 features such as GZIP compression and caching.
 
 After performing experiments using the DSProxy, the researchers identified the
@@ -238,11 +226,12 @@ building overlay networks and supporting different configurations and plugins.
 \subsection{NetProxy}
 %https://www.researchgate.net/profile/Niranjan_Suri/publications
 
-NetProxy is another network proxy solution aiming at enabling SOA applications
-for use in DIL environments \cite{suri-netproxy}. The proxy is a component of
-the \gls{acm}, a set of components that satisfy many of the communications
-requirements found in challenged networks. The work is being carried out by
-researchers at the Florida Institute for Human \& Machine Cognition.
+NetProxy is another point-to-point proxy solution aiming at enabling SOA
+applications for use in DIL environments \cite{suri-netproxy}. The proxy is a
+component of the \gls{acm}, a set of components that satisfy many of the
+communications requirements found in challenged networks. The work is being
+carried out by researchers at the Florida Institute for Human \& Machine
+Cognition.
 
 Like DSProxy, NetProxy is a transparent proxy providing integration between SOA
 systems without requiring modification of applications themselves. It works by
@@ -281,6 +270,13 @@ several factors:
 
 \end{itemize}
 
+Although the testing shows some promising results, there are some issues
+regarding using the Mockets protocol in our proxy solution. Applications meant
+for usage in military systems, must be approved by military security
+authorities. Mockets has not been standardized and lacks usage outside the
+experiments conducted in the mentioned research. Because of this, it may be
+difficult to get applications using Mockets approved.
+
 \subsection{AFRO}
 
 \gls{afro} is an edge proxy which offers different levels of \gls{qos} to Web
@@ -294,6 +290,20 @@ However, since the proxy modifies the data being sent, the digital signature of
 the data is also changed. In applications where we want to be sure that no one
 has tampered with the data before arriving, digital signatures are often used.
 Consequently, this solution would not work for such applications.
+
+
+\subsection{TACTICS TSI Architecture}
+
+Another ongoing effort to overcome issues using standard Web services in
+tactical networks is the TACTICS project supported by the \gls{eda}
+\cite{tactics-diefenbach}. The goal of the project is to propose a reference
+architecture for a \gls{tsi} suited for establishing a tactical \gls{soa} of
+defence-related information systems. The architecture features a service
+middleware meant to run on devices with different capabilities. The purpose of
+the middleware is to receive standard Web service invocations or responses and
+ensure that they complete. The middleware can forward IP packets between
+different radio networks and store and forward messages. The concept is based on
+the point-to-point proxy approach.
 
 
 \section{Tuning Application Server Parameters}
@@ -349,6 +359,12 @@ actually had any significant impact on the performance of the Web Service.
 However, they identified HTTP Chunking configuration as having the most impact
 on the performance. It significantly improved the performance for both SOAP and
 RESTful Web services in different types of networks.
+
+While tuning application server parameters may help improve the performance of
+Web services in DIL environments, it is not directly related to the proxy
+solution investigated in this thesis. When deploying Web services, this
+optimization technique should be considered, but are not explored further in
+this thesis.
 
 
 \section{Summary}
